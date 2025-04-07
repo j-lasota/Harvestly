@@ -20,7 +20,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OwnProduct> ownProducts = new ArrayList<>();;
 
     public Product() {
