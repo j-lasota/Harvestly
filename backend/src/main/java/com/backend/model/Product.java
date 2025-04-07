@@ -15,26 +15,25 @@ public class Product {
 
     private String name;
 
-
-    private boolean isVerified;
+    private boolean verified;
 
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OwnProduct> ownProducts = new ArrayList<>();;
 
     public Product() {
     }
 
-    public Product(String name, boolean isVerified, ProductCategory category) {
+    public Product(String name, boolean verified, ProductCategory category) {
         this.name = name;
-        this.isVerified = isVerified;
+        this.verified = verified;
         this.category = category;
     }
 
     public Product(String name, ProductCategory category) {
-        this.isVerified = false;
+        this.verified = false;
         this.name = name;
         this.category = category;
     }
@@ -56,11 +55,11 @@ public class Product {
     }
 
     public boolean isVerified() {
-        return isVerified;
+        return verified;
     }
 
     public void setVerified(boolean verified) {
-        isVerified = verified;
+        this.verified = verified;
     }
 
     public ProductCategory getCategory() {
@@ -84,7 +83,7 @@ public class Product {
     }
 
     public void verify() {
-        this.isVerified = true;
+        this.verified = true;
     }
 
     @Override
@@ -109,7 +108,7 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isVerified=" + isVerified +
+                ", isVerified=" + verified +
                 ", category=" + category +
                 ", ownProducts=" + ownProducts +
                 '}';
