@@ -2,6 +2,7 @@ package com.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class Product {
     private ProductCategory category;
 
     @OneToMany(mappedBy = "product")
-    private List<OwnProduct> ownProducts;
+    private List<OwnProduct> ownProducts = new ArrayList<>();;
 
     public Product() {
     }
