@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+import Navbar from "../components/Navbar";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,12 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Harvestly",
-  description: "Local sellers and local products",
-};
-
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,7 +22,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <div className="flex-1 flex items-center justify-center bg-[#f6e9d2]">
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
