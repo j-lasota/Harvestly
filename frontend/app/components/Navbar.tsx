@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -16,15 +17,21 @@ const Navbar = () => {
             />
           </li>
           <li className="flex space-x-4">
-            <a className="hover:text-gray-400">
+            <Link href="/" className="hover:text-gray-400">
               Home
-            </a>
-            <a className="hover:text-gray-400">
+            </Link>
+            <Link href="/map" className="hover:text-gray-400">
               Map
-            </a>
-            <a className="hover:text-gray-400">
+            </Link>
+            <Link href="/about" className="hover:text-gray-400">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-gray-400">
               Contact
-            </a>
+            </Link>
+            <Link href="/signin" className="hover:text-gray-400">
+              Login
+            </Link>
           </li>
         </ul>
       </nav>
