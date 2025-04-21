@@ -29,6 +29,7 @@ const Map = ({
         center={center}
         zoom={zoom}
         scrollWheelZoom={true}
+        zoomControl={false}
         className="w-full h-full z-0"
       >
         <TileLayer
