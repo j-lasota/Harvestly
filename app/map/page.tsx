@@ -1,5 +1,5 @@
-import MapClientWrapper from '../components/map/MapClientWrapper';
-import Navbar from '../components/Navbar';
+import MapClientWrapper from "../components/map/MapClientWrapper";
+import Navbar from "../components/navbar-ds";
 
 export default function MapView() {
   return (
