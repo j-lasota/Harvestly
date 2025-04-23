@@ -1,0 +1,5 @@
+type Verification {
+    id: ID!
+    shop: Shop!
+    user: User!
+}

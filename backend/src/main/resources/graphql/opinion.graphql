@@ -1,0 +1,7 @@
+type Opinion {
+    id: ID!
+    shop: Shop!
+    user: User!
+    description: String
+    stars: Int!
+}

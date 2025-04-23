@@ -1,0 +1,16 @@
+type Shop {
+    id: ID!
+    name: String!
+    description: String
+    latitude: Float!
+    longitude: Float!
+    city: String!
+    address: String!
+    openingHours: String
+    imageUrl: String
+    verified: Boolean!
+    ownProducts: [OwnProduct!]
+    businessHours: [BusinessHours!]
+    verifications: [Verification!]
+}
+

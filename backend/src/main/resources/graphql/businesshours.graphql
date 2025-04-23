@@ -1,0 +1,19 @@
+scalar LocalTime
+
+enum DayOfWeek {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+}
+
+type BusinessHours {
+    id: ID!
+    shop: Shop!
+    dayOfWeek: DayOfWeek!
+    openingTime: LocalTime!
+    closingTime: LocalTime!
+}

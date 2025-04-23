@@ -1,0 +1,8 @@
+type OwnProduct {
+    id: ID!
+    shop: Shop!
+    product: Product!
+    price: BigDecimal!
+    quantity: Int!
+    imageUrl: String
+}

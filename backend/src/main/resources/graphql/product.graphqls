@@ -1,0 +1,14 @@
+scalar BigDecimal
+scalar Date
+
+enum ProductCategory {
+    FRUIT
+}
+
+type Product {
+    id: ID!
+    name: String!
+    verified: Boolean!
+    category: ProductCategory!
+    ownProducts: [OwnProduct!]
+}

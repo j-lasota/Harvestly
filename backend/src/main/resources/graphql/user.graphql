@@ -1,0 +1,11 @@
+type User {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    phoneNumber: String!
+    tier: Int!
+    img: String!
+    shops: [Shop]
+}
