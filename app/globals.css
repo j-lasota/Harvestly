@@ -7,9 +7,11 @@
 
   --color-accent: oklch(0.98 0.018 78.24); /* #fff7eb */
   --color-primary: oklch(0.65 0.1096 129.1); /* #799b50 */
+}
 
-  --font-jost: "Jost", sans-serif;
-  --font-kalam: "Kalam", sans-serif;
+@theme inline {
+  --font-jost: var(--font-jost);
+  --font-kalam: var(--font-kalam);
 }
 
 /* @media (prefers-color-scheme: dark) {

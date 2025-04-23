@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jost.variable} ${kalam.variable} font-jost bg-background antialiased`}
+        className={`${jost.variable} ${kalam.variable} font-jost bg-background min-h-screen antialiased`}
       >
         <Navbar />
         {children}
