@@ -1,6 +1,3 @@
-scalar BigDecimal
-scalar Date
-
 enum ProductCategory {
     FRUIT
 }
@@ -10,5 +7,15 @@ type Product {
     name: String!
     verified: Boolean!
     category: ProductCategory!
-    ownProducts: [OwnProduct!]
+    ownProducts: [OwnProduct!]!
+}
+
+type Query {
+    products: [Product]
+    productById(id: ID!): Product
+}
+
+type Mutation {
+    createProduct(name: String!, category: ProductCategory!): Product
+    deleteProduct(id: ID!): Boolean
 }

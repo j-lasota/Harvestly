@@ -1,4 +1,4 @@
-scalar LocalTime
+scalar Time
 
 enum DayOfWeek {
     MONDAY,
@@ -14,6 +14,6 @@ type BusinessHours {
     id: ID!
     shop: Shop!
     dayOfWeek: DayOfWeek!
-    openingTime: LocalTime!
-    closingTime: LocalTime!
+    openingTime: Time!
+    closingTime: Time!
 }

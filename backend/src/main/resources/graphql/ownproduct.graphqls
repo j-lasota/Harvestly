@@ -1,3 +1,5 @@
+scalar BigDecimal
+
 type OwnProduct {
     id: ID!
     shop: Shop!
