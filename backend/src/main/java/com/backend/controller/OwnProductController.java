@@ -54,4 +54,9 @@ public class OwnProductController {
     public Optional<OwnProduct> ownProductById(Long id) {
         return ownProductService.getOwnProductById(id);
     }
+
+    @QueryMapping
+    public List<OwnProduct> ownProducts() {
+        return ownProductService.getAllOwnProducts();
+    }
 }

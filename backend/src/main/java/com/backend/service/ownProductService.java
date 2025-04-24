@@ -26,4 +26,8 @@ public class ownProductService {
     public OwnProduct save(OwnProduct ownProduct) {
         return ownProductRepository.save(ownProduct);
     }
+
+    public List<OwnProduct> getAllOwnProducts() {
+        return ownProductRepository.findAll();
+    }
 }
