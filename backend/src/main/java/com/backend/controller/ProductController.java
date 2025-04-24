@@ -40,4 +40,9 @@ public class ProductController {
     public Boolean deleteProduct(@Argument Long id) {
         return productService.deleteProductById(id);
     }
+
+    @SchemaMapping(typeName="Product", field="ownProducts")
+    public List<OwnProduct> getOwnProducts(Long id) {
+        return productById(id).get().getOwnProducts();
+    }
 }
