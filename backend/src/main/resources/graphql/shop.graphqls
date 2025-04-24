@@ -6,11 +6,19 @@ type Shop {
     longitude: Float!
     city: String!
     address: String!
-    openingHours: String
     imageUrl: String
     verified: Boolean!
     ownProducts: [OwnProduct!]
     businessHours: [BusinessHours!]
     verifications: [Verification!]
+}
+
+extend type Query {
+    shops: [Shop]
+    shopById(id: ID!): Shop
+}
+
+extend type Mutation {
+    createShop(name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Shop
 }
 

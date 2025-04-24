@@ -4,6 +4,7 @@ import com.backend.model.Shop;
 import com.backend.repository.ShopRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,5 +17,13 @@ public class ShopService {
 
     public Optional<Shop> getShopById(Long id) {
         return shopRepository.findById(id);
+    }
+
+    public Shop saveShop(Shop shop) {
+        return shopRepository.save(shop);
+    }
+
+    public List<Shop> getAllShops() {
+        return shopRepository.findAll();
     }
 }

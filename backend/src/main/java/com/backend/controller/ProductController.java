@@ -41,8 +41,8 @@ public class ProductController {
         return productService.deleteProductById(id);
     }
 
-    @SchemaMapping(typeName="Product", field="ownProducts")
-    public List<OwnProduct> getOwnProducts(Long id) {
-        return productById(id).get().getOwnProducts();
+    @SchemaMapping
+    public List<OwnProduct> ownProducts(Product product) {
+        return productById(product.getId()).get().getOwnProducts();
     }
 }

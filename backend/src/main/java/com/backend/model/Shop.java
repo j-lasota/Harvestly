@@ -26,8 +26,6 @@ public class Shop {
 
     private String address;
 
-    private String openingHours;
-
     private String imageUrl;
 
     private boolean verified;
@@ -45,14 +43,13 @@ public class Shop {
     }
 
     public Shop(String name, String description, double latitude, double longitude, String city, String address,
-                String openingHours, String imageUrl) {
+                String imageUrl) {
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
         this.city = city;
         this.address = address;
-        this.openingHours = openingHours;
         this.imageUrl = imageUrl;
         this.verified = false;
     }
@@ -113,14 +110,6 @@ public class Shop {
         this.address = address;
     }
 
-    public String getOpeningHours() {
-        return openingHours;
-    }
-
-    public void setOpeningHours(String openingHours) {
-        this.openingHours = openingHours;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -173,7 +162,7 @@ public class Shop {
         if (this == o) return true;
         if (!(o instanceof Shop shop)) return false;
 
-        return Double.compare(getLatitude(), shop.getLatitude()) == 0 && Double.compare(getLongitude(), shop.getLongitude()) == 0 && isVerified() == shop.isVerified() && Objects.equals(getName(), shop.getName()) && Objects.equals(getDescription(), shop.getDescription()) && Objects.equals(getCity(), shop.getCity()) && Objects.equals(getAddress(), shop.getAddress()) && Objects.equals(getOpeningHours(), shop.getOpeningHours()) && Objects.equals(getImageUrl(), shop.getImageUrl()) && Objects.equals(getOwnProducts(), shop.getOwnProducts()) && Objects.equals(getBusinessHours(), shop.getBusinessHours()) && Objects.equals(getVerifications(), shop.getVerifications());
+        return Double.compare(getLatitude(), shop.getLatitude()) == 0 && Double.compare(getLongitude(), shop.getLongitude()) == 0 && isVerified() == shop.isVerified() && Objects.equals(getName(), shop.getName()) && Objects.equals(getDescription(), shop.getDescription()) && Objects.equals(getCity(), shop.getCity()) && Objects.equals(getAddress(), shop.getAddress()) && Objects.equals(getImageUrl(), shop.getImageUrl()) && Objects.equals(getOwnProducts(), shop.getOwnProducts()) && Objects.equals(getBusinessHours(), shop.getBusinessHours()) && Objects.equals(getVerifications(), shop.getVerifications());
     }
 
     @Override
@@ -184,7 +173,6 @@ public class Shop {
         result = 31 * result + Double.hashCode(getLongitude());
         result = 31 * result + Objects.hashCode(getCity());
         result = 31 * result + Objects.hashCode(getAddress());
-        result = 31 * result + Objects.hashCode(getOpeningHours());
         result = 31 * result + Objects.hashCode(getImageUrl());
         result = 31 * result + Boolean.hashCode(isVerified());
         result = 31 * result + Objects.hashCode(getOwnProducts());
@@ -203,7 +191,6 @@ public class Shop {
                 ", longitude=" + longitude +
                 ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
-                ", openingHours='" + openingHours + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", verified=" + verified +
                 ", ownProducts=" + ownProducts +
