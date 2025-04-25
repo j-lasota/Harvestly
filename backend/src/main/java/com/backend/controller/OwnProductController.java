@@ -31,11 +31,6 @@ public class OwnProductController {
         this.productService = productService;
     }
 
-//    @SchemaMapping(typeName="Product", field="ownProducts")
-//    public List<OwnProduct> getOwnProducts(Long id) {
-//        return ownProductService.getByProduct(id);
-//    }
-
     @MutationMapping
     public OwnProduct createOwnProduct(@Argument Long shopId, @Argument Long productId, @Argument BigDecimal price,
                                   @Argument int quantity, @Argument String imageUrl) {
@@ -48,6 +43,21 @@ public class OwnProductController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         }
         return ownProductService.save(new OwnProduct(shop.get(), product.get(), price, quantity, imageUrl));
+    }
+
+    @MutationMapping
+    public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long shopId, @Argument Long productId,
+                                       @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl) {
+        Optional<OwnProduct> ownProduct = ownProductService.getOwnProductById(id);
+        if(ownProduct.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+        }
+        return ownProductService.updateOwnProduct(id, shopId, productId, price, quantity, imageUrl);
+    }
+
+    @MutationMapping
+    public Boolean deleteOwnProduct(@Argument Long id) {
+        return ownProductService.deleteOwnProductById(id);
     }
 
     @QueryMapping
