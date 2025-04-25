@@ -1,7 +1,9 @@
 package com.backend.service;
 
 import com.backend.model.Product;
+import com.backend.model.ProductCategory;
 import com.backend.repository.ProductRepository;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +30,27 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+
+    public Product updateProduct(Long id, String name, ProductCategory category, Boolean verified) {
+        Product product = productRepository.findById(id).
+                orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        if (name != null) {
+            product.setName(name);
+        }
+
+        if (category != null) {
+            product.setCategory(category);
+        }
+
+        if (verified != null) {
+            product.setVerified(verified);
+        }
+        return productRepository.save(product);
+    }
+
     public Boolean deleteProductById(Long id) {
-        if(getProductById(id).isPresent()) {
+        if (getProductById(id).isPresent()) {
             productRepository.deleteById(id);
             return true;
         }

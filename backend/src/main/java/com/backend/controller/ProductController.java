@@ -37,6 +37,12 @@ public class ProductController {
     }
 
     @MutationMapping
+    public Product updateProduct(@Argument Long id, @Argument String name, @Argument ProductCategory category,
+                                 @Argument Boolean verified) {
+        return productService.updateProduct(id, name, category, verified);
+    }
+
+    @MutationMapping
     public Boolean deleteProduct(@Argument Long id) {
         return productService.deleteProductById(id);
     }
