@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import Navbar from "@/app/components/navbar";
+import { ApolloWrapper } from "@/graphql/apollo-wrapper";
+import Navbar from "@/components/layout/navbar";
 import { jost, kalam } from "./fonts";
 import "./globals.css";
 
@@ -20,7 +21,7 @@ export default function RootLayout({
         className={`${jost.variable} ${kalam.variable} font-jost bg-background min-h-screen antialiased`}
       >
         <Navbar />
-        {children}
+        <ApolloWrapper>{children}</ApolloWrapper>
       </body>
     </html>
   );

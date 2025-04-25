@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import { SignIn } from "@/app/components/auth/signin-button";
+import { SignIn } from "@/components/auth/signin-button";
 import loginImg from "@/public/login-img.png";
 
 export default function SignInPage() {

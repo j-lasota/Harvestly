@@ -1,4 +1,4 @@
-import MapClientWrapper from "@/app/components/map/MapClientWrapper";
+import MapClientWrapper from "@/components/map/MapClientWrapper";
 
 export default function MapView() {
   return (
