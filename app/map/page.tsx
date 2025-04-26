@@ -2,10 +2,8 @@ import MapClientWrapper from "@/components/map/MapClientWrapper";
 
 export default function MapView() {
   return (
-    <main className="flex h-screen w-full flex-col overflow-hidden">
-      <div className="flex-1">
-        <MapClientWrapper />
-      </div>
-    </main>
+    <div className="absolute inset-0">
+      <MapClientWrapper />
+    </div>
   );
 }
