@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import { ApolloWrapper } from "@/graphql/apollo-wrapper";
+import type { Metadata } from "next";
+
 import Navbar from "@/components/layout/navbar";
 import { jost, kalam } from "./fonts";
 import "./globals.css";

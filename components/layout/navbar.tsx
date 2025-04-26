@@ -5,11 +5,13 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import logo from "@/public/logo.svg";
 import { cn } from "@/lib/utils";
 
 const NAVLINKS = [
   { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
   { href: "/map", label: "Map" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -21,7 +23,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:h-20">
+      <ContainerWrapper className="flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="flex items-center gap-1.5 text-xl font-bold">
           <Image src={logo} alt="Harvesty logo" priority className="w-6" />
           Harvestly
@@ -35,9 +37,9 @@ const Navbar = () => {
                 <Link
                   href={href}
                   className={cn(
-                    "rounded-xl px-4 py-2 transition-colors duration-200",
+                    "rounded-xl px-3 py-2 transition-colors duration-200",
                     NAVLINKS.length - 1 === idx
-                      ? "bg-primary text-accent hover:bg-primary/90"
+                      ? "bg-primary text-accent hover:bg-primary/90 ml-2 px-4"
                       : "hover:text-primary"
                   )}
                 >
@@ -56,7 +58,7 @@ const Navbar = () => {
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-      </div>
+      </ContainerWrapper>
 
       {/* Mobile nav */}
       {menuOpen && (
