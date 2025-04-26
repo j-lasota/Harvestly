@@ -33,4 +33,16 @@ public class ShopController {
                            @Argument String imageUrl) {
         return shopService.saveShop(new Shop(name, description, latitude, longitude, city, address, imageUrl));
     }
+
+    @MutationMapping
+    public Shop updateShop(@Argument Long id, @Argument String name, @Argument String description,
+                           @Argument Double latitude, @Argument Double longitude, @Argument String city,
+                           @Argument String address, @Argument String imageUrl) {
+        return shopService.updateShop(id, name, description, latitude, longitude, city, address, imageUrl);
+    }
+
+    @MutationMapping
+    public Boolean deleteShop(@Argument Long id) {
+        return shopService.deleteShopById(id);
+    }
 }

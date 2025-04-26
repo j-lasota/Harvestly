@@ -20,9 +20,3 @@ type Mutation {
     updateProduct(id: ID!, name: String, category: ProductCategory, verified: Boolean): Product
     deleteProduct(id: ID!): Boolean
 }
-
-input ProductInput {
-    name: String
-    category: ProductCategory
-    verified: Boolean
-}

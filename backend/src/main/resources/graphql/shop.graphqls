@@ -20,5 +20,7 @@ extend type Query {
 
 extend type Mutation {
     createShop(name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Shop
+    updateShop(id: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Shop
+    deleteShop(id: ID!): Boolean
 }
 
