@@ -8,3 +8,14 @@ type OwnProduct {
     quantity: Int!
     imageUrl: String
 }
+
+extend type Query {
+    ownProducts: [OwnProduct]
+    ownProductById(id: ID!): OwnProduct
+}
+
+extend type Mutation {
+    createOwnProduct(shopId: ID!, productId: ID!, price: BigDecimal!, quantity: Int, imageUrl: String): OwnProduct
+    updateOwnProduct(id: ID!, shopId: ID, productId: ID, price: BigDecimal, quantity: Int, imageUrl: String): OwnProduct
+    deleteOwnProduct(id: ID!): Boolean
+}

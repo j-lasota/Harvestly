@@ -1,4 +1,4 @@
-scalar Time
+scalar LocalTime
 
 enum DayOfWeek {
     MONDAY,
@@ -14,6 +14,17 @@ type BusinessHours {
     id: ID!
     shop: Shop!
     dayOfWeek: DayOfWeek!
-    openingTime: Time!
-    closingTime: Time!
+    openingTime: LocalTime!
+    closingTime: LocalTime!
+}
+
+extend type Query {
+    businessHours: [BusinessHours]
+    businessHoursById(id: ID!): BusinessHours
+}
+
+extend type Mutation {
+    createBusinessHours(shopId: ID!, dayOfWeek: DayOfWeek!, openingTime: LocalTime!, closingTime: LocalTime!): BusinessHours
+    updateBusinessHours(id: ID!, dayOfWeek: DayOfWeek, openingTime: LocalTime, closingTime: LocalTime): BusinessHours
+    deleteBusinessHours(id: ID!): Boolean
 }

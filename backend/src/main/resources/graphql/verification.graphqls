@@ -3,3 +3,13 @@ type Verification {
     shop: Shop!
     user: User!
 }
+
+extend type Query {
+    verifications: [Verification]
+    verificationById(id: ID!): Verification
+}
+
+extend type Mutation {
+    createVerification(shopId: ID!, userId: ID!): Verification
+    deleteVerification(id: ID!): Boolean
+}

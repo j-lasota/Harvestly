@@ -1,7 +1,9 @@
 package com.backend.service;
 
 import com.backend.model.Product;
+import com.backend.model.ProductCategory;
 import com.backend.repository.ProductRepository;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,16 +25,42 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    //TODO: dodac sprawdzanie czy nie istnieje juz taki sam produkt
     public Product saveProduct(Product product) {
+        boolean productExists = productRepository.findAll()
+                .stream()
+                .anyMatch(p -> p.getName().equalsIgnoreCase(product.getName())
+                        && p.getCategory() == product.getCategory());
+
+        if (productExists) {
+            throw new IllegalArgumentException("Product with the same name and category already exists.");
+        }
+
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, String name, ProductCategory category, Boolean verified) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        if (name != null) {
+            product.setName(name);
+        }
+        if (category != null) {
+            product.setCategory(category);
+        }
+        if (verified != null) {
+            product.setVerified(verified);
+        }
+
         return productRepository.save(product);
     }
 
     public Boolean deleteProductById(Long id) {
-        if(getProductById(id).isPresent()) {
+        if (getProductById(id).isPresent()) {
             productRepository.deleteById(id);
             return true;
         }
         return false;
     }
 }
+
