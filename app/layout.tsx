@@ -1,7 +1,8 @@
 import { ApolloWrapper } from "@/graphql/apollo-wrapper";
+import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
 
-import Navbar from "@/components/layout/navbar";
+import Header from "@/components/layout/header";
 import { jost, kalam } from "./fonts";
 import "./globals.css";
 
@@ -20,12 +21,14 @@ export default function RootLayout({
       <body
         className={`${jost.variable} ${kalam.variable} font-jost bg-background h-full antialiased`}
       >
-        <div className="flex h-full flex-col">
-          <Navbar />
-          <div className="relative flex-1">
-            <ApolloWrapper>{children}</ApolloWrapper>
+        <SessionProvider>
+          <div className="flex h-full flex-col">
+            <Header />
+            <div className="relative flex-1">
+              <ApolloWrapper>{children}</ApolloWrapper>
+            </div>
           </div>
-        </div>
+        </SessionProvider>
       </body>
     </html>
   );

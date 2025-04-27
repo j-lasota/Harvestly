@@ -6,8 +6,10 @@ import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { query } from "@/graphql/apollo-client";
 import { Button } from "@/components/ui/button";
 import hero from "@/public/hero.jpg";
+import { auth } from "@/auth";
 
-const CountriesQuery = graphql(`
+// Test query
+const Query = graphql(`
   query {
     products {
       id
@@ -17,7 +19,9 @@ const CountriesQuery = graphql(`
 `);
 
 export default async function Home() {
-  const { data } = await query({ query: CountriesQuery });
+  const { data } = await query({ query: Query });
+
+  const session = await auth();
 
   console.log(data);
 
@@ -43,11 +47,15 @@ export default async function Home() {
           <Button size="xl" className="mt-5 max-w-xs" asChild>
             <Link href="/products">Start now</Link>
           </Button>
+
+          <div>
+            <p>{session?.user?.name}</p>
+          </div>
         </div>
         <Image
           src={hero}
           alt="Logo"
-          className="w-full max-w-lg justify-self-end rounded-3xl drop-shadow-md"
+          className="w-full max-w-lg justify-self-end rounded-3xl drop-shadow-lg"
         />
       </section>
     </ContainerWrapper>

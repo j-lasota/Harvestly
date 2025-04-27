@@ -1,10 +1,18 @@
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import React from "react";
 
 import { SignIn } from "@/components/auth/signin-button";
 import loginImg from "@/public/login-img.png";
+import { auth } from "@/auth";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const session = await auth();
+
+  if (session) {
+    return redirect("/");
+  }
+
   return (
     <main className="grid h-[calc(100vh-5rem)] flex-1 lg:grid-cols-2">
       <section className="bg-accent hidden flex-col lg:flex">
