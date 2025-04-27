@@ -1,0 +1,148 @@
+package com.backend.MockTests;
+
+import com.backend.model.Shop;
+import com.backend.repository.ShopRepository;
+import com.backend.service.ShopService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class ShopServiceTests {
+
+    @Mock
+    private ShopRepository shopRepository;
+
+    @InjectMocks
+    private ShopService shopService;
+
+    private AutoCloseable closeable;
+
+    @BeforeEach
+    void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testGetShopById_ShopExists() {
+        Shop shop = new Shop("Shop1", "Great shop", 50.0, 20.0, "CityA", "Street 1", "image.jpg");
+        shop.setId(1L);
+
+        when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
+
+        Optional<Shop> result = shopService.getShopById(1L);
+
+        assertTrue(result.isPresent());
+        assertEquals(1L, result.get().getId());
+        verify(shopRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testGetShopById_ShopDoesNotExist() {
+        when(shopRepository.findById(2L)).thenReturn(Optional.empty());
+
+        Optional<Shop> result = shopService.getShopById(2L);
+
+        assertFalse(result.isPresent());
+        verify(shopRepository, times(1)).findById(2L);
+    }
+
+    @Test
+    void testSaveShop() {
+        Shop shop = new Shop("Shop2", "Another shop", 45.0, 19.0, "CityB", "Street 2", "image2.jpg");
+
+        when(shopRepository.save(shop)).thenReturn(shop);
+
+        Shop savedShop = shopService.saveShop(shop);
+
+        assertNotNull(savedShop);
+        assertEquals("Shop2", savedShop.getName());
+        verify(shopRepository, times(1)).save(shop);
+    }
+
+    @Test
+    void testUpdateShop_Success() {
+        Shop existingShop = new Shop("Old Shop", "Old desc", 10.0, 10.0, "Old City", "Old Address", "old.jpg");
+        existingShop.setId(3L);
+
+        when(shopRepository.findById(3L)).thenReturn(Optional.of(existingShop));
+        when(shopRepository.save(any(Shop.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Shop updatedShop = shopService.updateShop(
+                3L,
+                "New Shop",
+                "New description",
+                55.5,
+                22.2,
+                "New City",
+                "New Address",
+                "new.jpg"
+        );
+
+        assertEquals("New Shop", updatedShop.getName());
+        assertEquals("New description", updatedShop.getDescription());
+        assertEquals(55.5, updatedShop.getLatitude());
+        assertEquals(22.2, updatedShop.getLongitude());
+        assertEquals("New City", updatedShop.getCity());
+        assertEquals("New Address", updatedShop.getAddress());
+        assertEquals("new.jpg", updatedShop.getImageUrl());
+        verify(shopRepository, times(1)).findById(3L);
+        verify(shopRepository, times(1)).save(existingShop);
+    }
+
+    @Test
+    void testUpdateShop_ShopNotFound() {
+        when(shopRepository.findById(4L)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            shopService.updateShop(4L, "New Name", "New Desc", 0.0, 0.0, "New City", "New Address", "new.jpg");
+        });
+
+        assertEquals("Shop not found", exception.getMessage());
+        verify(shopRepository, times(1)).findById(4L);
+        verify(shopRepository, times(0)).save(any());
+    }
+
+    @Test
+    void testDeleteShopById_ShopExists() {
+        Shop shop = new Shop("Deletable Shop", "desc", 1.0, 1.0, "City", "Address", "img.jpg");
+        shop.setId(5L);
+
+        when(shopRepository.findById(5L)).thenReturn(Optional.of(shop));
+
+        Boolean result = shopService.deleteShopById(5L);
+
+        assertTrue(result);
+        verify(shopRepository, times(1)).deleteById(5L);
+    }
+
+    @Test
+    void testDeleteShopById_ShopDoesNotExist() {
+        when(shopRepository.findById(6L)).thenReturn(Optional.empty());
+
+        Boolean result = shopService.deleteShopById(6L);
+
+        assertFalse(result);
+        verify(shopRepository, never()).deleteById(any());
+    }
+
+    @Test
+    void testGetAllShops() {
+        List<Shop> shops = List.of(
+                new Shop("ShopA", "descA", 11.0, 11.0, "CityA", "AddressA", "imgA.jpg"),
+                new Shop("ShopB", "descB", 22.0, 22.0, "CityB", "AddressB", "imgB.jpg")
+        );
+
+        when(shopRepository.findAll()).thenReturn(shops);
+
+        List<Shop> result = shopService.getAllShops();
+
+        assertEquals(2, result.size());
+        verify(shopRepository, times(1)).findAll();
+    }
+}

@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ownProductService {
+public class OwnProductService {
     private final OwnProductRepository ownProductRepository;
     private final ShopRepository shopRepository;
     private final ProductRepository productRepository;
 
-    public ownProductService(OwnProductRepository ownProductRepository, ShopRepository shopRepository, ProductRepository productRepository) {
+    public OwnProductService(OwnProductRepository ownProductRepository, ShopRepository shopRepository, ProductRepository productRepository) {
         this.ownProductRepository = ownProductRepository;
         this.shopRepository = shopRepository;
         this.productRepository = productRepository;

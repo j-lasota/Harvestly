@@ -20,13 +20,21 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
+
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OwnProduct> ownProducts = new ArrayList<>();;
 
     public Product() {
     }
 
-    public Product(String name, boolean verified, ProductCategory category) {
+    public Product(Long id, String name, ProductCategory category, boolean verified) {
+        this.id = id;
+        this.name = name;
+        this.verified = verified;
+        this.category = category;
+    }
+    public Product(String name, ProductCategory category, boolean verified) {
         this.name = name;
         this.verified = verified;
         this.category = category;

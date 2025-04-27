@@ -5,27 +5,25 @@ import com.backend.model.Product;
 import com.backend.model.Shop;
 import com.backend.service.ProductService;
 import com.backend.service.ShopService;
-import com.backend.service.ownProductService;
+import com.backend.service.OwnProductService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class OwnProductController {
-    private final ownProductService ownProductService;
+    private final OwnProductService ownProductService;
     private final ShopService shopService;
     private final ProductService productService;
     
-    public OwnProductController(ownProductService ownProductService, ShopService shopService, ProductService productService) {
+    public OwnProductController(OwnProductService ownProductService, ShopService shopService, ProductService productService) {
         this.ownProductService = ownProductService;
         this.shopService = shopService;
         this.productService = productService;
