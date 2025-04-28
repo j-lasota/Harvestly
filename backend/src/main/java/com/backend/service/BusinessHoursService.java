@@ -27,10 +27,10 @@ public class BusinessHoursService {
         if (dayOfWeek != null) {
             businessHours.setDayOfWeek(dayOfWeek);
         }
-        if (openingTime != null && openingTime.isBefore(closingTime)) {
+        if (openingTime != null && openingTime.isBefore(businessHours.getClosingTime())) {
             businessHours.setOpeningTime(openingTime);
         }
-        if (closingTime != null && closingTime.isAfter(openingTime)) {
+        if (closingTime != null && closingTime.isAfter(businessHours.getOpeningTime())) {
             businessHours.setClosingTime(closingTime);
         }
         return businessHoursRepository.save(businessHours);
