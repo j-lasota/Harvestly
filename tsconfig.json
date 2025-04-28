@@ -19,7 +19,7 @@
       },
       {
         "name": "gql.tada/ts-plugin",
-        "schema": "https://countries.trevorblades.com/graphql", // <-- add your endpoint here
+        "schema": "https://sumy-backend.1c8zj6.easypanel.host/graphql", // <-- add your endpoint here
         "tadaOutputLocation": "./graphql-env.d.ts"
       }
     ],

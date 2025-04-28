@@ -1,29 +1,14 @@
-import { graphql } from "gql.tada";
 import Image from "next/image";
 import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
-import { query } from "@/graphql/apollo-client";
 import { Button } from "@/components/ui/button";
 import hero from "@/public/hero.jpg";
+
 import { auth } from "@/auth";
 
-// Test query
-const Query = graphql(`
-  query {
-    products {
-      id
-      name
-    }
-  }
-`);
-
 export default async function Home() {
-  const { data } = await query({ query: Query });
-
   const session = await auth();
-
-  console.log(data);
 
   return (
     <ContainerWrapper

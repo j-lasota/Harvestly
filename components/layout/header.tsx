@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import { AvatarMenu } from "@/components/layout/avatar-menu";
 import { SignOut } from "@/components/auth/signout-button";
 import BurgerMenu from "@/components/layout/burger-menu";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ export default async function Header() {
           <BurgerMenu />
 
           {session ? (
-            <SignOut />
+            <AvatarMenu Logout={<SignOut />} />
           ) : (
             <Button asChild>
               <Link href="/signin">Sign in</Link>
