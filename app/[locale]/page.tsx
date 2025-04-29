@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import hero from "@/public/hero.jpg";
 import { auth } from "@/auth";
 
 export default async function Home() {
+  const t = await getTranslations("Home");
   const session = await auth();
 
   return (
@@ -21,16 +23,22 @@ export default async function Home() {
             Harvestly
           </h1>
           <p className="text-xl sm:text-2xl lg:text-3xl">
-            <span className="font-kalam text-primary font-bold">Health</span>{" "}
-            starts{" "}
-            <span className="font-kalam text-primary font-bold">locally</span> -
-            choose{" "}
-            <span className="font-kalam text-primary font-bold">fresh</span>{" "}
-            products from farmers in your area
+            <span className="font-kalam text-primary font-bold">
+              {t("health")}
+            </span>{" "}
+            {t("starts")}{" "}
+            <span className="font-kalam text-primary font-bold">
+              {t("locally")}
+            </span>{" "}
+            - {t("choose")}{" "}
+            <span className="font-kalam text-primary font-bold">
+              {t("fresh")}
+            </span>{" "}
+            {t("fromFarmers")}
           </p>
 
           <Button size="xl" className="mt-5 max-w-xs" asChild>
-            <Link href="/products">Start now</Link>
+            <Link href="/products">{t("button")}</Link>
           </Button>
 
           <div>

@@ -1,0 +1,27 @@
+{
+    "Home": {
+        "health": "Zdrowie",
+        "starts": "zaczyna się",
+        "locally": "lokalnie",
+        "choose": "wybieraj",
+        "fresh": "świeże",
+        "fromFarmers": "produkty od rolników w Twojej okolicy",
+        "button": "Zacznij teraz"
+    },
+    "Auth": {
+        "join": "Dołącz do społeczności...",
+        "enjoy": "...i ciesz się",
+        "healthy": "zdrową",
+        "food": "żywnością",
+        "login": "Zaloguj się"
+    },
+    "Nav": {
+        "home": "Home",
+        "products": "Products",
+        "map": "Map",
+        "about": "About",
+        "contact": "Contact"
+    }
+         
+  }
+  
