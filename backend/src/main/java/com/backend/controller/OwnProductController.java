@@ -59,7 +59,7 @@ public class OwnProductController {
     }
 
     @QueryMapping
-    public Optional<OwnProduct> ownProductById(Long id) {
+    public Optional<OwnProduct> ownProductById(@Argument Long id) {
         return ownProductService.getOwnProductById(id);
     }
 
