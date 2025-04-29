@@ -1,6 +1,7 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -13,15 +14,17 @@ public class OwnProduct {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Min(0)
     private BigDecimal price;
 
+    @Min(0)
     private int quantity;
 
     private String imageUrl;

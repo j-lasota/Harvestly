@@ -1,6 +1,8 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
 import java.util.Objects;
@@ -12,13 +14,17 @@ public class BusinessHours {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
+    @NotNull(message = "Day of week cannot be null")
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 
+    @NotNull(message = "Opening time cannot be blank")
     private LocalTime openingTime;
+
+    @NotNull(message = "Closing time cannot be blank")
     private LocalTime closingTime;
 
     public BusinessHours() {

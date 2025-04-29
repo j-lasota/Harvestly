@@ -31,7 +31,7 @@ public class VerificationController {
     }
 
     @QueryMapping
-    public Optional<Verification> verificationById(Long id) {
+    public Optional<Verification> verificationById(@Argument Long id) {
         return verificationService.getVerificationById(id);
     }
 //TODO: Brakuje UserService

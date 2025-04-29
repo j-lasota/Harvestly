@@ -1,6 +1,8 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -14,14 +16,16 @@ public class Opinion {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shop_id", nullable = false, updatable = false)
     private Shop shop;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     private String description;
 
+    @NotNull
+    @Size(min = 1, max = 5)
     private int stars;
 
     public Opinion(UUID id, Shop shop, User user, String description, int stars) {

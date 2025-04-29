@@ -1,6 +1,8 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Product name cannot be blank")
     private String name;
 
     private boolean verified;
 
+    @NotNull(message = "Product category cannot be null")
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
