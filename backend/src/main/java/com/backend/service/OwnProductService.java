@@ -54,13 +54,22 @@ public class OwnProductService {
                     .orElseThrow(() -> new IllegalArgumentException("Product not found"));
             ownProduct.setProduct(product);
         }
-        if (price != null && price.compareTo(BigDecimal.ZERO) >= 0) {
+        if (price != null) {
             ownProduct.setPrice(price);
         }
 
-        if (quantity != null && quantity >= 0) {
+        if (ownProduct.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Price must be greater than zero.");
+        }
+
+        if (quantity != null) {
             ownProduct.setQuantity(quantity);
         }
+
+        if(ownProduct.getQuantity() < 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
+        }
+
         if (imageUrl != null) {
             ownProduct.setImageUrl(imageUrl);
         }
