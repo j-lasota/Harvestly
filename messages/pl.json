@@ -16,11 +16,12 @@
         "login": "Zaloguj się"
     },
     "Nav": {
-        "home": "Home",
-        "products": "Products",
-        "map": "Map",
-        "about": "About",
-        "contact": "Contact"
+        "home": "Strona główna",
+        "products": "Produkty",
+        "map": "Mapa",
+        "about": "O nas",
+        "contact": "Kontakt",
+        "signin": "Zaloguj się"
     }
          
   }

@@ -20,7 +20,8 @@
         "products": "Products",
         "map": "Map",
         "about": "About",
-        "contact": "Contact"
+        "contact": "Contact",
+        "signin": "Log in"
     }
      
   }

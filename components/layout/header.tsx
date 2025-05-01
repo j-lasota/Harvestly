@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/button";
 import { NAVLINKS } from "@/constants/global";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
+import {getTranslations} from 'next-intl/server';
 
 export default async function Header() {
   const session = await auth();
+  const t = await getTranslations("Nav");
 
   return (
     <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
@@ -31,7 +33,7 @@ export default async function Header() {
                     href={href}
                     className="hover:text-primary rounded-xl px-3 py-2 transition-colors duration-200"
                   >
-                    {label}
+                    {t(label.split('.')[1])}
                   </Link>
                 </li>
               ))}
@@ -45,7 +47,7 @@ export default async function Header() {
             <AvatarMenu Logout={<SignOut />} />
           ) : (
             <Button asChild>
-              <Link href="/signin">Sign in</Link>
+              <Link href="/signin">{t("signin")}</Link>
             </Button>
           )}
         </div>
