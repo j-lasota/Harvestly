@@ -1,4 +1,3 @@
-// auth.ts
 import KeycloakProvider from "next-auth/providers/keycloak";
 import NextAuth from "next-auth";
 
@@ -11,5 +10,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   secret: process.env.AUTH_SECRET!,
-  trustHost: true
+  trustHost: true,
+  callbacks: {
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
+    },
+  },
+  pages: {
+    signIn: "/signin",
+  },
 });

@@ -1,16 +1,30 @@
-import { chain } from '@/middlewares/chain';
-import { withI18n } from '@/middlewares/withI18nMiddleware';
-import { withAuth } from '@/middlewares/withAuthMiddleware';
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
+import { auth } from "@/auth";
 
+// Public routes
+const publicRoutes = ["/signin", "/"];
 
-export default chain([withI18n, withAuth]);
+export default auth((req) => {
+  const publicPathnameRegex = RegExp(
+    `^(/(${routing.locales.join("|")}))?(${publicRoutes
+      .flatMap((p) => (p === "/" ? ["", "/"] : p))
+      .join("|")})/?$`,
+    "i"
+  );
 
-// const isPublicRoute = [
-//    '/',
-//    '/about',
-//    '/login',
-//    '/api/auth/signin'
+  const isPublic = publicPathnameRegex.test(req.nextUrl.pathname);
+
+  if (!req.auth && !isPublic) {
+    const newUrl = new URL("/signin", req.nextUrl.origin);
+    return Response.redirect(newUrl);
+  }
+
+  return createMiddleware(routing)(req);
+});
 
 export const config = {
- matcher: ['/((?!api|_next/static|_next/image|favicon.ico|images).*)'],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

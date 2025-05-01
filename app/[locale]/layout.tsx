@@ -6,8 +6,8 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 import Header from "@/components/layout/header";
-import { jost, kalam } from "./fonts";
-import "./globals.css";
+import { jost, kalam } from "../fonts";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Harvestly",
