@@ -1,28 +1,26 @@
 {
-    "Home": {
-        "health": "Health",
-        "starts": "starts",
-        "locally": "locally",
-        "choose": "choose",
-        "fresh": "fresh",
-        "fromFarmers": "products from farmers in your area",
-        "button": "Start now"
-    },
-    "Auth": {
-        "join": "Join the community...",
-        "enjoy": "...and enjoy",
-        "healthy": "healthy",
-        "food": "food",
-        "login": "Log in"
-      },
-    "Nav": {
-        "home": "Home",
-        "products": "Products",
-        "map": "Map",
-        "about": "About",
-        "contact": "Contact",
-        "signin": "Log in"
-    }
-     
+  "Home": {
+    "health": "Health",
+    "starts": "starts",
+    "locally": "locally",
+    "choose": "choose",
+    "fresh": "fresh",
+    "fromFarmers": "products from farmers in your area",
+    "button": "Start now"
+  },
+  "Auth": {
+    "join": "Join the community...",
+    "enjoy": "...and enjoy",
+    "healthy": "healthy",
+    "food": "food",
+    "login": "Log in"
+  },
+  "Nav": {
+    "home": "Home",
+    "products": "Products",
+    "map": "Map",
+    "about": "About",
+    "contact": "Contact",
+    "signin": "Log in"
   }
-  
+}

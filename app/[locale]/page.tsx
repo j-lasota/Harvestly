@@ -1,11 +1,10 @@
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { Button } from "@/components/ui/button";
 import hero from "@/public/hero.jpg";
-
 import { auth } from "@/auth";
 
 export default async function Home() {

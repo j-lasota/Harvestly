@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import Link from "next/link";
 import { NAVLINKS } from "@/constants/global";
 
 const BurgerMenu = () => {
+  const t = useTranslations("Nav");
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -23,7 +25,7 @@ const BurgerMenu = () => {
       {/* Mobile nav */}
       {menuOpen && (
         <nav className="bg-background animate-in fade-in slide-in-from-top-4 absolute top-14 left-0 w-full shadow-lg md:hidden">
-          <ul className="flex flex-col gap-1 p-4 text-lg font-medium">
+          <ul className="flex flex-col gap-2 p-4 text-lg font-medium">
             {NAVLINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
@@ -31,7 +33,7 @@ const BurgerMenu = () => {
                   className="hover:text-primary rounded-xl px-3 py-2 transition-colors duration-200"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {label}
+                  {t(label)}
                 </Link>
               </li>
             ))}

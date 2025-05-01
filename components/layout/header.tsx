@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { NAVLINKS } from "@/constants/global";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
-import {getTranslations} from 'next-intl/server';
 
 export default async function Header() {
   const session = await auth();
@@ -33,7 +33,7 @@ export default async function Header() {
                     href={href}
                     className="hover:text-primary rounded-xl px-3 py-2 transition-colors duration-200"
                   >
-                    {t(label.split('.')[1])}
+                    {t(label)}
                   </Link>
                 </li>
               ))}

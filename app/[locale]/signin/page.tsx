@@ -1,7 +1,7 @@
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import React from "react";
-import { getTranslations } from "next-intl/server";
 
 import { SignIn } from "@/components/auth/signin-button";
 import loginImg from "@/public/login-img.png";
