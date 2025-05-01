@@ -1,7 +1,9 @@
-import { graphql } from "gql.tada";
 import React from "react";
 
+import { ProductCard, productCardFragment } from "@/components/product-card";
+import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { getClient } from "@/graphql/apollo-client";
+import { graphql } from "@/graphql";
 
 // Test query
 // const createQuery = graphql(`
@@ -13,14 +15,17 @@ import { getClient } from "@/graphql/apollo-client";
 //   }
 // `);
 
-const getQuery = graphql(`
-  query {
-    products {
-      id
-      name
+const allProductsQuery = graphql(
+  `
+    query AllProducts {
+      ownProducts {
+        id
+        ...ProductCard
+      }
     }
-  }
-`);
+  `,
+  [productCardFragment]
+);
 
 export default async function ProductsPage() {
   // const { data: created } = await getClient().mutate({
@@ -29,22 +34,25 @@ export default async function ProductsPage() {
   // });
 
   const { data } = await getClient().query({
-    query: getQuery,
+    query: allProductsQuery,
   });
 
-  // console.log(created);
-  console.log(data);
-
   return (
-    <main>
+    <ContainerWrapper
+      comp="main"
+      className="mt-10 flex min-h-screen flex-col gap-16 md:mt-10"
+    >
       <p>ti ra ra ra ram pam pam pam</p>
 
-      <div>
-        {data.products &&
-          data.products.map(
-            (product) => product && <div key={product.id}>{product.name}</div>
+      <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
+        {data.ownProducts &&
+          data.ownProducts.map(
+            (product) =>
+              product && (
+                <ProductCard key={product.id} data={product}></ProductCard>
+              )
           )}
-      </div>
-    </main>
+      </section>
+    </ContainerWrapper>
   );
 }
