@@ -52,6 +52,9 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Verification> verifications = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Opinion> opinions = new ArrayList<>();
+
     public Shop() {
     }
 
@@ -168,6 +171,14 @@ public class Shop {
         if(verifications.size() >= 5) {
             this.verified = true;
         }
+    }
+
+    public List<Opinion> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
     }
 
     @Override

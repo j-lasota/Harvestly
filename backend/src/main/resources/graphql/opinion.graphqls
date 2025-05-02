@@ -5,3 +5,14 @@ type Opinion {
     description: String
     stars: Int!
 }
+
+extend type Query {
+    opinions: [Opinion]
+    opinionById(id: ID!): Opinion
+}
+
+extend type Mutation {
+    createOpinion(shopId: ID!, userId: ID!, description: String, stars: Int!): Opinion
+    updateOpinion(id: ID!, description: String, stars: Int): Opinion
+    deleteOpinion(id: ID!): Boolean
+}

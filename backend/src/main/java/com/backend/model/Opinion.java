@@ -1,6 +1,8 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -12,8 +14,8 @@ public class Opinion {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false, updatable = false)
@@ -25,11 +27,11 @@ public class Opinion {
     private String description;
 
     @NotNull
-    @Size(min = 1, max = 5)
+    @Min(1)
+    @Max(5)
     private int stars;
 
-    public Opinion(UUID id, Shop shop, User user, String description, int stars) {
-        this.id = id;
+    public Opinion(Shop shop, User user, String description, int stars) {
         this.shop = shop;
         this.user = user;
         this.description = description;
@@ -40,11 +42,11 @@ public class Opinion {
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
