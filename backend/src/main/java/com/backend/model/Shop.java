@@ -18,6 +18,10 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @NotBlank(message = "Shop name cannot be blank")
     private String name;
 
@@ -60,6 +64,18 @@ public class Shop {
 
     public Shop(String name, String description, double latitude, double longitude, String city, String address,
                 String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.city = city;
+        this.address = address;
+        this.imageUrl = imageUrl;
+        this.verified = false;
+    }
+
+    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl) {
+        this.user = user;
         this.name = name;
         this.description = description;
         this.latitude = latitude;
@@ -179,6 +195,14 @@ public class Shop {
 
     public void setOpinions(List<Opinion> opinions) {
         this.opinions = opinions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -11,18 +11,32 @@ VALUES ('Truskawki', true, 'FRUIT'),
        ('Porzeczki', true, 'FRUIT'),
        ('Morele', true, 'FRUIT');
 
+-- Użytkownicy
+INSERT INTO users (first_name, last_name, email, password, phone_number, img, tier)
+VALUES
+    ('Jan', 'Kowalski', 'jan1@example.com', 'hashedPwd1', '+48123123123', NULL,1),
+    ('Anna', 'Nowak', 'anna2@example.com', 'hashedPwd2', '+48123123124', NULL,1),
+    ('Piotr', 'Wiśniewski', 'piotr3@example.com', 'hashedPwd3', '+48123123125', NULL,1),
+    ('Maria', 'Wójcik', 'maria4@example.com', 'hashedPwd4', '+48123123126', NULL,1),
+    ('Tomasz', 'Kaczmarek', 'tomasz5@example.com', 'hashedPwd5', '+48123123127', NULL,1),
+    ('Agnieszka', 'Mazur', 'agnieszka6@example.com', 'hashedPwd6', '+48123123128', NULL,1),
+    ('Marek', 'Krawczyk', 'marek7@example.com', 'hashedPwd7', '+48123123129', NULL,1),
+    ('Katarzyna', 'Piotrowska', 'kasia8@example.com', 'hashedPwd8', '+48123123130', NULL,1),
+    ('Paweł', 'Grabowski', 'pawel9@example.com', 'hashedPwd9', '+48123123131', NULL,1),
+    ('Ewa', 'Zając', 'ewa10@example.com', 'hashedPwd10', '+48123123132', NULL,1);
+
 -- Sklepy
-INSERT INTO shops (name, description, latitude, longitude, city, address, image_url, verified)
-VALUES ('Stragan u Zosi', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
-       ('Owoce Rynku', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
-       ('EkoSad', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
-       ('Smaki Lata', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
-       ('Zielony Kram', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
-       ('Ogród Marii', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
-       ('Targowy Raj', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
-       ('Smaczny Koszyk', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
-       ('Sadownik', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
-       ('Owocowy Zakątek', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
+INSERT INTO shops (user_id, name, description, latitude, longitude, city, address, image_url, verified)
+VALUES (1,'Stragan u Zosi', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
+       (2,'Owoce Rynku', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
+       (3,'EkoSad', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
+       (4,'Smaki Lata', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
+       (5,'Zielony Kram', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
+       (6,'Ogród Marii', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
+       (7,'Targowy Raj', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
+       (8,'Smaczny Koszyk', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
+       (9,'Sadownik', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
+       (10,'Owocowy Zakątek', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (shop_id, product_id, price, quantity, image_url)
@@ -180,3 +194,17 @@ VALUES
 (10, 'FRIDAY', '08:00:00', '16:00:00'),
 (10, 'SATURDAY', '08:00:00', '14:00:00'),
 (10, 'SUNDAY', '08:00:00', '12:00:00');
+
+-- Opinie
+INSERT INTO opinions (shop_id, user_id, description, stars)
+VALUES
+    (1, 3, 'Świetne owoce, bardzo świeże!', 5),
+    (2, 1, 'Obsługa bardzo miła, polecam!', 4),
+    (3, 2, 'Super ceny i lokalizacja.', 5),
+    (4, 5, 'Jakość mogłaby być lepsza.', 3),
+    (5, 7, 'Zawsze wracam po więcej!', 5),
+    (6, 4, 'Fajne miejsce, eko owoce.', 4),
+    (7, 10, 'Duży wybór i dobra cena.', 5),
+    (8, 9, 'Lubię ten sklep, lokalnie i smacznie.', 5),
+    (9, 8, 'Średnie ceny, ale dobra jakość.', 4),
+    (10, 7, 'Polecam każdemu!', 5);

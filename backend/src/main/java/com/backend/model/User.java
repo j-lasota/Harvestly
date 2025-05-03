@@ -1,7 +1,9 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,16 +14,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "First name cannot be blank")
     private String firstName;
+
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
+
+    @NotBlank(message = "Email cannot be blank")
+    @Column(unique = true)
+    @Email(message = "Email must be valid")
     private String email;
+
+    @NotBlank(message = "Password cannot be blank")
     private String password;
+
+    @NotBlank(message = "Phone number cannot be blank")
+    @Column(unique = true)
+    @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$", message = "Phone number must be valid")
     private String phoneNumber;
+
+    @Min(0)
+    @Max(2)
     private int tier;
     private String img;
 
-    @OneToMany
-    private List<Shop> shops;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Shop> shops = new ArrayList<>();
 
     public User() {
     }
