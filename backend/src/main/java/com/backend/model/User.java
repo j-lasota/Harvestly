@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -40,6 +42,14 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Shop> shops = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorite_shops",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shop_id")
+    )
+    private Set<Shop> favoriteShops = new HashSet<>();
 
     public User() {
     }
@@ -123,6 +133,14 @@ public class User {
 
     public void setShops(List<Shop> shops) {
         this.shops = shops;
+    }
+
+    public Set<Shop> getFavoriteShops() {
+        return favoriteShops;
+    }
+
+    public void setFavoriteShops(Set<Shop> favoriteShops) {
+        this.favoriteShops = favoriteShops;
     }
 
     @Override

@@ -13,6 +13,7 @@ type Shop {
     businessHours: [BusinessHours!]
     verifications: [Verification!]
     opinions: [Opinion!]
+    likedByUsers: [User!]!
 }
 
 extend type Query {

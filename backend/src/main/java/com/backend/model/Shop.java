@@ -6,9 +6,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "shops")
@@ -58,6 +56,9 @@ public class Shop {
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Opinion> opinions = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "favoriteShops")
+    private Set<User> likedByUsers = new HashSet<>();
 
     public Shop() {
     }
