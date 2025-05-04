@@ -20,6 +20,16 @@ public class ShopService {
     }
 
     public Shop saveShop(Shop shop) {
+        if (shop.getUser().getTier() == 0) {
+            if (!shop.getUser().getShops().isEmpty()) {
+                throw new IllegalArgumentException("User with tier 0 already has a shop which is not verified.");
+            }
+        }
+        else {
+            if (shop.getUser().getShops().size() >= 3) {
+                throw new IllegalArgumentException("User can have only 3 shops.");
+            }
+        }
         return shopRepository.save(shop);
     }
 

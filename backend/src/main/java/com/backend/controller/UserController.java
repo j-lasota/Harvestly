@@ -31,7 +31,7 @@ public class UserController {
     @MutationMapping
     public User createUser(@Argument String firstName, @Argument String lastName, @Argument String email,
                            @Argument String password, @Argument String phoneNumber, @Argument String img) {
-        return userService.saveUser(new User(firstName, lastName, email, password, phoneNumber, 1,img));
+        return userService.saveUser(new User(firstName, lastName, email, password, phoneNumber, 0,img));
     }
 
     @MutationMapping

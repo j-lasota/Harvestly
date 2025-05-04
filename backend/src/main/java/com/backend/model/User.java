@@ -34,7 +34,7 @@ public class User {
     private String phoneNumber;
 
     @Min(0)
-    @Max(2)
+    @Max(1)
     private int tier;
     private String img;
 
