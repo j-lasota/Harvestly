@@ -3,8 +3,10 @@ package com.backend.IntegrationTests;
 import com.backend.model.BusinessHours;
 import com.backend.model.DayOfWeek;
 import com.backend.model.Shop;
+import com.backend.model.User;
 import com.backend.repository.BusinessHoursRepository;
 import com.backend.repository.ShopRepository;
+import com.backend.repository.UserRepository;
 import com.backend.service.BusinessHoursService;
 import com.backend.service.ShopService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,11 +37,24 @@ class BusinessHoursServiceTests {
     @Autowired
     private ShopRepository shopRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private Shop savedShop;
 
     private Shop createTestShop() {
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setEmail("johndoe@example.com");
+        user.setPassword("hashedPassword");
+        user.setPhoneNumber("+48123456789");
+        user.setTier(1);
+        user = userRepository.save(user);
+
         Shop shop = new Shop();
         shop.setName("Test Shop for Hours");
+        shop.setUser(user);
         shop.setDescription("Hours Description");
         shop.setLatitude(12.34);
         shop.setLongitude(56.78);
@@ -53,6 +68,7 @@ class BusinessHoursServiceTests {
     void setUp() {
         businessHoursRepository.deleteAll();
         shopRepository.deleteAll();
+        userRepository.deleteAll();
 
         savedShop = shopService.saveShop(createTestShop());
     }

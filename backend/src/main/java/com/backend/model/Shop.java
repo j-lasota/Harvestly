@@ -6,9 +6,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "shops")
@@ -17,6 +15,10 @@ public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NotBlank(message = "Shop name cannot be blank")
     private String name;
@@ -52,11 +54,29 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Verification> verifications = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Opinion> opinions = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "favoriteShops")
+    private Set<User> likedByUsers = new HashSet<>();
+
     public Shop() {
     }
 
     public Shop(String name, String description, double latitude, double longitude, String city, String address,
                 String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.city = city;
+        this.address = address;
+        this.imageUrl = imageUrl;
+        this.verified = false;
+    }
+
+    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl) {
+        this.user = user;
         this.name = name;
         this.description = description;
         this.latitude = latitude;
@@ -168,6 +188,22 @@ public class Shop {
         if(verifications.size() >= 5) {
             this.verified = true;
         }
+    }
+
+    public List<Opinion> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
