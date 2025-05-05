@@ -40,9 +40,11 @@ export default async function ProductsPage() {
   return (
     <ContainerWrapper
       comp="main"
-      className="mt-10 flex min-h-screen flex-col gap-16 md:mt-10"
+      className="mt-10 flex min-h-screen flex-col gap-8 md:mt-10"
     >
-      <p>ti ra ra ra ram pam pam pam</p>
+      <h1 className="text-2xl font-medium sm:text-3xl lg:text-4xl">
+        Dostępne produkty
+      </h1>
 
       <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
         {data.ownProducts &&

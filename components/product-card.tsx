@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import { FragmentOf, graphql, readFragment } from "@/graphql";
-import Link from "next/link";
+import placeholder from "@/public/placeholder.jpeg";
 
 export const productCardFragment = graphql(`
   fragment ProductCard on OwnProduct {
@@ -11,7 +12,7 @@ export const productCardFragment = graphql(`
     }
     price
     quantity
-
+    imageUrl
     shop {
       name
     }
@@ -29,18 +30,16 @@ export const ProductCard = ({ data }: ProductCardProps) => {
 
   return (
     <Link
-      className="bg-background flex w-full gap-4 rounded-2xl p-4 shadow-md"
+      className="bg-background flex w-full flex-col gap-4 rounded-2xl border-r-2 border-b-4 border-[#fcf2de] p-4 shadow-md sm:flex-row"
       href="#"
     >
       <Image
-        src="/placeholder.jpeg"
-        alt="Product"
-        width={200}
-        height={200}
-        className="max-w-42 rounded-xl"
+        src={p.imageUrl || placeholder}
+        alt={`Image of ${p.product.name}`}
+        className="sm:aspect-squareG aspect-video w-full rounded-xl object-cover sm:max-w-42"
       />
 
-      <div className="mt-4 flex w-full flex-col justify-between gap-2">
+      <div className="flex w-full flex-col justify-between gap-2 sm:mt-4">
         <div>
           <p className="text-2xl font-semibold">{p.product.name}</p>
           <p className="text-sm">
