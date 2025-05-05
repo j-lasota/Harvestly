@@ -5,9 +5,14 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "shops")
 public class Shop {
@@ -75,7 +80,8 @@ public class Shop {
         this.verified = false;
     }
 
-    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl) {
+    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address,
+                String imageUrl) {
         this.user = user;
         this.name = name;
         this.description = description;
@@ -87,123 +93,11 @@ public class Shop {
         this.verified = false;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public List<OwnProduct> getOwnProducts() {
-        return ownProducts;
-    }
-
-    public void setOwnProducts(List<OwnProduct> ownProducts) {
-        this.ownProducts = ownProducts;
-    }
-
-    public List<BusinessHours> getBusinessHours() {
-        return businessHours;
-    }
-
-    public void setBusinessHours(List<BusinessHours> businessHours) {
-        this.businessHours = businessHours;
-    }
-
-    public List<Verification> getVerifications() {
-        return verifications;
-    }
-
-    public void setVerifications(List<Verification> verifications) {
-        this.verifications = verifications;
-    }
-
     public void addVerification(Verification verification) {
         this.verifications.add(verification);
         if(verifications.size() >= 5) {
             this.verified = true;
         }
-    }
-
-    public List<Opinion> getOpinions() {
-        return opinions;
-    }
-
-    public void setOpinions(List<Opinion> opinions) {
-        this.opinions = opinions;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
