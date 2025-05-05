@@ -6,10 +6,13 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "shops")
 public class Shop {
@@ -67,6 +70,19 @@ public class Shop {
 
     public Shop(String name, String description, double latitude, double longitude, String city, String address,
                 String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.city = city;
+        this.address = address;
+        this.imageUrl = imageUrl;
+        this.verified = false;
+    }
+
+    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address,
+                String imageUrl) {
+        this.user = user;
         this.name = name;
         this.description = description;
         this.latitude = latitude;
