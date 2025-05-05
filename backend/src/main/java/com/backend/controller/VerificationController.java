@@ -1,8 +1,10 @@
 package com.backend.controller;
 
 import com.backend.model.Shop;
+import com.backend.model.User;
 import com.backend.model.Verification;
 import com.backend.service.ShopService;
+import com.backend.service.UserService;
 import com.backend.service.VerificationService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -18,11 +20,12 @@ import java.util.Optional;
 public class VerificationController {
     private final VerificationService verificationService;
     private final ShopService shopService;
-//    private final UserService userService;
+    private final UserService userService;
 
-    public VerificationController(VerificationService verificationService, ShopService shopService) {
+    public VerificationController(VerificationService verificationService, ShopService shopService, UserService userService) {
         this.verificationService = verificationService;
         this.shopService = shopService;
+        this.userService = userService;
     }
 
     @QueryMapping
@@ -31,20 +34,22 @@ public class VerificationController {
     }
 
     @QueryMapping
-    public Optional<Verification> verificationById(Long id) {
+    public Optional<Verification> verificationById(@Argument Long id) {
         return verificationService.getVerificationById(id);
     }
-//TODO: Brakuje UserService
 
-//    @MutationMapping
-//    public Verification createVerification(@Argument Long shopId, @Argument Long userId) {
-//        Optional<Shop> shop = shopService.getShopById(shopId);
-//        if(shop.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found");
-//        }
-//
-//
-//    }
+    @MutationMapping
+    public Verification createVerification(@Argument Long shopId, @Argument Long userId) {
+        Optional<Shop> shop = shopService.getShopById(shopId);
+        Optional<User> user = userService.getUserById(userId);
+        if(shop.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found");
+        }
+        if(user.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return verificationService.saveVerification(new Verification(shop.get(), user.get()));
+    }
 
     @MutationMapping
     public Boolean deleteVerification(@Argument Long id) {

@@ -1,5 +1,6 @@
 enum ProductCategory {
-    FRUIT
+    FRUIT,
+    VEGETABLE
 }
 
 type Product {

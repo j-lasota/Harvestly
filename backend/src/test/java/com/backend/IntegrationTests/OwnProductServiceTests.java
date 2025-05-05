@@ -1,12 +1,10 @@
 package com.backend.IntegrationTests;
 
-import com.backend.model.OwnProduct;
-import com.backend.model.Product;
-import com.backend.model.ProductCategory;
-import com.backend.model.Shop;
+import com.backend.model.*;
 import com.backend.repository.OwnProductRepository;
 import com.backend.repository.ProductRepository;
 import com.backend.repository.ShopRepository;
+import com.backend.repository.UserRepository;
 import com.backend.service.OwnProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,17 +34,32 @@ class OwnProductServiceTests {
     @Autowired
     private OwnProductRepository ownProductRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private Shop shop;
     private Product product;
+    private User user;
 
     @BeforeEach
     void setUp() {
         ownProductRepository.deleteAll();
         shopRepository.deleteAll();
         productRepository.deleteAll();
+        userRepository.deleteAll();
+
+        user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setEmail("johndoe@example.com");
+        user.setPassword("hashedPassword");
+        user.setPhoneNumber("+48123456789");
+        user.setTier(1);
+        user = userRepository.save(user);
 
         shop = new Shop();
         shop.setName("Test Shop");
+        shop.setUser(user);
         shop.setCity("Test City");
         shop.setAddress("Test Address");
         shop.setLatitude(10.0);

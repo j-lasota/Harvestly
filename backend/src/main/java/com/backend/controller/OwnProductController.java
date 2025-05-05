@@ -22,7 +22,7 @@ public class OwnProductController {
     private final OwnProductService ownProductService;
     private final ShopService shopService;
     private final ProductService productService;
-    
+
     public OwnProductController(OwnProductService ownProductService, ShopService shopService, ProductService productService) {
         this.ownProductService = ownProductService;
         this.shopService = shopService;
@@ -59,7 +59,7 @@ public class OwnProductController {
     }
 
     @QueryMapping
-    public Optional<OwnProduct> ownProductById(Long id) {
+    public Optional<OwnProduct> ownProductById(@Argument Long id) {
         return ownProductService.getOwnProductById(id);
     }
 
