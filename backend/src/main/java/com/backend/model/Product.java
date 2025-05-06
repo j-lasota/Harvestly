@@ -1,13 +1,13 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "products")
 public class Product {
@@ -15,12 +15,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Product name cannot be blank")
     private String name;
 
     private boolean verified;
 
-    @NotNull(message = "Product category cannot be null")
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
@@ -48,46 +46,6 @@ public class Product {
         this.verified = false;
         this.name = name;
         this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public ProductCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
-    public List<OwnProduct> getOwnProducts() {
-        return ownProducts;
-    }
-
-    public void setOwnProducts(List<OwnProduct> ownProducts) {
-        this.ownProducts = ownProducts;
     }
 
     public void addOwnProduct(OwnProduct ownProduct) {
