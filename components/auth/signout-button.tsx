@@ -1,7 +1,9 @@
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/auth";
 
 export function SignOut() {
+  const t = useTranslations("AvatarMenu");
   return (
     <form
       action={async () => {
@@ -10,7 +12,7 @@ export function SignOut() {
       }}
     >
       <Button type="submit" className="w-full">
-        Sign Out
+        {t("signout")}
       </Button>
     </form>
   );

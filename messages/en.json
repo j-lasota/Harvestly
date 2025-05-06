@@ -22,5 +22,17 @@
     "about": "About",
     "contact": "Contact",
     "signin": "Log in"
+  },
+  "Products": {
+    "title": "Available Products",
+    "soldby": "Sold by",
+    "available": "Available"
+  },
+  "AvatarMenu": {
+    "myaccount": "My account",
+    "profile": "Profile",
+    "billig": "Billing",
+    "team": "Team",
+    "signout": "Sign out"
   }
 }

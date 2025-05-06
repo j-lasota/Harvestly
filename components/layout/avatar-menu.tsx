@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const AvatarMenu = ({ Logout }: { Logout: React.ReactNode }) => {
+  const t = useTranslations("AvatarMenu");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer outline-none">
@@ -20,11 +22,11 @@ export const AvatarMenu = ({ Logout }: { Logout: React.ReactNode }) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-48 p-2">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('myaccount')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
+        <DropdownMenuItem>{t('profile')}</DropdownMenuItem>
+        <DropdownMenuItem>{t('billig')}</DropdownMenuItem>
+        <DropdownMenuItem>{t('team')}</DropdownMenuItem>
         <div className="mt-2">{Logout}</div>
       </DropdownMenuContent>
     </DropdownMenu>

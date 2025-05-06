@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import React from "react";
 
 import { ProductCard, productCardFragment } from "@/components/product-card";
@@ -33,6 +34,8 @@ export default async function ProductsPage() {
   //   variables: { name: "Pomidor", category: "FRUIT" },
   // });
 
+  const t = await getTranslations("Products");
+
   const { data } = await getClient().query({
     query: allProductsQuery,
   });
@@ -43,7 +46,7 @@ export default async function ProductsPage() {
       className="mt-10 mb-16 flex min-h-screen flex-col gap-8 md:mt-10"
     >
       <h1 className="text-2xl font-medium sm:text-3xl lg:text-4xl">
-        Dostępne produkty
+        {t("title")}
       </h1>
 
       <section className="grid grid-cols-1 gap-10 md:grid-cols-2">

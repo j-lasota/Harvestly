@@ -22,5 +22,17 @@
     "about": "O nas",
     "contact": "Kontakt",
     "signin": "Zaloguj się"
+  },
+  "Products": {
+    "title": "Dostępne produkty",
+    "soldby": "Sprzedawane przez",
+    "available": "Dostępne"
+  },
+  "AvatarMenu": {
+    "myaccount": "Moje Konto",
+    "profile": "Profil",
+    "billig": "Rozliczenia",
+    "team": "Zespół",
+    "signout": "Wyloguj się"
   }
 }

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -24,6 +25,8 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ data }: ProductCardProps) => {
+  const t = useTranslations("Products");
+
   const p = readFragment(productCardFragment, data);
 
   return (
@@ -41,7 +44,7 @@ export const ProductCard = ({ data }: ProductCardProps) => {
         <div>
           <p className="text-2xl font-semibold">{p.product.name}</p>
           <p className="text-sm">
-            Sold by{" "}
+            {t("soldby")}{" "}
             <span className="font-kalam text-primary">{p.shop.name}</span>
           </p>
         </div>
@@ -51,7 +54,7 @@ export const ProductCard = ({ data }: ProductCardProps) => {
             <span className="text-3xl font-semibold">{p.price.toFixed(2)}</span>{" "}
             PLN/pc
           </p>
-          <p className="text-end text-sm">Available: {p.quantity}pcs</p>
+          <p className="text-end text-sm">{t("available")}: {p.quantity}pcs</p>
         </div>
       </div>
     </Link>
