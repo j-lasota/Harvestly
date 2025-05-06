@@ -40,7 +40,7 @@ export default async function ProductsPage() {
   return (
     <ContainerWrapper
       comp="main"
-      className="mt-10 flex min-h-screen flex-col gap-8 md:mt-10"
+      className="mt-10 mb-16 flex min-h-screen flex-col gap-8 md:mt-10"
     >
       <h1 className="text-2xl font-medium sm:text-3xl lg:text-4xl">
         Dostępne produkty

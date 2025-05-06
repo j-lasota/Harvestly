@@ -11,6 +11,7 @@ export const graphql = initGraphQLTada<{
     ID: string;
     Int: number;
     LocalTime: string;
+    String: string;
   };
 }>();
 

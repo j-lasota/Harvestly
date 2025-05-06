@@ -19,8 +19,6 @@ export const productCardFragment = graphql(`
   }
 `);
 
-// TODO: Add imageUrl and shop slug to fragment
-
 interface ProductCardProps {
   data: FragmentOf<typeof productCardFragment>;
 }
@@ -36,7 +34,7 @@ export const ProductCard = ({ data }: ProductCardProps) => {
       <Image
         src={p.imageUrl || placeholder}
         alt={`Image of ${p.product.name}`}
-        className="sm:aspect-squareG aspect-video w-full rounded-xl object-cover sm:max-w-42"
+        className="aspect-video w-full rounded-xl object-cover sm:aspect-square sm:max-w-42"
       />
 
       <div className="flex w-full flex-col justify-between gap-2 sm:mt-4">
