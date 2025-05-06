@@ -90,7 +90,7 @@ public class Shop {
         this.address = address;
         this.imageUrl = imageUrl;
         this.verified = false;
-        this.slug = SLUGIFY.slugify(name);
+        this.slug = SLUGIFY.slugify(imageUrl);
     }
 
     public Long getId() {
