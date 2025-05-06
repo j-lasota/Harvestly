@@ -1,5 +1,6 @@
 package com.backend.model;
 
+import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -45,6 +46,10 @@ public class Shop {
 
     private boolean verified;
 
+
+    private static final Slugify SLUGIFY = Slugify.builder().build();
+    private String slug;
+
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OwnProduct> ownProducts = new ArrayList<>();
 
@@ -85,6 +90,7 @@ public class Shop {
         this.address = address;
         this.imageUrl = imageUrl;
         this.verified = false;
+        this.slug = SLUGIFY.slugify(name);
     }
 
     public Long getId() {

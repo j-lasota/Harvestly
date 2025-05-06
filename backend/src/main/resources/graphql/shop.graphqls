@@ -14,6 +14,7 @@ type Shop {
     verifications: [Verification!]
     opinions: [Opinion!]
     likedByUsers: [User!]!
+    slug: String
 }
 
 extend type Query {
