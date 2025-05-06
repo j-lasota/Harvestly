@@ -2,13 +2,16 @@ package com.backend.service;
 
 import com.backend.model.Shop;
 import com.backend.repository.ShopRepository;
+import com.github.slugify.Slugify;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class ShopService {
+    private static final Slugify SLUGIFY = Slugify.builder().transliterator(true).build();
     private final ShopRepository shopRepository;
 
     public ShopService(ShopRepository shopRepository) {
@@ -39,6 +42,7 @@ public class ShopService {
                 orElseThrow(() -> new IllegalArgumentException("Shop not found"));
         if (name != null && !name.isBlank()) {
             shop.setName(name);
+            shop.setSlug(generateUniqeSlug(name));
         }
         if (description != null && !description.isBlank()) {
             shop.setDescription(description);
@@ -58,6 +62,7 @@ public class ShopService {
         if (imageUrl != null && !imageUrl.isBlank()) {
             shop.setImageUrl(imageUrl);
         }
+
         return shopRepository.save(shop);
     }
 
@@ -71,5 +76,13 @@ public class ShopService {
 
     public List<Shop> getAllShops() {
         return shopRepository.findAll();
+    }
+    public String generateUniqeSlug(String name) {
+        String baseSlug = SLUGIFY.slugify(name);
+        int i = 1;
+        while (shopRepository.getByName(name + "-" + i) == null) {
+            i++;
+        }
+        return name + "-" + i;
     }
 }

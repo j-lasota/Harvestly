@@ -40,7 +40,7 @@ public class ShopController {
         if(user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
-        return shopService.saveShop(new Shop(user.get(), name, description, latitude, longitude, city, address, imageUrl));
+        return shopService.saveShop(new Shop(user.get(), name, description, latitude, longitude, city, address, imageUrl, shopService.generateUniqeSlug(name)));
     }
 
     @MutationMapping

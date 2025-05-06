@@ -46,8 +46,6 @@ public class Shop {
 
     private boolean verified;
 
-
-    private static final Slugify SLUGIFY = Slugify.builder().build();
     private String slug;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -80,7 +78,7 @@ public class Shop {
         this.verified = false;
     }
 
-    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl) {
+    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl, String slug) {
         this.user = user;
         this.name = name;
         this.description = description;
@@ -90,7 +88,7 @@ public class Shop {
         this.address = address;
         this.imageUrl = imageUrl;
         this.verified = false;
-        this.slug = SLUGIFY.slugify(imageUrl);
+        this.slug = slug;
     }
 
     public Long getId() {
@@ -252,5 +250,13 @@ public class Shop {
                 ", businessHours=" + businessHours +
                 ", verifications=" + verifications +
                 '}';
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

@@ -43,7 +43,7 @@ class ShopServiceTests {
         user.setPhoneNumber("+48123456789");
         user.setTier(1);
         user = userRepository.save(user);
-        Shop shop = new Shop(user,"Shop1", "Great shop", 50.0, 20.0, "CityA", "Street 1", "image.jpg");
+        Shop shop = new Shop(user,"Shop1", "Great shop", 50.0, 20.0, "CityA", "Street 1", "image.jpg", "test");
         shop.setId(1L);
 
         when(shopRepository.findById(1L)).thenReturn(Optional.of(shop));
@@ -76,7 +76,7 @@ class ShopServiceTests {
         user.setTier(1);
         when(userRepository.save(user)).thenReturn(user);
         user = userRepository.save(user);
-        Shop shop = new Shop(user,"Shop2", "Another shop", 45.0, 19.0, "CityB", "Street 2", "image2.jpg");
+        Shop shop = new Shop(user,"Shop2", "Another shop", 45.0, 19.0, "CityB", "Street 2", "image2.jpg","test");
         when(shopRepository.save(shop)).thenReturn(shop);
 
         Shop savedShop = shopService.saveShop(shop);
@@ -96,7 +96,7 @@ class ShopServiceTests {
         user.setPhoneNumber("+48123456789");
         user.setTier(1);
         user = userRepository.save(user);
-        Shop existingShop = new Shop(user,"Old Shop", "Old desc", 10.0, 10.0, "Old City", "Old Address", "old.jpg");
+        Shop existingShop = new Shop(user,"Old Shop", "Old desc", 10.0, 10.0, "Old City", "Old Address", "old.jpg","test");
         existingShop.setId(3L);
 
         when(shopRepository.findById(3L)).thenReturn(Optional.of(existingShop));
@@ -147,7 +147,7 @@ class ShopServiceTests {
         user.setPhoneNumber("+48123456789");
         user.setTier(1);
         user = userRepository.save(user);
-        Shop shop = new Shop(user, "Deletable Shop", "desc", 1.0, 1.0, "City", "Address", "img.jpg");
+        Shop shop = new Shop(user, "Deletable Shop", "desc", 1.0, 1.0, "City", "Address", "img.jpg", "test");
         shop.setId(5L);
 
         when(shopRepository.findById(5L)).thenReturn(Optional.of(shop));
@@ -179,8 +179,8 @@ class ShopServiceTests {
         user.setTier(1);
         user = userRepository.save(user);
         List<Shop> shops = List.of(
-                new Shop(user,"ShopA", "descA", 11.0, 11.0, "CityA", "AddressA", "imgA.jpg"),
-                new Shop(user,"ShopB", "descB", 22.0, 22.0, "CityB", "AddressB", "imgB.jpg")
+                new Shop(user,"ShopA", "descA", 11.0, 11.0, "CityA", "AddressA", "imgA.jpg","test"),
+                new Shop(user,"ShopB", "descB", 22.0, 22.0, "CityB", "AddressB", "imgB.jpg", "test")
         );
 
         when(shopRepository.findAll()).thenReturn(shops);
