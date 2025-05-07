@@ -4,6 +4,7 @@ import com.backend.model.Shop;
 import com.backend.model.User;
 import com.backend.service.ShopService;
 import com.backend.service.UserService;
+import org.glassfish.jaxb.core.v2.TODO;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
+// TODO: REMOVE TRANSACTIONAL
 @Controller
 public class ShopController {
     private final ShopService shopService;
