@@ -13,7 +13,8 @@
     "enjoy": "...i ciesz się",
     "healthy": "zdrową",
     "food": "żywnością",
-    "login": "Zaloguj się"
+    "login": "Zaloguj się",
+    "signinKeycloak": "Zaloguj się za pomocą Keycloak"
   },
   "Nav": {
     "home": "Strona główna",

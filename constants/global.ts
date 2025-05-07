@@ -3,5 +3,4 @@ export const NAVLINKS = [
   { href: "/products", label: "products" },
   { href: "/map", label: "map" },
   { href: "/about", label: "about" },
-  { href: "/contact", label: "contact" },
 ];

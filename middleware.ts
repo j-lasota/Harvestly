@@ -3,7 +3,7 @@ import { routing } from "@/i18n/routing";
 import { auth } from "@/auth";
 
 // Public routes
-const publicRoutes = ["/signin", "/", "/products", "/store/[^/]+"];
+const publicRoutes = ["/signin", "/", "/products", "/store", "/store/[^/]+"];
 
 export default auth((req) => {
   const publicPathnameRegex = RegExp(

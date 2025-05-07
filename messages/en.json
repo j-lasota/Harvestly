@@ -13,7 +13,8 @@
     "enjoy": "...and enjoy",
     "healthy": "healthy",
     "food": "food",
-    "login": "Log in"
+    "login": "Log in",
+    "signinKeycloak": "Sign in with Keycloak"
   },
   "Nav": {
     "home": "Home",

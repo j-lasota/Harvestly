@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import { FragmentOf, graphql, readFragment } from "@/graphql";
-import placeholder from "@/public/placeholder.jpeg";
+import placeholder from "@/public/food_placeholder.jpg";
 
 export const productCardFragment = graphql(`
   fragment ProductCard on OwnProduct {
@@ -15,6 +15,7 @@ export const productCardFragment = graphql(`
     quantity
     imageUrl
     shop {
+      slug
       name
     }
   }
@@ -31,8 +32,8 @@ export const ProductCard = ({ data }: ProductCardProps) => {
 
   return (
     <Link
-      className="bg-background flex w-full flex-col gap-4 rounded-2xl border-r-2 border-b-4 border-[#fcf2de] p-4 shadow-md sm:flex-row"
-      href="#"
+      className="bg-background border-shadow flex w-full flex-col gap-4 rounded-2xl border-r-3 border-b-4 p-4 shadow-md sm:flex-row"
+      href={`/store/${p.shop.slug}`}
     >
       <Image
         src={p.imageUrl || placeholder}
@@ -54,7 +55,9 @@ export const ProductCard = ({ data }: ProductCardProps) => {
             <span className="text-3xl font-semibold">{p.price.toFixed(2)}</span>{" "}
             PLN/pc
           </p>
-          <p className="text-end text-sm">{t("available")}: {p.quantity}pcs</p>
+          <p className="text-end text-sm">
+            {t("available")}: {p.quantity}pcs
+          </p>
         </div>
       </div>
     </Link>

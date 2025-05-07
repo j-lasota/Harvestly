@@ -1,28 +1,33 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import { BadgeCheck } from "lucide-react";
 import React from "react";
 
 import { ProductCard, productCardFragment } from "@/components/product-card";
+import { OpinionCard, opinionCardFragment } from "@/components/opinion-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import { ImageMapPreview } from "./components/image-map-preview";
+import AddToFavButton from "./components/add-to-fav-button";
 import { getClient } from "@/graphql/apollo-client";
-import placeholder from "@/public/placeholder.jpeg";
+import AddOpinion from "./components/add-opinion";
 import { graphql } from "@/graphql";
-import { BadgeCheck } from "lucide-react";
+import { auth } from "@/auth";
 
-// TODO: Replace to slug - add to backend
 const shopBySlugQuery = graphql(
   `
-    query shopBySlug($id: ID!) {
-      shopById(id: $id) {
+    query shopBySlug($slug: String!) {
+      shopBySlug(slug: $slug) {
         id
         name
         city
         address
+        latitude
+        longitude
         imageUrl
         description
         verified
         opinions {
           id
+          ...OpinionCard
         }
         businessHours {
           dayOfWeek
@@ -36,7 +41,7 @@ const shopBySlugQuery = graphql(
       }
     }
   `,
-  [productCardFragment]
+  [productCardFragment, opinionCardFragment]
 );
 
 export default async function ShopPage({
@@ -46,43 +51,51 @@ export default async function ShopPage({
     shopSlug: string;
   }>;
 }>) {
+  const session = await auth();
   const { shopSlug } = await params;
   const { data } = await getClient().query({
     query: shopBySlugQuery,
-    variables: { id: shopSlug },
+    variables: { slug: shopSlug },
   });
 
-  if (!data || !data.shopById) return notFound();
+  if (!data || !data.shopBySlug) return notFound();
 
   return (
     <ContainerWrapper
       comp="main"
       className="mt-10 mb-16 flex min-h-screen flex-col gap-8 md:mt-10"
     >
-      <div className="grid gap-4 md:grid-cols-3">
-        <Image
-          src={data.shopById.imageUrl ?? placeholder}
-          alt={`Image of ${data.shopById.name}`}
-          className="aspect-video w-full rounded-xl object-cover"
+      <div className="grid gap-8 md:grid-cols-2">
+        <ImageMapPreview
+          src={data.shopBySlug.imageUrl}
+          name={data.shopBySlug.name}
+          market={{
+            lat: data.shopBySlug.latitude,
+            lng: data.shopBySlug.longitude,
+          }}
         />
-        <div className="flex flex-col gap-2 md:col-span-2">
+
+        <div className="flex flex-col gap-2">
           <h1 className="mt-2 flex items-center gap-2 text-2xl font-medium sm:text-3xl lg:text-4xl">
-            {data.shopById.name}
-            {data.shopById.verified && (
+            {data.shopBySlug.name}
+            {data.shopBySlug.verified && (
               <BadgeCheck size={32} strokeWidth={2} className="text-primary" />
             )}
           </h1>
-          <p className="font-kalam mb-4 text-lg">{data.shopById.description}</p>
+          <AddToFavButton shopId={data.shopBySlug.id} />
+          <p className="font-kalam mb-4 text-lg">
+            {data.shopBySlug.description}
+          </p>
 
           <div className="inline-flex gap-1">
             <h2 className="font-semibold">Lokalizacja:</h2>
-            {data.shopById.address}, {data.shopById.city}
+            {data.shopBySlug.address}, {data.shopBySlug.city}
           </div>
 
-          {data.shopById.businessHours && (
+          {data.shopBySlug.businessHours && (
             <div className="flex flex-col gap-1">
               <h2 className="font-semibold">Godziny pracy:</h2>
-              {data.shopById.businessHours.map(
+              {data.shopBySlug.businessHours.map(
                 (d) =>
                   d && (
                     <p key={d.dayOfWeek}>
@@ -98,8 +111,8 @@ export default async function ShopPage({
 
       {/* // TODO: Add pagination */}
       <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        {data.shopById.ownProducts &&
-          data.shopById.ownProducts.map(
+        {data.shopBySlug.ownProducts &&
+          data.shopBySlug.ownProducts.map(
             (product) =>
               product && (
                 <ProductCard key={product.id} data={product}></ProductCard>
@@ -107,9 +120,16 @@ export default async function ShopPage({
           )}
       </section>
 
-      <section>
-        <h3>Opinie:</h3>
-        {/* // TODO: Add opinions */}
+      <section className="flex max-w-3xl flex-col gap-4">
+        <h3 className="mt-4 text-2xl font-semibold">Opinie:</h3>
+        {session?.user && <AddOpinion slug={shopSlug} />}
+        {data.shopBySlug.opinions ? (
+          data.shopBySlug.opinions.map((opinion) => (
+            <OpinionCard key={opinion.id} data={opinion}></OpinionCard>
+          ))
+        ) : (
+          <p>Brak opinii</p>
+        )}
       </section>
     </ContainerWrapper>
   );
