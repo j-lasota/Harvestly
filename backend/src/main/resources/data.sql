@@ -26,17 +26,18 @@ VALUES
     ('Ewa', 'Zając', 'ewa10@example.com', 'hashedPwd10', '+48123123132', NULL,1);
 
 -- Sklepy
-INSERT INTO shops (user_id, name, description, latitude, longitude, city, address, image_url, verified)
-VALUES (1,'Stragan u Zosi', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
-       (2,'Owoce Rynku', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
-       (3,'EkoSad', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
-       (4,'Smaki Lata', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
-       (5,'Zielony Kram', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
-       (6,'Ogród Marii', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
-       (7,'Targowy Raj', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
-       (8,'Smaczny Koszyk', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
-       (9,'Sadownik', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
-       (10,'Owocowy Zakątek', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
+INSERT INTO shops (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
+VALUES
+    (1, 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
+    (2, 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
+    (3, 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
+    (4, 'Smaki Lata', 'smaki-lata-1', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
+    (5, 'Zielony Kram', 'zielony-kram-1', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
+    (6, 'Ogród Marii', 'ogrod-marii-1', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
+    (7, 'Targowy Raj', 'targowy-raj-1', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
+    (8, 'Smaczny Koszyk', 'smaczny-koszyk-1', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
+    (9, 'Sadownik', 'sadownik-1', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
+    (10, 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (shop_id, product_id, price, quantity, image_url)

@@ -42,7 +42,7 @@ public class ShopService {
                 orElseThrow(() -> new IllegalArgumentException("Shop not found"));
         if (name != null && !name.isBlank()) {
             shop.setName(name);
-            shop.setSlug(generateUniqeSlug(name));
+            shop.setSlug(generateUniqueSlug(name));
         }
         if (description != null && !description.isBlank()) {
             shop.setDescription(description);
@@ -77,7 +77,7 @@ public class ShopService {
     public List<Shop> getAllShops() {
         return shopRepository.findAll();
     }
-    public String generateUniqeSlug(String name) {
+    public String generateUniqueSlug(String name) {
         String baseSlug = SLUGIFY.slugify(name);
         int i = 1;
         while (shopRepository.findBySlug(baseSlug + "-" + i) != null) {
