@@ -136,4 +136,5 @@ class ShopServiceTests {
 //        assertEquals(2, shops.size());
         assertEquals(1, shops.size());
     }
+
 }

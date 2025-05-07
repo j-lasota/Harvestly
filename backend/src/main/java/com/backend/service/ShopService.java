@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class ShopService {
-    private static final Slugify SLUGIFY = Slugify.builder().transliterator(true).build();
+    private static final Slugify SLUGIFY = Slugify.builder().build();
     private final ShopRepository shopRepository;
 
     public ShopService(ShopRepository shopRepository) {
@@ -80,7 +80,7 @@ public class ShopService {
     public String generateUniqeSlug(String name) {
         String baseSlug = SLUGIFY.slugify(name);
         int i = 1;
-        while (shopRepository.getByName(name + "-" + i) == null) {
+        while (shopRepository.getByName(name + "-" + i) != null) {
             i++;
         }
         return name + "-" + i;

@@ -76,7 +76,7 @@ class ShopServiceTests {
         user.setTier(1);
         when(userRepository.save(user)).thenReturn(user);
         user = userRepository.save(user);
-        Shop shop = new Shop(user,"Shop2", "Another shop", 45.0, 19.0, "CityB", "Street 2", "image2.jpg","test");
+        Shop shop = new Shop(user,"Shop2", "Another shop", 45.0, 19.0, "CityB", "Street 2", "image2.jpg","test1");
         when(shopRepository.save(shop)).thenReturn(shop);
 
         Shop savedShop = shopService.saveShop(shop);
