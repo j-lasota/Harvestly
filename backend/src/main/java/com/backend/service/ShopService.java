@@ -80,9 +80,13 @@ public class ShopService {
     public String generateUniqeSlug(String name) {
         String baseSlug = SLUGIFY.slugify(name);
         int i = 1;
-        while (shopRepository.getByName(name + "-" + i) != null) {
+        while (shopRepository.findBySlug(baseSlug + "-" + i) != null) {
             i++;
         }
-        return name + "-" + i;
+        return baseSlug + "-" + i;
+    }
+
+    public Shop getShopBySlug(String slug) {
+        return shopRepository.findBySlug(slug);
     }
 }

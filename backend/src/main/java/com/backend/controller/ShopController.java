@@ -54,4 +54,9 @@ public class ShopController {
     public Boolean deleteShop(@Argument Long id) {
         return shopService.deleteShopById(id);
     }
+
+    @QueryMapping
+    public Shop shopBySlug(@Argument String slug) {
+        return shopService.getShopBySlug(slug);
+    }
 }
