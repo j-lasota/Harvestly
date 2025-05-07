@@ -79,6 +79,9 @@ public class ShopService {
     }
     public String generateUniqueSlug(String name) {
         String baseSlug = SLUGIFY.slugify(name);
+        if (shopRepository.findBySlug(baseSlug) == null) {
+            return baseSlug;
+        }
         int i = 1;
         while (shopRepository.findBySlug(baseSlug + "-" + i) != null) {
             i++;
