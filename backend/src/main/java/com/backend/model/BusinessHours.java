@@ -1,7 +1,6 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +16,8 @@ public class BusinessHours {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @NotNull(message = "Day of week cannot be null")
     @Enumerated(EnumType.STRING)
@@ -30,8 +29,8 @@ public class BusinessHours {
     @NotNull(message = "Closing time cannot be blank")
     private LocalTime closingTime;
 
-    public BusinessHours(Shop shop, DayOfWeek dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
-        this.shop = shop;
+    public BusinessHours(Store store, DayOfWeek dayOfWeek, LocalTime openingTime, LocalTime closingTime) {
+        this.store = store;
         this.dayOfWeek = dayOfWeek;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
