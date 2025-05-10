@@ -26,7 +26,7 @@ VALUES
     ('Ewa', 'Zając', 'ewa10@example.com', 'hashedPwd10', '+48123123132', NULL,1);
 
 -- Sklepy
-INSERT INTO shops (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
+INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
     (1, 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
     (2, 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
@@ -40,7 +40,7 @@ VALUES
     (10, 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
 
 -- Produkty w sklepach (own_products)
-INSERT INTO own_products (shop_id, product_id, price, quantity, image_url)
+INSERT INTO own_products (store_id, product_id, price, quantity, image_url)
 VALUES
 -- Shop 1
 (1, 1, 10.50, 100, NULL),
@@ -104,7 +104,7 @@ VALUES
 (10, 10, 14.00, 180, NULL);
 
 -- Business Hours (7 dni × 10 sklepów = 70 wpisów)
-INSERT INTO business_hours (shop_id, day_of_week, opening_time, closing_time)
+INSERT INTO business_hours (store_id, day_of_week, opening_time, closing_time)
 VALUES
 -- Shop 1
 (1, 'MONDAY', '08:00:00', '16:00:00'),
@@ -197,7 +197,7 @@ VALUES
 (10, 'SUNDAY', '08:00:00', '12:00:00');
 
 -- Opinie
-INSERT INTO opinions (shop_id, user_id, description, stars)
+INSERT INTO opinions (store_id, user_id, description, stars)
 VALUES
     (1, 3, 'Świetne owoce, bardzo świeże!', 5),
     (2, 1, 'Obsługa bardzo miła, polecam!', 4),

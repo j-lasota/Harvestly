@@ -18,7 +18,7 @@ public class BusinessHoursService {
     }
 
     public BusinessHours saveBusinessHours(BusinessHours businessHours) {
-        if (businessHoursRepository.existsByShopAndDayOfWeek(businessHours.getShop(), businessHours.getDayOfWeek())) {
+        if (businessHoursRepository.existsByStoreAndDayOfWeek(businessHours.getStore(), businessHours.getDayOfWeek())) {
             throw new IllegalArgumentException("BusinessHours already exists for the given shop and day of week.");
         }
         if (!businessHours.getOpeningTime().isBefore(businessHours.getClosingTime())) {

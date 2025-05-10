@@ -2,13 +2,13 @@ package com.backend.IntegrationTests;
 
 import com.backend.model.BusinessHours;
 import com.backend.model.DayOfWeek;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.repository.BusinessHoursRepository;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.BusinessHoursService;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +29,20 @@ class BusinessHoursServiceTests {
     private BusinessHoursService businessHoursService;
 
     @Autowired
-    private ShopService shopService;
+    private StoreService storeService;
 
     @Autowired
     private BusinessHoursRepository businessHoursRepository;
 
     @Autowired
-    private ShopRepository shopRepository;
+    private StoreRepository storeRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    private Shop savedShop;
+    private Store savedStore;
 
-    private Shop createTestShop() {
+    private Store createTestShop() {
         User user = new User();
         user.setFirstName("John");
         user.setLastName("Doe");
@@ -52,30 +52,30 @@ class BusinessHoursServiceTests {
         user.setTier(1);
         user = userRepository.save(user);
 
-        Shop shop = new Shop();
-        shop.setName("Test Shop for Hours");
-        shop.setUser(user);
-        shop.setDescription("Hours Description");
-        shop.setLatitude(12.34);
-        shop.setLongitude(56.78);
-        shop.setCity("TestCity");
-        shop.setAddress("TestAddress 1");
-        shop.setImageUrl("http://test.com/image.png");
-        return shop;
+        Store store = new Store();
+        store.setName("Test Shop for Hours");
+        store.setUser(user);
+        store.setDescription("Hours Description");
+        store.setLatitude(12.34);
+        store.setLongitude(56.78);
+        store.setCity("TestCity");
+        store.setAddress("TestAddress 1");
+        store.setImageUrl("http://test.com/image.png");
+        return store;
     }
 
     @BeforeEach
     void setUp() {
         businessHoursRepository.deleteAll();
-        shopRepository.deleteAll();
+        storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        savedShop = shopService.saveShop(createTestShop());
+        savedStore = storeService.saveStore(createTestShop());
     }
 
     @Test
     void testSaveBusinessHours() {
-        BusinessHours businessHours = new BusinessHours(savedShop, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+        BusinessHours businessHours = new BusinessHours(savedStore, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
 
         BusinessHours saved = businessHoursService.saveBusinessHours(businessHours);
 
@@ -86,7 +86,7 @@ class BusinessHoursServiceTests {
     @Test
     void testGetBusinessHoursById_Found() {
         BusinessHours businessHours = businessHoursRepository.save(
-                new BusinessHours(savedShop, DayOfWeek.TUESDAY, LocalTime.of(10, 0), LocalTime.of(18, 0))
+                new BusinessHours(savedStore, DayOfWeek.TUESDAY, LocalTime.of(10, 0), LocalTime.of(18, 0))
         );
 
         Optional<BusinessHours> found = businessHoursService.getBusinessHoursById(businessHours.getId());
@@ -104,8 +104,8 @@ class BusinessHoursServiceTests {
 
     @Test
     void testGetAllBusinessHours() {
-        businessHoursRepository.save(new BusinessHours(savedShop, DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(16, 0)));
-        businessHoursRepository.save(new BusinessHours(savedShop, DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(17, 0)));
+        businessHoursRepository.save(new BusinessHours(savedStore, DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(16, 0)));
+        businessHoursRepository.save(new BusinessHours(savedStore, DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(17, 0)));
 
         List<BusinessHours> all = businessHoursService.getAllBusinessHours();
 
@@ -115,7 +115,7 @@ class BusinessHoursServiceTests {
     @Test
     void testUpdateBusinessHours_Success() {
         BusinessHours businessHours = businessHoursRepository.save(
-                new BusinessHours(savedShop, DayOfWeek.FRIDAY, LocalTime.of(8, 30), LocalTime.of(15, 30))
+                new BusinessHours(savedStore, DayOfWeek.FRIDAY, LocalTime.of(8, 30), LocalTime.of(15, 30))
         );
 
         BusinessHours updated = businessHoursService.updateBusinessHours(
@@ -142,7 +142,7 @@ class BusinessHoursServiceTests {
     @Test
     void testDeleteBusinessHours_Exists() {
         BusinessHours businessHours = businessHoursRepository.save(
-                new BusinessHours(savedShop, DayOfWeek.SUNDAY, LocalTime.of(12, 0), LocalTime.of(20, 0))
+                new BusinessHours(savedStore, DayOfWeek.SUNDAY, LocalTime.of(12, 0), LocalTime.of(20, 0))
         );
 
         Boolean result = businessHoursService.deleteBusinessHours(businessHours.getId());

@@ -18,8 +18,8 @@ public class OwnProduct {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -36,17 +36,17 @@ public class OwnProduct {
     public OwnProduct() {
     }
 
-    public OwnProduct(Long id, Shop shop, Product product, BigDecimal price, int quantity, String imageUrl) {
+    public OwnProduct(Long id, Store store, Product product, BigDecimal price, int quantity, String imageUrl) {
         this.id = id;
-        this.shop = shop;
+        this.store = store;
         this.product = product;
         this.price = price;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
     }
 
-    public OwnProduct(Shop shop, Product product, BigDecimal price, int quantity, String imageUrl) {
-        this.shop = shop;
+    public OwnProduct(Store store, Product product, BigDecimal price, int quantity, String imageUrl) {
+        this.store = store;
         this.product = product;
         this.price = price;
         this.quantity = quantity;
@@ -58,7 +58,7 @@ public class OwnProduct {
     public String toString() {
         return "OwnProduct{" +
                 "id=" + id +
-                ", shop=" + shop +
+                ", store=" + store +
                 ", product=" + product +
                 ", price=" + price +
                 ", quantity=" + quantity +
@@ -70,12 +70,12 @@ public class OwnProduct {
     public final boolean equals(Object o) {
         if (!(o instanceof OwnProduct that)) return false;
 
-        return getQuantity() == that.getQuantity() && Objects.equals(getShop(), that.getShop()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getImageUrl(), that.getImageUrl());
+        return getQuantity() == that.getQuantity() && Objects.equals(getStore(), that.getStore()) && Objects.equals(getProduct(), that.getProduct()) && Objects.equals(getPrice(), that.getPrice()) && Objects.equals(getImageUrl(), that.getImageUrl());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(getShop());
+        int result = Objects.hashCode(getStore());
         result = 31 * result + Objects.hashCode(getProduct());
         result = 31 * result + Objects.hashCode(getPrice());
         result = 31 * result + getQuantity();

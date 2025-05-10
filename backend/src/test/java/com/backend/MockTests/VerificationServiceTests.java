@@ -1,6 +1,6 @@
 package com.backend.MockTests;
 
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.model.Verification;
 import com.backend.repository.VerificationRepository;
@@ -32,16 +32,16 @@ class VerificationServiceTests {
 
     @Test
     void testSaveVerification() {
-        Shop shop = new Shop("Shop1", "Description1", 10.0, 10.0, "City1", "Address1", "img1.jpg");
+        Store store = new Store("Shop1", "Description1", 10.0, 10.0, "City1", "Address1", "img1.jpg");
         User user = new User();
-        Verification verification = new Verification(shop, user);
+        Verification verification = new Verification(store, user);
 
         when(verificationRepository.save(verification)).thenReturn(verification);
 
         Verification savedVerification = verificationService.saveVerification(verification);
 
         assertNotNull(savedVerification);
-        assertEquals(shop, savedVerification.getShop());
+        assertEquals(store, savedVerification.getStore());
         assertEquals(user, savedVerification.getUser());
         verify(verificationRepository, times(1)).save(verification);
     }
@@ -73,8 +73,8 @@ class VerificationServiceTests {
     @Test
     void testGetAllVerifications() {
         List<Verification> verifications = List.of(
-                new Verification(new Shop("ShopA", "desc", 1.0, 1.0, "CityA", "AddrA", "imgA.jpg"), new User()),
-                new Verification(new Shop("ShopB", "desc", 2.0, 2.0, "CityB", "AddrB", "imgB.jpg"), new User())
+                new Verification(new Store("ShopA", "desc", 1.0, 1.0, "CityA", "AddrA", "imgA.jpg"), new User()),
+                new Verification(new Store("ShopB", "desc", 2.0, 2.0, "CityB", "AddrB", "imgB.jpg"), new User())
         );
 
         when(verificationRepository.findAll()).thenReturn(verifications);

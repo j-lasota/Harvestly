@@ -3,10 +3,10 @@ package com.backend.MockTests;
 import com.backend.model.OwnProduct;
 import com.backend.model.Product;
 import com.backend.model.ProductCategory;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.repository.OwnProductRepository;
 import com.backend.repository.ProductRepository;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.service.OwnProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class OwnProductServiceTests {
     private OwnProductRepository ownProductRepository;
 
     @Mock
-    private ShopRepository shopRepository;
+    private StoreRepository storeRepository;
 
     @Mock
     private ProductRepository productRepository;
@@ -114,25 +114,25 @@ class OwnProductServiceTests {
         OwnProduct existingOwnProduct = new OwnProduct();
         existingOwnProduct.setId(id);
 
-        Shop shop = new Shop("ShopName", "desc", 10.0, 10.0, "City", "Address", "img.jpg");
+        Store store = new Store("ShopName", "desc", 10.0, 10.0, "City", "Address", "img.jpg");
         Product product = new Product("Apple", ProductCategory.FRUIT);
 
         when(ownProductRepository.findById(id)).thenReturn(Optional.of(existingOwnProduct));
-        when(shopRepository.findById(shopId)).thenReturn(Optional.of(shop));
+        when(storeRepository.findById(shopId)).thenReturn(Optional.of(store));
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         when(ownProductRepository.save(any(OwnProduct.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         OwnProduct updated = ownProductService.updateOwnProduct(id, shopId, productId, price, quantity, imageUrl);
 
         assertNotNull(updated);
-        assertEquals(shop, updated.getShop());
+        assertEquals(store, updated.getStore());
         assertEquals(product, updated.getProduct());
         assertEquals(price, updated.getPrice());
         assertEquals(quantity, updated.getQuantity());
         assertEquals(imageUrl, updated.getImageUrl());
 
         verify(ownProductRepository, times(1)).findById(id);
-        verify(shopRepository, times(1)).findById(shopId);
+        verify(storeRepository, times(1)).findById(shopId);
         verify(productRepository, times(1)).findById(productId);
         verify(ownProductRepository, times(1)).save(any(OwnProduct.class));
     }

@@ -1,8 +1,7 @@
 package com.backend.service;
 
-import com.backend.model.Shop;
 import com.backend.model.Verification;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.VerificationRepository;
 import org.springframework.stereotype.Service;
@@ -13,26 +12,26 @@ import java.util.Optional;
 @Service
 public class VerificationService {
     private final VerificationRepository verificationRepository;
-    private final ShopRepository shopRepository;
+    private final StoreRepository storeRepository;
     private final UserRepository userRepository;
 
-    public VerificationService(VerificationRepository verificationRepository, ShopRepository shopRepository, UserRepository userRepository) {
+    public VerificationService(VerificationRepository verificationRepository, StoreRepository storeRepository, UserRepository userRepository) {
         this.verificationRepository = verificationRepository;
-        this.shopRepository = shopRepository;
+        this.storeRepository = storeRepository;
         this.userRepository = userRepository;
     }
 
     public Verification saveVerification(Verification verification) {
-        if (verificationRepository.existsByShopIdAndUserId(verification.getShop().getId(), verification.getUser().getId())) {
+        if (verificationRepository.existsByStoreIdAndUserId(verification.getStore().getId(), verification.getUser().getId())) {
             throw new IllegalArgumentException("Verification already exists for the given shop and user.");
         }
         verificationRepository.save(verification);
 
-        if (verificationRepository.countByShopId(verification.getShop().getId()) >= 5 && !verification.getShop().isVerified()) {
-            verification.getShop().setVerified(true);
-            verification.getShop().getUser().setTier(1);
-            shopRepository.save(verification.getShop());
-            userRepository.save(verification.getShop().getUser());
+        if (verificationRepository.countByStoreId(verification.getStore().getId()) >= 5 && !verification.getStore().isVerified()) {
+            verification.getStore().setVerified(true);
+            verification.getStore().getUser().setTier(1);
+            storeRepository.save(verification.getStore());
+            userRepository.save(verification.getStore().getUser());
         }
 
         return verification;

@@ -24,7 +24,7 @@ public class OpinionService {
     }
 
     public Opinion saveOpinion(Opinion opinion) {
-        if (opinionRepository.existsByShopIdAndUserId(opinion.getShop().getId(), opinion.getUser().getId())) {
+        if (opinionRepository.existsByStoreIdAndUserId(opinion.getStore().getId(), opinion.getUser().getId())) {
             throw new IllegalArgumentException("Opinion already exists for the given shop and user.");
         }
         return opinionRepository.save(opinion);

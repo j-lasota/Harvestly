@@ -2,10 +2,10 @@ package com.backend.service;
 
 import com.backend.model.OwnProduct;
 import com.backend.model.Product;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.repository.OwnProductRepository;
 import com.backend.repository.ProductRepository;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,12 +15,12 @@ import java.util.Optional;
 @Service
 public class OwnProductService {
     private final OwnProductRepository ownProductRepository;
-    private final ShopRepository shopRepository;
+    private final StoreRepository storeRepository;
     private final ProductRepository productRepository;
 
-    public OwnProductService(OwnProductRepository ownProductRepository, ShopRepository shopRepository, ProductRepository productRepository) {
+    public OwnProductService(OwnProductRepository ownProductRepository, StoreRepository storeRepository, ProductRepository productRepository) {
         this.ownProductRepository = ownProductRepository;
-        this.shopRepository = shopRepository;
+        this.storeRepository = storeRepository;
         this.productRepository = productRepository;
     }
 
@@ -44,9 +44,9 @@ public class OwnProductService {
         OwnProduct ownProduct = ownProductRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("Product not found"));
         if (shopId != null) {
-            Shop shop = shopRepository.findById(shopId)
+            Store store = storeRepository.findById(shopId)
                     .orElseThrow(() -> new IllegalArgumentException("Shop not found"));
-            ownProduct.setShop(shop);
+            ownProduct.setStore(store);
         }
 
         if (productId != null) {

@@ -1,10 +1,10 @@
 package com.backend.controller;
 
 import com.backend.model.Opinion;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.service.OpinionService;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -17,12 +17,12 @@ import java.util.Optional;
 @Controller
 public class OpinionController {
     private final OpinionService opinionService;
-    private final ShopService shopService;
+    private final StoreService storeService;
     private final UserService userService;
 
-    public OpinionController(OpinionService opinionService, ShopService shopService, UserService userService) {
+    public OpinionController(OpinionService opinionService, StoreService storeService, UserService userService) {
         this.opinionService = opinionService;
-        this.shopService = shopService;
+        this.storeService = storeService;
         this.userService = userService;
     }
 
@@ -37,8 +37,8 @@ public class OpinionController {
     }
 
     @MutationMapping
-    public Opinion createOpinion(@Argument Long shopId, @Argument Long userId, @Argument String description, @Argument Integer stars) {
-        Optional<Shop> shop = shopService.getShopById(shopId);
+    public Opinion createOpinion(@Argument Long storeId, @Argument Long userId, @Argument String description, @Argument Integer stars) {
+        Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
         if(shop.isEmpty()) {
             throw new IllegalArgumentException("Shop not found");

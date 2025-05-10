@@ -1,6 +1,6 @@
 type Opinion {
     id: ID!
-    shop: Shop!
+    store: Store!
     user: User!
     description: String
     stars: Int!
@@ -12,7 +12,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createOpinion(shopId: ID!, userId: ID!, description: String, stars: Int!): Opinion
+    createOpinion(storeId: ID!, userId: ID!, description: String, stars: Int!): Opinion
     updateOpinion(id: ID!, description: String, stars: Int): Opinion
     deleteOpinion(id: ID!): Boolean
 }

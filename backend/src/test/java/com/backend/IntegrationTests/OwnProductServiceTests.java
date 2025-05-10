@@ -3,7 +3,7 @@ package com.backend.IntegrationTests;
 import com.backend.model.*;
 import com.backend.repository.OwnProductRepository;
 import com.backend.repository.ProductRepository;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.OwnProductService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,7 @@ class OwnProductServiceTests {
     private OwnProductService ownProductService;
 
     @Autowired
-    private ShopRepository shopRepository;
+    private StoreRepository storeRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -37,14 +37,14 @@ class OwnProductServiceTests {
     @Autowired
     private UserRepository userRepository;
 
-    private Shop shop;
+    private Store store;
     private Product product;
     private User user;
 
     @BeforeEach
     void setUp() {
         ownProductRepository.deleteAll();
-        shopRepository.deleteAll();
+        storeRepository.deleteAll();
         productRepository.deleteAll();
         userRepository.deleteAll();
 
@@ -57,16 +57,16 @@ class OwnProductServiceTests {
         user.setTier(1);
         user = userRepository.save(user);
 
-        shop = new Shop();
-        shop.setName("Test Shop");
-        shop.setUser(user);
-        shop.setCity("Test City");
-        shop.setAddress("Test Address");
-        shop.setLatitude(10.0);
-        shop.setLongitude(20.0);
-        shop.setDescription("Description");
-        shop.setImageUrl("http://example.com/shop.jpg");
-        shop = shopRepository.save(shop);
+        store = new Store();
+        store.setName("Test Shop");
+        store.setUser(user);
+        store.setCity("Test City");
+        store.setAddress("Test Address");
+        store.setLatitude(10.0);
+        store.setLongitude(20.0);
+        store.setDescription("Description");
+        store.setImageUrl("http://example.com/shop.jpg");
+        store = storeRepository.save(store);
 
         product = new Product();
         product.setName("Test Product");
@@ -77,7 +77,7 @@ class OwnProductServiceTests {
     @Test
     void testSaveOwnProduct() {
         OwnProduct ownProduct = new OwnProduct();
-        ownProduct.setShop(shop);
+        ownProduct.setStore(store);
         ownProduct.setProduct(product);
         ownProduct.setPrice(BigDecimal.valueOf(9.99));
         ownProduct.setQuantity(100);
@@ -86,7 +86,7 @@ class OwnProductServiceTests {
         OwnProduct saved = ownProductService.save(ownProduct);
 
         assertNotNull(saved.getId());
-        assertEquals(shop.getId(), saved.getShop().getId());
+        assertEquals(store.getId(), saved.getStore().getId());
         assertEquals(product.getId(), saved.getProduct().getId());
     }
 
@@ -137,7 +137,7 @@ class OwnProductServiceTests {
 
         OwnProduct updated = ownProductService.updateOwnProduct(
                 saved.getId(),
-                shop.getId(),
+                store.getId(),
                 product.getId(),
                 newPrice,
                 newQuantity,
@@ -168,7 +168,7 @@ class OwnProductServiceTests {
 
     private OwnProduct createSampleOwnProduct() {
         OwnProduct ownProduct = new OwnProduct();
-        ownProduct.setShop(shop);
+        ownProduct.setStore(store);
         ownProduct.setProduct(product);
         ownProduct.setPrice(BigDecimal.valueOf(5.00));
         ownProduct.setQuantity(20);

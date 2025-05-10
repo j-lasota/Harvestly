@@ -1,10 +1,10 @@
 package com.backend.IntegrationTests;
 
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ShopServiceTests {
+class StoreServiceTests {
 
     @Autowired
-    private ShopService shopService;
+    private StoreService storeService;
 
     @Autowired
-    private ShopRepository shopRepository;
+    private StoreRepository storeRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    private Shop createTestShop() {
+    private Store createTestShop() {
         User user = new User();
         user.setFirstName("John");
         user.setLastName("Doe");
@@ -39,55 +39,55 @@ class ShopServiceTests {
         user.setTier(1);
         user = userRepository.save(user);
 
-        Shop shop = new Shop();
-        shop.setName("Test Shop");
-        shop.setUser(user);
-        shop.setDescription("Test Description");
-        shop.setLatitude(12.3456);
-        shop.setLongitude(65.4321);
-        shop.setCity("Test City");
-        shop.setAddress("123 Test Street");
-        shop.setImageUrl("http://example.com/image.jpg");
-        return shop;
+        Store store = new Store();
+        store.setName("Test Shop");
+        store.setUser(user);
+        store.setDescription("Test Description");
+        store.setLatitude(12.3456);
+        store.setLongitude(65.4321);
+        store.setCity("Test City");
+        store.setAddress("123 Test Street");
+        store.setImageUrl("http://example.com/image.jpg");
+        return store;
     }
 
     @BeforeEach
     void setUp() {
-        shopRepository.deleteAll();
+        storeRepository.deleteAll();
         userRepository.deleteAll();// Clean up
     }
 
     @Test
-    void testSaveShop() {
-        Shop shop = createTestShop();
-        Shop saved = shopService.saveShop(shop);
+    void testSaveStore() {
+        Store store = createTestShop();
+        Store saved = storeService.saveStore(store);
 
         assertNotNull(saved.getId());
         assertEquals("Test Shop", saved.getName());
     }
 
     @Test
-    void testGetShopById_Found() {
-        Shop saved = shopService.saveShop(createTestShop());
+    void testGetStoreById_Found() {
+        Store saved = storeService.saveStore(createTestShop());
 
-        Optional<Shop> found = shopService.getShopById(saved.getId());
+        Optional<Store> found = storeService.getStoreById(saved.getId());
 
         assertTrue(found.isPresent());
         assertEquals(saved.getId(), found.get().getId());
     }
 
     @Test
-    void testGetShopById_NotFound() {
-        Optional<Shop> found = shopService.getShopById(999L);
+    void testGetStoreById_NotFound() {
+        Optional<Store> found = storeService.getStoreById(999L);
 
         assertFalse(found.isPresent());
     }
 
     @Test
-    void testUpdateShop_Success() {
-        Shop saved = shopService.saveShop(createTestShop());
+    void testUpdateStore_Success() {
+        Store saved = storeService.saveStore(createTestShop());
 
-        Shop updated = shopService.updateShop(saved.getId(),
+        Store updated = storeService.updateStore(saved.getId(),
                 "Updated Shop", "Updated Description", 11.1111, 22.2222,
                 "Updated City", "456 Updated Street", "http://example.com/updated.jpg");
 
@@ -101,40 +101,40 @@ class ShopServiceTests {
     }
 
     @Test
-    void testUpdateShop_NotFound() {
+    void testUpdateStore_NotFound() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            shopService.updateShop(999L, "New", null, null, null, null, null, null);
+            storeService.updateStore(999L, "New", null, null, null, null, null, null);
         });
 
-        assertEquals("Shop not found", exception.getMessage());
+        assertEquals("Store not found", exception.getMessage());
     }
 
     @Test
-    void testDeleteShopById_Success() {
-        Shop saved = shopService.saveShop(createTestShop());
+    void testDeleteStoreById_Success() {
+        Store saved = storeService.saveStore(createTestShop());
 
-        Boolean result = shopService.deleteShopById(saved.getId());
+        Boolean result = storeService.deleteStoreById(saved.getId());
 
         assertTrue(result);
-        assertFalse(shopRepository.findById(saved.getId()).isPresent());
+        assertFalse(storeRepository.findById(saved.getId()).isPresent());
     }
 
     @Test
-    void testDeleteShopById_NotFound() {
-        Boolean result = shopService.deleteShopById(404L);
+    void testDeleteStoreById_NotFound() {
+        Boolean result = storeService.deleteStoreById(404L);
 
         assertFalse(result);
     }
 
     @Test
-    void testGetAllShops() {
-        shopService.saveShop(createTestShop());
+    void testGetAllStores() {
+        storeService.saveStore(createTestShop());
 //        shopService.saveShop(createTestShop());
 
-        List<Shop> shops = shopService.getAllShops();
+        List<Store> stores = storeService.getAllStores();
 
 //        assertEquals(2, shops.size());
-        assertEquals(1, shops.size());
+        assertEquals(1, stores.size());
     }
 
 }

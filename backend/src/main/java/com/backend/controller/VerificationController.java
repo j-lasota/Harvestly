@@ -1,9 +1,9 @@
 package com.backend.controller;
 
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.model.Verification;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import com.backend.service.VerificationService;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,12 +19,12 @@ import java.util.Optional;
 @Controller
 public class VerificationController {
     private final VerificationService verificationService;
-    private final ShopService shopService;
+    private final StoreService storeService;
     private final UserService userService;
 
-    public VerificationController(VerificationService verificationService, ShopService shopService, UserService userService) {
+    public VerificationController(VerificationService verificationService, StoreService storeService, UserService userService) {
         this.verificationService = verificationService;
-        this.shopService = shopService;
+        this.storeService = storeService;
         this.userService = userService;
     }
 
@@ -39,8 +39,8 @@ public class VerificationController {
     }
 
     @MutationMapping
-    public Verification createVerification(@Argument Long shopId, @Argument Long userId) {
-        Optional<Shop> shop = shopService.getShopById(shopId);
+    public Verification createVerification(@Argument Long storeId, @Argument Long userId) {
+        Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
         if(shop.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found");

@@ -1,6 +1,5 @@
 package com.backend.model;
 
-import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -10,8 +9,8 @@ import jakarta.validation.constraints.Pattern;
 import java.util.*;
 
 @Entity
-@Table(name = "shops")
-public class Shop {
+@Table(name = "stores")
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +20,7 @@ public class Shop {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @NotBlank(message = "Shop name cannot be blank")
+    @NotBlank(message = "Store name cannot be blank")
     private String name;
 
     private String description;
@@ -48,26 +47,26 @@ public class Shop {
 
     private String slug;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OwnProduct> ownProducts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<BusinessHours> businessHours = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Verification> verifications = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Opinion> opinions = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "favoriteShops")
+    @ManyToMany(mappedBy = "favoriteStores")
     private Set<User> likedByUsers = new HashSet<>();
 
-    public Shop() {
+    public Store() {
     }
 
-    public Shop(String name, String description, double latitude, double longitude, String city, String address,
-                String imageUrl) {
+    public Store(String name, String description, double latitude, double longitude, String city, String address,
+                 String imageUrl) {
         this.name = name;
         this.description = description;
         this.latitude = latitude;
@@ -78,7 +77,7 @@ public class Shop {
         this.verified = false;
     }
 
-    public Shop(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl, String slug) {
+    public Store(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl, String slug) {
         this.user = user;
         this.name = name;
         this.description = description;
@@ -213,9 +212,9 @@ public class Shop {
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Shop shop)) return false;
+        if (!(o instanceof Store store)) return false;
 
-        return Double.compare(getLatitude(), shop.getLatitude()) == 0 && Double.compare(getLongitude(), shop.getLongitude()) == 0 && isVerified() == shop.isVerified() && Objects.equals(getName(), shop.getName()) && Objects.equals(getDescription(), shop.getDescription()) && Objects.equals(getCity(), shop.getCity()) && Objects.equals(getAddress(), shop.getAddress()) && Objects.equals(getImageUrl(), shop.getImageUrl()) && Objects.equals(getOwnProducts(), shop.getOwnProducts()) && Objects.equals(getBusinessHours(), shop.getBusinessHours()) && Objects.equals(getVerifications(), shop.getVerifications());
+        return Double.compare(getLatitude(), store.getLatitude()) == 0 && Double.compare(getLongitude(), store.getLongitude()) == 0 && isVerified() == store.isVerified() && Objects.equals(getName(), store.getName()) && Objects.equals(getDescription(), store.getDescription()) && Objects.equals(getCity(), store.getCity()) && Objects.equals(getAddress(), store.getAddress()) && Objects.equals(getImageUrl(), store.getImageUrl()) && Objects.equals(getOwnProducts(), store.getOwnProducts()) && Objects.equals(getBusinessHours(), store.getBusinessHours()) && Objects.equals(getVerifications(), store.getVerifications());
     }
 
     @Override
@@ -236,7 +235,7 @@ public class Shop {
 
     @Override
     public String toString() {
-        return "Shop{" +
+        return "Store{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

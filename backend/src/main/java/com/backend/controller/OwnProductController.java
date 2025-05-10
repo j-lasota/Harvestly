@@ -2,9 +2,9 @@ package com.backend.controller;
 
 import com.backend.model.OwnProduct;
 import com.backend.model.Product;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.service.ProductService;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import com.backend.service.OwnProductService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -20,19 +20,19 @@ import java.util.Optional;
 @Controller
 public class OwnProductController {
     private final OwnProductService ownProductService;
-    private final ShopService shopService;
+    private final StoreService storeService;
     private final ProductService productService;
 
-    public OwnProductController(OwnProductService ownProductService, ShopService shopService, ProductService productService) {
+    public OwnProductController(OwnProductService ownProductService, StoreService storeService, ProductService productService) {
         this.ownProductService = ownProductService;
-        this.shopService = shopService;
+        this.storeService = storeService;
         this.productService = productService;
     }
 
     @MutationMapping
-    public OwnProduct createOwnProduct(@Argument Long shopId, @Argument Long productId, @Argument BigDecimal price,
+    public OwnProduct createOwnProduct(@Argument Long storeId, @Argument Long productId, @Argument BigDecimal price,
                                   @Argument int quantity, @Argument String imageUrl) {
-        Optional<Shop> shop = shopService.getShopById(shopId);
+        Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<Product> product = productService.getProductById(productId);
         if(shop.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found");
@@ -44,13 +44,13 @@ public class OwnProductController {
     }
 
     @MutationMapping
-    public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long shopId, @Argument Long productId,
+    public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long storeId, @Argument Long productId,
                                        @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl) {
         Optional<OwnProduct> ownProduct = ownProductService.getOwnProductById(id);
         if(ownProduct.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         }
-        return ownProductService.updateOwnProduct(id, shopId, productId, price, quantity, imageUrl);
+        return ownProductService.updateOwnProduct(id, storeId, productId, price, quantity, imageUrl);
     }
 
     @MutationMapping

@@ -1,9 +1,9 @@
 package com.backend.ControllerTests;
 
-import com.backend.controller.ShopController;
-import com.backend.model.Shop;
+import com.backend.controller.StoreController;
+import com.backend.model.Store;
 import com.backend.model.User;
-import com.backend.repository.ShopRepository;
+import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ShopControllerTests {
+class StoreControllerTests {
 
     @Autowired
-    private ShopController shopController;
+    private StoreController storeController;
 
     @Autowired
-    private ShopRepository shopRepository;
+    private StoreRepository storeRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -33,7 +33,7 @@ class ShopControllerTests {
 
     @BeforeEach
     void setUp() {
-        shopRepository.deleteAll();
+        storeRepository.deleteAll();
         userRepository.deleteAll();
 
         testUser = new User("John", "Doe", "john.doe@example.com", "password123", "+48123456789", 1, null);
@@ -42,7 +42,7 @@ class ShopControllerTests {
 
     @Test
     void testCreateShop_Success() {
-        Shop created = shopController.createShop(
+        Store created = storeController.createStore(
                 testUser.getId(),
                 "Test Shop",
                 "Great products",
@@ -60,7 +60,7 @@ class ShopControllerTests {
 
     @Test
     void testGetShopById_Found() {
-        Shop created = shopController.createShop(
+        Store created = storeController.createStore(
                 testUser.getId(),
                 "Shop1",
                 "Desc",
@@ -71,20 +71,20 @@ class ShopControllerTests {
                 "http://img.jpg"
         );
 
-        Optional<Shop> found = shopController.shopById(created.getId());
+        Optional<Store> found = storeController.storeById(created.getId());
         assertTrue(found.isPresent());
         assertEquals(created.getId(), found.get().getId());
     }
 
     @Test
     void testGetShopById_NotFound() {
-        Optional<Shop> found = shopController.shopById(999L);
+        Optional<Store> found = storeController.storeById(999L);
         assertFalse(found.isPresent());
     }
 
     @Test
     void testUpdateShop_Success() {
-        Shop created = shopController.createShop(
+        Store created = storeController.createStore(
                 testUser.getId(),
                 "Old Name",
                 "Old Desc",
@@ -95,7 +95,7 @@ class ShopControllerTests {
                 "http://old.jpg"
         );
 
-        Shop updated = shopController.updateShop(
+        Store updated = storeController.updateStore(
                 created.getId(),
                 "New Name",
                 "New Desc",
@@ -115,14 +115,14 @@ class ShopControllerTests {
     @Test
     void testUpdateShop_NotFound() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            shopController.updateShop(999L, "Name", "Desc", 0.0, 0.0, "City", "Address", "url");
+            storeController.updateStore(999L, "Name", "Desc", 0.0, 0.0, "City", "Address", "url");
         });
-        assertEquals("Shop not found", exception.getMessage());
+        assertEquals("Store not found", exception.getMessage());
     }
 
     @Test
     void testDeleteShopById_Success() {
-        Shop created = shopController.createShop(
+        Store created = storeController.createStore(
                 testUser.getId(),
                 "Shop to delete",
                 "Desc",
@@ -133,20 +133,20 @@ class ShopControllerTests {
                 "url"
         );
 
-        Boolean deleted = shopController.deleteShop(created.getId());
+        Boolean deleted = storeController.deleteStore(created.getId());
         assertTrue(deleted);
-        assertFalse(shopRepository.findById(created.getId()).isPresent());
+        assertFalse(storeRepository.findById(created.getId()).isPresent());
     }
 
     @Test
     void testDeleteShopById_NotFound() {
-        Boolean deleted = shopController.deleteShop(123456L);
+        Boolean deleted = storeController.deleteStore(123456L);
         assertFalse(deleted);
     }
 
     @Test
     void testGetAllShops() {
-        shopController.createShop(
+        storeController.createStore(
                 testUser.getId(),
                 "Shop 1",
                 "Desc",
@@ -156,7 +156,7 @@ class ShopControllerTests {
                 "Addr",
                 "url"
         );
-        shopController.createShop(
+        storeController.createStore(
                 testUser.getId(),
                 "Shop 2",
                 "Desc",
@@ -167,13 +167,13 @@ class ShopControllerTests {
                 "url"
         );
 
-        List<Shop> shops = shopController.shops();
-        assertEquals(2, shops.size());
+        List<Store> stores = storeController.stores();
+        assertEquals(2, stores.size());
     }
 
     @Test
     void testCreateShop_SlugUniqueness() {
-        Shop first = shopController.createShop(
+        Store first = storeController.createStore(
                 testUser.getId(),
                 "Duplicate Name",
                 "Desc1",
@@ -184,7 +184,7 @@ class ShopControllerTests {
                 "url1"
         );
 
-        Shop second = shopController.createShop(
+        Store second = storeController.createStore(
                 testUser.getId(),
                 "Duplicate Name",
                 "Desc2",
