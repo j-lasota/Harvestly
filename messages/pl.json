@@ -32,8 +32,20 @@
   "AvatarMenu": {
     "myaccount": "Moje Konto",
     "profile": "Profil",
-    "billig": "Rozliczenia",
-    "team": "Zespół",
+    "mystores": "Moje sklepy",
     "signout": "Wyloguj się"
+  },
+  "Store": {
+    "location": "Lokalizacja",
+    "businesshours": "Godziny pracy",
+    "days": {
+      "MONDAY": "Poniedziałek",
+      "TUESDAY": "Wtorek",
+      "WEDNESDAY": "Środa",
+      "THURSDAY": "Czwartek",
+      "FRIDAY": "Piątek",
+      "SATURDAY": "Sobota",
+      "SUNDAY": "Niedziela"
+    }
   }
 }

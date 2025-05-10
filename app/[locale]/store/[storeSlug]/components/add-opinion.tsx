@@ -14,7 +14,7 @@ const AddOpinion = ({ slug }: { slug: string }) => {
       action={actionEmail}
       className="rounded-xl bg-white px-4 py-3 shadow-md"
     >
-      <input type="hidden" name="shopId" value={slug} />
+      <input type="hidden" name="storeId" value={slug} />
 
       <label className="flex flex-col gap-2" htmlFor="message">
         <span className="text-sm">Wiadomość</span>

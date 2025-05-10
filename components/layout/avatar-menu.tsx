@@ -22,11 +22,10 @@ export const AvatarMenu = ({ Logout }: { Logout: React.ReactNode }) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-48 p-2">
-        <DropdownMenuLabel>{t('myaccount')}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("myaccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>{t('profile')}</DropdownMenuItem>
-        <DropdownMenuItem>{t('billig')}</DropdownMenuItem>
-        <DropdownMenuItem>{t('team')}</DropdownMenuItem>
+        <DropdownMenuItem>{t("profile")}</DropdownMenuItem>
+        <DropdownMenuItem>{t("mystores")}</DropdownMenuItem>
         <div className="mt-2">{Logout}</div>
       </DropdownMenuContent>
     </DropdownMenu>

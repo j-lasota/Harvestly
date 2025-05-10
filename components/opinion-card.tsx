@@ -1,33 +1,24 @@
+import { Star } from "lucide-react";
 import React from "react";
 
-import { FragmentOf, graphql, readFragment } from "@/graphql";
-import { Star } from "lucide-react";
-
-export const opinionCardFragment = graphql(`
-  fragment OpinionCard on Opinion {
-    description
-    stars
-    user {
-      firstName
-    }
-  }
-`);
-
-interface OpinionCardProps {
-  data: FragmentOf<typeof opinionCardFragment>;
+export interface OpinionCardProps {
+  id: string;
+  description: string;
+  stars: number;
+  user: {
+    firstName: string;
+  };
 }
 
-export const OpinionCard = ({ data }: OpinionCardProps) => {
-  const o = readFragment(opinionCardFragment, data);
-
+export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
   return (
     <article className="flex w-full max-w-3xl flex-col gap-2 rounded-xl bg-white px-4 py-3 shadow-md">
       <div className="flex items-center justify-between gap-6">
         <p className="w-full border-b border-black/15 text-lg font-medium">
-          {o.user.firstName}
+          {user.firstName}
         </p>
         <div className="flex gap-1">
-          {Array.from({ length: o.stars }, (_, i) => (
+          {Array.from({ length: stars }, (_, i) => (
             <Star
               key={i}
               size={20}
@@ -36,7 +27,7 @@ export const OpinionCard = ({ data }: OpinionCardProps) => {
               className="text-primary"
             />
           ))}
-          {Array.from({ length: 5 - o.stars }, (_, i) => (
+          {Array.from({ length: 5 - stars }, (_, i) => (
             <Star
               key={i}
               size={20}
@@ -47,7 +38,7 @@ export const OpinionCard = ({ data }: OpinionCardProps) => {
         </div>
       </div>
 
-      <p>{o.description}</p>
+      <p>{description}</p>
     </article>
   );
 };

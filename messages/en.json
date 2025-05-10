@@ -32,8 +32,20 @@
   "AvatarMenu": {
     "myaccount": "My account",
     "profile": "Profile",
-    "billig": "Billing",
-    "team": "Team",
+    "mystores": "My stores",
     "signout": "Sign out"
+  },
+  "Store": {
+    "location": "Location",
+    "businesshours": "Business hours",
+    "days": {
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday"
+    }
   }
 }

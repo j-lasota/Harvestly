@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import React from "react";
 
-import { ProductCard, productCardFragment } from "@/components/product-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import { ProductSection } from "@/components/product-section";
 import { getClient } from "@/graphql/apollo-client";
-import { graphql } from "@/graphql";
+import { gql } from "@apollo/client";
 
 // Test query
 // const createQuery = graphql(`
@@ -16,16 +16,24 @@ import { graphql } from "@/graphql";
 //   }
 // `);
 
-const allProductsQuery = graphql(
+const allProductsQuery = gql(
   `
     query AllProducts {
       ownProducts {
         id
-        ...ProductCard
+        product {
+          name
+        }
+        price
+        quantity
+        imageUrl
+        store {
+          slug
+          name
+        }
       }
     }
-  `,
-  [productCardFragment]
+  `
 );
 
 export default async function ProductsPage() {
@@ -49,15 +57,7 @@ export default async function ProductsPage() {
         {t("title")}
       </h1>
 
-      <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
-        {data.ownProducts &&
-          data.ownProducts.map(
-            (product) =>
-              product && (
-                <ProductCard key={product.id} data={product}></ProductCard>
-              )
-          )}
-      </section>
+      {data.ownProducts && <ProductSection products={data.ownProducts} />}
     </ContainerWrapper>
   );
 }

@@ -2,18 +2,18 @@
 
 import { useState } from "react";
 
-import { addFavoriteShop, removeFavoriteShop } from "../actions";
+import { addFavoriteStore, removeFavoriteStore } from "../actions";
 import { Button } from "@/components/ui/button";
 
-const AddToFavButton = ({ shopId }: { shopId: string }) => {
-  // TODO: Fetch favorite shops from the database
+const AddToFavButton = ({ storeId }: { storeId: string }) => {
+  // TODO: Fetch favorite stores from the database
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavorite = () => {
     if (isFavorite) {
-      removeFavoriteShop(shopId);
+      removeFavoriteStore(storeId);
     } else {
-      addFavoriteShop(shopId);
+      addFavoriteStore(storeId);
     }
     setIsFavorite(!isFavorite);
   };

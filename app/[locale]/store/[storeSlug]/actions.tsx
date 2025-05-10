@@ -10,17 +10,17 @@ import { auth } from "@/auth";
 // TODO: Przetestować - bez autha nie jestem w stanie
 
 // ========== GraphQL mutations queries ==========
-const addFavoriteShopMutation = graphql(`
-  mutation addFavoriteShop($userId: ID!, $shopId: ID!) {
-    addFavoriteShop(userId: $userId, shopId: $shopId) {
+const addFavoriteStoreMutation = graphql(`
+  mutation addFavoriteStore($userId: ID!, $storeId: ID!) {
+    addFavoriteStore(userId: $userId, storeId: $storeId) {
       id
     }
   }
 `);
 
-const removeFavoriteShopMutation = graphql(`
-  mutation removeFavoriteShop($userId: ID!, $shopId: ID!) {
-    removeFavoriteShop(userId: $userId, shopId: $shopId) {
+const removeFavoriteStoreMutation = graphql(`
+  mutation removeFavoriteStore($userId: ID!, $storeId: ID!) {
+    removeFavoriteStore(userId: $userId, storeId: $storeId) {
       id
     }
   }
@@ -29,13 +29,13 @@ const removeFavoriteShopMutation = graphql(`
 const AddOpinionMutation = graphql(`
   mutation addOpinion(
     $userId: ID!
-    $shopId: ID!
+    $storeId: ID!
     $description: String!
     $stars: Int!
   ) {
     createOpinion(
       userId: $userId
-      shopId: $shopId
+      storeId: $storeId
       description: $description
       stars: $stars
     ) {
@@ -44,26 +44,26 @@ const AddOpinionMutation = graphql(`
   }
 `);
 
-// ========== Add favorite shop action ==========
-export const addFavoriteShop = async (shopId: string) => {
+// ========== Add favorite store action ==========
+export const addFavoriteStore = async (storeId: string) => {
   const session = await auth();
   if (!session?.user || !session.user.id) return;
 
   const { data } = await getClient().mutate({
-    mutation: addFavoriteShopMutation,
-    variables: { userId: session.user.id, shopId },
+    mutation: addFavoriteStoreMutation,
+    variables: { userId: session.user.id, storeId },
   });
 
   return data;
 };
 
-export const removeFavoriteShop = async (shopId: string) => {
+export const removeFavoriteStore = async (storeId: string) => {
   const session = await auth();
   if (!session?.user || !session.user.id) return;
 
   const { data } = await getClient().mutate({
-    mutation: removeFavoriteShopMutation,
-    variables: { userId: session.user.id, shopId },
+    mutation: removeFavoriteStoreMutation,
+    variables: { userId: session.user.id, storeId },
   });
 
   return data;
@@ -75,7 +75,7 @@ const FormSchema = z.object({
     .string({ message: "Opis jest wymagany." })
     .max(250, { message: "Opis jest zbyt długi, maksymalnie 350 znaków." })
     .trim(),
-  shopId: z.string({ message: "ID sklepu jest wymagany." }),
+  storeId: z.string({ message: "ID sklepu jest wymagany." }),
   stars: z.number({ message: "Liczba gwiazdek jest wymagana." }).min(1).max(5),
 });
 
@@ -83,7 +83,7 @@ type FormState =
   | {
       errors?: {
         description?: string[];
-        shopId?: string[];
+        storeId?: string[];
         stars?: string[];
       };
       success?: boolean;
@@ -97,7 +97,7 @@ export async function addOpinionAction(state: FormState, formData: FormData) {
 
   const validatedFields = FormSchema.safeParse({
     description: formData.get("description"),
-    shopId: formData.get("shopId"),
+    storeId: formData.get("storeId"),
     stars: formData.get("stars"),
   });
 
@@ -107,11 +107,11 @@ export async function addOpinionAction(state: FormState, formData: FormData) {
     };
   }
 
-  const { description, shopId, stars } = validatedFields.data;
+  const { description, storeId, stars } = validatedFields.data;
 
   const { data } = await getClient().mutate({
     mutation: AddOpinionMutation,
-    variables: { userId: session.user.id, shopId, description, stars },
+    variables: { userId: session.user.id, storeId, description, stars },
   });
 
   if (data) {
