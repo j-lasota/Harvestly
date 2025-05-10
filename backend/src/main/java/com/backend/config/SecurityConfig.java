@@ -20,10 +20,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthConverter jwtAuthConverter;
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, KeycloakUserSyncFilter keycloakUserSyncFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> {})
@@ -37,8 +35,6 @@ public class SecurityConfig {
                                 .jwtAuthenticationConverter(jwtAuthConverter)
                         )
                 );
-
-        http.addFilterAfter(keycloakUserSyncFilter, BearerTokenAuthenticationFilter.class);
 
         http
                 .sessionManagement(sessionManagement -> sessionManagement
