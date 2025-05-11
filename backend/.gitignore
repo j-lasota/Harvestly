@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+# Pliki środowiskowe z danymi wrażliwymi
+.env
