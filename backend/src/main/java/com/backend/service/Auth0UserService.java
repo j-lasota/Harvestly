@@ -26,9 +26,9 @@ public class Auth0UserService {
     private final UserRepository userRepository;
     private final ManagementAPI managementAPI;
 
-    private static final int PAGE_SIZE = 50; // Zmniejszona liczba użytkowników na stronę
-    private static final long SYNC_DELAY = 60 * 60 * 1000; // 1 godzina opóźnienia początkowego
-    private static final long SYNC_RATE = 24 * 60 * 60 * 1000; // synchronizacja co 24h
+    private static final int PAGE_SIZE = 50;
+    private static final long SYNC_DELAY = 60 * 60 * 1000;
+    private static final long SYNC_RATE = 24 * 60 * 60 * 1000;
 
     @Scheduled(initialDelay = SYNC_DELAY, fixedRate = SYNC_RATE)
     @Transactional
