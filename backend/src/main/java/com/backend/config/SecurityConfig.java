@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        //TODO: poprawnie zaimplementować blokowanie endpointów
                         //.requestMatchers("/graphql").authenticated()
                         //.requestMatchers("/*", "/graphiql/**").permitAll()
                         //.anyRequest().authenticated()
