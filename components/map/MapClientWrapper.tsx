@@ -12,7 +12,7 @@ const MapClientWrapper = () => {
 
   return (
     <div className="absolute top-0 right-0 bottom-0 left-0">
-      <Map center={[52.2297, 21.0122]} zoom={13} markerText={markerInfo} />
+      <Map center={[52.2297, 21.0122]} zoom={13} markerText={markerInfo} markers={[]} />
     </div>
   );
 };
