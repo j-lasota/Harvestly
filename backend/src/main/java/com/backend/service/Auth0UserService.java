@@ -1,7 +1,6 @@
 package com.backend.service;
 
 import com.auth0.client.mgmt.ManagementAPI;
-import com.auth0.client.mgmt.filter.PageFilter;
 import com.auth0.client.mgmt.filter.UserFilter;
 import com.auth0.exception.Auth0Exception;
 import com.backend.model.User;
@@ -54,13 +53,12 @@ public class Auth0UserService {
                     } else {
                         synchronizeUsersPage(users);
                         pageIndex++;
-                        // Dodaj opóźnienie między stronami aby uniknąć przekroczenia limitu
                         Thread.sleep(1000); // 1 sekunda przerwy między stronami
                     }
                 } catch (Auth0Exception e) {
                     if (e instanceof com.auth0.exception.RateLimitException) {
                         log.warn("Rate limit reached, waiting before next attempt...");
-                        Thread.sleep(5000); // 5 sekund przerwy przy przekroczeniu limitu
+                        Thread.sleep(60000); // minutka jakbym znowu rozjebał wszystkie tokeny w sekundę
                         continue;
                     }
                     throw e;

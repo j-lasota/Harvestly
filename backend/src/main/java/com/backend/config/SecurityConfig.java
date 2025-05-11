@@ -20,7 +20,6 @@ public class SecurityConfig {
     @Value("${OAUTH2_ISSUER}")
     private String issuer;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
