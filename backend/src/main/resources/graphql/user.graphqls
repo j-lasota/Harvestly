@@ -1,11 +1,11 @@
 type User {
     id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     email: String!
-    password: String!
-    phoneNumber: String!
-    tier: Int!
+    password: String
+    phoneNumber: String
+    tier: Int
     img: String
     shops: [Shop]
     favoriteShops: [Shop!]!
@@ -17,7 +17,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createUser(firstName: String!, lastName: String!, email: String!, password: String!, phoneNumber: String!, img: String): User
+    createUser(firstName: String, lastName: String, email: String!, password: String, phoneNumber: String, img: String): User
     updateUser(id: ID!, firstName: String, lastName: String, email: String, password: String, phoneNumber: String, tier: Int, img: String): User
     deleteUser(id: ID!): Boolean
     addFavoriteShop(userId: ID!, shopId: ID!): User
