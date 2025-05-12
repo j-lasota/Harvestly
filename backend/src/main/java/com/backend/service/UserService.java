@@ -93,4 +93,8 @@ public class UserService {
         user.get().getFavoriteStores().remove(shop.get());
         return userRepository.save(user.get());
     }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

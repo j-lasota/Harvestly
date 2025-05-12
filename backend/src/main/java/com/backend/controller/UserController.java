@@ -58,4 +58,9 @@ public class UserController {
     public User removeFavoriteStore(@Argument Long userId, @Argument Long storeId) {
         return userService.removeFavoriteShop(userId, storeId);
     }
+
+    @QueryMapping
+    public User userByEmail(@Argument String email) {
+        return userService.getUserByEmail(email);
+    }
 }
