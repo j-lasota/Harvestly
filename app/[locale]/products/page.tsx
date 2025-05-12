@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import React from "react";
 
 import { ProductSectionWithCategoryFilter } from "@/components/product-section";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";

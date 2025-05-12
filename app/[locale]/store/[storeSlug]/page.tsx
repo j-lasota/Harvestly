@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { BadgeCheck } from "lucide-react";
-import React from "react";
 
 import { OpinionCard, OpinionCardProps } from "@/components/opinion-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";

@@ -33,6 +33,7 @@
     "myAccount": "My account",
     "profile": "Profile",
     "myStores": "My stores",
+    "addStore": "Add store",
     "signOut": "Sign out"
   },
   "store": {

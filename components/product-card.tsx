@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 import placeholder from "@/public/food_placeholder.jpg";
 

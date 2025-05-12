@@ -36,8 +36,11 @@ export const AvatarMenu = ({
         <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>{t("profile")}</DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/store/my">{t("myStores")}</Link>
+        <DropdownMenuItem>
+          <Link href="/my-stores">{t("myStores")}</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/add-store">{t("addStore")}</Link>
         </DropdownMenuItem>
         <div className="mt-2">{Logout}</div>
       </DropdownMenuContent>

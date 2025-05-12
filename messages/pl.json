@@ -33,6 +33,7 @@
     "myAccount": "Moje Konto",
     "profile": "Profil",
     "myStores": "Moje sklepy",
+    "addStore": "Dodaj sklep",
     "signOut": "Wyloguj się"
   },
   "store": {
