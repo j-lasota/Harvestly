@@ -14,6 +14,7 @@ type User {
 extend type Query {
     users: [User]
     userById(id: ID!): User
+    userByEmail(email: String!): User
 }
 
 extend type Mutation {
