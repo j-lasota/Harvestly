@@ -131,8 +131,8 @@ public class Auth0UserService {
         }
 
         user.setTier(0);
-        user.setShops(new ArrayList<>());
-        user.setFavoriteShops(new HashSet<>());
+        user.setStores(new ArrayList<>());
+        user.setFavoriteStores(new HashSet<>());
         return userRepository.save(user);
     }
 

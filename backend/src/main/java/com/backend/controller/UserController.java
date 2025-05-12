@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @QueryMapping
-    public User userByEmail(@Argument String email) {
+    public Optional<User> userByEmail(@Argument String email) {
         return userService.getUserByEmail(email);
     }
 }

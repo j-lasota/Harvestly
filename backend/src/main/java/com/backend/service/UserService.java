@@ -99,7 +99,7 @@ public class UserService {
         return userRepository.save(user.get());
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }
