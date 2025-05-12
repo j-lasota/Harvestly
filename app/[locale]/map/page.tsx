@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
+import { Input } from '@/components/ui/input';
 
 const Map = dynamic(() => import('@/components/map/Map'), { ssr: false });
 
@@ -17,6 +18,11 @@ const SHOPS_LOCATIONS_QUERY = gql`
       description
       address
       imageUrl
+      businessHours{
+        dayOfWeek
+        openingTime
+        closingTime
+        }
     }
   }
 `;
@@ -72,7 +78,7 @@ const stores = data?.stores ?? [];
   };
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-full h-[calc(100vh-4rem)] relative md:h-[calc(100vh-5rem)]">
       {loading && (
         <div className="absolute top-4 left-4 bg-yellow-100 text-yellow-800 p-2 rounded z-50 shadow">
           Ładowanie danych sklepów...
@@ -83,8 +89,7 @@ const stores = data?.stores ?? [];
           Nie udało się załadować danych sklepów: {error.message}
         </div>
       )}
-
-      <div className="absolute top-4 left-4 z-50 bg-white shadow-md rounded p-3 w-72">
+      <div className="absolute top-0 left-0 z-50 bg-background shadow-md  p-3 w-72 h-auto">
         <label htmlFor="storeSelect" className="block text-sm font-medium mb-1">
           Wybierz stanowisko:
         </label>
@@ -104,10 +109,10 @@ const stores = data?.stores ?? [];
 
         <div className="mt-4">
           <label htmlFor="cityInput" className="block text-sm font-medium mb-1">
-            Przenieś mapę do miasta:
+            Sprawdź stoiska w mieście:
           </label>
           <div className="flex">
-            <input
+            <Input
               id="cityInput"
               type="text"
               className="border px-2 py-1 rounded w-full text-sm"

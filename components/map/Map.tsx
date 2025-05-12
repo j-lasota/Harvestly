@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import { Input } from '../ui/input';
 interface MapProps {
   center?: [number, number];
   zoom?: number;
@@ -22,6 +22,7 @@ interface Store {
   city: string;
   address: string;
   imageUrl?: string;
+  businessHours?: BusinessHoursProps[];
 }
 
 
@@ -126,8 +127,8 @@ const Map = ({
 
   return (
     <div className="relative h-full w-full">
-      <div className="absolute top-45 left-4 z-[1000] bg-white p-2 rounded-lg shadow-md">
-  <input
+      <div className="absolute top-39 left-0 z-[1000] bg-background p-2 rounded-bottom shadow-md w-72">
+  <Input
     type="text"
     placeholder="Wpisz adres..."
     className="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none w-full"
@@ -143,7 +144,7 @@ const Map = ({
       <MapContainer
         center={center}
         zoom={zoom}
-        scrollWheelZoom={true}
+        scrollWheelZoom={false}
         zoomControl={false}
         className="z-0 h-full w-full overflow-hidden rounded-xl shadow-lg"
       >
@@ -222,15 +223,32 @@ const Map = ({
                   <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Adres</h3>
                   <p className="text-sm">{currentShop.address}</p>
                 </div>
-                {currentShop.imageUrl && (
-                  <div>
-                    <img
-                      src={currentShop.imageUrl}
-                      alt={currentShop.name}
-                      className="rounded-lg max-h-40 object-cover w-full mt-2"
-                    />
-                  </div>
-                )}
+                {currentShop && (
+  <div>
+    <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Godziny otwarcia</h3>
+    {currentShop.businessHours && currentShop.businessHours.length > 0 ? (
+      <ul className="text-sm">
+        {currentShop.businessHours.map((d: BusinessHoursProps) => (
+          <li key={d.dayOfWeek}>
+            {d.dayOfWeek}: {d.openingTime} - {d.closingTime}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-sm">Brak informacji o godzinach otwarcia.</p>
+    )}
+  </div>
+)}
+                {currentShop && (
+  <div>
+    <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Zdjęcie</h3>
+    <img
+      src={currentShop.imageUrl ? currentShop.imageUrl : "/store_placeholder.jpg"}
+      alt={currentShop.name}
+      className="rounded-lg max-h-60 object-cover w-full mt-"
+    />
+  </div>
+)}
               </div>
             </div>
           )}
