@@ -7,9 +7,6 @@ import lombok.Setter;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,8 +21,8 @@ public class Opinion {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false, updatable = false)
-    private Shop shop;
+    @JoinColumn(name = "store_id", nullable = false, updatable = false)
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,8 +34,8 @@ public class Opinion {
     @Max(5)
     private int stars;
 
-    public Opinion(Shop shop, User user, String description, int stars) {
-        this.shop = shop;
+    public Opinion(Store store, User user, String description, int stars) {
+        this.store = store;
         this.user = user;
         this.description = description;
         this.stars = stars;

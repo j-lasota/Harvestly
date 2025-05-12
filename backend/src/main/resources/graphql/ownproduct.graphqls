@@ -2,7 +2,7 @@ scalar BigDecimal
 
 type OwnProduct {
     id: ID!
-    shop: Shop!
+    store: Store!
     product: Product!
     price: BigDecimal!
     quantity: Int!
@@ -15,7 +15,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createOwnProduct(shopId: ID!, productId: ID!, price: BigDecimal!, quantity: Int, imageUrl: String): OwnProduct
-    updateOwnProduct(id: ID!, shopId: ID, productId: ID, price: BigDecimal, quantity: Int, imageUrl: String): OwnProduct
+    createOwnProduct(storeId: ID!, productId: ID!, price: BigDecimal!, quantity: Int, imageUrl: String): OwnProduct
+    updateOwnProduct(id: ID!, storeId: ID, productId: ID, price: BigDecimal, quantity: Int, imageUrl: String): OwnProduct
     deleteOwnProduct(id: ID!): Boolean
 }

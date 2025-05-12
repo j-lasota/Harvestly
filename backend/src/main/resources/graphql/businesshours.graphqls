@@ -12,7 +12,7 @@ enum DayOfWeek {
 
 type BusinessHours {
     id: ID!
-    shop: Shop!
+    store: Store!
     dayOfWeek: DayOfWeek!
     openingTime: LocalTime!
     closingTime: LocalTime!
@@ -24,7 +24,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createBusinessHours(shopId: ID!, dayOfWeek: DayOfWeek!, openingTime: LocalTime!, closingTime: LocalTime!): BusinessHours
+    createBusinessHours(storeId: ID!, dayOfWeek: DayOfWeek!, openingTime: LocalTime!, closingTime: LocalTime!): BusinessHours
     updateBusinessHours(id: ID!, dayOfWeek: DayOfWeek, openingTime: LocalTime, closingTime: LocalTime): BusinessHours
     deleteBusinessHours(id: ID!): Boolean
 }

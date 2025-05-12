@@ -13,8 +13,8 @@ public class Verification {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -23,8 +23,8 @@ public class Verification {
     public Verification() {
     }
 
-    public Verification(Shop shop, User user) {
-        this.shop = shop;
+    public Verification(Store store, User user) {
+        this.store = store;
         this.user = user;
     }
 

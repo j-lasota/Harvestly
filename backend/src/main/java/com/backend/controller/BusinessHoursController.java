@@ -2,9 +2,9 @@ package com.backend.controller;
 
 import com.backend.model.BusinessHours;
 import com.backend.model.DayOfWeek;
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.service.BusinessHoursService;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -17,11 +17,11 @@ import java.util.Optional;
 @Controller
 public class BusinessHoursController {
     private final BusinessHoursService businessHoursService;
-    private final ShopService shopService;
+    private final StoreService storeService;
 
-    public BusinessHoursController(BusinessHoursService businessHoursService, ShopService shopService) {
+    public BusinessHoursController(BusinessHoursService businessHoursService, StoreService storeService) {
         this.businessHoursService = businessHoursService;
-        this.shopService = shopService;
+        this.storeService = storeService;
     }
 
     @QueryMapping
@@ -35,10 +35,10 @@ public class BusinessHoursController {
     }
 
     @MutationMapping
-    public BusinessHours createBusinessHours(@Argument Long shopId, @Argument DayOfWeek dayOfWeek,
+    public BusinessHours createBusinessHours(@Argument Long storeId, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
-        Shop shop = shopService.getShopById(shopId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
-        return businessHoursService.saveBusinessHours(new BusinessHours(shop, dayOfWeek, openingTime, closingTime));
+        Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
+        return businessHoursService.saveBusinessHours(new BusinessHours(store, dayOfWeek, openingTime, closingTime));
     }
 
     @MutationMapping

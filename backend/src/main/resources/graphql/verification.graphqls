@@ -1,6 +1,6 @@
 type Verification {
     id: ID!
-    shop: Shop!
+    store: Store!
     user: User!
 }
 
@@ -10,6 +10,6 @@ extend type Query {
 }
 
 extend type Mutation {
-    createVerification(shopId: ID!, userId: ID!): Verification
+    createVerification(storeId: ID!, userId: ID!): Verification
     deleteVerification(id: ID!): Boolean
 }

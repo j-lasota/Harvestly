@@ -1,6 +1,6 @@
 package com.backend.service;
 
-import com.backend.model.Shop;
+import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final ShopService shopService;
+    private final StoreService storeService;
 
-    public UserService(UserRepository userRepository, ShopService shopService) {
+    public UserService(UserRepository userRepository, StoreService storeService) {
         this.userRepository = userRepository;
-        this.shopService = shopService;
+        this.storeService = storeService;
     }
 
     public User saveUser(User user) {
@@ -75,27 +75,31 @@ public class UserService {
 
     public User addFavoriteShop(Long userId, Long shopId) {
         Optional<User> user = getUserById(userId);
-        Optional<Shop> shop = shopService.getShopById(shopId);
+        Optional<Store> shop = storeService.getStoreById(shopId);
         if(user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
         if(shop.isEmpty()) {
             throw new IllegalArgumentException("Shop not found");
         }
-        user.get().getFavoriteShops().add(shop.get());
+        user.get().getFavoriteStores().add(shop.get());
         return userRepository.save(user.get());
     }
 
     public User removeFavoriteShop(Long userId, Long shopId) {
         Optional<User> user = getUserById(userId);
-        Optional<Shop> shop = shopService.getShopById(shopId);
+        Optional<Store> shop = storeService.getStoreById(shopId);
         if(user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
         if(shop.isEmpty()) {
             throw new IllegalArgumentException("Shop not found");
         }
-        user.get().getFavoriteShops().remove(shop.get());
+        user.get().getFavoriteStores().remove(shop.get());
         return userRepository.save(user.get());
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

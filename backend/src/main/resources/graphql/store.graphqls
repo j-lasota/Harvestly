@@ -1,0 +1,31 @@
+type Store {
+    id: ID!
+    user: User!
+    name: String!
+    description: String
+    latitude: Float!
+    longitude: Float!
+    city: String!
+    address: String!
+    imageUrl: String
+    verified: Boolean!
+    ownProducts: [OwnProduct!]
+    businessHours: [BusinessHours!]
+    verifications: [Verification!]
+    opinions: [Opinion!]
+    likedByUsers: [User!]!
+    slug: String
+}
+
+extend type Query {
+    stores: [Store]
+    storeById(id: ID!): Store
+    storeBySlug(slug: String!): Store
+}
+
+extend type Mutation {
+    createStore(userId: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Store
+    updateStore(id: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Store
+    deleteStore(id: ID!): Boolean
+}
+

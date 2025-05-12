@@ -42,15 +42,15 @@ public class User {
     private String img;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Shop> shops = new ArrayList<>();
+    private List<Store> stores = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-            name = "user_favorite_shops",
+            name = "user_favorite_stores",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "shop_id")
+            inverseJoinColumns = @JoinColumn(name = "store_id")
     )
-    private Set<Shop> favoriteShops = new HashSet<>();
+    private Set<Store> favoriteStores = new HashSet<>();
 
     public User() {
     }

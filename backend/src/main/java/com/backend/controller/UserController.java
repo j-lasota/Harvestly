@@ -1,8 +1,7 @@
 package com.backend.controller;
 
-import com.backend.model.Shop;
 import com.backend.model.User;
-import com.backend.service.ShopService;
+import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -15,11 +14,11 @@ import java.util.Optional;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final ShopService shopService;
+    private final StoreService storeService;
 
-    public UserController(UserService userService, ShopService shopService) {
+    public UserController(UserService userService, StoreService storeService) {
         this.userService = userService;
-        this.shopService = shopService;
+        this.storeService = storeService;
     }
 
     @QueryMapping
@@ -51,12 +50,17 @@ public class UserController {
     }
 
     @MutationMapping
-    public User addFavoriteShop(@Argument Long userId, @Argument Long shopId) {
-        return userService.addFavoriteShop(userId, shopId);
+    public User addFavoriteStore(@Argument Long userId, @Argument Long storeId) {
+        return userService.addFavoriteShop(userId, storeId);
     }
 
     @MutationMapping
-    public User removeFavoriteShop(@Argument Long userId, @Argument Long shopId) {
-        return userService.removeFavoriteShop(userId, shopId);
+    public User removeFavoriteStore(@Argument Long userId, @Argument Long storeId) {
+        return userService.removeFavoriteShop(userId, storeId);
+    }
+
+    @QueryMapping
+    public User userByEmail(@Argument String email) {
+        return userService.getUserByEmail(email);
     }
 }
