@@ -1,11 +1,12 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-import keycloak from "@/public/keycloak.png";
+import { Button } from "@/components/ui/button";
+import auth0 from "@/public/auth0.svg";
 import { signIn } from "@/auth";
 
 export function SignIn() {
-  const t = useTranslations("Auth");
+  const t = useTranslations("nav");
 
   return (
     <form
@@ -14,13 +15,10 @@ export function SignIn() {
         await signIn("keycloak");
       }}
     >
-      <button
-        type="submit"
-        className="text-accent flex w-full cursor-pointer items-center gap-2 rounded-md bg-zinc-700 px-5 py-3 font-medium transition duration-200 hover:bg-zinc-800"
-      >
-        <Image src={keycloak} alt="Keycloak logo" className="w-6" />
-        {t("signinKeycloak")}
-      </button>
+      <Button type="submit">
+        <Image src={auth0} alt="Keycloak logo" className="w-6" />
+        {t("signIn")}
+      </Button>
     </form>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "Home": {
+  "home": {
     "health": "Zdrowie",
     "starts": "zaczyna się",
     "locally": "lokalnie",
@@ -8,36 +8,36 @@
     "fromFarmers": "produkty od rolników w Twojej okolicy",
     "button": "Zacznij teraz"
   },
-  "Auth": {
+  "auth": {
     "join": "Dołącz do społeczności...",
     "enjoy": "...i ciesz się",
     "healthy": "zdrową",
     "food": "żywnością",
     "login": "Zaloguj się",
-    "signinKeycloak": "Zaloguj się za pomocą Keycloak"
+    "signinKeycloak": "Zaloguj się"
   },
-  "Nav": {
+  "nav": {
     "home": "Strona główna",
     "products": "Produkty",
     "map": "Mapa",
     "about": "O nas",
     "contact": "Kontakt",
-    "signin": "Zaloguj się"
+    "signIn": "Zaloguj się"
   },
-  "Products": {
+  "products": {
     "title": "Dostępne produkty",
-    "soldby": "Sprzedawane przez",
+    "soldBy": "Sprzedawane przez",
     "available": "Dostępne"
   },
-  "AvatarMenu": {
-    "myaccount": "Moje Konto",
+  "avatarMenu": {
+    "myAccount": "Moje Konto",
     "profile": "Profil",
-    "mystores": "Moje sklepy",
-    "signout": "Wyloguj się"
+    "myStores": "Moje sklepy",
+    "signOut": "Wyloguj się"
   },
-  "Store": {
+  "store": {
     "location": "Lokalizacja",
-    "businesshours": "Godziny pracy",
+    "businessHours": "Godziny pracy",
     "days": {
       "MONDAY": "Poniedziałek",
       "TUESDAY": "Wtorek",

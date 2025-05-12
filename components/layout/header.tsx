@@ -5,15 +5,15 @@ import Link from "next/link";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { AvatarMenu } from "@/components/layout/avatar-menu";
 import { SignOut } from "@/components/auth/signout-button";
+import { SignIn } from "@/components/auth/signin-button";
 import BurgerMenu from "@/components/layout/burger-menu";
-import { Button } from "@/components/ui/button";
 import { NAVLINKS } from "@/constants/global";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
 
 export default async function Header() {
+  const t = await getTranslations("nav");
   const session = await auth();
-  const t = await getTranslations("Nav");
 
   return (
     <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
@@ -44,11 +44,9 @@ export default async function Header() {
           <BurgerMenu />
 
           {session ? (
-            <AvatarMenu Logout={<SignOut />} />
+            <AvatarMenu Logout={<SignOut />} image={session?.user?.image} />
           ) : (
-            <Button asChild>
-              <Link href="/signin">{t("signin")}</Link>
-            </Button>
+            <SignIn />
           )}
         </div>
       </ContainerWrapper>

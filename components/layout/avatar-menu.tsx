@@ -1,7 +1,10 @@
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import accountPlaceholder from "@/public/account_placeholder.jpg";
+import { Link } from "@/i18n/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,21 +14,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const AvatarMenu = ({ Logout }: { Logout: React.ReactNode }) => {
-  const t = useTranslations("AvatarMenu");
+export const AvatarMenu = ({
+  Logout,
+  image,
+}: {
+  Logout: React.ReactNode;
+  image: string | null | undefined;
+}) => {
+  const t = useTranslations("avatarMenu");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer outline-none">
         <Avatar>
-          <AvatarImage src="/placeholder.jpeg" alt="Profile picture" />
-          <AvatarFallback></AvatarFallback>
+          {image && <AvatarImage src={image} alt="Profile picture" />}
+          <AvatarFallback>
+            <Image src={accountPlaceholder} alt="Account placeholder" />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-48 p-2">
-        <DropdownMenuLabel>{t("myaccount")}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>{t("profile")}</DropdownMenuItem>
-        <DropdownMenuItem>{t("mystores")}</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/store/my">{t("myStores")}</Link>
+        </DropdownMenuItem>
         <div className="mt-2">{Logout}</div>
       </DropdownMenuContent>
     </DropdownMenu>

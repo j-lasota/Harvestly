@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/auth";
 
 export function SignOut() {
-  const t = useTranslations("AvatarMenu");
+  const t = useTranslations("avatarMenu");
   return (
     <form
       action={async () => {
@@ -13,7 +13,7 @@ export function SignOut() {
       }}
     >
       <Button type="submit" className="w-full">
-        {t("signout")}
+        {t("signOut")}
       </Button>
     </form>
   );

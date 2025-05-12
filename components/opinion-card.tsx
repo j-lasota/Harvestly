@@ -3,7 +3,7 @@ import React from "react";
 
 export interface OpinionCardProps {
   id: string;
-  description: string;
+  description: string | null;
   stars: number;
   user: {
     firstName: string;
@@ -38,7 +38,7 @@ export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
         </div>
       </div>
 
-      <p>{description}</p>
+      {description && <p>{description}</p>}
     </article>
   );
 };

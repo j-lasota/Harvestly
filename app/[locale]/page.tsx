@@ -5,11 +5,9 @@ import Link from "next/link";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { Button } from "@/components/ui/button";
 import hero from "@/public/hero.jpg";
-import { auth } from "@/auth";
 
 export default async function Home() {
-  const t = await getTranslations("Home");
-  const session = await auth();
+  const t = await getTranslations("home");
 
   return (
     <ContainerWrapper
@@ -39,10 +37,6 @@ export default async function Home() {
           <Button size="xl" className="mt-5 max-w-xs" asChild>
             <Link href="/products">{t("button")}</Link>
           </Button>
-
-          <div>
-            <p>{session?.user?.name}</p>
-          </div>
         </div>
         <Image
           src={hero}

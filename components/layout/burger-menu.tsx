@@ -8,7 +8,7 @@ import Link from "next/link";
 import { NAVLINKS } from "@/constants/global";
 
 const BurgerMenu = () => {
-  const t = useTranslations("Nav");
+  const t = useTranslations("nav");
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (

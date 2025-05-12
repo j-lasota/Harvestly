@@ -10,52 +10,51 @@ import { ProductSection } from "@/components/product-section";
 import AddToFavButton from "./components/add-to-fav-button";
 import { getClient } from "@/graphql/apollo-client";
 import AddOpinion from "./components/add-opinion";
-import { gql } from "@apollo/client";
+import { graphql } from "@/graphql";
 import { auth } from "@/auth";
 
-const storeBySlugQuery = gql(
-  `
-    query storeBySlug($slug: String!) {
-      storeBySlug(slug: $slug) {
+const storeBySlugQuery = graphql(`
+  query storeBySlug($slug: String!) {
+    storeBySlug(slug: $slug) {
+      id
+      name
+      city
+      address
+      latitude
+      longitude
+      imageUrl
+      description
+      verified
+      opinions {
         id
-        name
-        city
-        address
-        latitude
-        longitude
-        imageUrl
         description
-        verified
-        opinions {
-          id
-          description
-          stars
-          user {
-            firstName
-          }
+        stars
+        user {
+          firstName
         }
-        businessHours {
-          dayOfWeek
-          openingTime
-          closingTime
+      }
+      businessHours {
+        dayOfWeek
+        openingTime
+        closingTime
+      }
+      ownProducts {
+        id
+        product {
+          name
         }
-        ownProducts {
-          id
-          product {
-            name
-          }
-          price
-          quantity
-          imageUrl
-          store {
-            slug
-            name
-          }
+        price
+        quantity
+        imageUrl
+        store {
+          slug
+          name
+          city
         }
       }
     }
-  `
-);
+  }
+`);
 
 interface BusinessHoursProps {
   dayOfWeek: string;
@@ -76,7 +75,7 @@ export default async function StorePage({
     query: storeBySlugQuery,
     variables: { slug: storeSlug },
   });
-  const t = await getTranslations("Store");
+  const t = await getTranslations("store");
 
   if (!data || !data.storeBySlug) return notFound();
 
@@ -114,7 +113,7 @@ export default async function StorePage({
 
           {data.storeBySlug.businessHours && (
             <div className="flex w-full max-w-max flex-col gap-1">
-              <h2 className="font-semibold">{t("businesshours")}:</h2>
+              <h2 className="font-semibold">{t("businessHours")}:</h2>
               {data.storeBySlug.businessHours.map(
                 (d: BusinessHoursProps) =>
                   d && (
@@ -135,7 +134,9 @@ export default async function StorePage({
       </div>
 
       {/* // TODO: Add pagination */}
-      <ProductSection products={data.storeBySlug.ownProducts} />
+      {data.storeBySlug.ownProducts && (
+        <ProductSection products={data.storeBySlug.ownProducts} />
+      )}
 
       <section className="flex max-w-3xl flex-col gap-4">
         <h3 className="mt-4 text-2xl font-semibold">Opinie:</h3>

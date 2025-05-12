@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbopack",
+    "dev:https": "next dev --turbopack --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -20,6 +22,7 @@
     "gql.tada": "^1.8.10",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.507.0",
+    "motion": "^12.10.5",
     "next": "15.3.2",
     "next-auth": "^5.0.0-beta.25",
     "next-intl": "^4.1.0",

@@ -16,6 +16,7 @@ export interface ProductCardProps {
   store: {
     slug: string | null;
     name: string;
+    city: string;
   };
 }
 
@@ -26,7 +27,7 @@ export const ProductCard = ({
   imageUrl,
   store,
 }: ProductCardProps) => {
-  const t = useTranslations("Products");
+  const t = useTranslations("products");
 
   return (
     <Link
@@ -43,7 +44,7 @@ export const ProductCard = ({
         <div>
           <p className="text-2xl font-semibold">{product.name}</p>
           <p className="text-sm">
-            {t("soldby")}{" "}
+            {t("soldBy")}{" "}
             <span className="font-kalam text-primary">{store.name}</span>
           </p>
         </div>

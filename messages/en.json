@@ -1,5 +1,5 @@
 {
-  "Home": {
+  "home": {
     "health": "Health",
     "starts": "starts",
     "locally": "locally",
@@ -8,36 +8,36 @@
     "fromFarmers": "products from farmers in your area",
     "button": "Start now"
   },
-  "Auth": {
+  "auth": {
     "join": "Join the community...",
     "enjoy": "...and enjoy",
     "healthy": "healthy",
     "food": "food",
     "login": "Log in",
-    "signinKeycloak": "Sign in with Keycloak"
+    "signinKeycloak": "Sign in"
   },
-  "Nav": {
+  "nav": {
     "home": "Home",
     "products": "Products",
     "map": "Map",
     "about": "About",
     "contact": "Contact",
-    "signin": "Log in"
+    "signIn": "Sign in"
   },
-  "Products": {
+  "products": {
     "title": "Available Products",
-    "soldby": "Sold by",
+    "soldBy": "Sold by",
     "available": "Available"
   },
-  "AvatarMenu": {
-    "myaccount": "My account",
+  "avatarMenu": {
+    "myAccount": "My account",
     "profile": "Profile",
-    "mystores": "My stores",
-    "signout": "Sign out"
+    "myStores": "My stores",
+    "signOut": "Sign out"
   },
-  "Store": {
+  "store": {
     "location": "Location",
-    "businesshours": "Business hours",
+    "businessHours": "Business hours",
     "days": {
       "MONDAY": "Monday",
       "TUESDAY": "Tuesday",
