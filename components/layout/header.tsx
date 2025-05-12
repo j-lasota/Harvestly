@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import { AvatarMenu } from "@/components/layout/avatar-menu";
 import { SignOut } from "@/components/auth/signout-button";
 import { SignIn } from "@/components/auth/signin-button";
@@ -43,6 +44,7 @@ export default async function Header() {
           {/* Mobile nav */}
           <BurgerMenu />
 
+          <LanguageSelector />
           {session ? (
             <AvatarMenu Logout={<SignOut />} image={session?.user?.image} />
           ) : (
