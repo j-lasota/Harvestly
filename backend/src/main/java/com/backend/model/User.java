@@ -1,18 +1,18 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
+// #TODO: wywalic password z usera
+@EqualsAndHashCode(of = {"id", "firstName", "lastName", "email", "phoneNumber", "tier", "img"})
 @Table(name = "users")
 public class User {
 
