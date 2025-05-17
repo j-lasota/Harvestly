@@ -83,4 +83,8 @@ public class OwnProductService {
         }
         return false;
     }
+    public List<OwnProduct> getByStore(Long storeId) {
+        return ownProductRepository.findByStoreId(storeId);
+    }
+
 }
