@@ -64,6 +64,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -94,7 +99,7 @@ public class UserService {
         return userRepository.save(user.get());
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }
