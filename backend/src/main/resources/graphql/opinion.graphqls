@@ -9,6 +9,8 @@ type Opinion {
 extend type Query {
     opinions: [Opinion]
     opinionById(id: ID!): Opinion
+    opinionsByStoreId(storeId: ID!): [Opinion]!
+
 }
 
 extend type Mutation {
