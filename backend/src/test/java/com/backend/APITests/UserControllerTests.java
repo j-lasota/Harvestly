@@ -91,7 +91,7 @@ class UserControllerTests {
     @Test
     void createUser_ReturnsCreatedUser() {
         // Arrange
-        User createdUser = new User("Johnny", "Doe", "john@example.com", "password", "123456789", 0, "img.jpg");
+        User createdUser = new User("John", "Doe", "john@example.com", "password", "123456789", 0, "img.jpg");
         when(userService.saveUser(any(User.class))).thenReturn(createdUser);
 
         // Act & Assert
