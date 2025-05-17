@@ -188,7 +188,7 @@ class UserControllerTests {
         // Arrange
         String email = "john@example.com";
         User mockUser = new User("John", "Doe", email, "password", "123456789", 0, "img.jpg");
-        when(userService.getUserByEmail(email)).thenReturn(mockUser);
+        when(userService.getUserByEmail(email)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert
         String query = """
