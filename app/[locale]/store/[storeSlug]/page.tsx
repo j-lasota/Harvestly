@@ -55,6 +55,16 @@ const storeBySlugQuery = graphql(`
   }
 `);
 
+const userFavoriteStoresQuery = graphql(`
+  query userFavoriteStores($id: ID!) {
+    userById(id: $id) {
+      favoriteStores {
+        id
+      }
+    }
+  }
+`);
+
 interface BusinessHoursProps {
   dayOfWeek: string;
   openingTime: string;
@@ -69,10 +79,15 @@ export default async function StorePage({
   }>;
 }>) {
   const session = await auth();
+  const userId = session?.user?.id;
   const { storeSlug } = await params;
   const { data } = await getClient().query({
     query: storeBySlugQuery,
     variables: { slug: storeSlug },
+  });
+  const { data: UserData } = await getClient().query({
+    query: userFavoriteStoresQuery,
+    variables: { id: userId! },
   });
   const t = await getTranslations("store");
 
@@ -100,7 +115,14 @@ export default async function StorePage({
               <BadgeCheck size={32} strokeWidth={2} className="text-primary" />
             )}
           </h1>
-          <AddToFavButton storeId={data.storeBySlug.id} />
+          {data.storeBySlug && (
+            <AddToFavButton
+              storeId={data.storeBySlug.id}
+              isFavorite={(UserData?.userById?.favoriteStores || []).some(
+                (store) => store.id && store.id === data.storeBySlug!.id
+              )}
+            />
+          )}
           <p className="font-kalam mb-4 text-lg">
             {data.storeBySlug.description}
           </p>
