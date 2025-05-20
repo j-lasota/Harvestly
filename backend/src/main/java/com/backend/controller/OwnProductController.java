@@ -67,4 +67,9 @@ public class OwnProductController {
     public List<OwnProduct> ownProducts() {
         return ownProductService.getAllOwnProducts();
     }
+    @QueryMapping
+    public List<OwnProduct> ownProductsByStore(@Argument Long storeId) {
+        return ownProductService.getByStore(storeId);
+    }
+
 }
