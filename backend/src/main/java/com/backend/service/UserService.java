@@ -28,7 +28,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, String firstName, String lastName, String email, String password, String phoneNumber, Integer tier, String img) {
+    public User updateUser(Long id, String firstName, String lastName, String email, String phoneNumber, Integer tier, String img) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (firstName != null) {

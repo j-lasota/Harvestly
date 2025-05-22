@@ -3,6 +3,7 @@ package com.backend.service;
 import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.client.mgmt.filter.UserFilter;
 import com.auth0.exception.Auth0Exception;
+import com.backend.model.Auth0UserDto;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,48 @@ public class Auth0UserService {
     private static final int PAGE_SIZE = 50;
     private static final long SYNC_DELAY = 60 * 60 * 1000;
     private static final long SYNC_RATE = 24 * 60 * 60 * 1000;
+
+
+    @Transactional
+    public void processIncomingUsers(List<Auth0UserDto> auth0Users) {
+        log.info("Processing {} Auth0 users", auth0Users.size());
+        for (Auth0UserDto dto : auth0Users) {
+            if (dto.getEmail() == null || dto.getEmail().isBlank()) {
+                log.warn("Skipping user without email: {}", dto);
+                continue;
+            }
+            userRepository.findByEmail(dto.getEmail())
+                    .ifPresentOrElse(
+                            existing -> updateFromDto(existing, dto),
+                            ()       -> createFromDto(dto)
+                    );
+        }
+        log.info("Finished processing Auth0 users");
+    }
+
+    private void updateFromDto(User existing, Auth0UserDto dto) {
+        boolean changed = false;
+        if (!dto.getName().equals(existing.getFirstName())) {
+            existing.setFirstName(dto.getName());
+            changed = true;
+        }
+        if (changed) {
+            userRepository.save(existing);
+            log.debug("Updated user {}", existing.getEmail());
+        }
+    }
+
+    private void createFromDto(Auth0UserDto dto) {
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getName());
+        user.setLastName("");         // lub rozbij `dto.getName()` jeśli masz oddzielne given/family
+        user.setTier(0);
+        user.setStores(new ArrayList<>());
+        user.setFavoriteStores(new HashSet<>());
+        userRepository.save(user);
+        log.debug("Created new user {}", dto.getEmail());
+    }
 
     @Scheduled(initialDelay = SYNC_DELAY, fixedRate = SYNC_RATE)
     @Transactional

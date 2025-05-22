@@ -12,18 +12,18 @@ VALUES ('Truskawki', true, 'FRUIT'),
        ('Morele', true, 'FRUIT');
 
 -- Użytkownicy
-INSERT INTO users (first_name, last_name, email, password, phone_number, img, tier)
+INSERT INTO users (first_name, last_name, email, phone_number, img, tier)
 VALUES
-    ('Jan', 'Kowalski', 'jan1@example.com', 'hashedPwd1', '+48123123123', NULL,1),
-    ('Anna', 'Nowak', 'anna2@example.com', 'hashedPwd2', '+48123123124', NULL,1),
-    ('Piotr', 'Wiśniewski', 'piotr3@example.com', 'hashedPwd3', '+48123123125', NULL,1),
-    ('Maria', 'Wójcik', 'maria4@example.com', 'hashedPwd4', '+48123123126', NULL,1),
-    ('Tomasz', 'Kaczmarek', 'tomasz5@example.com', 'hashedPwd5', '+48123123127', NULL,1),
-    ('Agnieszka', 'Mazur', 'agnieszka6@example.com', 'hashedPwd6', '+48123123128', NULL,1),
-    ('Marek', 'Krawczyk', 'marek7@example.com', 'hashedPwd7', '+48123123129', NULL,1),
-    ('Katarzyna', 'Piotrowska', 'kasia8@example.com', 'hashedPwd8', '+48123123130', NULL,1),
-    ('Paweł', 'Grabowski', 'pawel9@example.com', 'hashedPwd9', '+48123123131', NULL,1),
-    ('Ewa', 'Zając', 'ewa10@example.com', 'hashedPwd10', '+48123123132', NULL,1);
+    ('Jan', 'Kowalski', 'jan1@example.com', '+48123123123', NULL,1),
+    ('Anna', 'Nowak', 'anna2@example.com', '+48123123124', NULL,1),
+    ('Piotr', 'Wiśniewski', 'piotr3@example.com', '+48123123125', NULL,1),
+    ('Maria', 'Wójcik', 'maria4@example.com', '+48123123126', NULL,1),
+    ('Tomasz', 'Kaczmarek', 'tomasz5@example.com', '+48123123127', NULL,1),
+    ('Agnieszka', 'Mazur', 'agnieszka6@example.com', '+48123123128', NULL,1),
+    ('Marek', 'Krawczyk', 'marek7@example.com', '+48123123129', NULL,1),
+    ('Katarzyna', 'Piotrowska', 'kasia8@example.com', '+48123123130', NULL,1),
+    ('Paweł', 'Grabowski', 'pawel9@example.com', '+48123123131', NULL,1),
+    ('Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL,1);
 
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)

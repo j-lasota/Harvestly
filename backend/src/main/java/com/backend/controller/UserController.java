@@ -33,15 +33,15 @@ public class UserController {
 
     @MutationMapping
     public User createUser(@Argument String firstName, @Argument String lastName, @Argument String email,
-                           @Argument String password, @Argument String phoneNumber, @Argument String img) {
-        return userService.saveUser(new User(firstName, lastName, email, password, phoneNumber, 0,img));
+                           @Argument String phoneNumber, @Argument String img) {
+        return userService.saveUser(new User(firstName, lastName, email, phoneNumber, 0,img));
     }
 
     @MutationMapping
     public User updateUser(@Argument Long id, @Argument String firstName, @Argument String lastName,
-                           @Argument String email, @Argument String password, @Argument String phoneNumber,
+                           @Argument String email, @Argument String phoneNumber,
                            @Argument Integer tier, @Argument String img) {
-        return userService.updateUser(id, firstName, lastName, email, password, phoneNumber, tier, img);
+        return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img);
     }
 
     @MutationMapping

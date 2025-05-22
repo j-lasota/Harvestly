@@ -29,8 +29,6 @@ public class User {
     @Email(message = "Email must be valid")
     private String email;
 
-    private String password;
-
     @Nullable
     @Column(unique = true)
     @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$", message = "Phone number must be valid")
@@ -55,11 +53,10 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber, int tier, String img) {
+    public User(String firstName, String lastName, String email, String phoneNumber, int tier, String img) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
         this.tier = tier;
         this.img = img;
