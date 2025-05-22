@@ -37,6 +37,9 @@ public class OpinionService {
         }
         return false;
     }
+    public List<Opinion> getOpinionsByStoreId(Long storeId) {
+        return opinionRepository.findByStoreId(storeId);
+    }
 
     public Opinion updateOpinion(Long id, String description, Integer stars) {
         Opinion opinion = opinionRepository.findById(id).

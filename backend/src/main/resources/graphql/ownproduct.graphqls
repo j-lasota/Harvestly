@@ -12,6 +12,8 @@ type OwnProduct {
 extend type Query {
     ownProducts: [OwnProduct]
     ownProductById(id: ID!): OwnProduct
+    ownProductsByStore(storeId: ID!): [OwnProduct!]!
+
 }
 
 extend type Mutation {
