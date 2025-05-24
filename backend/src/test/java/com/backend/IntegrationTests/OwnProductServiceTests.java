@@ -52,7 +52,6 @@ class OwnProductServiceTests {
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("johndoe@example.com");
-        user.setPassword("hashedPassword");
         user.setPhoneNumber("+48123456789");
         user.setTier(1);
         user = userRepository.save(user);
