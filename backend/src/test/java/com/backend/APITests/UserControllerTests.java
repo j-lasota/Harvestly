@@ -38,7 +38,7 @@ class UserControllerTests {
     void userById_ReturnsUser_WhenUserExists() {
         // Arrange
         Long userId = 1L;
-        User mockUser = new User("John", "Doe", "john@example.com", "password", "123456789", 0, "img.jpg");
+        User mockUser = new User("John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.getUserById(userId)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert
@@ -65,8 +65,8 @@ class UserControllerTests {
     void users_ReturnsAllUsers() {
         // Arrange
         List<User> mockUsers = Arrays.asList(
-                new User("John", "Doe", "john@example.com", "password", "123456789", 0, "img1.jpg"),
-                new User("Jane", "Smith", "jane@example.com", "password", "987654321", 1, "img2.jpg")
+                new User("John", "Doe", "john@example.com", "123456789", 0, "img1.jpg"),
+                new User("Jane", "Smith", "jane@example.com", "987654321", 1, "img2.jpg")
         );
         when(userService.getAllUsers()).thenReturn(mockUsers);
 
@@ -91,7 +91,7 @@ class UserControllerTests {
     @Test
     void createUser_ReturnsCreatedUser() {
         // Arrange
-        User createdUser = new User("John", "Doe", "john@example.com", "password", "123456789", 0, "img.jpg");
+        User createdUser = new User("John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.saveUser(any(User.class))).thenReturn(createdUser);
 
         // Act & Assert
@@ -127,8 +127,8 @@ class UserControllerTests {
     void updateUser_ReturnsUpdatedUser() {
         // Arrange
         Long userId = 1L;
-        User updatedUser = new User("John", "Updated", "john@example.com", "newpassword", "123456789", 1, "newimg.jpg");
-        when(userService.updateUser(anyLong(), any(), any(), any(), any(), any(), any(), any()))
+        User updatedUser = new User("John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
+        when(userService.updateUser(anyLong(), any(), any(), any(), any(), any(), any()))
                 .thenReturn(updatedUser);
 
         // Act & Assert
@@ -187,7 +187,7 @@ class UserControllerTests {
     void userByEmail_ReturnsUser() {
         // Arrange
         String email = "john@example.com";
-        User mockUser = new User("John", "Doe", email, "password", "123456789", 0, "img.jpg");
+        User mockUser = new User("John", "Doe", email, "123456789", 0, "img.jpg");
         when(userService.getUserByEmail(email)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert

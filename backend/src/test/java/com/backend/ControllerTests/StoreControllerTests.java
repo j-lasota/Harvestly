@@ -36,7 +36,7 @@ class StoreControllerTests {
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        testUser = new User("John", "Doe", "john.doe@example.com", "password123", "+48123456789", 1, null);
+        testUser = new User("John", "Doe", "john.doe@example.com", "+48123456789", 1, null);
         testUser = userRepository.save(testUser);
     }
 
