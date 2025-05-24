@@ -101,7 +101,6 @@ class UserControllerTests {
                     firstName: "John"
                     lastName: "Doe"
                     email: "john@example.com"
-                    password: "password"
                     phoneNumber: "123456789"
                     img: "img.jpg"
                   ) {
@@ -139,7 +138,6 @@ class UserControllerTests {
                     firstName: "John"
                     lastName: "Updated"
                     email: "john@example.com"
-                    password: "newpassword"
                     phoneNumber: "123456789"
                     tier: 1
                     img: "newimg.jpg"
