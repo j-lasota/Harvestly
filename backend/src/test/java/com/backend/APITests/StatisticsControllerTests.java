@@ -124,4 +124,26 @@ class StatisticsControllerTests {
 
         verifyNoInteractions(statisticsService);
     }
+
+    @Test
+    void getAverageRating_withValidSlug_thenReturnsAverage() throws Exception {
+        when(statisticsService.getAverageRating("store-foo")).thenReturn(3.4);
+
+        mockMvc.perform(get("/api/stats/average-rating")
+                        .param("slug", "store-foo"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("3.4"));
+
+        verify(statisticsService).getAverageRating("store-foo");
+        verifyNoMoreInteractions(statisticsService);
+    }
+
+    @Test
+    void getAverageRating_missingSlug_thenBadRequest() throws Exception {
+        mockMvc.perform(get("/api/stats/average-rating"))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(statisticsService);
+    }
+
 }

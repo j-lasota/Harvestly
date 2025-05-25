@@ -42,4 +42,11 @@ public class StatisticsController {
         double ratio = statisticsService.getClickRatio(slug, days);
         return ResponseEntity.ok(ratio);
     }
+    @GetMapping("/average-rating")
+    public ResponseEntity<Double> getAverageRating(@RequestParam String slug) {
+        double avg = statisticsService.getAverageRating(slug);
+        return ResponseEntity.ok(avg);
+    }
+
+
 }
