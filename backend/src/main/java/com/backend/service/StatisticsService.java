@@ -15,12 +15,12 @@ public class StatisticsService {
     private final DailyClickCountRepository repo;
 
     @Transactional
-    public void recordEvent(EventType type, Long storeId) {
+    public void recordEvent(EventType type, String slug) {
         LocalDate today = LocalDate.now();
         if (type == EventType.STORE_PAGE) {
-            repo.upsertStorePageClick(storeId, today);
+            repo.upsertStorePageClick(slug, today);
         } else {
-            repo.upsertMapPinClick(storeId, today);
+            repo.upsertMapPinClick(slug, today);
         }
     }
 }

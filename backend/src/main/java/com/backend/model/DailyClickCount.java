@@ -19,8 +19,8 @@ public class DailyClickCount {
     @Column(name = "map_pin_clicks", nullable = false)
     private long mapPinClicks;
 
-    public DailyClickCount(Long storeId, LocalDate day) {
-        this.id = new Key(storeId, day);
+    public DailyClickCount(String storeSlug, LocalDate day) {
+        this.id = new Key(storeSlug, day);
         this.storePageClicks = 0;
         this.mapPinClicks = 0;
     }
@@ -28,8 +28,9 @@ public class DailyClickCount {
     @Embeddable
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor
     public static class Key {
-        @Column(name = "store_id", nullable = false)
-        private Long storeId;
+
+        @Column(name = "store_slug", nullable = false)
+        private String storeSlug;
 
         @Column(name = "day", nullable = false)
         private LocalDate day;

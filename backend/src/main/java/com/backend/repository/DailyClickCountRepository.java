@@ -11,26 +11,25 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 
 @Repository
-public interface DailyClickCountRepository
-        extends JpaRepository<DailyClickCount, Key> {
+public interface DailyClickCountRepository extends JpaRepository<DailyClickCount, Key> {
 
     @Modifying(clearAutomatically = true)
     @Query(value = """
-        INSERT INTO daily_click_count(store_id, day, store_page_clicks, map_pin_clicks)
-        VALUES(:storeId, :day, 1, 0)
-        ON CONFLICT (store_id, day)
+        INSERT INTO daily_click_count(store_slug, day, store_page_clicks, map_pin_clicks)
+        VALUES(:slug, :day, 1, 0)
+        ON CONFLICT (store_slug, day)
         DO UPDATE SET store_page_clicks = daily_click_count.store_page_clicks + 1
         """, nativeQuery = true)
-    void upsertStorePageClick(@Param("storeId") Long storeId,
+    void upsertStorePageClick(@Param("slug") String slug,
                               @Param("day") LocalDate day);
 
     @Modifying(clearAutomatically = true)
     @Query(value = """
-        INSERT INTO daily_click_count(store_id, day, store_page_clicks, map_pin_clicks)
-        VALUES(:storeId, :day, 0, 1)
-        ON CONFLICT (store_id, day)
+        INSERT INTO daily_click_count(store_slug, day, store_page_clicks, map_pin_clicks)
+        VALUES(:slug, :day, 0, 1)
+        ON CONFLICT (store_slug, day)
         DO UPDATE SET map_pin_clicks = daily_click_count.map_pin_clicks + 1
         """, nativeQuery = true)
-    void upsertMapPinClick(@Param("storeId") Long storeId,
+    void upsertMapPinClick(@Param("slug") String slug,
                            @Param("day") LocalDate day);
 }

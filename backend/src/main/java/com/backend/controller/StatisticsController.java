@@ -14,14 +14,15 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     /**
-     * Example endpoint to record an event.
-     * POST /api/stats/event?storeId=123&type=STORE_PAGE
+     * Example:
+     *   POST /api/stats/event?slug=my-store&type=STORE_PAGE
      */
     @PostMapping("/event")
     public ResponseEntity<Void> recordEvent(
-            @RequestParam("storeId") Long storeId,
+            @RequestParam("slug") String slug,
             @RequestParam("type") EventType type) {
-        statisticsService.recordEvent(type, storeId);
+
+        statisticsService.recordEvent(type, slug);
         return ResponseEntity.ok().build();
     }
 }

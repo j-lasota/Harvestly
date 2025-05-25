@@ -25,26 +25,25 @@ class StatisticsServiceTests {
 
     @Test
     void recordStorePageEvent() {
-        Long storeId = 1L;
-        service.recordEvent(EventType.STORE_PAGE, storeId);
+        String slug = "shop-one";
+        service.recordEvent(EventType.STORE_PAGE, slug);
 
         ArgumentCaptor<LocalDate> dateCaptor = ArgumentCaptor.forClass(LocalDate.class);
-        verify(repo, times(1)).upsertStorePageClick(eq(storeId), dateCaptor.capture());
+        verify(repo, times(1)).upsertStorePageClick(eq(slug), dateCaptor.capture());
         assertEquals(LocalDate.now(), dateCaptor.getValue());
 
-        // ensure we never call the other path
-        verify(repo, never()).upsertMapPinClick(anyLong(), any());
+        verify(repo, never()).upsertMapPinClick(anyString(), any());
     }
 
     @Test
     void recordMapPinEvent() {
-        Long storeId = 2L;
-        service.recordEvent(EventType.MAP_PIN, storeId);
+        String slug = "pin-shop";
+        service.recordEvent(EventType.MAP_PIN, slug);
 
         ArgumentCaptor<LocalDate> dateCaptor = ArgumentCaptor.forClass(LocalDate.class);
-        verify(repo, times(1)).upsertMapPinClick(eq(storeId), dateCaptor.capture());
+        verify(repo, times(1)).upsertMapPinClick(eq(slug), dateCaptor.capture());
         assertEquals(LocalDate.now(), dateCaptor.getValue());
 
-        verify(repo, never()).upsertStorePageClick(anyLong(), any());
+        verify(repo, never()).upsertStorePageClick(anyString(), any());
     }
 }
