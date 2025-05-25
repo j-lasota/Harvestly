@@ -23,4 +23,25 @@ public class StatisticsService {
             repo.upsertMapPinClick(slug, today);
         }
     }
+
+    @Transactional(readOnly = true)
+    public double getClickRatio(String slug) {
+        long pin = repo.totalMapPinClicks(slug);
+        long page = repo.totalStorePageClicks(slug);
+        if (page == 0) {
+            return 0.0;
+        }
+        return (double) pin / page;
+    }
+
+    @Transactional(readOnly = true)
+    public double getClickRatio(String slug, int days) {
+        LocalDate from = LocalDate.now().minusDays(days);
+        long pin = repo.mapPinClicksSince(slug, from);
+        long page = repo.storePageClicksSince(slug, from);
+        if (page == 0) {
+            return 0.0;
+        }
+        return (double) pin / page;
+    }
 }

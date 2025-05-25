@@ -13,16 +13,33 @@ public class StatisticsController {
 
     private final StatisticsService statisticsService;
 
-    /**
-     * Example:
-     *   POST /api/stats/event?slug=my-store&type=STORE_PAGE
-     */
     @PostMapping("/event")
     public ResponseEntity<Void> recordEvent(
-            @RequestParam("slug") String slug,
-            @RequestParam("type") EventType type) {
+            @RequestParam String slug,
+            @RequestParam EventType type) {
 
         statisticsService.recordEvent(type, slug);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * GET /api/stats/ratio?slug=store-xyz
+     */
+    @GetMapping("/ratio")
+    public ResponseEntity<Double> getOverallRatio(@RequestParam String slug) {
+        double ratio = statisticsService.getClickRatio(slug);
+        return ResponseEntity.ok(ratio);
+    }
+
+    /**
+     * GET /api/stats/ratio/period?slug=store-xyz&days=7
+     */
+    @GetMapping("/ratio/period")
+    public ResponseEntity<Double> getRatioForPeriod(
+            @RequestParam String slug,
+            @RequestParam int days) {
+
+        double ratio = statisticsService.getClickRatio(slug, days);
+        return ResponseEntity.ok(ratio);
     }
 }
