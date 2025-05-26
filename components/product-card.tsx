@@ -35,6 +35,8 @@ export const ProductCard = ({
     >
       <Image
         src={imageUrl || placeholder}
+        width={400}
+        height={400}
         alt={`Image of ${product.name}`}
         className="aspect-video w-full rounded-xl object-cover sm:aspect-square sm:max-w-42"
       />

@@ -1,14 +1,36 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer base {
+  :root {
+    --background: oklch(0.99 0.0085 84.57); /* #fffcf6 */
+    --foreground: oklch(0.2 0 0); /* #171717 */
+
+    --accent: oklch(0.98 0.018 78.24); /* #fff7eb */
+    --primary: oklch(0.65 0.1096 129.1); /* #799b50 */
+
+    --shadow: oklch(0.95 0.0272 83.54) /* #f6ecd9 */;
+  }
+
+  .debil {
+    --background: oklch(0.2 0 0); /* #171717 */
+    --foreground: oklch(0.65 0.1096 129.1); /* #fffcf6 */
+
+    --accent: oklch(0.98 0.018 78.24); /* #fff7eb */
+    --primary: oklch(0.65 0.1096 32.1); /* #799b50 */
+
+    --shadow: oklch(0.95 0.0272 83.54) /* #f6ecd9 */;
+  }
+}
+
 @theme {
-  --color-background: oklch(0.99 0.0085 84.57); /* #fffcf6 */
-  --color-foreground: oklch(0.2 0 0); /* #171717 */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  --color-accent: oklch(0.98 0.018 78.24); /* #fff7eb */
-  --color-primary: oklch(0.65 0.1096 129.1); /* #799b50 */
+  --color-accent: var(--accent);
+  --color-primary: var(--primary);
 
-  --color-shadow: oklch(0.95 0.0272 83.54) /* #f6ecd9 */;
+  --color-shadow: var(--shadow);
 
   --animate-lite-pulse: lite-pulse 1s ease-in-out infinite;
 }

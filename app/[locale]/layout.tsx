@@ -31,7 +31,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full">
       <body
-        className={`${jost.variable} ${kalam.variable} font-jost bg-background h-full antialiased`}
+        className={`${jost.variable} ${kalam.variable} text-foreground font-jost bg-background h-full antialiased`}
       >
         <SessionProvider>
           <NextIntlClientProvider>

@@ -109,9 +109,9 @@ export function ProductSectionWithCategoryFilter({
     <section className="flex flex-col gap-2">
       <Input type="text" onChange={(e) => setInput(e.target.value)} />
 
-      <div className="mb-4 overflow-hidden py-1">
+      <div className="mb-4 flex w-full flex-wrap gap-2 overflow-hidden py-1">
         {selectedCategory ? (
-          <div className="flex w-full flex-wrap gap-2">
+          <>
             <Button
               size="icon"
               onClick={handleResetCategory}
@@ -131,7 +131,7 @@ export function ProductSectionWithCategoryFilter({
                   {item.name}
                 </Button>
               ))}
-          </div>
+          </>
         ) : (
           categoriesData.map((category) => (
             <Button

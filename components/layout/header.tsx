@@ -8,6 +8,7 @@ import { AvatarMenu } from "@/components/layout/avatar-menu";
 import { SignOut } from "@/components/auth/signout-button";
 import { SignIn } from "@/components/auth/signin-button";
 import BurgerMenu from "@/components/layout/burger-menu";
+import DebilMode from "@/components/layout/debil-mode";
 import { NAVLINKS } from "@/constants/global";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
@@ -17,7 +18,7 @@ export default async function Header() {
   const session = await auth();
 
   return (
-    <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
+    <header className="bg-background sticky top-0 z-[2000] rounded-lg drop-shadow-md">
       <ContainerWrapper className="flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="flex items-center gap-1.5 text-xl font-bold">
           <Image src={logo} alt="Harvesty logo" priority className="w-6" />
@@ -43,6 +44,8 @@ export default async function Header() {
 
           {/* Mobile nav */}
           <BurgerMenu />
+
+          <DebilMode />
 
           <LanguageSelector />
           {session ? (

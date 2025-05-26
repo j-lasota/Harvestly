@@ -76,7 +76,7 @@ const FormSchema = z.object({
     .max(250, { message: "Opis jest zbyt długi, maksymalnie 350 znaków." })
     .trim(),
   storeId: z.string({ message: "ID sklepu jest wymagany." }),
-  stars: z.number({ message: "Liczba gwiazdek jest wymagana." }).min(1).max(5),
+  stars: z.number().min(0).max(5),
 });
 
 type FormState =
@@ -98,7 +98,7 @@ export async function addOpinionAction(state: FormState, formData: FormData) {
   const validatedFields = FormSchema.safeParse({
     description: formData.get("description"),
     storeId: formData.get("storeId"),
-    stars: formData.get("stars"),
+    stars: Number(formData.get("stars")) || 0,
   });
 
   if (!validatedFields.success) {

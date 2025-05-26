@@ -161,7 +161,7 @@ export default async function StorePage({
 
       <section className="flex max-w-3xl flex-col gap-4">
         <h3 className="mt-4 text-2xl font-semibold">Opinie:</h3>
-        {session?.user && <AddOpinion slug={storeSlug} />}
+        {session?.user && <AddOpinion storeId={data.storeBySlug.id} />}
         {data.storeBySlug.opinions ? (
           data.storeBySlug.opinions.map((opinion: OpinionCardProps) => (
             <OpinionCard key={opinion.id} {...opinion}></OpinionCard>

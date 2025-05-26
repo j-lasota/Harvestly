@@ -1,24 +1,12 @@
 import Auth0 from "next-auth/providers/auth0";
 import NextAuth from "next-auth";
 
-import { getClient } from "@/graphql/apollo-client";
-import { graphql } from "@/graphql";
-
-const userDataQuery = graphql(`
-  query UserData($email: String!) {
-    userByEmail(email: $email) {
-      id
-    }
-  }
-`);
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Auth0({
       clientId: process.env.AUTH_AUTH0_ID!,
       clientSecret: process.env.AUTH_AUTH0_SECRET!,
       issuer: process.env.AUTH_AUTH0_ISSUER!,
-      redirectProxyUrl: process.env.AUTH_REDIRECT_PROXY_URL!,
     }),
   ],
   secret: process.env.AUTH_SECRET!,
@@ -28,14 +16,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
     },
+    jwt: async ({ profile, token }) => {
+      if (profile && profile.sub) {
+        const output = profile.sub.startsWith("auth0|")
+          ? profile.sub.slice(6)
+          : profile.sub;
+
+        token.sub = output ?? undefined;
+      }
+      return token;
+    },
+
     session: async ({ session, token }) => {
       if (session?.user && token.sub) {
-        const { data } = await getClient().query({
-          query: userDataQuery,
-          variables: { email: session.user.email },
-        });
-
-        if (data.userByEmail) session.user.id = data.userByEmail.id;
+        session.user.id = token.sub;
       }
       return session;
     },

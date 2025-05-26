@@ -16,25 +16,27 @@ export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
         <p className="w-full border-b border-black/15 text-lg font-medium">
           {user.firstName}
         </p>
-        <div className="flex gap-1">
-          {Array.from({ length: stars }, (_, i) => (
-            <Star
-              key={i}
-              size={20}
-              strokeWidth={1.5}
-              style={{ fill: "var(--color-primary)" }}
-              className="text-primary"
-            />
-          ))}
-          {Array.from({ length: 5 - stars }, (_, i) => (
-            <Star
-              key={i}
-              size={20}
-              strokeWidth={1.5}
-              className="text-primary"
-            />
-          ))}
-        </div>
+        {stars > 0 && (
+          <div className="flex gap-1">
+            {Array.from({ length: stars }, (_, i) => (
+              <Star
+                key={i}
+                size={20}
+                strokeWidth={1.5}
+                style={{ fill: "var(--color-primary)" }}
+                className="text-primary"
+              />
+            ))}
+            {Array.from({ length: 5 - stars }, (_, i) => (
+              <Star
+                key={i}
+                size={20}
+                strokeWidth={1.5}
+                className="text-primary"
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {description && <p>{description}</p>}
