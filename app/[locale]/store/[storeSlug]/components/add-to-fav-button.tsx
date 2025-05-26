@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { addFavoriteStore, removeFavoriteStore } from "../actions";
 import { Button } from "@/components/ui/button";
+import { Star, StarOff } from "lucide-react";
 
 const AddToFavButton = ({
   storeId,
@@ -30,7 +31,16 @@ const AddToFavButton = ({
       size="sm"
       style={{ maxWidth: "max-content" }}
     >
-      {isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+      {isFavorite ? (
+        <>
+          <StarOff />
+          Usuń z ulubionych
+        </>
+      ) : (
+        <>
+          <Star /> Dodaj do ulubionych
+        </>
+      )}
     </Button>
   );
 };

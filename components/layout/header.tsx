@@ -18,7 +18,7 @@ export default async function Header() {
   const session = await auth();
 
   return (
-    <header className="bg-background sticky top-0 z-[2000] rounded-lg drop-shadow-md">
+    <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
       <ContainerWrapper className="flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="flex items-center gap-1.5 text-xl font-bold">
           <Image src={logo} alt="Harvesty logo" priority className="w-6" />

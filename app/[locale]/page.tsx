@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <ContainerWrapper
       comp="main"
-      className="mt-12 flex min-h-screen flex-col gap-16 md:mt-20"
+      className="mt-12 flex flex-col gap-16 md:mt-20"
     >
       <section className="grid items-center gap-8 md:grid-cols-2">
         <div className="flex flex-col gap-4 md:max-w-md">

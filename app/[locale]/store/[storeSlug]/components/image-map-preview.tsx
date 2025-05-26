@@ -41,7 +41,7 @@ export const ImageMapPreview = ({
       )}
 
       <div
-        className="absolute right-0 bottom-0 z-[1000] cursor-pointer"
+        className="absolute right-0 bottom-0 z-10 cursor-pointer"
         onClick={() => setShowMap((prev) => !prev)}
       >
         <div className="border-b-background border-shadow size-0 rotate-0 border-b-64 border-l-64 border-solid shadow-[0_2px_5px_rgba(0,0,0,0.15),-2px_-2px_5px_rgba(0,0,0,0.1)] drop-shadow-2xl"></div>

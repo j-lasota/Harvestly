@@ -29,13 +29,13 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} className="h-full">
+    <html lang={locale}>
       <body
-        className={`${jost.variable} ${kalam.variable} text-foreground font-jost bg-background h-full antialiased`}
+        className={`${jost.variable} ${kalam.variable} text-foreground font-jost bg-background min-h-screen antialiased`}
       >
         <SessionProvider>
           <NextIntlClientProvider>
-            <div className="flex h-full flex-col">
+            <div className="flex flex-col">
               <Header />
               <div className="relative flex-1">
                 <ApolloWrapper>{children}</ApolloWrapper>
