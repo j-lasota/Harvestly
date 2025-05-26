@@ -85,10 +85,16 @@ export default async function StorePage({
     query: storeBySlugQuery,
     variables: { slug: storeSlug },
   });
-  const { data: UserData } = await getClient().query({
-    query: userFavoriteStoresQuery,
-    variables: { id: userId! },
-  });
+
+  let UserData = null;
+  if (session?.user) {
+    const { data } = await getClient().query({
+      query: userFavoriteStoresQuery,
+      variables: { id: userId! },
+    });
+    UserData = data;
+  }
+
   const t = await getTranslations("store");
 
   if (!data || !data.storeBySlug) return notFound();
@@ -115,7 +121,7 @@ export default async function StorePage({
               <BadgeCheck size={32} strokeWidth={2} className="text-primary" />
             )}
           </h1>
-          {data.storeBySlug && (
+          {session?.user && data.storeBySlug && (
             <AddToFavButton
               storeId={data.storeBySlug.id}
               isFavorite={(UserData?.userById?.favoriteStores || []).some(

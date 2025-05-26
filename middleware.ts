@@ -16,7 +16,7 @@ export default auth((req) => {
   const isPublic = publicPathnameRegex.test(req.nextUrl.pathname);
 
   if (!req.auth && !isPublic) {
-    const newUrl = new URL("/signin", req.nextUrl.origin);
+    const newUrl = new URL("/", req.nextUrl.origin);
     return Response.redirect(newUrl);
   }
 

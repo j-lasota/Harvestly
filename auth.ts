@@ -18,11 +18,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     jwt: async ({ profile, token }) => {
       if (profile && profile.sub) {
-        const output = profile.sub.startsWith("auth0|")
-          ? profile.sub.slice(6)
-          : profile.sub;
-
-        token.sub = output ?? undefined;
+        token.sub = profile.sub.split("|")[1] ?? undefined;
       }
       return token;
     },
