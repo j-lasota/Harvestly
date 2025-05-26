@@ -12,32 +12,32 @@ VALUES ('Truskawki', true, 'FRUIT'),
        ('Marchew', true, 'VEGETABLE');
 
 -- Użytkownicy
-INSERT INTO users (first_name, last_name, email, phone_number, img, tier)
+INSERT INTO users (id, first_name, last_name, email, phone_number, img, tier)
 VALUES
-    ('Jan', 'Kowalski', 'jan1@example.com', '+48123123123', NULL,1),
-    ('Anna', 'Nowak', 'anna2@example.com', '+48123123124', NULL,1),
-    ('Piotr', 'Wiśniewski', 'piotr3@example.com', '+48123123125', NULL,1),
-    ('Maria', 'Wójcik', 'maria4@example.com', '+48123123126', NULL,1),
-    ('Tomasz', 'Kaczmarek', 'tomasz5@example.com', '+48123123127', NULL,1),
-    ('Agnieszka', 'Mazur', 'agnieszka6@example.com', '+48123123128', NULL,1),
-    ('Marek', 'Krawczyk', 'marek7@example.com', '+48123123129', NULL,1),
-    ('Katarzyna', 'Piotrowska', 'kasia8@example.com', '+48123123130', NULL,1),
-    ('Paweł', 'Grabowski', 'pawel9@example.com', '+48123123131', NULL,1),
-    ('Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL,1);
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Jan', 'Kowalski', 'jan1@example.com', '+48123123123', NULL, 1),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Anna', 'Nowak', 'anna2@example.com', '+48123123124', NULL, 1),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Piotr', 'Wiśniewski', 'piotr3@example.com', '+48123123125', NULL, 1),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Maria', 'Wójcik', 'maria4@example.com', '+48123123126', NULL, 1),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tomasz', 'Kaczmarek', 'tomasz5@example.com', '+48123123127', NULL, 1),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Agnieszka', 'Mazur', 'agnieszka6@example.com', '+48123123128', NULL, 1),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Marek', 'Krawczyk', 'marek7@example.com', '+48123123129', NULL, 1),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Katarzyna', 'Piotrowska', 'kasia8@example.com', '+48123123130', NULL, 1),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Paweł', 'Grabowski', 'pawel9@example.com', '+48123123131', NULL, 1),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL, 1);
 
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
-    (1, 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
-    (2, 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
-    (3, 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
-    (4, 'Smaki Lata', 'smaki-lata-1', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
-    (5, 'Zielony Kram', 'zielony-kram-1', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
-    (6, 'Ogród Marii', 'ogrod-marii-1', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
-    (7, 'Targowy Raj', 'targowy-raj-1', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
-    (8, 'Smaczny Koszyk', 'smaczny-koszyk-1', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
-    (9, 'Sadownik', 'sadownik-1', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
-    (10, 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Smaki Lata', 'smaki-lata-1', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Zielony Kram', 'zielony-kram-1', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Ogród Marii', 'ogrod-marii-1', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Targowy Raj', 'targowy-raj-1', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Smaczny Koszyk', 'smaczny-koszyk-1', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Sadownik', 'sadownik-1', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (store_id, product_id, price, quantity, image_url)
@@ -199,13 +199,13 @@ VALUES
 -- Opinie
 INSERT INTO opinions (store_id, user_id, description, stars)
 VALUES
-    (1, 3, 'Świetne owoce, bardzo świeże!', 5),
-    (2, 1, 'Obsługa bardzo miła, polecam!', 4),
-    (3, 2, 'Super ceny i lokalizacja.', 5),
-    (4, 5, 'Jakość mogłaby być lepsza.', 3),
-    (5, 7, 'Zawsze wracam po więcej!', 5),
-    (6, 4, 'Fajne miejsce, eko owoce.', 4),
-    (7, 10, 'Duży wybór i dobra cena.', 5),
-    (8, 9, 'Lubię ten sklep, lokalnie i smacznie.', 5),
-    (9, 8, 'Średnie ceny, ale dobra jakość.', 4),
-    (10, 7, 'Polecam każdemu!', 5);
+    (1, '81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Świetne owoce, bardzo świeże!', 5),
+    (2, '9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Obsługa bardzo miła, polecam!', 4),
+    (3, 'a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Super ceny i lokalizacja.', 5),
+    (4, '8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Jakość mogłaby być lepsza.', 3),
+    (5, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Zawsze wracam po więcej!', 5),
+    (6, 'b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Fajne miejsce, eko owoce.', 4),
+    (7, '07a0fc37-d3a7-408e-a765-098e2c612258', 'Duży wybór i dobra cena.', 5),
+    (8, 'd4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Lubię ten sklep, lokalnie i smacznie.', 5),
+    (9, 'e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Średnie ceny, ale dobra jakość.', 4),
+    (10, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Polecam każdemu!', 5);

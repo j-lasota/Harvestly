@@ -17,10 +17,10 @@ import java.util.List;
 public class Auth0UserController {
     private final Auth0UserService auth0UserService;
 
-    // 1) Batch sync – przyjmuje listę
+    // 1) Batch sync
     @PostMapping("/sync-users")
-    public ResponseEntity<Void> syncUsers(@RequestBody List<Auth0UserDto> users) {
-        auth0UserService.processIncomingUsers(users);
+    public ResponseEntity<Void> syncUsers() {
+        auth0UserService.synchronizeUsers();
         return ResponseEntity.ok().build();
     }
 
