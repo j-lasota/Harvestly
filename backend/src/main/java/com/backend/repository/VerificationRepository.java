@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VerificationRepository extends JpaRepository<Verification, Long> {
     long countByStoreId(Long shopId);
-    boolean existsByStoreIdAndUserId(Long store_id, Long user_id);
+    boolean existsByStoreIdAndUserId(Long store_id, String user_id);
 }

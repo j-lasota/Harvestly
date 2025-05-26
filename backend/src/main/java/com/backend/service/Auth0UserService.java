@@ -28,7 +28,7 @@ public class Auth0UserService {
 
     private static final int PAGE_SIZE = 50;
     private static final long SYNC_DELAY = 60 * 60 * 1000;
-    private static final long SYNC_RATE = 24 * 60 * 60 * 1000;
+    private static final long SYNC_RATE = 60 * 60 * 1000;
 
 
     @Transactional
@@ -62,9 +62,12 @@ public class Auth0UserService {
 
     private void createFromDto(Auth0UserDto dto) {
         User user = new User();
+        String rawId = dto.getUserId();
+        String cleanId = rawId.contains("|") ? rawId.substring(rawId.indexOf("|") + 1) : rawId;
+        user.setId(cleanId);
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getName());
-        user.setLastName("");         // lub rozbij `dto.getName()` jeśli masz oddzielne given/family
+        user.setLastName("");
         user.setTier(0);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
@@ -160,6 +163,9 @@ public class Auth0UserService {
 
     private User createUserFromAuth0(com.auth0.json.mgmt.users.User auth0User) {
         User user = new User();
+        String rawId = auth0User.getId();
+        String cleanId = rawId.contains("|") ? rawId.substring(rawId.indexOf("|") + 1) : rawId;
+        user.setId(cleanId);
         user.setEmail(auth0User.getEmail());
 
         Map<String, Object> userMetadata = auth0User.getUserMetadata();
