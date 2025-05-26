@@ -28,7 +28,7 @@ public class Auth0UserService {
 
     private static final int PAGE_SIZE = 50;
     private static final long SYNC_DELAY = 60 * 60 * 1000;
-    private static final long SYNC_RATE = 24 * 60 * 60 * 1000;
+    private static final long SYNC_RATE = 60 * 60 * 1000;
 
 
     @Transactional
@@ -64,7 +64,7 @@ public class Auth0UserService {
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getName());
-        user.setLastName("");         // lub rozbij `dto.getName()` jeśli masz oddzielne given/family
+        user.setLastName("");
         user.setTier(0);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
