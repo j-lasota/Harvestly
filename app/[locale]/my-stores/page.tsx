@@ -13,11 +13,13 @@ const allMyStoresQuery = graphql(`
       stores {
         id
         name
+        imageUrl
         slug
       }
       favoriteStores {
         id
         name
+        imageUrl
         slug
       }
     }

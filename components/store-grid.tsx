@@ -1,6 +1,6 @@
 import { DirectionAwareHover } from "@/components/store-card";
 
-import placeholder from "@/public/placeholder.jpeg";
+import placeholder from "@/public/store_placeholder.jpg";
 import { Link } from "@/i18n/navigation";
 
 interface StoreGridProps {
@@ -11,6 +11,7 @@ interface StoreGridProps {
 interface Store {
   id: string;
   name: string;
+  imageUrl: string | null;
   slug: string | null;
 }
 
@@ -24,7 +25,7 @@ const StoreGrid = ({ title, stores }: StoreGridProps) => {
         {stores && stores.length > 0 ? (
           stores.map((store) => (
             <Link href={`/store/${store.slug}`} key={store.id}>
-              <DirectionAwareHover imageUrl={placeholder}>
+              <DirectionAwareHover imageUrl={store.imageUrl ?? placeholder}>
                 <p className="text-xl font-bold">{store.name}</p>
               </DirectionAwareHover>
             </Link>
