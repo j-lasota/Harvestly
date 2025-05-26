@@ -50,12 +50,12 @@ class VerificationControllerTests {
         store2.setName("Organic Market");
 
         User user1 = new User();
-        user1.setId(1L);
+        user1.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user1.setFirstName("John");
         user1.setLastName("Doe");
 
         User user2 = new User();
-        user2.setId(2L);
+        user2.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75");
         user2.setFirstName("Jane");
         user2.setLastName("Smith");
 
@@ -102,7 +102,7 @@ class VerificationControllerTests {
         store.setName("Farm Fresh");
 
         User user = new User();
-        user.setId(1L);
+        user.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75");
         user.setFirstName("John");
         user.setLastName("Doe");
 
@@ -114,7 +114,7 @@ class VerificationControllerTests {
         // Act & Assert
         String query = """
                 query {
-                  verificationById(id: 1) {
+                  verificationById(id: 2a6e8658-d6db-45d8-9131-e8f87b62ed75) {
                     id
                     store {
                       id
@@ -165,7 +165,7 @@ class VerificationControllerTests {
     void createVerification_ReturnsCreatedVerification() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 2L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
         Store store = new Store();
         store.setId(storeId);
@@ -190,7 +190,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 2
+                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
                   ) {
                     id
                     store {
@@ -221,7 +221,7 @@ class VerificationControllerTests {
     void createVerification_ThrowsException_WhenStoreNotFound() {
         // Arrange
         Long storeId = 999L;
-        Long userId = 1L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
         User user = new User();
         user.setId(userId);
@@ -234,7 +234,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 999
-                    userId: 1
+                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
                   ) {
                     id
                   }
@@ -253,7 +253,7 @@ class VerificationControllerTests {
     void createVerification_ThrowsException_WhenUserNotFound() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 999L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
         Store store = new Store();
         store.setId(storeId);
@@ -266,7 +266,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 999
+                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
                   ) {
                     id
                   }
@@ -285,7 +285,7 @@ class VerificationControllerTests {
     void createVerification_ThrowsException_WhenVerificationAlreadyExists() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 2L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
         Store store = new Store();
         store.setId(storeId);
@@ -364,7 +364,7 @@ class VerificationControllerTests {
     void createVerification_VerifiesStore_WhenFiveVerificationsExist() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 2L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
         Store store = new Store();
         store.setId(storeId);
@@ -372,7 +372,7 @@ class VerificationControllerTests {
         store.setVerified(false);
 
         User storeOwner = new User();
-        storeOwner.setId(3L);
+        storeOwner.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62");
         storeOwner.setTier(0);
 
         store.setUser(storeOwner);
@@ -391,7 +391,7 @@ class VerificationControllerTests {
         verifiedStore.setVerified(true);
 
         User upgradedStoreOwner = new User();
-        upgradedStoreOwner.setId(3L);
+        upgradedStoreOwner.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         upgradedStoreOwner.setTier(1);
 
         verifiedStore.setUser(upgradedStoreOwner);
@@ -406,7 +406,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 2
+                    userId: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62
                   ) {
                     id
                     store {

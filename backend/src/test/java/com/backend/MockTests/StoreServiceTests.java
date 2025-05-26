@@ -36,6 +36,7 @@ class StoreServiceTests {
     @Test
     void testGetShopById_StoreExists() {
         User user = new User();
+        user.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("johndoe@example.com");
@@ -67,6 +68,7 @@ class StoreServiceTests {
     @Test
     void testSaveStore() {
         User user = new User();
+        user.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("johndoe@example.com");
@@ -87,6 +89,7 @@ class StoreServiceTests {
     @Test
     void testUpdateStore_Success() {
         User user = new User();
+        user.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("johndoe@example.com");

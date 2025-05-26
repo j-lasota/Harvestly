@@ -39,7 +39,7 @@ public class VerificationController {
     }
 
     @MutationMapping
-    public Verification createVerification(@Argument Long storeId, @Argument Long userId) {
+    public Verification createVerification(@Argument Long storeId, @Argument String userId) {
         Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
         if(shop.isEmpty()) {

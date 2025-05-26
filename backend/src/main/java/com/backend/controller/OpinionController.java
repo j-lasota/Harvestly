@@ -37,7 +37,7 @@ public class OpinionController {
     }
 
     @MutationMapping
-    public Opinion createOpinion(@Argument Long storeId, @Argument Long userId, @Argument String description, @Argument Integer stars) {
+    public Opinion createOpinion(@Argument Long storeId, @Argument String userId, @Argument String description, @Argument Integer stars) {
         Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
         if(shop.isEmpty()) {
