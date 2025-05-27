@@ -66,7 +66,7 @@ class OpinionControllerTests {
                 mutation {
                   createOpinion(
                     storeId: 1
-                    userId: 2
+                    userId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62"
                     description: "Great store with fresh products!"
                     stars: 5
                   ) {
