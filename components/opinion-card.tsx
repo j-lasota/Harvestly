@@ -11,9 +11,9 @@ export interface OpinionCardProps {
 
 export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
   return (
-    <article className="flex w-full max-w-3xl flex-col gap-2 rounded-xl bg-white px-4 py-3 shadow-md">
+    <article className="bg-opinion-card flex w-full max-w-3xl flex-col gap-2 rounded-xl px-4 py-3 shadow-md">
       <div className="flex items-center justify-between gap-6">
-        <p className="w-full border-b border-black/15 text-lg font-medium">
+        <p className="border-foreground/15 w-full border-b text-lg font-medium">
           {user.firstName}
         </p>
         {stars > 0 && (

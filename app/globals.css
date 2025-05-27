@@ -9,31 +9,24 @@
     --accent: oklch(0.98 0.018 78.24); /* #fff7eb */
     --primary: oklch(0.65 0.1096 129.1); /* #799b50 */
 
+    --opinion-background: oklch(1 0 0); /* #ffffff */
+
     --shadow: oklch(0.95 0.0272 83.54) /* #f6ecd9 */;
   }
 
-.contrast {
-  /* Base colors */
-  --background: oklch(0.15 0 0); /* #0d0d0d*/
-  --foreground: oklch(0.98 0 0); /* #ffffff*/
+  .contrast {
+    /* Base colors */
+    --background: oklch(0.15 0 0); /* #0d0d0d*/
+    --foreground: oklch(0.98 0 0); /* #ffffff*/
 
-  /* Accent colors */
-  --accent: oklch(0.95 0.02 90); /* #fff9f0 - Soft warm white */
-  --primary: oklch(0.6 0.15 140); /* #4a8bd6
+    /* Accent colors */
+    --accent: oklch(0.95 0.02 90); /* #f4eee0 - Soft warm white */
+    --primary: oklch(0.6 0.15 140); /* #499537 */
 
-  /* Supporting colors */
-  --secondary: oklch(0.7 0.2 60); /* #c9a455 - Gold/yellow (5.7:1 contrast) */
-  --tertiary: oklch(0.7 0.15 30); /* #c45c5c - Coral red (5.1:1 contrast) */
+    --opinion-card: oklch(0.3 0 0); /* #000000 */
 
-  /* UI elements */
-  --shadow: oklch(0.3 0 0 / 0.4); /* Semi-transparent dark shadow */
-  --border: oklch(0.4 0 0); /* #666666 - Medium gray for borders */
-
-  /* Feedback colors */
-  --success: oklch(0.6 0.2 150); /* #3d9970 - Green (6.3:1 contrast) */
-  --warning: oklch(0.7 0.2 80); /* #e6b422 - Yellow (5.9:1 contrast) */
-  --error: oklch(0.6 0.25 30); /* #d64242 - Red (6.1:1 contrast) */
-}
+    --shadow: oklch(0.3 0 0 / 0.4); /* Semi-transparent dark shadow */
+  }
 }
 
 @theme {
@@ -44,6 +37,7 @@
   --color-primary: var(--primary);
 
   --color-shadow: var(--shadow);
+  --color-opinion-card: var(--opinion-card);
 
   --animate-lite-pulse: lite-pulse 1s ease-in-out infinite;
 }
