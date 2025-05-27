@@ -42,7 +42,7 @@ class OpinionControllerTests {
     void createOpinion_ReturnsCreatedOpinion() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 2L;
+        String userId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62";
         String description = "Great store with fresh products!";
         Integer stars = 5;
 
@@ -101,7 +101,7 @@ class OpinionControllerTests {
     void createOpinion_ThrowsException_WhenStoreNotFound() {
         // Arrange
         Long storeId = 999L;
-        Long userId = 2L;
+        String userId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62";
 
         User mockUser = new User();
         mockUser.setId(userId);
@@ -137,7 +137,7 @@ class OpinionControllerTests {
     void createOpinion_ThrowsException_WhenUserNotFound() {
         // Arrange
         Long storeId = 1L;
-        Long userId = 999L;
+        String userId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ";
 
         Store mockStore = new Store();
         mockStore.setId(storeId);
@@ -183,11 +183,11 @@ class OpinionControllerTests {
         mockStore.setName("Test Store");
 
         User user1 = new User();
-        user1.setId(1L);
+        user1.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user1.setFirstName("John");
 
         User user2 = new User();
-        user2.setId(2L);
+        user2.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
         user2.setFirstName("Jane");
 
         List<Opinion> mockOpinions = Arrays.asList(

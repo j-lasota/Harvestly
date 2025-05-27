@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -37,14 +38,15 @@ class UserControllerTests {
     @Test
     void userById_ReturnsUser_WhenUserExists() {
         // Arrange
-        Long userId = 1L;
-        User mockUser = new User("John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
+        User mockUser = new User(userId,"John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
+        mockUser.setId(userId);
         when(userService.getUserById(userId)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert
         String query = """
                 query {
-                  userById(id: 1) {
+                  userById(id: 2a6e8658-d6db-45d8-9131-e8f87b62ed75) {
                     firstName
                     lastName
                     email
@@ -65,8 +67,8 @@ class UserControllerTests {
     void users_ReturnsAllUsers() {
         // Arrange
         List<User> mockUsers = Arrays.asList(
-                new User("John", "Doe", "john@example.com", "123456789", 0, "img1.jpg"),
-                new User("Jane", "Smith", "jane@example.com", "987654321", 1, "img2.jpg")
+                new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75", "John", "Doe", "john@example.com", "123456789", 0, "img1.jpg"),
+                new User("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62","Jane", "Smith", "jane@example.com", "987654321", 1, "img2.jpg")
         );
         when(userService.getAllUsers()).thenReturn(mockUsers);
 
@@ -91,7 +93,7 @@ class UserControllerTests {
     @Test
     void createUser_ReturnsCreatedUser() {
         // Arrange
-        User createdUser = new User("John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
+        User createdUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.saveUser(any(User.class))).thenReturn(createdUser);
 
         // Act & Assert
@@ -126,8 +128,8 @@ class UserControllerTests {
     void updateUser_ReturnsUpdatedUser() {
         // Arrange
         Long userId = 1L;
-        User updatedUser = new User("John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
-        when(userService.updateUser(anyLong(), any(), any(), any(), any(), any(), any()))
+        User updatedUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
+        when(userService.updateUser(String.valueOf(UUID.randomUUID()), any(), any(), any(), any(), any(), any()))
                 .thenReturn(updatedUser);
 
         // Act & Assert
@@ -164,7 +166,7 @@ class UserControllerTests {
     @Test
     void deleteUser_ReturnsTrue_WhenUserDeleted() {
         // Arrange
-        Long userId = 1L;
+        String userId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62";
         when(userService.deleteUserById(userId)).thenReturn(true);
 
         // Act & Assert
@@ -185,7 +187,7 @@ class UserControllerTests {
     void userByEmail_ReturnsUser() {
         // Arrange
         String email = "john@example.com";
-        User mockUser = new User("John", "Doe", email, "123456789", 0, "img.jpg");
+        User mockUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", email, "123456789", 0, "img.jpg");
         when(userService.getUserByEmail(email)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert

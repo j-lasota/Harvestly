@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @QueryMapping
-    public Optional<User> userById(@Argument Long id) {
+    public Optional<User> userById(@Argument String id) {
         return userService.getUserById(id);
     }
 
@@ -32,30 +32,30 @@ public class UserController {
     }
 
     @MutationMapping
-    public User createUser(@Argument String firstName, @Argument String lastName, @Argument String email,
+    public User createUser(@Argument String id, @Argument String firstName, @Argument String lastName, @Argument String email,
                            @Argument String phoneNumber, @Argument String img) {
-        return userService.saveUser(new User(firstName, lastName, email, phoneNumber, 0,img));
+        return userService.saveUser(new User(id, firstName, lastName, email, phoneNumber, 0,img));
     }
 
     @MutationMapping
-    public User updateUser(@Argument Long id, @Argument String firstName, @Argument String lastName,
+    public User updateUser(@Argument String id, @Argument String firstName, @Argument String lastName,
                            @Argument String email, @Argument String phoneNumber,
                            @Argument Integer tier, @Argument String img) {
         return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img);
     }
 
     @MutationMapping
-    public Boolean deleteUser(@Argument Long id) {
+    public Boolean deleteUser(@Argument String id) {
         return userService.deleteUserById(id);
     }
 
     @MutationMapping
-    public User addFavoriteStore(@Argument Long userId, @Argument Long storeId) {
+    public User addFavoriteStore(@Argument String userId, @Argument Long storeId) {
         return userService.addFavoriteShop(userId, storeId);
     }
 
     @MutationMapping
-    public User removeFavoriteStore(@Argument Long userId, @Argument Long storeId) {
+    public User removeFavoriteStore(@Argument String userId, @Argument Long storeId) {
         return userService.removeFavoriteShop(userId, storeId);
     }
 

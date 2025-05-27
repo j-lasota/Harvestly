@@ -28,7 +28,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, String firstName, String lastName, String email, String phoneNumber, Integer tier, String img) {
+    public User updateUser(String id, String firstName, String lastName, String email, String phoneNumber, Integer tier, String img) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (firstName != null) {
@@ -52,7 +52,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Boolean deleteUserById(Long id) {
+    public Boolean deleteUserById(String id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;
@@ -60,7 +60,7 @@ public class UserService {
         return false;
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
     }
 
@@ -73,7 +73,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User addFavoriteShop(Long userId, Long shopId) {
+    public User addFavoriteShop(String userId, Long shopId) {
         Optional<User> user = getUserById(userId);
         Optional<Store> shop = storeService.getStoreById(shopId);
         if(user.isEmpty()) {
@@ -86,7 +86,7 @@ public class UserService {
         return userRepository.save(user.get());
     }
 
-    public User removeFavoriteShop(Long userId, Long shopId) {
+    public User removeFavoriteShop(String userId, Long shopId) {
         Optional<User> user = getUserById(userId);
         Optional<Store> shop = storeService.getStoreById(shopId);
         if(user.isEmpty()) {

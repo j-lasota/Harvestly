@@ -18,8 +18,7 @@ import java.util.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String firstName;
 
@@ -53,7 +52,8 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String phoneNumber, int tier, String img) {
+    public User(String id, String firstName, String lastName, String email, String phoneNumber, int tier, String img) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

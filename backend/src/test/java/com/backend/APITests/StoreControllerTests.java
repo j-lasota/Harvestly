@@ -38,12 +38,12 @@ class StoreControllerTests {
     void stores_ReturnsAllStores() {
         // Arrange
         User user1 = new User();
-        user1.setId(1L);
+        user1.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user1.setFirstName("John");
         user1.setLastName("Doe");
 
         User user2 = new User();
-        user2.setId(2L);
+        user2.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
         user2.setFirstName("Jane");
         user2.setLastName("Smith");
 
@@ -80,7 +80,7 @@ class StoreControllerTests {
         // Arrange
         Long storeId = 1L;
         User user = new User();
-        user.setId(1L);
+        user.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
         user.setFirstName("John");
         user.setLastName("Doe");
 
@@ -144,7 +144,7 @@ class StoreControllerTests {
         // Arrange
         String slug = "farm-fresh";
         User user = new User();
-        user.setId(1L);
+        user.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
 
         Store mockStore = new Store(user, "Farm Fresh", "Local produce", 40.7128, -74.0060, "New York", "123 Broadway", "image1.jpg", slug);
         mockStore.setId(1L);
@@ -174,7 +174,7 @@ class StoreControllerTests {
     @Test
     void createStore_ReturnsCreatedStore() {
         // Arrange
-        Long userId = 1L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
         User user = new User();
         user.setId(userId);
         user.setFirstName("John");
@@ -230,7 +230,7 @@ class StoreControllerTests {
     @Test
     void createStore_ThrowsException_WhenUserNotFound() {
         // Arrange
-        Long userId = 999L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
         when(userService.getUserById(userId)).thenReturn(Optional.empty());
 
         // Act & Assert
