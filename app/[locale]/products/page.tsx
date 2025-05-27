@@ -5,16 +5,6 @@ import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { getClient } from "@/graphql/apollo-client";
 import { graphql } from "@/graphql";
 
-// Test query
-// const createQuery = graphql(`
-//   mutation createProduct($name: String!, $category: ProductCategory!) {
-//     createProduct(name: $name, category: $category) {
-//       id
-//       name
-//     }
-//   }
-// `);
-
 const allProductsQuery = graphql(`
   query AllProducts {
     ownProducts {
@@ -44,12 +34,8 @@ const allCategoriesQuery = graphql(`
 `);
 
 export default async function ProductsPage() {
-  // const { data: created } = await getClient().mutate({
-  //   mutation: createQuery,
-  //   variables: { name: "Pomidor", category: "FRUIT" },
-  // });
-
   const t = await getTranslations("products");
+
   const { data: products } = await getClient().query({
     query: allProductsQuery,
   });

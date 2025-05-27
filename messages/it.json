@@ -1,0 +1,115 @@
+{
+  "home": {
+    "health": "Salute",
+    "starts": "inizia",
+    "locally": "localmente",
+    "choose": "scegli",
+    "fresh": "fresco",
+    "fromFarmers": "prodotti dagli agricoltori della tua zona",
+    "button": "Inizia ora"
+  },
+  "auth": {
+    "join": "Unisciti alla comunità...",
+    "enjoy": "...e goditi",
+    "healthy": "cibo",
+    "food": "sano",
+    "login": "Accedi",
+    "signinKeycloak": "Accedi"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Prodotti",
+    "map": "Mappa",
+    "about": "Chi siamo",
+    "contact": "Contatto",
+    "signIn": "Accedi"
+  },
+  "products": {
+    "title": "Prodotti disponibili",
+    "soldBy": "Venduto da",
+    "available": "Disponibile"
+  },
+  "avatarMenu": {
+    "myAccount": "Il mio account",
+    "profile": "Profilo",
+    "myStores": "I miei negozi",
+    "addStore": "Aggiungi negozio",
+    "signOut": "Esci"
+  },
+  "store": {
+    "location": "Posizione",
+    "businessHours": "Orari di apertura",
+    "addToFavorites": "Aggiungi ai preferiti",
+    "removeFromFavorites": "Rimuovi dai preferiti",
+    "description": "Descrizione",
+    "noDescription": "Nessuna descrizione fornita",
+    "verified": "Verificato",
+    "products": {
+      "soldBy": "Venduto da",
+      "available": "Disponibile"
+    },
+    "days": {
+      "MONDAY": "Lunedì",
+      "TUESDAY": "Martedì",
+      "WEDNESDAY": "Mercoledì",
+      "THURSDAY": "Giovedì",
+      "FRIDAY": "Venerdì",
+      "SATURDAY": "Sabato",
+      "SUNDAY": "Domenica"
+    },
+    "reviews": {
+      "title": "Recensioni",
+      "addReview": "Aggiungi una recensione",
+      "starsLabel": "stelle",
+      "anonymousUser": "Anonimo",
+      "noReviews": "Nessuna recensione ancora",
+      "leaveReview": "Lascia la tua recensione",
+      "yourOpinion": "La tua opinione",
+      "submit": "Invia",
+      "thankYou": "Grazie per la tua recensione!"
+    }
+  },
+  "map": {
+    "loading": "Caricamento dati negozi...",
+    "loadingError": "Impossibile caricare i dati dei negozi",
+    "selectShop": "Seleziona negozio:",
+    "selectShopPlaceholder": "Seleziona un negozio",
+    "searchCity": "Cerca negozi in città:",
+    "cityPlaceholder": "Inserisci nome città",
+    "noShopsInCity": "Nessun negozio in questa città",
+    "searchPlaceholder": "Inserisci indirizzo...",
+    "addressNotFound": "Indirizzo non trovato.",
+    "searchError": "Errore ricerca indirizzo:",
+    "storeInfo": {
+      "description": "Descrizione",
+      "noDescription": "Nessuna descrizione disponibile",
+      "address": "Indirizzo",
+      "openingHours": "Orari di apertura",
+      "noHours": "Nessun orario di apertura disponibile.",
+      "photo": "Foto"
+    },
+    "popup": {
+      "searchedAddress": "Indirizzo cercato",
+      "storeLocation": "{storeName} — {city}"
+    }
+  },
+  "addOpinion": {
+    "ratingLabel": "Valutazione",
+    "starAriaLabel": "Valuta con {count} stella/e",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Il tuo messaggio...",
+    "submit": "Invia",
+    "pending": "Invio in corso..."
+  },
+  "favorites": {
+    "add": "Aggiungi ai preferiti",
+    "remove": "Rimuovi dai preferiti"
+  },
+  "myStores": {
+    "my": "I miei negozi",
+    "favorites": "Negozi preferiti"
+  },
+  "storeGrid": {
+    "empty": "Nessun negozio disponibile"
+  }
+}

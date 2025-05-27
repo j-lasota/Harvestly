@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { addFavoriteStore, removeFavoriteStore } from "../actions";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ const AddToFavButton = ({
   storeId: string;
   isFavorite: boolean;
 }) => {
+  const t = useTranslations("favorites");
   const [isFavorite, setIsFavorite] = useState(isFav);
 
   const handleFavorite = () => {
@@ -34,11 +36,12 @@ const AddToFavButton = ({
       {isFavorite ? (
         <>
           <StarOff />
-          Usuń z ulubionych
+          {t("remove")}
         </>
       ) : (
         <>
-          <Star /> Dodaj do ulubionych
+          <Star />
+          {t("add")}
         </>
       )}
     </Button>

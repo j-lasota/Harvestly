@@ -1,0 +1,76 @@
+{
+    "home": {
+        "health": "Здоров'я",
+        "starts": "починається",
+        "locally": "локально",
+        "choose": "обирайте",
+        "fresh": "свіже",
+        "fromFarmers": "продукти від фермерів у вашому регіоні",
+        "button": "Почати зараз"
+    },
+    "auth": {
+        "join": "Приєднуйтесь до спільноти...",
+        "enjoy": "...та насолоджуйтесь",
+        "healthy": "здоровою",
+        "food": "їжею",
+        "login": "Увійти",
+        "signinKeycloak": "Увійти"
+    },
+    "nav": {
+        "home": "Головна",
+        "products": "Продукти",
+        "map": "Карта",
+        "about": "Про нас",
+        "contact": "Контакти",
+        "signIn": "Увійти"
+    },
+    "products": {
+        "title": "Доступні продукти",
+        "soldBy": "Продає",
+        "available": "Доступно"
+    },
+    "avatarMenu": {
+        "myAccount": "Мій акаунт",
+        "profile": "Профіль",
+        "myStores": "Мої магазини",
+        "addStore": "Додати магазин",
+        "signOut": "Вийти"
+    },
+    "store": {
+        "location": "Місцезнаходження",
+        "businessHours": "Години роботи",
+        "days": {
+            "MONDAY": "Понеділок",
+            "TUESDAY": "Вівторок",
+            "WEDNESDAY": "Середа",
+            "THURSDAY": "Четвер",
+            "FRIDAY": "П'ятниця",
+            "SATURDAY": "Субота",
+            "SUNDAY": "Неділя"
+        }
+    },
+    "map": {
+        "loading": "Завантаження даних магазинів...",
+        "loadingError": "Не вдалося завантажити дані магазинів",
+        "selectShop": "Виберіть магазин:",
+        "selectShopPlaceholder": "Виберіть магазин",
+        "searchCity": "Пошук магазинів у місті:",
+        "cityPlaceholder": "Введіть назву міста",
+        "noShopsInCity": "Немає магазинів у цьому місті",
+        "searchPlaceholder": "Введіть адресу...",
+        "addressNotFound": "Адресу не знайдено.",
+        "searchError": "Помилка пошуку адреси:",
+        "storeInfo": {
+            "description": "Опис",
+            "noDescription": "Опис відсутній",
+            "address": "Адреса",
+            "openingHours": "Години роботи",
+            "noHours": "Інформація про години роботи відсутня.",
+            "photo": "Фото"
+        },
+        "popup": {
+            "searchedAddress": "Шукана адреса",
+            "storeLocation": "{storeName} — {city}"
+        }
+    }
+}

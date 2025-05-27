@@ -1,5 +1,6 @@
-import { DirectionAwareHover } from "@/components/store-card";
+import { useTranslations } from "next-intl";
 
+import { DirectionAwareHover } from "@/components/store-card";
 import placeholder from "@/public/store_placeholder.jpg";
 import { Link } from "@/i18n/navigation";
 
@@ -16,6 +17,8 @@ interface Store {
 }
 
 const StoreGrid = ({ title, stores }: StoreGridProps) => {
+  const t = useTranslations("storeGrid");
+
   return (
     <section>
       <h1 className="mb-4 text-2xl font-medium sm:text-3xl lg:text-4xl">
@@ -32,7 +35,7 @@ const StoreGrid = ({ title, stores }: StoreGridProps) => {
           ))
         ) : (
           <div className="col-span-3 py-10 text-center text-lg">
-            Brak sklepów
+            {t("empty")}
           </div>
         )}
       </div>

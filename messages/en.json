@@ -38,7 +38,16 @@
   },
   "store": {
     "location": "Location",
-    "businessHours": "Business hours",
+    "businessHours": "Business Hours",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "description": "Description",
+    "noDescription": "No description provided",
+    "verified": "Verified",
+    "products": {
+      "soldBy": "Sold by",
+      "available": "Available"
+    },
     "days": {
       "MONDAY": "Monday",
       "TUESDAY": "Tuesday",
@@ -47,6 +56,61 @@
       "FRIDAY": "Friday",
       "SATURDAY": "Saturday",
       "SUNDAY": "Sunday"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "addReview": "Add a review",
+      "starsLabel": "stars",
+      "anonymousUser": "Anonymous",
+      "noReviews": "No reviews yet",
+      "leaveReview": "Leave your review",
+      "yourOpinion": "Your opinion",
+      "submit": "Submit",
+      "thankYou": "Thank you for your review!"
     }
+  },
+  "map": {
+    "loading": "Loading store data...",
+    "loadingError": "Failed to load store data",
+    "selectShop": "Select a store:",
+    "selectShopPlaceholder": "Select a store",
+    "searchCity": "Check stands in city:",
+    "cityPlaceholder": "Enter city name",
+    "noShopsInCity": "No stores in this city",
+    "searchPlaceholder": "Enter address...",
+    "addressNotFound": "Address not found.",
+    "searchError": "Address search error:",
+    "storeInfo": {
+      "description": "Description",
+      "noDescription": "No description available.",
+      "address": "Address",
+      "openingHours": "Opening hours",
+      "noHours": "No opening hours information available.",
+      "photo": "Photo"
+    },
+    "popup": {
+      "searchedAddress": "Searched address",
+      "storeLocation": "{storeName} — {city}"
+    }
+  },
+  "addOpinion": {
+    "ratingLabel": "Rating",
+    "starAriaLabel": "Rate with {count} star(s)",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your message...",
+    "submit": "Send",
+    "pending": "Sending..."
+  },
+  
+  "favorites": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "myStores": {
+    "my": "My stores",
+    "favorites": "Favorite stores"
+  },
+  "storeGrid": {
+    "empty": "No stores available"
   }
 }

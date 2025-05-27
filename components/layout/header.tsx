@@ -8,7 +8,7 @@ import { AvatarMenu } from "@/components/layout/avatar-menu";
 import { SignOut } from "@/components/auth/signout-button";
 import { SignIn } from "@/components/auth/signin-button";
 import BurgerMenu from "@/components/layout/burger-menu";
-import DebilMode from "@/components/layout/debil-mode";
+import DebilMode from "@/components/layout/theme-toggle";
 import { NAVLINKS } from "@/constants/global";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";

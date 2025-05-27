@@ -121,6 +121,7 @@ export default async function StorePage({
               <BadgeCheck size={32} strokeWidth={2} className="text-primary" />
             )}
           </h1>
+
           {session?.user && data.storeBySlug && (
             <AddToFavButton
               storeId={data.storeBySlug.id}
@@ -129,6 +130,7 @@ export default async function StorePage({
               )}
             />
           )}
+
           <p className="font-kalam mb-4 text-lg">
             {data.storeBySlug.description}
           </p>
@@ -160,20 +162,19 @@ export default async function StorePage({
         </div>
       </div>
 
-      {/* // TODO: Add pagination */}
       {data.storeBySlug.ownProducts && (
         <ProductSection products={data.storeBySlug.ownProducts} />
       )}
 
       <section className="flex max-w-3xl flex-col gap-4">
-        <h3 className="mt-4 text-2xl font-semibold">Opinie:</h3>
+        <h3 className="mt-4 text-2xl font-semibold">{t("reviews.title")}</h3>
         {session?.user && <AddOpinion storeId={data.storeBySlug.id} />}
-        {data.storeBySlug.opinions ? (
+        {data.storeBySlug.opinions && data.storeBySlug.opinions.length > 0 ? (
           data.storeBySlug.opinions.map((opinion: OpinionCardProps) => (
-            <OpinionCard key={opinion.id} {...opinion}></OpinionCard>
+            <OpinionCard key={opinion.id} {...opinion} />
           ))
         ) : (
-          <p>Brak opinii</p>
+          <p>{t("reviews.noReviews")}</p>
         )}
       </section>
     </ContainerWrapper>

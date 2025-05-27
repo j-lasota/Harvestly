@@ -1,4 +1,6 @@
-// import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { getClient } from "@/graphql/apollo-client";
@@ -26,8 +28,8 @@ const allMyStoresQuery = graphql(`
   }
 `);
 
-// TODO: Replace mock data with real data
 export default async function MyStoresPage() {
+  const t = useTranslations("myStores");
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -43,14 +45,14 @@ export default async function MyStoresPage() {
     >
       {data.userById && data.userById.stores && (
         <StoreGrid
-          title="Moje sklepy"
+          title={t("my")}
           stores={data.userById.stores.filter((s) => s !== null)}
         />
       )}
 
-      {data.userById && data.userById.stores && (
+      {data.userById && data.userById.favoriteStores && (
         <StoreGrid
-          title="Polubione sklepy"
+          title={t("favorites")}
           stores={data.userById.favoriteStores.filter((s) => s !== null)}
         />
       )}

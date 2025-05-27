@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { useTranslations } from 'next-intl';
 
 const Map = dynamic(() => import('@/components/map/Map'), { ssr: false });
 
@@ -38,10 +39,10 @@ type StoreLocation = {
   imageUrl?: string;
 };
 
-
 const Page = () => {
+  const t = useTranslations();
   const { data, loading, error } = useQuery<{ stores: StoreLocation[] }>(SHOPS_LOCATIONS_QUERY);
-const stores = data?.stores ?? [];
+  const stores = data?.stores ?? [];
 
   const [mapCenter, setMapCenter] = useState<[number, number] | undefined>(undefined);
   const [mapZoom, setMapZoom] = useState(7);
@@ -81,17 +82,17 @@ const stores = data?.stores ?? [];
     <div className="w-full h-[calc(100vh-4rem)] relative md:h-[calc(100vh-5rem)]">
       {loading && (
         <div className="absolute top-4 left-4 bg-yellow-100 text-yellow-800 p-2 rounded z-50 shadow">
-          Ładowanie danych sklepów...
+          {t('map.loading')}
         </div>
       )}
       {error && (
         <div className="absolute top-4 left-4 bg-red-100 text-red-800 p-2 rounded z-50 shadow">
-          Nie udało się załadować danych sklepów: {error.message}
+          {t('map.loadingError')}: {error.message}
         </div>
       )}
-      <div className="absolute top-0 left-0 z-50 bg-background shadow-md  p-3 w-72 h-auto">
+      <div className="absolute top-0 left-0 z-50 bg-background shadow-md p-3 w-72 h-auto">
         <label htmlFor="storeSelect" className="block text-sm font-medium mb-1">
-          Wybierz stanowisko:
+          {t('map.selectShop')}
         </label>
         <select
           id="storeSelect"
@@ -99,7 +100,7 @@ const stores = data?.stores ?? [];
           value={selectedStore?.id || ''}
           onChange={handleShopChange}
         >
-          <option value="">-- Wybierz sklep --</option>
+          <option value="">-- {t('map.selectShopPlaceholder')} --</option>
           {stores.map((store) => (
             <option key={store.id} value={store.id}>
               {store.name} – {store.city}
@@ -109,7 +110,7 @@ const stores = data?.stores ?? [];
 
         <div className="mt-4">
           <label htmlFor="cityInput" className="block text-sm font-medium mb-1">
-            Sprawdź stoiska w mieście:
+            {t('map.searchCity')}
           </label>
           <div className="flex">
             <Input
@@ -118,14 +119,13 @@ const stores = data?.stores ?? [];
               className="border px-2 py-1 rounded w-full text-sm"
               value={cityInput}
               onChange={(e) => handleCitySearch(e.target.value)}
-              placeholder="Wpisz nazwę miasta"
+              placeholder={t('map.cityPlaceholder')}
             />
           </div>
         </div>
         
-
         {cityInput && filteredStores.length === 0 && (
-          <p className="mt-2 text-red-500 text-sm">Brak sklepów w tym mieście</p>
+          <p className="mt-2 text-red-500 text-sm">{t('map.noShopsInCity')}</p>
         )}
       </div>
 

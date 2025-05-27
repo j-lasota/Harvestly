@@ -1,4 +1,3 @@
-// components/layout/language-selector.tsx
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";

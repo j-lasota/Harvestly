@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Star } from "lucide-react";
 
 import { SubmitButton } from "@/components/submit-button";
@@ -8,6 +9,7 @@ import { addOpinionAction } from "../actions";
 import { cn } from "@/lib/utils";
 
 const AddOpinion = ({ storeId }: { storeId: string }) => {
+  const t = useTranslations("addOpinion");
   const [stateEmail, actionEmail] = useActionState(addOpinionAction, undefined);
   const [starsPreview, setStarsPreview] = useState(0);
   const [starsValue, setStarsValue] = useState(0);
@@ -20,13 +22,13 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
       <input type="hidden" name="storeId" value={storeId} />
 
       <label className="mb-3 flex flex-col gap-2" htmlFor="stars">
-        <span className="text-sm">Ocena</span>
+        <span className="text-sm">{t("ratingLabel")}</span>
         <div className="flex items-center gap-0.25">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
-              aria-label={`Oceń na ${star} gwiazdek`}
+              aria-label={t("starAriaLabel", { count: star })}
               tabIndex={0}
               className="border-none bg-transparent p-0"
               onClick={() => setStarsValue(star)}
@@ -55,10 +57,10 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
       </label>
 
       <label className="flex flex-col gap-2" htmlFor="message">
-        <span className="text-sm">Wiadomość</span>
+        <span className="text-sm">{t("messageLabel")}</span>
 
         <textarea
-          placeholder="Treść wiadomości..."
+          placeholder={t("messagePlaceholder")}
           name="description"
           id="description"
           rows={5}
@@ -81,7 +83,11 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
 
       <div className="mt-2">
         {!stateEmail?.success && (
-          <SubmitButton label="Wyślij" pendingLabel="Wysyłanie..." size="lg" />
+          <SubmitButton
+            label={t("submit")}
+            pendingLabel={t("pending")}
+            size="lg"
+          />
         )}
         {stateEmail?.message && (
           <p role="alert" className="text-primary w-full text-center">
