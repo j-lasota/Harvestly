@@ -25,7 +25,7 @@
 
     --opinion-card: oklch(0.3 0 0); /* #000000 */
 
-    --shadow: oklch(0.3 0 0 / 0.4); /* Semi-transparent dark shadow */
+    --shadow: oklch(0.3 0 0); /* #000000 */
   }
 }
 
@@ -46,18 +46,6 @@
   --font-jost: var(--font-jost);
   --font-kalam: var(--font-kalam);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-/* body {
-  background: var(--background);
-  color: var(--foreground);
-} */
 
 .clip-triangle {
   clip-path: polygon(100% 0, 100% 100%, 0 100%);

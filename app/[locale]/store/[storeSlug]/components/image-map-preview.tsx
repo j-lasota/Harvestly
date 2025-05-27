@@ -36,6 +36,8 @@ export const ImageMapPreview = ({
         <Image
           src={src ?? placeholder}
           alt={`Image of ${name}`}
+          width={700}
+          height={400}
           className="aspect-video w-full object-cover"
         />
       )}
