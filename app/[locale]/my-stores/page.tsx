@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { getClient } from "@/graphql/apollo-client";
@@ -29,7 +27,7 @@ const allMyStoresQuery = graphql(`
 `);
 
 export default async function MyStoresPage() {
-  const t = useTranslations("myStores");
+  const t = await getTranslations("myStores");
   const session = await auth();
   const userId = session?.user?.id;
 

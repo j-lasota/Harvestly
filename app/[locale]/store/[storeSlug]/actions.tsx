@@ -7,8 +7,6 @@ import { getClient } from "@/graphql/apollo-client";
 import { graphql } from "@/graphql";
 import { auth } from "@/auth";
 
-// TODO: Przetestować - bez autha nie jestem w stanie
-
 // ========== GraphQL mutations queries ==========
 const addFavoriteStoreMutation = graphql(`
   mutation addFavoriteStore($userId: ID!, $storeId: ID!) {

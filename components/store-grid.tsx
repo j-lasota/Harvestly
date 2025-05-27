@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 import { DirectionAwareHover } from "@/components/store-card";
 import placeholder from "@/public/store_placeholder.jpg";
@@ -16,8 +16,8 @@ interface Store {
   slug: string | null;
 }
 
-const StoreGrid = ({ title, stores }: StoreGridProps) => {
-  const t = useTranslations("storeGrid");
+const StoreGrid = async ({ title, stores }: StoreGridProps) => {
+  const t = await getTranslations("storeGrid");
 
   return (
     <section>

@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Star, StarOff } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { addFavoriteStore, removeFavoriteStore } from "../actions";
 import { Button } from "@/components/ui/button";
-import { Star, StarOff } from "lucide-react";
 
 const AddToFavButton = ({
   storeId,

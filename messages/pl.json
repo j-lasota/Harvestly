@@ -47,6 +47,10 @@
       "FRIDAY": "Piątek",
       "SATURDAY": "Sobota",
       "SUNDAY": "Niedziela"
+    },
+    "reviews": {
+      "noReviews": "Nie ma jeszcze recenzji",
+      "title": "Recenzje"
     }
   },
   "map": {
@@ -72,5 +76,24 @@
       "searchedAddress": "Szukany adres",
       "storeLocation": "{storeName} — {city}"
     }
+  },
+  "myStores": {
+    "favorites": "Ulubione sklepy",
+    "my": "Moje sklepy"
+  },
+  "storeGrid": {
+    "empty": "Brak dostępnych sklepów"
+  },
+  "favorites": {
+    "remove": "Usuń z ulubionych",
+    "add": "Dodaj do ulubionych"
+  },
+  "addOpinion": {
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Twoja wiadomość ...",
+    "pending": "Przesyłka...",
+    "submit": "Wysłać",
+    "ratingLabel": "Ocena",
+    "starAriaLabel": "Rate z gwiazdami {count}"
   }
 }
