@@ -1,4 +1,4 @@
-package com.backend.ServiceTests;
+package com.backend.IntegrationTests;
 
 import com.backend.model.Product;
 import com.backend.model.ProductCategory;

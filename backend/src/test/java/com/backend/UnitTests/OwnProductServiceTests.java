@@ -1,4 +1,4 @@
-package com.backend.MockTests;
+package com.backend.UnitTests;
 
 import com.backend.model.OwnProduct;
 import com.backend.model.Product;
@@ -10,7 +10,9 @@ import com.backend.repository.StoreRepository;
 import com.backend.service.OwnProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class OwnProductServiceTests {
 
     @Mock
@@ -30,14 +33,13 @@ class OwnProductServiceTests {
     @Mock
     private ProductRepository productRepository;
 
-    @InjectMocks
+    // Real service instance, not a mock
     private OwnProductService ownProductService;
-
-    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        // Initialize the real service with mocked repositories
+        ownProductService = new OwnProductService(ownProductRepository, storeRepository, productRepository);
     }
 
     @Test

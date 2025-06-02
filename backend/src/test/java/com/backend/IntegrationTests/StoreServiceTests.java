@@ -1,4 +1,4 @@
-package com.backend.ServiceTests;
+package com.backend.IntegrationTests;
 
 import com.backend.model.Store;
 import com.backend.model.User;

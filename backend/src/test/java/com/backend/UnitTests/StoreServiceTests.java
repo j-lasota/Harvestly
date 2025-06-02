@@ -1,4 +1,4 @@
-package com.backend.MockTests;
+package com.backend.UnitTests;
 
 import com.backend.model.Store;
 import com.backend.model.User;
@@ -7,7 +7,9 @@ import com.backend.repository.UserRepository;
 import com.backend.service.StoreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class StoreServiceTests {
 
     @Mock
@@ -23,14 +26,13 @@ class StoreServiceTests {
     @Mock
     private UserRepository userRepository;
 
-    @InjectMocks
+    // Real service instance, not mocked
     private StoreService storeService;
-
-    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        // Initialize real service with mocked repositories
+        storeService = new StoreService(storeRepository);
     }
 
     @Test
