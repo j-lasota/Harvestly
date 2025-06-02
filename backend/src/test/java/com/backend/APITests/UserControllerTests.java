@@ -99,6 +99,7 @@ class UserControllerTests {
         String mutation = """
                 mutation {
                   createUser(
+                    id: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                     firstName: "John"
                     lastName: "Doe"
                     email: "john@example.com"
