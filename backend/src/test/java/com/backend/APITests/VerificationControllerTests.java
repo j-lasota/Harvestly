@@ -114,7 +114,7 @@ class VerificationControllerTests {
         // Act & Assert
         String query = """
                 query {
-                  verificationById(id: 2a6e8658-d6db-45d8-9131-e8f87b62ed75) {
+                  verificationById(id: 1) {
                     id
                     store {
                       id
@@ -190,7 +190,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
+                    userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                   ) {
                     id
                     store {
@@ -234,7 +234,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 999
-                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
+                    userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                   ) {
                     id
                   }
@@ -266,7 +266,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 2a6e8658-d6db-45d8-9131-e8f87b62ed75
+                    userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                   ) {
                     id
                   }
@@ -391,7 +391,7 @@ class VerificationControllerTests {
         verifiedStore.setVerified(true);
 
         User upgradedStoreOwner = new User();
-        upgradedStoreOwner.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
+        upgradedStoreOwner.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62");
         upgradedStoreOwner.setTier(1);
 
         verifiedStore.setUser(upgradedStoreOwner);
@@ -406,7 +406,7 @@ class VerificationControllerTests {
                 mutation {
                   createVerification(
                     storeId: 1
-                    userId: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62
+                    userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                   ) {
                     id
                     store {

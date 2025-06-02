@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @GraphQlTest(UserController.class)  // Specify the controller to test
@@ -38,15 +37,15 @@ class UserControllerTests {
     @Test
     void userById_ReturnsUser_WhenUserExists() {
         // Arrange
-        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
-        User mockUser = new User(userId,"John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
-        mockUser.setId(userId);
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
+        User mockUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.getUserById(userId)).thenReturn(Optional.of(mockUser));
 
         // Act & Assert
         String query = """
                 query {
-                  userById(id: 2a6e8658-d6db-45d8-9131-e8f87b62ed75) {
+                  userById(id: "2a6e8658-d6db-45d8-9131-e8f87b62ed75") {
+                    id
                     firstName
                     lastName
                     email
@@ -129,14 +128,14 @@ class UserControllerTests {
         // Arrange
         Long userId = 1L;
         User updatedUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
-        when(userService.updateUser(String.valueOf(UUID.randomUUID()), any(), any(), any(), any(), any(), any()))
+        when(userService.updateUser(eq("2a6e8658-d6db-45d8-9131-e8f87b62ed75"), any(), any(), any(), any(), any(), any()))
                 .thenReturn(updatedUser);
 
         // Act & Assert
         String mutation = """
                 mutation {
                   updateUser(
-                    id: 1
+                    id: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                     firstName: "John"
                     lastName: "Updated"
                     email: "john@example.com"
@@ -172,7 +171,7 @@ class UserControllerTests {
         // Act & Assert
         String mutation = """
                 mutation {
-                  deleteUser(id: 1)
+                  deleteUser(id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62")
                 }
                 """;
 

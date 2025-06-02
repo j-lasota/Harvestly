@@ -174,7 +174,7 @@ class StoreControllerTests {
     @Test
     void createStore_ReturnsCreatedStore() {
         // Arrange
-        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
         User user = new User();
         user.setId(userId);
         user.setFirstName("John");
@@ -191,7 +191,7 @@ class StoreControllerTests {
         String mutation = """
                 mutation {
                   createStore(
-                    userId: 1
+                    userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
                     name: "New Farm"
                     description: "Fresh vegetables"
                     latitude: 41.8781

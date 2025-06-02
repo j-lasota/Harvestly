@@ -31,6 +31,7 @@ class StoreServiceTests {
 
     private Store createTestShop() {
         User user = new User();
+        user.setId("1");
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("johndoe@example.com");
