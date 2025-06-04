@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 @GraphQlTest(BusinessHoursController.class)
 @Import(GraphQLScalarConfig.class)
-class BusinessHoursControllerTests {
+class BusinessHoursAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;

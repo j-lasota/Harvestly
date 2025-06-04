@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
-public class VerificationModuleE2ETest {
+public class VerificationModuleE2ETests {
 
     @Autowired
     private GraphQlTester graphQlTester;

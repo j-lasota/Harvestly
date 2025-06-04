@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class StoreServiceTests {
+class StoreIntegrationTests {
 
     @Autowired
     private StoreService storeService;

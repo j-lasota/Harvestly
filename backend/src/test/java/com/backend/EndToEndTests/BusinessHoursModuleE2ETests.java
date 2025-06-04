@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
-public class BusinessHoursModuleE2ETest {
+public class BusinessHoursModuleE2ETests {
 
     @Autowired
     private GraphQlTester graphQlTester;

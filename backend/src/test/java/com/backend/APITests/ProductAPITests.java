@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 @GraphQlTest(ProductController.class)
 @Import(GraphQLScalarConfig.class)
-class ProductControllerTests {
+class ProductAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;

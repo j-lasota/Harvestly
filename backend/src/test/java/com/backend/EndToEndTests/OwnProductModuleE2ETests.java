@@ -10,7 +10,6 @@ import com.backend.repository.ProductRepository;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.OwnProductService;
-import com.backend.service.ProductService;
 import com.backend.service.StoreService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
-public class OwnProductModuleE2ETest {
+public class OwnProductModuleE2ETests {
 
     @Autowired
     private GraphQlTester graphQlTester;

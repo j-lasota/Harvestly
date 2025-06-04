@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @GraphQlTest(StoreController.class)
 @Import(GraphQLScalarConfig.class)
-class StoreControllerTests {
+class StoreAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
