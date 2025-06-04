@@ -33,9 +33,6 @@ public class OwnProductService {
     }
 
     public OwnProduct save(OwnProduct ownProduct) {
-        if (ownProductRepository.existsByStoreIdAndProductId(ownProduct.getStore().getId(), ownProduct.getId())) {
-            throw new IllegalArgumentException("Product already exists in this store.");
-        }
         return ownProductRepository.save(ownProduct);
     }
 

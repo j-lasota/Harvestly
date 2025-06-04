@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -81,6 +82,7 @@ class OwnProductServiceUnitTests {
     }
 
     @Test
+    @Transactional
     void testSaveOwnProduct() {
         OwnProduct ownProduct = new OwnProduct();
 
