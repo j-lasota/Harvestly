@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class BusinessHoursServiceTests {
+class BusinessHoursIntergrationTests {
 
     @Autowired
     private BusinessHoursService businessHoursService;

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @GraphQlTest(OpinionController.class)
 @Import(GraphQLScalarConfig.class)
-class OpinionControllerTests {
+class OpinionAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;

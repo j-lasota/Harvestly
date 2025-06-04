@@ -41,6 +41,7 @@ public class OwnProductService {
     }
 
     public OwnProduct updateOwnProduct(Long id, Long shopId, Long productId, BigDecimal price, Integer quantity, String imageUrl) {
+
         OwnProduct ownProduct = ownProductRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("Product not found"));
         if (shopId != null) {
@@ -73,6 +74,7 @@ public class OwnProductService {
         if (imageUrl != null) {
             ownProduct.setImageUrl(imageUrl);
         }
+
         return ownProductRepository.save(ownProduct);
     }
 
@@ -86,5 +88,7 @@ public class OwnProductService {
     public List<OwnProduct> getByStore(Long storeId) {
         return ownProductRepository.findByStoreId(storeId);
     }
-
+    public Boolean existsByStoreIdAndProductId(Long storeId, Long productId) {
+        return ownProductRepository.existsByStoreIdAndProductId(storeId, productId);
+    }
 }

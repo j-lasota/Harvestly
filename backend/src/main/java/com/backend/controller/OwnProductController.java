@@ -34,11 +34,15 @@ public class OwnProductController {
                                   @Argument int quantity, @Argument String imageUrl) {
         Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<Product> product = productService.getProductById(productId);
+
         if(shop.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found");
         }
         if(product.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+        }
+        if (ownProductService.existsByStoreIdAndProductId(storeId, productId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product already exists in this store");
         }
         return ownProductService.save(new OwnProduct(shop.get(), product.get(), price, quantity, imageUrl));
     }
@@ -47,9 +51,11 @@ public class OwnProductController {
     public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long storeId, @Argument Long productId,
                                        @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl) {
         Optional<OwnProduct> ownProduct = ownProductService.getOwnProductById(id);
+
         if(ownProduct.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         }
+
         return ownProductService.updateOwnProduct(id, storeId, productId, price, quantity, imageUrl);
     }
 

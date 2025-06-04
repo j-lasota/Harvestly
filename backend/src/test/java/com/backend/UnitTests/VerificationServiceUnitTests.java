@@ -1,13 +1,17 @@
-package com.backend.MockTests;
+package com.backend.UnitTests;
 
 import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.model.Verification;
+import com.backend.repository.StoreRepository;
+import com.backend.repository.UserRepository;
 import com.backend.repository.VerificationRepository;
 import com.backend.service.VerificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,19 +19,29 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class VerificationServiceTests {
+@ExtendWith(MockitoExtension.class)
+class VerificationServiceUnitTests {
 
     @Mock
     private VerificationRepository verificationRepository;
 
-    @InjectMocks
-    private VerificationService verificationService;
+    @Mock
+    private StoreRepository storeRepository;
 
-    private AutoCloseable closeable;
+    @Mock
+    private UserRepository userRepository;
+
+    // Real service instance, not mocked
+    private VerificationService verificationService;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        // Initialize real service with all mocked repositories
+        verificationService = new VerificationService(
+                verificationRepository,
+                storeRepository,
+                userRepository
+        );
     }
 
     @Test
