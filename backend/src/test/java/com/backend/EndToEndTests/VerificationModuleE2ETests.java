@@ -56,12 +56,10 @@ public class VerificationModuleE2ETests {
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         verificationRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create test store owner
         storeOwnerUser = new User(
                 UUID.randomUUID().toString(),
                 "Store",
@@ -73,7 +71,6 @@ public class VerificationModuleE2ETests {
         );
         storeOwnerUser = userRepository.save(storeOwnerUser);
 
-        // Create test store
         testStore = new Store(
                 storeOwnerUser,
                 "Test Store",
@@ -87,7 +84,6 @@ public class VerificationModuleE2ETests {
         );
         testStore = storeRepository.save(testStore);
 
-        // Create verifier users for testing
         verifierUsers = new User[5];
         for (int i = 0; i < 5; i++) {
             verifierUsers[i] = new User(
@@ -105,7 +101,6 @@ public class VerificationModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         verificationRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
@@ -114,7 +109,6 @@ public class VerificationModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteVerificationLifecycle() {
-        // 1. Create a new verification through GraphQL
         String createVerificationMutation = """
             mutation {
                 createVerification(
@@ -136,7 +130,6 @@ public class VerificationModuleE2ETests {
             }
             """.formatted(testStore.getId(), verifierUsers[0].getId());
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createVerificationMutation)
                 .execute();
@@ -152,13 +145,11 @@ public class VerificationModuleE2ETests {
                 .path("createVerification.store.verified").entity(Boolean.class).isEqualTo(false)
                 .path("createVerification.user.id").entity(String.class).isEqualTo(verifierUsers[0].getId());
 
-        // 2. Verify verification exists in database
         Optional<Verification> savedVerification = verificationService.getVerificationById(verificationId);
         assertTrue(savedVerification.isPresent());
         assertEquals(testStore.getId(), savedVerification.get().getStore().getId());
         assertEquals(verifierUsers[0].getId(), savedVerification.get().getUser().getId());
 
-        // 3. Get the verification by ID using GraphQL
         String getVerificationQuery = """
             query {
                 verificationById(id: %d) {
@@ -183,7 +174,6 @@ public class VerificationModuleE2ETests {
                 .path("verificationById.store.id").entity(String.class).isEqualTo(testStore.getId().toString())
                 .path("verificationById.user.id").entity(String.class).isEqualTo(verifierUsers[0].getId());
 
-        // 4. Get all verifications
         String getAllVerificationsQuery = """
             query {
                 verifications {
@@ -209,7 +199,6 @@ public class VerificationModuleE2ETests {
                 .execute()
                 .path("verifications").entityList(Verification.class).hasSize(1);
 
-        // 5. Delete the verification
         String deleteVerificationMutation = """
             mutation {
                 deleteVerification(id: %d)
@@ -221,7 +210,6 @@ public class VerificationModuleE2ETests {
                 .execute()
                 .path("deleteVerification").entity(Boolean.class).isEqualTo(true);
 
-        // 6. Verify verification was deleted
         Optional<Verification> deletedVerification = verificationService.getVerificationById(verificationId);
         assertTrue(deletedVerification.isEmpty());
     }
@@ -229,7 +217,6 @@ public class VerificationModuleE2ETests {
     @Test
     @Transactional
     public void testStoreVerificationLogic() {
-        // Create 4 verifications (one less than needed to verify the store)
         for (int i = 0; i < 4; i++) {
             String createVerificationMutation = """
                 mutation {
@@ -256,12 +243,10 @@ public class VerificationModuleE2ETests {
                     .path("createVerification.store.user.tier").entity(Integer.class).isEqualTo(0);
         }
 
-        // Verify store is still not verified and owner tier is still 0
         Store storeBeforeFifthVerification = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertFalse(storeBeforeFifthVerification.isVerified());
         assertEquals(0, storeBeforeFifthVerification.getUser().getTier());
 
-        // Add the 5th verification which should trigger store verification
         String finalVerificationMutation = """
             mutation {
                 createVerification(
@@ -287,7 +272,6 @@ public class VerificationModuleE2ETests {
                 .path("createVerification.store.verified").entity(Boolean.class).isEqualTo(true)
                 .path("createVerification.store.user.tier").entity(Integer.class).isEqualTo(1);
 
-        // Verify store and owner are updated in the database
         Store verifiedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(verifiedStore.isVerified());
         assertEquals(1, verifiedStore.getUser().getTier());
@@ -295,7 +279,6 @@ public class VerificationModuleE2ETests {
 
     @Test
     public void testDuplicateVerification() {
-        // Create initial verification
         String createFirstVerificationMutation = """
             mutation {
                 createVerification(
@@ -312,7 +295,6 @@ public class VerificationModuleE2ETests {
                 .execute()
                 .path("createVerification.id").entity(Long.class).isNotEqualTo(null);
 
-        // Try to create a duplicate verification (same store and user)
         String createDuplicateVerificationMutation = """
             mutation {
                 createVerification(
@@ -334,7 +316,6 @@ public class VerificationModuleE2ETests {
 
     @Test
     public void testInvalidVerificationCreation() {
-        // Try to create verification with non-existent store
         String invalidStoreMutation = """
             mutation {
                 createVerification(
@@ -353,7 +334,6 @@ public class VerificationModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // Try to create verification with non-existent user
         String invalidUserMutation = """
             mutation {
                 createVerification(
@@ -375,7 +355,6 @@ public class VerificationModuleE2ETests {
 
     @Test
     public void testInvalidVerificationOperations() {
-        // Try to get non-existent verification by ID
         String getNonExistentVerificationQuery = """
             query {
                 verificationById(id: 999999) {
@@ -390,7 +369,6 @@ public class VerificationModuleE2ETests {
                 .path("verificationById")
                 .valueIsNull();
 
-        // Try to delete non-existent verification
         String deleteNonExistentVerificationMutation = """
             mutation {
                 deleteVerification(id: 999999)

@@ -51,8 +51,6 @@ public class OwnProductModuleE2ETests {
     @Autowired
     private OwnProductService ownProductService;
 
-    @Autowired
-    private StoreService storeService;
 
     private Store testStore;
     private Product testProduct1;
@@ -61,13 +59,11 @@ public class OwnProductModuleE2ETests {
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         ownProductRepository.deleteAll();
         productRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create test store owner
         storeOwnerUser = new User(
                 UUID.randomUUID().toString(),
                 "Store",
@@ -79,7 +75,6 @@ public class OwnProductModuleE2ETests {
         );
         storeOwnerUser = userRepository.save(storeOwnerUser);
 
-        // Create test store
         testStore = new Store(
                 storeOwnerUser,
                 "Test Store",
@@ -93,7 +88,6 @@ public class OwnProductModuleE2ETests {
         );
         testStore = storeRepository.save(testStore);
 
-        // Create test products
         testProduct1 = new Product("Apple", ProductCategory.FRUIT, true);
         testProduct2 = new Product("Carrot", ProductCategory.VEGETABLE, true);
 
@@ -103,7 +97,6 @@ public class OwnProductModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         ownProductRepository.deleteAll();
         productRepository.deleteAll();
         storeRepository.deleteAll();
@@ -113,7 +106,6 @@ public class OwnProductModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteOwnProductLifecycle() {
-        // 1. Create a new OwnProduct through GraphQL
         String createOwnProductMutation = """
             mutation {
                 createOwnProduct(
@@ -139,7 +131,6 @@ public class OwnProductModuleE2ETests {
             }
             """.formatted(testStore.getId(), testProduct1.getId());
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createOwnProductMutation)
                 .execute();
@@ -156,14 +147,12 @@ public class OwnProductModuleE2ETests {
                 .path("createOwnProduct.product.id").entity(String.class).isEqualTo(testProduct1.getId().toString())
                 .path("createOwnProduct.store.id").entity(String.class).isEqualTo(testStore.getId().toString());
 
-        // 2. Verify OwnProduct exists in database
         Optional<OwnProduct> savedOwnProduct = ownProductService.getOwnProductById(ownProductId);
         assertTrue(savedOwnProduct.isPresent());
         assertEquals(new BigDecimal("2.99"), savedOwnProduct.get().getPrice());
         assertEquals(100, savedOwnProduct.get().getQuantity());
         assertEquals("apple.jpg", savedOwnProduct.get().getImageUrl());
 
-        // 3. Get the OwnProduct by ID using GraphQL
         String getOwnProductQuery = """
             query {
                 ownProductById(id: %d) {
@@ -191,7 +180,6 @@ public class OwnProductModuleE2ETests {
                 .path("ownProductById.quantity").entity(Integer.class).isEqualTo(100)
                 .path("ownProductById.imageUrl").entity(String.class).isEqualTo("apple.jpg");
 
-        // 4. Create another OwnProduct
         String createAnotherOwnProductMutation = """
             mutation {
                 createOwnProduct(
@@ -214,7 +202,6 @@ public class OwnProductModuleE2ETests {
                 .execute()
                 .path("createOwnProduct.product.name").entity(String.class).isEqualTo("Carrot");
 
-        // 5. Get all OwnProducts
         String getAllOwnProductsQuery = """
             query {
                 ownProducts {
@@ -242,7 +229,6 @@ public class OwnProductModuleE2ETests {
                 .execute()
                 .path("ownProducts").entityList(OwnProduct.class).hasSize(2);
 
-        // 6. Update the OwnProduct
         String updateOwnProductMutation = """
             mutation {
                 updateOwnProduct(
@@ -272,13 +258,11 @@ public class OwnProductModuleE2ETests {
                 .path("updateOwnProduct.quantity").entity(Integer.class).isEqualTo(75)
                 .path("updateOwnProduct.imageUrl").entity(String.class).isEqualTo("updated-apple.jpg");
 
-        // 7. Verify update in the database
         OwnProduct updatedOwnProduct = ownProductService.getOwnProductById(ownProductId).orElseThrow();
         assertEquals(new BigDecimal("3.49"), updatedOwnProduct.getPrice());
         assertEquals(75, updatedOwnProduct.getQuantity());
         assertEquals("updated-apple.jpg", updatedOwnProduct.getImageUrl());
 
-        // 8. Delete the OwnProduct
         String deleteOwnProductMutation = """
             mutation {
                 deleteOwnProduct(id: %d)
@@ -290,14 +274,12 @@ public class OwnProductModuleE2ETests {
                 .execute()
                 .path("deleteOwnProduct").entity(Boolean.class).isEqualTo(true);
 
-        // 9. Verify OwnProduct was deleted
         Optional<OwnProduct> deletedOwnProduct = ownProductService.getOwnProductById(ownProductId);
         assertTrue(deletedOwnProduct.isEmpty());
     }
 
     @Test
     public void testPartialOwnProductUpdate() {
-        // First create an OwnProduct
         String createOwnProductMutation = """
             mutation {
                 createOwnProduct(
@@ -319,7 +301,6 @@ public class OwnProductModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Update only the price
         String updatePriceMutation = """
             mutation {
                 updateOwnProduct(
@@ -341,7 +322,6 @@ public class OwnProductModuleE2ETests {
                 .path("updateOwnProduct.quantity").entity(Integer.class).isEqualTo(100)
                 .path("updateOwnProduct.imageUrl").entity(String.class).isEqualTo("apple.jpg");
 
-        // Update only the quantity
         String updateQuantityMutation = """
             mutation {
                 updateOwnProduct(
@@ -363,7 +343,6 @@ public class OwnProductModuleE2ETests {
                 .path("updateOwnProduct.quantity").entity(Integer.class).isEqualTo(75)
                 .path("updateOwnProduct.imageUrl").entity(String.class).isEqualTo("apple.jpg");
 
-        // Update only the imageUrl
         String updateImageUrlMutation = """
             mutation {
                 updateOwnProduct(
@@ -388,7 +367,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testDuplicateOwnProducts() {
-        // Create initial OwnProduct
         String createFirstOwnProductMutation = """
             mutation {
                 createOwnProduct(
@@ -408,7 +386,6 @@ public class OwnProductModuleE2ETests {
                 .execute()
                 .path("createOwnProduct.id").entity(Long.class).isNotEqualTo(null);
 
-        // Try to create duplicate OwnProduct for the same product and store
         String createDuplicateOwnProductMutation = """
             mutation {
                 createOwnProduct(
@@ -433,7 +410,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testInvalidOwnProductOperations() {
-        // Try to get non-existent OwnProduct by ID
         String getNonExistentOwnProductQuery = """
             query {
                 ownProductById(id: 999999) {
@@ -449,7 +425,6 @@ public class OwnProductModuleE2ETests {
                 .path("ownProductById")
                 .valueIsNull();
 
-        // Try to update non-existent OwnProduct
         String updateNonExistentOwnProductMutation = """
             mutation {
                 updateOwnProduct(
@@ -468,7 +443,6 @@ public class OwnProductModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // Try to delete non-existent OwnProduct
         String deleteNonExistentOwnProductMutation = """
             mutation {
                 deleteOwnProduct(id: 999999)
@@ -483,7 +457,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testCreateOwnProductWithInvalidStore() {
-        // Try to create OwnProduct with non-existent store
         String createWithInvalidStoreMutation = """
             mutation {
                 createOwnProduct(
@@ -508,7 +481,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testCreateOwnProductWithInvalidProduct() {
-        // Try to create OwnProduct with non-existent product
         String createWithInvalidProductMutation = """
             mutation {
                 createOwnProduct(
@@ -533,7 +505,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testOwnProductsForStore() {
-        // Create a second store
         Store secondStore = new Store(
                 storeOwnerUser,
                 "Second Store",
@@ -547,7 +518,6 @@ public class OwnProductModuleE2ETests {
         );
         secondStore = storeRepository.save(secondStore);
 
-        // Create OwnProducts for first store
         String createFirstStoreProductMutation = """
             mutation {
                 createOwnProduct(
@@ -566,7 +536,6 @@ public class OwnProductModuleE2ETests {
                 .document(createFirstStoreProductMutation)
                 .execute();
 
-        // Create OwnProducts for second store
         String createSecondStoreProductMutation = """
             mutation {
                 createOwnProduct(
@@ -585,7 +554,6 @@ public class OwnProductModuleE2ETests {
                 .document(createSecondStoreProductMutation)
                 .execute();
 
-        // Query OwnProducts for first store
         String getFirstStoreProductsQuery = """
             query {
                 ownProductsByStore(storeId: %d) {
@@ -609,7 +577,6 @@ public class OwnProductModuleE2ETests {
                 .path("ownProductsByStore[0].product.name").entity(String.class).isEqualTo("Apple")
                 .path("ownProductsByStore[0].store.name").entity(String.class).isEqualTo("Test Store");
 
-        // Query OwnProducts for second store
         String getSecondStoreProductsQuery = """
             query {
                 ownProductsByStore(storeId: %d) {
@@ -636,7 +603,6 @@ public class OwnProductModuleE2ETests {
 
     @Test
     public void testNegativeValues() {
-        // Try to create OwnProduct with negative price
         String createWithNegativePriceMutation = """
             mutation {
                 createOwnProduct(
@@ -658,7 +624,6 @@ public class OwnProductModuleE2ETests {
                     assertFalse(errors.isEmpty());
                 });
 
-        // Try to create OwnProduct with negative quantity
         String createWithNegativeQuantityMutation = """
             mutation {
                 createOwnProduct(

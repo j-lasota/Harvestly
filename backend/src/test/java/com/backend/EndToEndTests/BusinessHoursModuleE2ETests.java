@@ -47,23 +47,15 @@ public class BusinessHoursModuleE2ETests {
     @Autowired
     private BusinessHoursService businessHoursService;
 
-    @Autowired
-    private StoreService storeService;
-
-    @Autowired
-    private UserService userService;
-
     private Store testStore;
     private User storeOwnerUser;
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         businessHoursRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create test store owner
         storeOwnerUser = new User(
                 UUID.randomUUID().toString(),
                 "Store",
@@ -75,7 +67,6 @@ public class BusinessHoursModuleE2ETests {
         );
         storeOwnerUser = userRepository.save(storeOwnerUser);
 
-        // Create test store
         testStore = new Store(
                 storeOwnerUser,
                 "Test Store",
@@ -92,7 +83,6 @@ public class BusinessHoursModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         businessHoursRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
@@ -101,7 +91,6 @@ public class BusinessHoursModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteBusinessHoursLifecycle() {
-        // 1. Create new business hours through GraphQL
         String createBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -122,7 +111,6 @@ public class BusinessHoursModuleE2ETests {
             }
             """.formatted(testStore.getId());
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createBusinessHoursMutation)
                 .execute();
@@ -138,14 +126,12 @@ public class BusinessHoursModuleE2ETests {
                 .path("createBusinessHours.closingTime").entity(String.class).isEqualTo("17:00:00")
                 .path("createBusinessHours.store.id").entity(String.class).isEqualTo(testStore.getId().toString());
 
-        // 2. Verify business hours exist in database
         Optional<BusinessHours> savedBusinessHours = businessHoursService.getBusinessHoursById(businessHoursId);
         assertTrue(savedBusinessHours.isPresent());
         assertEquals(DayOfWeek.MONDAY, savedBusinessHours.get().getDayOfWeek());
         assertEquals(LocalTime.of(9, 0), savedBusinessHours.get().getOpeningTime());
         assertEquals(LocalTime.of(17, 0), savedBusinessHours.get().getClosingTime());
 
-        // 3. Get the business hours by ID using GraphQL
         String getBusinessHoursQuery = """
             query {
                 businessHoursById(id: %d) {
@@ -169,7 +155,6 @@ public class BusinessHoursModuleE2ETests {
                 .path("businessHoursById.openingTime").entity(String.class).isEqualTo("09:00:00")
                 .path("businessHoursById.closingTime").entity(String.class).isEqualTo("17:00:00");
 
-        // 4. Create another set of business hours for a different day
         String createAnotherBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -189,7 +174,6 @@ public class BusinessHoursModuleE2ETests {
                 .execute()
                 .path("createBusinessHours.dayOfWeek").entity(String.class).isEqualTo("TUESDAY");
 
-        // 5. Get all business hours
         String getAllBusinessHoursQuery = """
             query {
                 businessHours {
@@ -213,7 +197,6 @@ public class BusinessHoursModuleE2ETests {
                 .execute()
                 .path("businessHours").entityList(BusinessHours.class).hasSize(2);
 
-        // 6. Update the business hours
         String updateBusinessHoursMutation = """
             mutation {
                 updateBusinessHours(
@@ -237,12 +220,10 @@ public class BusinessHoursModuleE2ETests {
                 .path("updateBusinessHours.openingTime").entity(String.class).isEqualTo("10:00:00")
                 .path("updateBusinessHours.closingTime").entity(String.class).isEqualTo("18:00:00");
 
-        // 7. Verify update in the database
         BusinessHours updatedBusinessHours = businessHoursService.getBusinessHoursById(businessHoursId).orElseThrow();
         assertEquals(LocalTime.of(10, 0), updatedBusinessHours.getOpeningTime());
         assertEquals(LocalTime.of(18, 0), updatedBusinessHours.getClosingTime());
 
-        // 8. Delete the business hours
         String deleteBusinessHoursMutation = """
             mutation {
                 deleteBusinessHours(id: %d)
@@ -254,14 +235,12 @@ public class BusinessHoursModuleE2ETests {
                 .execute()
                 .path("deleteBusinessHours").entity(Boolean.class).isEqualTo(true);
 
-        // 9. Verify business hours were deleted
         Optional<BusinessHours> deletedBusinessHours = businessHoursService.getBusinessHoursById(businessHoursId);
         assertTrue(deletedBusinessHours.isEmpty());
     }
 
     @Test
     public void testPartialBusinessHoursUpdate() {
-        // First create business hours
         String createBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -282,7 +261,6 @@ public class BusinessHoursModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Update only the opening time
         String updateOpeningTimeMutation = """
             mutation {
                 updateBusinessHours(
@@ -304,7 +282,6 @@ public class BusinessHoursModuleE2ETests {
                 .path("updateBusinessHours.openingTime").entity(String.class).isEqualTo("10:30:00")
                 .path("updateBusinessHours.closingTime").entity(String.class).isEqualTo("17:00:00");
 
-        // Update only the closing time
         String updateClosingTimeMutation = """
             mutation {
                 updateBusinessHours(
@@ -325,7 +302,6 @@ public class BusinessHoursModuleE2ETests {
                 .path("updateBusinessHours.openingTime").entity(String.class).isEqualTo("10:30:00")
                 .path("updateBusinessHours.closingTime").entity(String.class).isEqualTo("19:30:00");
 
-        // Update only the day of week
         String updateDayOfWeekMutation = """
             mutation {
                 updateBusinessHours(
@@ -350,7 +326,6 @@ public class BusinessHoursModuleE2ETests {
 
     @Test
     public void testDuplicateBusinessHours() {
-        // Create initial business hours
         String createFirstBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -369,7 +344,6 @@ public class BusinessHoursModuleE2ETests {
                 .execute()
                 .path("createBusinessHours.id").entity(Long.class).isNotEqualTo(null);
 
-        // Try to create duplicate business hours for the same day and store
         String createDuplicateBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -393,7 +367,6 @@ public class BusinessHoursModuleE2ETests {
 
     @Test
     public void testInvalidBusinessHoursTime() {
-        // Try to create business hours with closing time before opening time
         String createInvalidTimeMutation = """
             mutation {
                 createBusinessHours(
@@ -414,7 +387,6 @@ public class BusinessHoursModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // Create valid business hours
         String createValidBusinessHoursMutation = """
             mutation {
                 createBusinessHours(
@@ -435,7 +407,6 @@ public class BusinessHoursModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Try to update with invalid time (closing before opening)
         String updateInvalidTimeMutation = """
             mutation {
                 updateBusinessHours(
@@ -458,7 +429,6 @@ public class BusinessHoursModuleE2ETests {
 
     @Test
     public void testInvalidBusinessHoursOperations() {
-        // Try to get non-existent business hours by ID
         String getNonExistentBusinessHoursQuery = """
             query {
                 businessHoursById(id: 999999) {
@@ -473,7 +443,6 @@ public class BusinessHoursModuleE2ETests {
                 .path("businessHoursById")
                 .valueIsNull();
 
-        // Try to update non-existent business hours
         String updateNonExistentBusinessHoursMutation = """
             mutation {
                 updateBusinessHours(
@@ -494,7 +463,6 @@ public class BusinessHoursModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // Try to delete non-existent business hours
         String deleteNonExistentBusinessHoursMutation = """
             mutation {
                 deleteBusinessHours(id: 999999)
@@ -509,7 +477,6 @@ public class BusinessHoursModuleE2ETests {
 
     @Test
     public void testCreateBusinessHoursWithInvalidStore() {
-        // Try to create business hours with non-existent store
         String createWithInvalidStoreMutation = """
             mutation {
                 createBusinessHours(
@@ -533,7 +500,6 @@ public class BusinessHoursModuleE2ETests {
 
     @Test
     public void testCreateAndGetMultipleBusinessHoursForStore() {
-        // Create business hours for multiple days
         for (DayOfWeek day : new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY}) {
             String createBusinessHoursMutation = """
                 mutation {
@@ -555,7 +521,6 @@ public class BusinessHoursModuleE2ETests {
                     .path("createBusinessHours.dayOfWeek").entity(String.class).isEqualTo(day.toString());
         }
 
-        // Verify all business hours for the store are returned
         List<BusinessHours> storeBusinessHours = businessHoursService.getAllBusinessHours();
         assertEquals(3, storeBusinessHours.size());
 

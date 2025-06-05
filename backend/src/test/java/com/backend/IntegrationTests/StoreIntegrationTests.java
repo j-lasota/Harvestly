@@ -54,7 +54,7 @@ class StoreIntegrationTests {
     @BeforeEach
     void setUp() {
         storeRepository.deleteAll();
-        userRepository.deleteAll();// Clean up
+        userRepository.deleteAll();
     }
 
     @Test
@@ -129,11 +129,9 @@ class StoreIntegrationTests {
     @Test
     void testGetAllStores() {
         storeService.saveStore(createTestShop());
-//        shopService.saveShop(createTestShop());
 
         List<Store> stores = storeService.getAllStores();
 
-//        assertEquals(2, shops.size());
         assertEquals(1, stores.size());
     }
 

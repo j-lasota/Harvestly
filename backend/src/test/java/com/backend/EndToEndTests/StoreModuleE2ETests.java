@@ -39,19 +39,14 @@ public class StoreModuleE2ETests {
     @Autowired
     private StoreService storeService;
 
-    @Autowired
-    private UserService userService;
-
     private User testUser;
     private User tierOneUser;
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create test users
         testUser = new User(
                 UUID.randomUUID().toString(),
                 "Store",
@@ -77,7 +72,6 @@ public class StoreModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         storeRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -85,7 +79,6 @@ public class StoreModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteStoreLifecycle() {
-        // 1. Create a new store through GraphQL
         String createStoreMutation = """
             mutation {
                 createStore(
@@ -117,7 +110,6 @@ public class StoreModuleE2ETests {
             }
             """.formatted(testUser.getId());
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createStoreMutation)
                 .execute();
@@ -138,14 +130,12 @@ public class StoreModuleE2ETests {
                 .path("createStore.verified").entity(Boolean.class).isEqualTo(false)
                 .path("createStore.user.id").entity(String.class).isEqualTo(testUser.getId());
 
-        // 2. Verify store exists in database
         Optional<Store> savedStore = storeService.getStoreById(storeId);
         assertTrue(savedStore.isPresent());
         assertEquals("Test Coffee Shop", savedStore.get().getName());
         assertEquals(testUser.getId(), savedStore.get().getUser().getId());
         assertFalse(savedStore.get().isVerified());
 
-        // 3. Get the store by ID using GraphQL
         String getStoreQuery = """
             query {
                 storeById(id: %d) {
@@ -175,7 +165,6 @@ public class StoreModuleE2ETests {
                 .path("storeById.name").entity(String.class).isEqualTo("Test Coffee Shop")
                 .path("storeById.user.id").entity(String.class).isEqualTo(testUser.getId());
 
-        // 4. Get all stores
         String getAllStoresQuery = """
             query {
                 stores {
@@ -198,7 +187,6 @@ public class StoreModuleE2ETests {
                 .execute()
                 .path("stores").entityList(Store.class).hasSize(1);
 
-        // 5. Update the store
         String updateStoreMutation = """
             mutation {
                 updateStore(
@@ -232,13 +220,11 @@ public class StoreModuleE2ETests {
                 .path("updateStore.description").entity(String.class).isEqualTo("The best coffee in town")
                 .path("updateStore.address").entity(String.class).isEqualTo("456 Oxford Street");
 
-        // 6. Verify store was updated in the database
         Store updatedStore = storeService.getStoreById(storeId).orElseThrow();
         assertEquals("Updated Coffee Shop", updatedStore.getName());
         assertEquals("The best coffee in town", updatedStore.getDescription());
         assertEquals("456 Oxford Street", updatedStore.getAddress());
 
-        // 7. Get store by slug
         String storeBySlugQuery = """
             query {
                 storeBySlug(slug: "%s") {
@@ -255,7 +241,6 @@ public class StoreModuleE2ETests {
                 .path("storeBySlug.id").entity(String.class).isEqualTo(storeId.toString())
                 .path("storeBySlug.name").entity(String.class).isEqualTo("Updated Coffee Shop");
 
-        // 8. Delete the store
         String deleteStoreMutation = """
             mutation {
                 deleteStore(id: %d)
@@ -267,14 +252,12 @@ public class StoreModuleE2ETests {
                 .execute()
                 .path("deleteStore").entity(Boolean.class).isEqualTo(true);
 
-        // 9. Verify store was deleted
         Optional<Store> deletedStore = storeService.getStoreById(storeId);
         assertTrue(deletedStore.isEmpty());
     }
 
     @Test
     public void testStoreTierRestrictions() {
-        // 1. Create first store for tier 0 user
         String createFirstStoreMutation = """
             mutation {
                 createStore(
@@ -298,7 +281,6 @@ public class StoreModuleE2ETests {
                 .execute()
                 .path("createStore.name").entity(String.class).isEqualTo("First Store");
 
-        // 2. Try to create a second store for tier 0 user (should fail)
         String createSecondStoreMutation = """
             mutation {
                 createStore(
@@ -325,7 +307,6 @@ public class StoreModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // 3. Create multiple stores for tier 1 user (up to 3)
         for (int i = 1; i <= 3; i++) {
             String createTierOneStoreMutation = """
                 mutation {
@@ -351,7 +332,6 @@ public class StoreModuleE2ETests {
                     .path("createStore.name").entity(String.class).isEqualTo("Tier One Store " + i);
         }
 
-        // 4. Try to create a fourth store for tier 1 user (should fail)
         String createFourthStoreMutation = """
             mutation {
                 createStore(
@@ -381,7 +361,6 @@ public class StoreModuleE2ETests {
 
     @Test
     public void testNonExistentStoreOperations() {
-        // 1. Try to get non-existent store by ID
         String getNonExistentStoreQuery = """
             query {
                 storeById(id: 999999) {
@@ -397,7 +376,6 @@ public class StoreModuleE2ETests {
                 .path("storeById")
                 .valueIsNull();
 
-        // 2. Try to get non-existent store by slug
         String getNonExistentStoreBySlugQuery = """
             query {
                 storeBySlug(slug: "non-existent-store") {
@@ -413,7 +391,6 @@ public class StoreModuleE2ETests {
                 .path("storeBySlug")
                 .valueIsNull();
 
-        // 3. Try to update non-existent store
         String updateNonExistentStoreMutation = """
             mutation {
                 updateStore(
@@ -440,7 +417,6 @@ public class StoreModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // 4. Try to delete non-existent store
         String deleteNonExistentStoreMutation = """
             mutation {
                 deleteStore(id: 999999)
@@ -455,7 +431,6 @@ public class StoreModuleE2ETests {
 
     @Test
     public void testCreateStoreWithInvalidUser() {
-        // Try to create store with non-existent user ID
         String createStoreWithInvalidUserMutation = """
             mutation {
                 createStore(
@@ -485,7 +460,6 @@ public class StoreModuleE2ETests {
 
     @Test
     public void testCreateStoreWithInvalidData() {
-        // Try to create store with invalid latitude/longitude
         String createStoreWithInvalidLatLngMutation = """
             mutation {
                 createStore(
@@ -512,7 +486,6 @@ public class StoreModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // Try to create store with missing required fields
         String createStoreWithMissingFieldsMutation = """
             mutation {
                 createStore(

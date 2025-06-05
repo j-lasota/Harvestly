@@ -52,10 +52,8 @@ public class UserModuleE2ETests {
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         userRepository.deleteAll();
 
-        // Generate a unique ID for the test user
         testUserId = UUID.randomUUID().toString();
     }
 
@@ -70,7 +68,6 @@ public class UserModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteUserLifecycle() {
-        // 1. Create a new user through GraphQL
         String createUserMutation = """
             mutation {
                 createUser(
@@ -92,7 +89,6 @@ public class UserModuleE2ETests {
             }
             """.formatted(testUserId);
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createUserMutation)
                 .execute();
@@ -106,14 +102,12 @@ public class UserModuleE2ETests {
                 .path("createUser.tier").entity(Integer.class).isEqualTo(0)
                 .path("createUser.img").entity(String.class).isEqualTo("profile.jpg");
 
-        // 2. Verify user exists in database
         Optional<User> savedUser = userService.getUserById(testUserId);
         assertTrue(savedUser.isPresent());
         assertEquals("John", savedUser.get().getFirstName());
         assertEquals("Doe", savedUser.get().getLastName());
         assertEquals("john.doe@example.com", savedUser.get().getEmail());
 
-        // 3. Get the user by ID using GraphQL
         String getUserQuery = """
             query {
                 userById(id: "%s") {
@@ -139,7 +133,6 @@ public class UserModuleE2ETests {
                 .path("userById.tier").entity(Integer.class).isEqualTo(0)
                 .path("userById.img").entity(String.class).isEqualTo("profile.jpg");
 
-        // 4. Get the user by email using GraphQL
         String getUserByEmailQuery = """
             query {
                 userByEmail(email: "john.doe@example.com") {
@@ -159,7 +152,6 @@ public class UserModuleE2ETests {
                 .path("userByEmail.lastName").entity(String.class).isEqualTo("Doe")
                 .path("userByEmail.email").entity(String.class).isEqualTo("john.doe@example.com");
 
-        // 5. Update the user
         String updateUserMutation = """
             mutation {
                 updateUser(
@@ -193,14 +185,12 @@ public class UserModuleE2ETests {
                 .path("updateUser.tier").entity(Integer.class).isEqualTo(1)
                 .path("updateUser.img").entity(String.class).isEqualTo("updated-profile.jpg");
 
-        // 6. Verify update in the database
         User updatedUser = userService.getUserById(testUserId).orElseThrow();
         assertEquals("Smith", updatedUser.getLastName());
         assertEquals("john.smith@example.com", updatedUser.getEmail());
         assertEquals("+9876543210", updatedUser.getPhoneNumber());
         assertEquals(1, updatedUser.getTier());
 
-        // 7. Test getting all users
         String getAllUsersQuery = """
             query {
                 users {
@@ -220,7 +210,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("users").entityList(User.class).hasSize(1);
 
-        // 8. Delete the user
         String deleteUserMutation = """
             mutation {
                 deleteUser(id: "%s")
@@ -232,14 +221,12 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("deleteUser").entity(Boolean.class).isEqualTo(true);
 
-        // 9. Verify user was deleted
         Optional<User> deletedUser = userService.getUserById(testUserId);
         assertTrue(deletedUser.isEmpty());
     }
 
     @Test
     public void testUserEmailUniquenessValidation() {
-        // 1. Create first user
         String createFirstUserMutation = """
             mutation {
                 createUser(
@@ -260,7 +247,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("createUser.id").entity(String.class).isNotEqualTo(null);
 
-        // 2. Try to create a second user with the same email
         String createSecondUserMutation = """
             mutation {
                 createUser(
@@ -286,7 +272,6 @@ public class UserModuleE2ETests {
 
     @Test
     public void testUserPhoneNumberUniquenessValidation() {
-        // 1. Create first user
         String createFirstUserMutation = """
             mutation {
                 createUser(
@@ -307,7 +292,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("createUser.id").entity(String.class).isNotEqualTo(null);
 
-        // 2. Try to create a second user with the same phone number
         String createSecondUserMutation = """
             mutation {
                 createUser(
@@ -334,7 +318,6 @@ public class UserModuleE2ETests {
     @Test
     @Transactional
     public void testPartialUserUpdate() {
-        // 1. Create a user
         String createUserMutation = """
             mutation {
                 createUser(
@@ -355,7 +338,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("createUser.id").entity(String.class).isNotEqualTo(null);
 
-        // 2. Update only the firstName
         String updateFirstNameMutation = """
             mutation {
                 updateUser(
@@ -374,10 +356,9 @@ public class UserModuleE2ETests {
                 .document(updateFirstNameMutation)
                 .execute()
                 .path("updateUser.firstName").entity(String.class).isEqualTo("Jonathan")
-                .path("updateUser.lastName").entity(String.class).isEqualTo("Doe") // Should remain unchanged
-                .path("updateUser.email").entity(String.class).isEqualTo("john.doe@example.com"); // Should remain unchanged
+                .path("updateUser.lastName").entity(String.class).isEqualTo("Doe")
+                .path("updateUser.email").entity(String.class).isEqualTo("john.doe@example.com");
 
-        // 3. Update only the tier
         String updateTierMutation = """
             mutation {
                 updateUser(
@@ -394,14 +375,13 @@ public class UserModuleE2ETests {
         graphQlTester
                 .document(updateTierMutation)
                 .execute()
-                .path("updateUser.firstName").entity(String.class).isEqualTo("Jonathan") // Should remain unchanged
+                .path("updateUser.firstName").entity(String.class).isEqualTo("Jonathan")
                 .path("updateUser.tier").entity(Integer.class).isEqualTo(1);
     }
 
     @Test
     @Transactional
     public void testFavoriteStoreOperations() {
-        // 1. Create a user
         String createUserMutation = """
             mutation {
                 createUser(
@@ -422,7 +402,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("createUser.id").entity(String.class).isNotEqualTo(null);
 
-        // 2. Create a store owner user
         String storeOwnerId = UUID.randomUUID().toString();
         User storeOwner = new User(
                 storeOwnerId,
@@ -435,7 +414,6 @@ public class UserModuleE2ETests {
         );
         storeOwner = userRepository.save(storeOwner);
 
-        // 3. Create a store
         Store store = new Store(
                 storeOwner,
                 "Test Store",
@@ -449,7 +427,6 @@ public class UserModuleE2ETests {
         );
         testStore = storeRepository.save(store);
 
-        // 4. Add the store to user's favorites
         String addFavoriteStoreMutation = """
             mutation {
                 addFavoriteStore(
@@ -473,12 +450,10 @@ public class UserModuleE2ETests {
                 .path("addFavoriteStore.favoriteStores[0].id").entity(String.class).isEqualTo(testStore.getId().toString())
                 .path("addFavoriteStore.favoriteStores[0].name").entity(String.class).isEqualTo("Test Store");
 
-        // 5. Verify the favorite store was added in the database
         User userWithFavorite = userService.getUserById(testUserId).orElseThrow();
         assertEquals(1, userWithFavorite.getFavoriteStores().size());
         assertTrue(userWithFavorite.getFavoriteStores().contains(testStore));
 
-        // 6. Remove the store from favorites
         String removeFavoriteStoreMutation = """
             mutation {
                 removeFavoriteStore(
@@ -499,14 +474,12 @@ public class UserModuleE2ETests {
                 .path("removeFavoriteStore.id").entity(String.class).isEqualTo(testUserId)
                 .path("removeFavoriteStore.favoriteStores").entityList(Store.class).hasSize(0);
 
-        // 7. Verify the favorite store was removed in the database
         User userWithoutFavorite = userService.getUserById(testUserId).orElseThrow();
         assertEquals(0, userWithoutFavorite.getFavoriteStores().size());
     }
 
     @Test
     public void testInvalidFavoriteStoreOperations() {
-        // 1. Create a user
         String createUserMutation = """
             mutation {
                 createUser(
@@ -527,7 +500,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("createUser.id").entity(String.class).isNotEqualTo(null);
 
-        // 2. Try to add a non-existent store to favorites
         String invalidStoreMutation = """
             mutation {
                 addFavoriteStore(
@@ -546,7 +518,6 @@ public class UserModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // 3. Try to add a store to a non-existent user
         String invalidUserMutation = """
             mutation {
                 addFavoriteStore(
@@ -568,7 +539,6 @@ public class UserModuleE2ETests {
 
     @Test
     public void testInvalidUserOperations() {
-        // 1. Try to get non-existent user by ID
         String getNonExistentUserQuery = """
             query {
                 userById(id: "non-existent-user") {
@@ -583,7 +553,6 @@ public class UserModuleE2ETests {
                 .path("userById")
                 .valueIsNull();
 
-        // 2. Try to get non-existent user by email
         String getNonExistentEmailQuery = """
             query {
                 userByEmail(email: "nonexistent@example.com") {
@@ -598,7 +567,6 @@ public class UserModuleE2ETests {
                 .path("userByEmail")
                 .valueIsNull();
 
-        // 3. Try to delete non-existent user
         String deleteNonExistentUserMutation = """
             mutation {
                 deleteUser(id: "non-existent-user")
@@ -610,7 +578,6 @@ public class UserModuleE2ETests {
                 .execute()
                 .path("deleteUser").entity(Boolean.class).isEqualTo(false);
 
-        // 4. Try to update non-existent user
         String updateNonExistentUserMutation = """
             mutation {
                 updateUser(

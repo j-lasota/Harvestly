@@ -27,7 +27,7 @@ class ProductIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        productRepository.deleteAll(); // Clean up before every test
+        productRepository.deleteAll();
     }
 
     @Test

@@ -37,24 +37,20 @@ public class ProductModuleE2ETests {
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         productRepository.deleteAll();
 
-        // Create test product
         testProduct = new Product("Test Apple", ProductCategory.FRUIT);
         testProduct = productRepository.save(testProduct);
     }
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         productRepository.deleteAll();
     }
 
     @Test
     @Transactional
     public void testCompleteProductLifecycle() {
-        // 1. Create a new product through GraphQL
         String createProductMutation = """
             mutation {
                 createProduct(
@@ -69,7 +65,6 @@ public class ProductModuleE2ETests {
             }
             """;
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createProductMutation)
                 .execute();
@@ -84,14 +79,12 @@ public class ProductModuleE2ETests {
                 .path("createProduct.category").entity(String.class).isEqualTo("FRUIT")
                 .path("createProduct.verified").entity(Boolean.class).isEqualTo(false);
 
-        // 2. Verify product exists in database
         Optional<Product> savedProduct = productService.getProductById(productId);
         assertTrue(savedProduct.isPresent());
         assertEquals("Organic Banana", savedProduct.get().getName());
         assertEquals(ProductCategory.FRUIT, savedProduct.get().getCategory());
         assertFalse(savedProduct.get().isVerified());
 
-        // 3. Get the product by ID using GraphQL
         String getProductQuery = """
             query {
                 productById(id: %d) {
@@ -111,7 +104,6 @@ public class ProductModuleE2ETests {
                 .path("productById.category").entity(String.class).isEqualTo("FRUIT")
                 .path("productById.verified").entity(Boolean.class).isEqualTo(false);
 
-        // 4. Get all products
         String getAllProductsQuery = """
             query {
                 products {
@@ -128,12 +120,12 @@ public class ProductModuleE2ETests {
                 .execute();
 
         List<Product> allProducts = productService.getAllProducts();
-        assertEquals(2, allProducts.size()); // Test product + newly created product
+        assertEquals(2, allProducts.size());
 
         allProductsResponse
                 .path("products").entityList(Product.class).hasSize(2);
 
-        // 5. Update the product
+
         String updateProductMutation = """
             mutation {
                 updateProduct(
@@ -158,13 +150,11 @@ public class ProductModuleE2ETests {
                 .path("updateProduct.category").entity(String.class).isEqualTo("FRUIT")
                 .path("updateProduct.verified").entity(Boolean.class).isEqualTo(true);
 
-        // 6. Verify update in the database
         Product updatedProduct = productService.getProductById(productId).orElseThrow();
         assertEquals("Premium Organic Banana", updatedProduct.getName());
         assertEquals(ProductCategory.FRUIT, updatedProduct.getCategory());
         assertTrue(updatedProduct.isVerified());
 
-        // 7. Delete the product
         String deleteProductMutation = """
             mutation {
                 deleteProduct(id: %d)
@@ -176,14 +166,12 @@ public class ProductModuleE2ETests {
                 .execute()
                 .path("deleteProduct").entity(Boolean.class).isEqualTo(true);
 
-        // 8. Verify product was deleted
         Optional<Product> deletedProduct = productService.getProductById(productId);
         assertTrue(deletedProduct.isEmpty());
     }
 
     @Test
     public void testProductCategoryChange() {
-        // Create a product with FRUIT category
         String createProductMutation = """
             mutation {
                 createProduct(
@@ -203,7 +191,6 @@ public class ProductModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Update the product category to VEGETABLE
         String updateCategoryMutation = """
             mutation {
                 updateProduct(
@@ -222,14 +209,12 @@ public class ProductModuleE2ETests {
                 .execute()
                 .path("updateProduct.category").entity(String.class).isEqualTo("VEGETABLE");
 
-        // Verify in the database
         Product updatedProduct = productService.getProductById(productId).orElseThrow();
         assertEquals(ProductCategory.VEGETABLE, updatedProduct.getCategory());
     }
 
     @Test
     public void testVerifyUnverifyProduct() {
-        // First create an unverified product
         String createProductMutation = """
             mutation {
                 createProduct(
@@ -249,7 +234,6 @@ public class ProductModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Verify the product
         String verifyProductMutation = """
             mutation {
                 updateProduct(
@@ -267,7 +251,6 @@ public class ProductModuleE2ETests {
                 .execute()
                 .path("updateProduct.verified").entity(Boolean.class).isEqualTo(true);
 
-        // Now unverify the product
         String unverifyProductMutation = """
             mutation {
                 updateProduct(
@@ -288,7 +271,6 @@ public class ProductModuleE2ETests {
 
     @Test
     public void testPartialProductUpdate() {
-        // Create a product
         String createProductMutation = """
             mutation {
                 createProduct(
@@ -310,7 +292,6 @@ public class ProductModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Update only the name
         String updateNameMutation = """
             mutation {
                 updateProduct(
@@ -329,13 +310,12 @@ public class ProductModuleE2ETests {
                 .document(updateNameMutation)
                 .execute()
                 .path("updateProduct.name").entity(String.class).isEqualTo("Organic Cucumber")
-                .path("updateProduct.category").entity(String.class).isEqualTo("VEGETABLE") // Category should remain unchanged
-                .path("updateProduct.verified").entity(Boolean.class).isEqualTo(false);     // Verified should remain unchanged
+                .path("updateProduct.category").entity(String.class).isEqualTo("VEGETABLE")
+                .path("updateProduct.verified").entity(Boolean.class).isEqualTo(false);
     }
 
     @Test
     public void testInvalidProductId() {
-        // Test retrieving a product with invalid ID
         String invalidIdQuery = """
             query {
                 productById(id: 999999) {
@@ -350,7 +330,6 @@ public class ProductModuleE2ETests {
                 .execute()
                 .path("productById").valueIsNull();
 
-        // Test updating a product with invalid ID
         String invalidUpdateMutation = """
             mutation {
                 updateProduct(
@@ -370,7 +349,6 @@ public class ProductModuleE2ETests {
                     assertFalse(errors.isEmpty());
                 });
 
-        // Test deleting a product with invalid ID
         String invalidDeleteMutation = """
             mutation {
                 deleteProduct(id: 999999)
@@ -385,11 +363,9 @@ public class ProductModuleE2ETests {
 
     @Test
     public void testQueryProductsListNotEmpty() {
-        // Create a few products to ensure list is not empty
         productRepository.save(new Product("Test Tomato", ProductCategory.VEGETABLE));
         productRepository.save(new Product("Test Blueberry", ProductCategory.FRUIT));
 
-        // Query all products
         String allProductsQuery = """
             query {
                 products {
@@ -400,7 +376,6 @@ public class ProductModuleE2ETests {
             }
             """;
 
-        // Should return at least 3 products (including test product from setup)
         graphQlTester
                 .document(allProductsQuery)
                 .execute()

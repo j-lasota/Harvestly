@@ -30,14 +30,11 @@ class UserIntegrationTests {
     private UserRepository userRepository;
 
     @Autowired
-    private StoreService storeService;
-
-    @Autowired
     private StoreRepository storeRepository;
 
     @BeforeEach
     void setUp() {
-        userRepository.deleteAll(); // Clean up before every test
+        userRepository.deleteAll();
     }
 
     @Test
@@ -156,7 +153,6 @@ class UserIntegrationTests {
     void testUpdateUser_PartialUpdate() {
         User user = userRepository.save(new User("user10", "Frank", "Thomas", "frank@example.com", "222333444", 0, "frank.jpg"));
 
-        // Update only firstName and tier
         User updatedUser = userService.updateUser(
                 user.getId(),
                 "Francis",
@@ -168,11 +164,11 @@ class UserIntegrationTests {
         );
 
         assertEquals("Francis", updatedUser.getFirstName());
-        assertEquals("Thomas", updatedUser.getLastName()); // Unchanged
-        assertEquals("frank@example.com", updatedUser.getEmail()); // Unchanged
-        assertEquals("222333444", updatedUser.getPhoneNumber()); // Unchanged
-        assertEquals(1, updatedUser.getTier()); // Changed
-        assertEquals("frank.jpg", updatedUser.getImg()); // Unchanged
+        assertEquals("Thomas", updatedUser.getLastName());
+        assertEquals("frank@example.com", updatedUser.getEmail());
+        assertEquals("222333444", updatedUser.getPhoneNumber());
+        assertEquals(1, updatedUser.getTier());
+        assertEquals("frank.jpg", updatedUser.getImg());
     }
 
     @Test
@@ -230,7 +226,6 @@ class UserIntegrationTests {
     @Test
     @Transactional
     void testAddFavoriteShop() {
-        // Create a user and a store
         User user = userRepository.save(new User("user13", "Ian", "Scott", "ian@example.com", "555666777", 0, "ian.jpg"));
         User storeOwner = userRepository.save(new User("owner1", "Owner", "One", "owner1@example.com", "666777888", 0, "owner1.jpg"));
 
@@ -247,10 +242,8 @@ class UserIntegrationTests {
         );
         store = storeRepository.save(store);
 
-        // Add store to favorites
         User updatedUser = userService.addFavoriteShop(user.getId(), store.getId());
 
-        // Verify the store is in the user's favorites
         assertEquals(1, updatedUser.getFavoriteStores().size());
         assertTrue(updatedUser.getFavoriteStores().contains(store));
     }
@@ -269,10 +262,10 @@ class UserIntegrationTests {
                 "store2.jpg",
                 "another-store"
         );
-        final Store savedStore = storeRepository.save(store); // Create a final reference
+        final Store savedStore = storeRepository.save(store);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userService.addFavoriteShop("non-existent-id", savedStore.getId()); // Use the final reference
+            userService.addFavoriteShop("non-existent-id", savedStore.getId());
         });
 
         assertEquals("User not found", exception.getMessage());
@@ -292,7 +285,6 @@ class UserIntegrationTests {
     @Test
     @Transactional
     void testRemoveFavoriteShop() {
-        // Create a user and a store
         User user = userRepository.save(new User("user15", "Kate", "Johnson", "kate@example.com", "999000111", 0, "kate.jpg"));
         User storeOwner = userRepository.save(new User("owner3", "Owner", "Three", "owner3@example.com", "000111222", 0, "owner3.jpg"));
 
@@ -309,13 +301,10 @@ class UserIntegrationTests {
         );
         store = storeRepository.save(store);
 
-        // First add the store to favorites
         userService.addFavoriteShop(user.getId(), store.getId());
 
-        // Then remove it
         User updatedUser = userService.removeFavoriteShop(user.getId(), store.getId());
 
-        // Verify the store is no longer in favorites
         assertEquals(0, updatedUser.getFavoriteStores().size());
     }
 }
