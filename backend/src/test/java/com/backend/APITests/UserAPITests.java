@@ -8,9 +8,12 @@ import com.backend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,15 +22,14 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(UserController.class)  // Specify the controller to test
-@Import(GraphQLScalarConfig.class)
-
+@SpringBootTest
+@AutoConfigureGraphQlTester
 class UserAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
     @MockBean
@@ -35,12 +37,10 @@ class UserAPITests {
 
     @Test
     void userById_ReturnsUser_WhenUserExists() {
-        // Arrange
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
         User mockUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.getUserById(userId)).thenReturn(Optional.of(mockUser));
 
-        // Act & Assert
         String query = """
                 query {
                   userById(id: "2a6e8658-d6db-45d8-9131-e8f87b62ed75") {
@@ -63,14 +63,12 @@ class UserAPITests {
 
     @Test
     void users_ReturnsAllUsers() {
-        // Arrange
         List<User> mockUsers = Arrays.asList(
                 new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75", "John", "Doe", "john@example.com", "123456789", 0, "img1.jpg"),
                 new User("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62","Jane", "Smith", "jane@example.com", "987654321", 1, "img2.jpg")
         );
         when(userService.getAllUsers()).thenReturn(mockUsers);
 
-        // Act & Assert
         String query = """
                 query {
                   users {
@@ -90,11 +88,9 @@ class UserAPITests {
 
     @Test
     void createUser_ReturnsCreatedUser() {
-        // Arrange
         User createdUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", "john@example.com", "123456789", 0, "img.jpg");
         when(userService.saveUser(any(User.class))).thenReturn(createdUser);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createUser(
@@ -125,13 +121,11 @@ class UserAPITests {
 
     @Test
     void updateUser_ReturnsUpdatedUser() {
-        // Arrange
         Long userId = 1L;
         User updatedUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
         when(userService.updateUser(eq("2a6e8658-d6db-45d8-9131-e8f87b62ed75"), any(), any(), any(), any(), any(), any()))
                 .thenReturn(updatedUser);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateUser(
@@ -164,11 +158,9 @@ class UserAPITests {
 
     @Test
     void deleteUser_ReturnsTrue_WhenUserDeleted() {
-        // Arrange
         String userId = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62";
         when(userService.deleteUserById(userId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteUser(id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62")
@@ -184,12 +176,10 @@ class UserAPITests {
 
     @Test
     void userByEmail_ReturnsUser() {
-        // Arrange
         String email = "john@example.com";
         User mockUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Doe", email, "123456789", 0, "img.jpg");
         when(userService.getUserByEmail(email)).thenReturn(Optional.of(mockUser));
 
-        // Act & Assert
         String query = """
                 query {
                   userByEmail(email: "john@example.com") {

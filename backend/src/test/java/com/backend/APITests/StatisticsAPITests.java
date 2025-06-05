@@ -5,7 +5,9 @@ import com.backend.model.EventType;
 import com.backend.service.StatisticsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -16,7 +18,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(StatisticsController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 @WithMockUser
 class StatisticsAPITests {
 
@@ -112,12 +115,10 @@ class StatisticsAPITests {
 
     @Test
     void getRatioForPeriod_missingParams_thenBadRequest() throws Exception {
-        // missing days
         mockMvc.perform(get("/api/stats/ratio/period")
                         .param("slug", "store-xyz"))
                 .andExpect(status().isBadRequest());
 
-        // missing slug
         mockMvc.perform(get("/api/stats/ratio/period")
                         .param("days", "7"))
                 .andExpect(status().isBadRequest());
