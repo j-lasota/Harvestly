@@ -31,12 +31,10 @@ class VerificationServiceUnitTests {
     @Mock
     private UserRepository userRepository;
 
-    // Real service instance, not mocked
     private VerificationService verificationService;
 
     @BeforeEach
     void setUp() {
-        // Initialize real service with all mocked repositories
         verificationService = new VerificationService(
                 verificationRepository,
                 storeRepository,

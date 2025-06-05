@@ -26,12 +26,10 @@ class StoreServiceUnitTests {
     @Mock
     private UserRepository userRepository;
 
-    // Real service instance, not mocked
     private StoreService storeService;
 
     @BeforeEach
     void setUp() {
-        // Initialize real service with mocked repositories
         storeService = new StoreService(storeRepository);
     }
 
