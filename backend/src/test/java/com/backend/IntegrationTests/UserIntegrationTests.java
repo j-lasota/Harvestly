@@ -4,7 +4,8 @@ import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
-import com.backend.service.StoreService;
+import com.backend.repository.OpinionRepository;
+
 import com.backend.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ class UserIntegrationTests {
 
     @Autowired
     private StoreRepository storeRepository;
+
 
     @BeforeEach
     void setUp() {

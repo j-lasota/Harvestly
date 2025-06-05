@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class OpinionAPITests {
 
     @Autowired

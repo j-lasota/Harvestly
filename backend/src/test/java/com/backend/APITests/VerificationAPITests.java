@@ -11,9 +11,12 @@ import com.backend.service.VerificationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,20 +25,21 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(VerificationController.class)
-@Import(GraphQLScalarConfig.class)
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class VerificationAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private VerificationService verificationService;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
     @Test
