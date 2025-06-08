@@ -6,7 +6,7 @@ import auth0 from "@/public/auth0.svg";
 import { signIn } from "@/auth";
 
 export function SignIn() {
-  const t = useTranslations("nav");
+  const t = useTranslations("auth");
 
   return (
     <form

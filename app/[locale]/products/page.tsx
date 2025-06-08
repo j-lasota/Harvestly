@@ -1,40 +1,12 @@
 import { getTranslations } from "next-intl/server";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
-import { ProductSection } from "@/components/product-section";
+import { allCategoriesQuery, allProductsQuery } from "@/graphql/query";
+import { ProductsSection } from "@/components/ui/products-section";
 import { getClient } from "@/graphql/apollo-client";
-import { graphql } from "@/graphql";
-
-const allProductsQuery = graphql(`
-  query AllProducts {
-    ownProducts {
-      id
-      product {
-        name
-      }
-      price
-      quantity
-      imageUrl
-      store {
-        slug
-        name
-        city
-      }
-    }
-  }
-`);
-
-const allCategoriesQuery = graphql(`
-  query Category {
-    products {
-      name
-      category
-    }
-  }
-`);
 
 export default async function ProductsPage() {
-  const t = await getTranslations("products");
+  const t = await getTranslations("page.products");
 
   const { data: products } = await getClient().query({
     query: allProductsQuery,
@@ -53,7 +25,7 @@ export default async function ProductsPage() {
       </h1>
 
       {products.ownProducts && categories.products && (
-        <ProductSection
+        <ProductsSection
           products={products.ownProducts.filter((p) => p !== null)}
           categories={categories.products.filter((p) => p !== null)}
         />

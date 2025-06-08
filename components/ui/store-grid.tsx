@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-import { DirectionAwareHover } from "@/components/store-card";
+import { DirectionAwareHover } from "@/components/ui/store-card";
 import placeholder from "@/public/store_placeholder.jpg";
 import { Link } from "@/i18n/navigation";
 

@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { Globe } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,7 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe } from "lucide-react";
 
 export function LanguageSelector({ className }: { className?: string }) {
   const router = useRouter();
@@ -35,7 +36,7 @@ export function LanguageSelector({ className }: { className?: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className={className}>
         <Button variant="ghostPrimary" size="icon">
-          <Globe className="size-5" strokeWidth={1.5} />
+          <Globe className="size-5" strokeWidth={1.75} />
           <span className="sr-only">Toggle language</span>
         </Button>
       </DropdownMenuTrigger>

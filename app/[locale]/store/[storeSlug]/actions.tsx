@@ -24,7 +24,15 @@ const removeFavoriteStoreMutation = graphql(`
   }
 `);
 
-const AddOpinionMutation = graphql(`
+const addVerificationMutation = graphql(`
+  mutation addVerification($userId: ID!, $storeId: ID!) {
+    createVerification(userId: $userId, storeId: $storeId) {
+      id
+    }
+  }
+`);
+
+const addOpinionMutation = graphql(`
   mutation addOpinion(
     $userId: ID!
     $storeId: ID!
@@ -61,6 +69,19 @@ export const removeFavoriteStore = async (storeId: string) => {
 
   const { data } = await getClient().mutate({
     mutation: removeFavoriteStoreMutation,
+    variables: { userId: session.user.id, storeId },
+  });
+
+  return data;
+};
+
+// ========== Add verification action ==========
+export const addVerification = async (storeId: string) => {
+  const session = await auth();
+  if (!session?.user || !session.user.id) return;
+
+  const { data } = await getClient().mutate({
+    mutation: addVerificationMutation,
     variables: { userId: session.user.id, storeId },
   });
 
@@ -108,7 +129,7 @@ export async function addOpinionAction(state: FormState, formData: FormData) {
   const { description, storeId, stars } = validatedFields.data;
 
   const { data } = await getClient().mutate({
-    mutation: AddOpinionMutation,
+    mutation: addOpinionMutation,
     variables: { userId: session.user.id, storeId, description, stars },
   });
 

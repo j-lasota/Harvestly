@@ -1,10 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 
-import { ProductCard, ProductCardProps } from "@/components/product-card";
+import { ProductCard, ProductCardProps } from "@/components/ui/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -13,14 +13,14 @@ interface CategoryProps {
   category: string;
 }
 
-export function ProductSection({
+export function ProductsSection({
   products,
   categories,
 }: {
   products: ProductCardProps[];
   categories?: CategoryProps[];
 }) {
-  const t = useTranslations("productSection");
+  const t = useTranslations("productsSection");
   const [productsData, setProductsData] = useState(products);
   const [input, setInput] = useState("");
   const [minPrice, setMinPrice] = useState<string>("");

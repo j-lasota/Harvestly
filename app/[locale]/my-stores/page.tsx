@@ -2,32 +2,12 @@ import { getTranslations } from "next-intl/server";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { getClient } from "@/graphql/apollo-client";
-import { graphql } from "@/graphql";
-
-import StoreGrid from "@/components/store-grid";
+import { allMyStoresQuery } from "@/graphql/query";
+import StoreGrid from "@/components/ui/store-grid";
 import { auth } from "@/auth";
 
-const allMyStoresQuery = graphql(`
-  query AllMyStores($userId: ID!) {
-    userById(id: $userId) {
-      stores {
-        id
-        name
-        imageUrl
-        slug
-      }
-      favoriteStores {
-        id
-        name
-        imageUrl
-        slug
-      }
-    }
-  }
-`);
-
 export default async function MyStoresPage() {
-  const t = await getTranslations("myStores");
+  const t = await getTranslations("page.myStores");
   const session = await auth();
   const userId = session?.user?.id;
 

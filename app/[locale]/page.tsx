@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import hero from "@/public/hero.jpg";
 
 export default async function Home() {
-  const t = await getTranslations("home");
+  const t = await getTranslations("page.home");
 
   return (
     <ContainerWrapper
@@ -20,22 +20,17 @@ export default async function Home() {
             Harvestly
           </h1>
           <p className="text-xl sm:text-2xl lg:text-3xl">
-            <span className="font-kalam text-primary font-bold">
-              {t("health")}
-            </span>{" "}
-            {t("starts")}{" "}
-            <span className="font-kalam text-primary font-bold">
-              {t("locally")}
-            </span>{" "}
-            - {t("choose")}{" "}
-            <span className="font-kalam text-primary font-bold">
-              {t("fresh")}
-            </span>{" "}
-            {t("fromFarmers")}
+            {t.rich("hero", {
+              s: (chunks) => (
+                <span className="font-kalam text-primary font-bold">
+                  {chunks}
+                </span>
+              ),
+            })}
           </p>
 
           <Button size="xl" className="mt-5 max-w-xs" asChild>
-            <Link href="/products">{t("button")}</Link>
+            <Link href="/products">{t("action")}</Link>
           </Button>
         </div>
         <Image

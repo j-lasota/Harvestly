@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Star } from "lucide-react";
 
-import { SubmitButton } from "@/components/submit-button";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { addOpinionAction } from "../actions";
 import { cn } from "@/lib/utils";
 

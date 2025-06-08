@@ -1,126 +1,115 @@
 {
-  "home": {
-    "health": "Health",
-    "starts": "starts",
-    "locally": "locally",
-    "choose": "choose",
-    "fresh": "fresh",
-    "fromFarmers": "products from farmers in your area",
-    "button": "Start now"
-  },
-  "auth": {
-    "join": "Join the community...",
-    "enjoy": "...and enjoy",
-    "healthy": "healthy",
-    "food": "food",
-    "login": "Log in",
-    "signinKeycloak": "Sign in"
+  "page": {
+    "home": {
+      "hero": "<s>Health</s> begins <s>locally</s> - choose <s>fresh</s> produce from farmers in your area",
+      "action": "Check products"
+    },
+    "products": {
+      "title": "Available products"
+    },
+    "myStores": {
+      "favorites": "Favorite stores",
+      "my": "My stores"
+    },
+    "store": {
+      "location": "Location",
+      "businessHours": "Opening hours",
+      "days": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      },
+      "reviews": {
+        "title": "Reviews",
+        "addReview": "Add review",
+        "starsLabel": "stars",
+        "anonymousUser": "Anonymous",
+        "noReviews": "No reviews yet",
+        "leaveReview": "Leave your review",
+        "yourOpinion": "Your opinion",
+        "submit": "Submit",
+        "thankYou": "Thank you for your review!"
+      },
+      "store": {
+        "contact": "Contact the store"
+      }
+    }
   },
   "nav": {
     "home": "Home",
     "products": "Products",
-    "map": "Map",
-    "about": "About",
-    "contact": "Contact",
-    "signIn": "Sign in"
-  },
-  "products": {
-    "title": "Available Products",
-    "soldBy": "Sold by",
-    "available": "Available"
+    "map": "Map"
   },
   "avatarMenu": {
-    "myAccount": "My account",
+    "myAccount": "My Account",
     "profile": "Profile",
     "myStores": "My stores",
-    "addStore": "Add store",
+    "addStore": "Add store"
+  },
+  "auth": {
+    "signIn": "Sign in",
     "signOut": "Sign out"
   },
-  "store": {
-    "location": "Location",
-    "businessHours": "Business Hours",
-    "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites",
-    "description": "Description",
-    "noDescription": "No description provided",
-    "verified": "Verified",
-    "products": {
-      "soldBy": "Sold by",
-      "available": "Available"
-    },
-    "days": {
-      "MONDAY": "Monday",
-      "TUESDAY": "Tuesday",
-      "WEDNESDAY": "Wednesday",
-      "THURSDAY": "Thursday",
-      "FRIDAY": "Friday",
-      "SATURDAY": "Saturday",
-      "SUNDAY": "Sunday"
-    },
-    "reviews": {
-      "title": "Reviews",
-      "addReview": "Add a review",
-      "starsLabel": "stars",
-      "anonymousUser": "Anonymous",
-      "noReviews": "No reviews yet",
-      "leaveReview": "Leave your review",
-      "yourOpinion": "Your opinion",
-      "submit": "Submit",
-      "thankYou": "Thank you for your review!"
+  "productsSection": {
+    "searchLabel": "Search products:",
+    "searchPlaceholder": "Search products...",
+    "categoryLabel": "Category:",
+    "priceRangeLabel": "Price range:",
+    "separatePriceRange": "to",
+    "categories": {
+      "FRUIT": "Fruit",
+      "VEGETABLE": "Vegetables"
     }
+  },
+  "productCard": {
+    "soldBy": "Sold by",
+    "available": "Available: <b>{quantity}</b> pcs."
+  },
+  "storeGrid": {
+    "empty": "No stores available"
+  },
+  "favoriteButton": {
+    "remove": "Remove from favorites",
+    "add": "Add to favorites"
+  },
+  "verificationButton": {
+    "add": "Verify",
+    "verified": "Verified"
+  },
+  "addOpinion": {
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your message...",
+    "pending": "Sending...",
+    "submit": "Send",
+    "ratingLabel": "Rating",
+    "starAriaLabel": "Rate with {count} stars"
   },
   "map": {
     "loading": "Loading store data...",
     "loadingError": "Failed to load store data",
-    "selectShop": "Select a store:",
-    "selectShopPlaceholder": "Select a store",
-    "searchCity": "Check stands in city:",
+    "selectShop": "Select a stall:",
+    "selectShopPlaceholder": "Select store",
+    "searchCity": "Check stalls in city:",
     "cityPlaceholder": "Enter city name",
     "noShopsInCity": "No stores in this city",
     "searchPlaceholder": "Enter address...",
     "addressNotFound": "Address not found.",
-    "searchError": "Address search error:",
+    "searchError": "Search address error:",
     "storeInfo": {
       "description": "Description",
-      "noDescription": "No description available.",
+      "noDescription": "No description available",
       "address": "Address",
       "openingHours": "Opening hours",
-      "noHours": "No opening hours information available.",
+      "noHours": "No opening hours info.",
       "photo": "Photo"
     },
     "popup": {
       "searchedAddress": "Searched address",
       "storeLocation": "{storeName} — {city}"
-    }
-  },
-  "myStores": {
-    "my": "My stores",
-    "favorites": "Favorite stores"
-  },
-  "storeGrid": {
-    "empty": "No stores available"
-  },
-  "favorites": {
-    "add": "Add to favorites",
-    "remove": "Remove from favorites"
-  },
-  "addOpinion": {
-    "ratingLabel": "Rating",
-    "starAriaLabel": "Rate with {count} star(s)",
-    "messageLabel": "Message",
-    "messagePlaceholder": "Your message...",
-    "submit": "Send",
-    "pending": "Sending..."
-  },
-  "productSection": {
-    "searchLabel": "Search products:",
-    "searchPlaceholder": "Search for products...",
-    "categoryLabel": "Category:",
-    "priceRangeLabel": "Price range:",
-    "separatePriceRange": "to",
-    "categories": {
-      "FRUIT": "Fruits",
-      "VEGETABLE": "Vegetables"
     }
   }
 }

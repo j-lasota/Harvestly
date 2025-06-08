@@ -1,69 +1,18 @@
 import { getTranslations } from "next-intl/server";
+import { BadgeCheck, Send } from "lucide-react";
 import { notFound } from "next/navigation";
-import { BadgeCheck } from "lucide-react";
 
+import { storeBySlugQuery, userFavoriteStoresQuery } from "@/graphql/query";
 import { OpinionCard, OpinionCardProps } from "./components/opinion-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import { ProductsSection } from "@/components/ui/products-section";
+import AddVerificationButton from "./components/add-verification";
 import { ImageMapPreview } from "./components/image-map-preview";
-import { ProductSection } from "@/components/product-section";
 import AddToFavButton from "./components/add-to-fav-button";
 import { getClient } from "@/graphql/apollo-client";
 import AddOpinion from "./components/add-opinion";
-import { graphql } from "@/graphql";
+import { Button } from "@/components/ui/button";
 import { auth } from "@/auth";
-
-const storeBySlugQuery = graphql(`
-  query storeBySlug($slug: String!) {
-    storeBySlug(slug: $slug) {
-      id
-      name
-      city
-      address
-      latitude
-      longitude
-      imageUrl
-      description
-      verified
-      opinions {
-        id
-        description
-        stars
-        user {
-          firstName
-        }
-      }
-      businessHours {
-        dayOfWeek
-        openingTime
-        closingTime
-      }
-      ownProducts {
-        id
-        product {
-          name
-        }
-        price
-        quantity
-        imageUrl
-        store {
-          slug
-          name
-          city
-        }
-      }
-    }
-  }
-`);
-
-const userFavoriteStoresQuery = graphql(`
-  query userFavoriteStores($id: ID!) {
-    userById(id: $id) {
-      favoriteStores {
-        id
-      }
-    }
-  }
-`);
 
 interface BusinessHoursProps {
   dayOfWeek: string;
@@ -78,8 +27,10 @@ export default async function StorePage({
     storeSlug: string;
   }>;
 }>) {
+  const t = await getTranslations("page.store");
   const session = await auth();
   const userId = session?.user?.id;
+
   const { storeSlug } = await params;
   const { data } = await getClient().query({
     query: storeBySlugQuery,
@@ -95,8 +46,6 @@ export default async function StorePage({
     UserData = data;
   }
 
-  const t = await getTranslations("store");
-
   if (!data || !data.storeBySlug) return notFound();
 
   return (
@@ -105,14 +54,26 @@ export default async function StorePage({
       className="mt-10 mb-16 flex min-h-screen flex-col gap-8 md:mt-10"
     >
       <div className="grid gap-8 md:grid-cols-2">
-        <ImageMapPreview
-          src={data.storeBySlug.imageUrl}
-          name={data.storeBySlug.name}
-          market={{
-            lat: data.storeBySlug.latitude,
-            lng: data.storeBySlug.longitude,
-          }}
-        />
+        <div className="flex flex-col gap-1">
+          <ImageMapPreview
+            src={data.storeBySlug.imageUrl}
+            name={data.storeBySlug.name}
+            market={{
+              lat: data.storeBySlug.latitude,
+              lng: data.storeBySlug.longitude,
+            }}
+          />
+          <Button
+            variant="ghostPrimary"
+            asChild
+            className="gap-1.5 self-end font-normal"
+          >
+            <a href={`mailto:${data.storeBySlug.user.email}`}>
+              {t("store.contact")}
+              <Send size={16} strokeWidth={1.75} />
+            </a>
+          </Button>
+        </div>
 
         <div className="flex flex-col gap-2">
           <h1 className="mt-2 flex items-center gap-2 text-2xl font-medium sm:text-3xl lg:text-4xl">
@@ -123,12 +84,20 @@ export default async function StorePage({
           </h1>
 
           {session?.user && data.storeBySlug && (
-            <AddToFavButton
-              storeId={data.storeBySlug.id}
-              isFavorite={(UserData?.userById?.favoriteStores || []).some(
-                (store) => store.id && store.id === data.storeBySlug!.id
-              )}
-            />
+            <div className="flex gap-2">
+              <AddToFavButton
+                storeId={data.storeBySlug.id}
+                isFavorite={(UserData?.userById?.favoriteStores || []).some(
+                  (store) => store.id && store.id === data.storeBySlug!.id
+                )}
+              />
+              <AddVerificationButton
+                storeId={data.storeBySlug.id}
+                isVerifiedByUser={(data.storeBySlug?.verifications || []).some(
+                  (verification) => verification.user.id === session.user?.id
+                )}
+              />
+            </div>
           )}
 
           <p className="font-kalam mb-4 text-lg">
@@ -163,7 +132,7 @@ export default async function StorePage({
       </div>
 
       {data.storeBySlug.ownProducts && (
-        <ProductSection products={data.storeBySlug.ownProducts} />
+        <ProductsSection products={data.storeBySlug.ownProducts} />
       )}
 
       <section className="flex max-w-3xl flex-col gap-4">

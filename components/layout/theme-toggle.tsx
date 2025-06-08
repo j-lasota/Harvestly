@@ -42,7 +42,7 @@ export default function ThemeToggle() {
     >
       <Contrast
         className={cn("size-5", isContrast && "text-primary")}
-        strokeWidth={1.5}
+        strokeWidth={1.75}
       />
     </Button>
   );

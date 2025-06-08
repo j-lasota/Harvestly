@@ -1,109 +1,60 @@
 {
-  "home": {
-    "health": "Здоров'я",
-    "starts": "починається",
-    "locally": "локально",
-    "choose": "обирайте",
-    "fresh": "свіже",
-    "fromFarmers": "продукти від фермерів у вашому регіоні",
-    "button": "Почати зараз"
-  },
-  "auth": {
-    "join": "Приєднуйтесь до спільноти...",
-    "enjoy": "...та насолоджуйтесь",
-    "healthy": "здоровою",
-    "food": "їжею",
-    "login": "Увійти",
-    "signinKeycloak": "Увійти"
+  "page": {
+    "home": {
+      "hero": "<s>Здоров’я</s> починається <s>локально</s> – обирайте <s>свіжі</s> продукти y фермерів поруч",
+      "action": "Переглянути продукти"
+    },
+    "products": {
+      "title": "Доступні продукти"
+    },
+    "myStores": {
+      "favorites": "Улюблені магазини",
+      "my": "Мої магазини"
+    },
+    "store": {
+      "location": "Розташування",
+      "businessHours": "Години роботи",
+      "days": {
+        "MONDAY": "Понеділок",
+        "TUESDAY": "Вівторок",
+        "WEDNESDAY": "Середа",
+        "THURSDAY": "Четвер",
+        "FRIDAY": "П’ятниця",
+        "SATURDAY": "Субота",
+        "SUNDAY": "Неділя"
+      },
+      "reviews": {
+        "title": "Відгуки",
+        "addReview": "Додати відгук",
+        "starsLabel": "зірки",
+        "anonymousUser": "Анонім",
+        "noReviews": "Поки що немає відгуків",
+        "leaveReview": "Залиште ваш відгук",
+        "yourOpinion": "Ваша думка",
+        "submit": "Надіслати",
+        "thankYou": "Дякуємо за ваш відгук!"
+      },
+      "store": {
+        "contact": "Зверніться до магазину"
+      }
+    }
   },
   "nav": {
     "home": "Головна",
     "products": "Продукти",
-    "map": "Карта",
-    "about": "Про нас",
-    "contact": "Контакти",
-    "signIn": "Увійти"
-  },
-  "products": {
-    "title": "Доступні продукти",
-    "soldBy": "Продає",
-    "available": "Доступно"
+    "map": "Карта"
   },
   "avatarMenu": {
     "myAccount": "Мій акаунт",
     "profile": "Профіль",
     "myStores": "Мої магазини",
-    "addStore": "Додати магазин",
+    "addStore": "Додати магазин"
+  },
+  "auth": {
+    "signIn": "Увійти",
     "signOut": "Вийти"
   },
-  "store": {
-    "location": "Місцезнаходження",
-    "businessHours": "Години роботи",
-    "days": {
-      "MONDAY": "Понеділок",
-      "TUESDAY": "Вівторок",
-      "WEDNESDAY": "Середа",
-      "THURSDAY": "Четвер",
-      "FRIDAY": "П'ятниця",
-      "SATURDAY": "Субота",
-      "SUNDAY": "Неділя"
-    },
-    "reviews": {
-      "title": "Огляди",
-      "addReview": "Додати огляд",
-      "starsLabel": "зірок",
-      "anonymousUser": "Анонімний",
-      "noReviews": "Ще немає відгуків",
-      "leaveReview": "Залишити відгук",
-      "yourOpinion": "Ваше мнение",
-      "submit": "Надіслати",
-      "thankYou": "Дякуємо за ваш відгук!"
-    }
-  },
-  "map": {
-    "loading": "Завантаження даних магазинів...",
-    "loadingError": "Не вдалося завантажити дані магазинів",
-    "selectShop": "Виберіть магазин:",
-    "selectShopPlaceholder": "Виберіть магазин",
-    "searchCity": "Пошук магазинів у місті:",
-    "cityPlaceholder": "Введіть назву міста",
-    "noShopsInCity": "Немає магазинів у цьому місті",
-    "searchPlaceholder": "Введіть адресу...",
-    "addressNotFound": "Адресу не знайдено.",
-    "searchError": "Помилка пошуку адреси:",
-    "storeInfo": {
-      "description": "Опис",
-      "noDescription": "Опис відсутній",
-      "address": "Адреса",
-      "openingHours": "Години роботи",
-      "noHours": "Інформація про години роботи відсутня.",
-      "photo": "Фото"
-    },
-    "popup": {
-      "searchedAddress": "Шукана адреса",
-      "storeLocation": "{storeName} — {city}"
-    }
-  },
-  "myStores": {
-    "favorites": "Улюблені магазини",
-    "my": "Мої магазини"
-  },
-  "storeGrid": {
-    "empty": "Немає магазинів"
-  },
-  "favorites": {
-    "remove": "Видаліть з фаворитів",
-    "add": "Додати до фаворитів"
-  },
-  "addOpinion": {
-    "messageLabel": "Повідомлення",
-    "messagePlaceholder": "Ваше повідомлення ...",
-    "pending": "Відправлення ...",
-    "submit": "Надсилати",
-    "ratingLabel": "Рейтинг",
-    "starAriaLabel": "Оцініть з {count} Star (S)"
-  },
-  "productSection": {
+  "productsSection": {
     "searchLabel": "Пошук продуктів:",
     "searchPlaceholder": "Шукати продукти...",
     "categoryLabel": "Категорія:",
@@ -112,6 +63,53 @@
     "categories": {
       "FRUIT": "Фрукти",
       "VEGETABLE": "Овочі"
+    }
+  },
+  "productCard": {
+    "soldBy": "Продає",
+    "available": "Доступно: <b>{quantity}</b> шт."
+  },
+  "storeGrid": {
+    "empty": "Немає доступних магазинів"
+  },
+  "favoriteButton": {
+    "remove": "Видалити з улюблених",
+    "add": "Додати до улюблених"
+  },
+  "verificationButton": {
+    "add": "Перевірити",
+    "verified": "Перевірено"
+  },
+  "addOpinion": {
+    "messageLabel": "Повідомлення",
+    "messagePlaceholder": "Ваше повідомлення...",
+    "pending": "Надсилання...",
+    "submit": "Відправити",
+    "ratingLabel": "Оцінка",
+    "starAriaLabel": "Оцінити {count} зірками"
+  },
+  "map": {
+    "loading": "Завантаження даних магазинів...",
+    "loadingError": "Не вдалося завантажити дані магазинів",
+    "selectShop": "Виберіть торгову точку:",
+    "selectShopPlaceholder": "Оберіть магазин",
+    "searchCity": "Перегляд точок y місті:",
+    "cityPlaceholder": "Введіть назву міста",
+    "noShopsInCity": "Немає магазинів y цьому місті",
+    "searchPlaceholder": "Введіть адресу...",
+    "addressNotFound": "Адресу не знайдено.",
+    "searchError": "Помилка пошуку адреси:",
+    "storeInfo": {
+      "description": "Опис",
+      "noDescription": "Опису немає",
+      "address": "Адреса",
+      "openingHours": "Години роботи",
+      "noHours": "Немає інформації про години роботи.",
+      "photo": "Фото"
+    },
+    "popup": {
+      "searchedAddress": "Шукана адреса",
+      "storeLocation": "{storeName} — {city}"
     }
   }
 }

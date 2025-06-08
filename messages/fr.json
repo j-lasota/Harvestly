@@ -1,126 +1,115 @@
 {
-  "home": {
-    "health": "Santé",
-    "starts": "commence",
-    "locally": "localement",
-    "choose": "choisissez",
-    "fresh": "frais",
-    "fromFarmers": "produits des agriculteurs de votre région",
-    "button": "Commencer maintenant"
-  },
-  "auth": {
-    "join": "Rejoignez la communauté...",
-    "enjoy": "...et profitez",
-    "healthy": "d'une alimentation",
-    "food": "saine",
-    "login": "Se connecter",
-    "signinKeycloak": "Se connecter"
+  "page": {
+    "home": {
+      "hero": "<s>La santé</s> commence <s>localement</s> – choisissez des produits <s>frais</s> de fermiers près de chez vous",
+      "action": "Voir les produits"
+    },
+    "products": {
+      "title": "Produits disponibles"
+    },
+    "myStores": {
+      "favorites": "Magasins favoris",
+      "my": "Mes magasins"
+    },
+    "store": {
+      "location": "Emplacement",
+      "businessHours": "Horaires",
+      "days": {
+        "MONDAY": "Lundi",
+        "TUESDAY": "Mardi",
+        "WEDNESDAY": "Mercredi",
+        "THURSDAY": "Jeudi",
+        "FRIDAY": "Vendredi",
+        "SATURDAY": "Samedi",
+        "SUNDAY": "Dimanche"
+      },
+      "reviews": {
+        "title": "Avis",
+        "addReview": "Ajouter un avis",
+        "starsLabel": "étoiles",
+        "anonymousUser": "Anonyme",
+        "noReviews": "Pas encore d’avis",
+        "leaveReview": "Laissez votre avis",
+        "yourOpinion": "Votre avis",
+        "submit": "Envoyer",
+        "thankYou": "Merci pour votre avis!"
+      },
+      "store": {
+        "contact": "Contacter le magasin"
+      }
+    }
   },
   "nav": {
     "home": "Accueil",
     "products": "Produits",
-    "map": "Carte",
-    "about": "À propos",
-    "contact": "Contact",
-    "signIn": "Se connecter"
-  },
-  "products": {
-    "title": "Produits disponibles",
-    "soldBy": "Vendu par",
-    "available": "Disponible"
+    "map": "Carte"
   },
   "avatarMenu": {
     "myAccount": "Mon compte",
     "profile": "Profil",
     "myStores": "Mes magasins",
-    "addStore": "Ajouter un magasin",
+    "addStore": "Ajouter un magasin"
+  },
+  "auth": {
+    "signIn": "Se connecter",
     "signOut": "Se déconnecter"
   },
-  "store": {
-    "location": "Emplacement",
-    "businessHours": "Heures d'ouverture",
-    "addToFavorites": "Ajouter aux favoris",
-    "removeFromFavorites": "Retirer des favoris",
-    "description": "Description",
-    "noDescription": "Aucune description fournie",
-    "verified": "Vérifié",
-    "products": {
-      "soldBy": "Vendu par",
-      "available": "Disponible"
-    },
-    "days": {
-      "MONDAY": "Lundi",
-      "TUESDAY": "Mardi",
-      "WEDNESDAY": "Mercredi",
-      "THURSDAY": "Jeudi",
-      "FRIDAY": "Vendredi",
-      "SATURDAY": "Samedi",
-      "SUNDAY": "Dimanche"
-    },
-    "reviews": {
-      "title": "Avis",
-      "addReview": "Ajouter un avis",
-      "starsLabel": "étoiles",
-      "anonymousUser": "Anonyme",
-      "noReviews": "Pas encore d'avis",
-      "leaveReview": "Laissez votre avis",
-      "yourOpinion": "Votre opinion",
-      "submit": "Envoyer",
-      "thankYou": "Merci pour votre avis !"
+  "productsSection": {
+    "searchLabel": "Rechercher des produits:",
+    "searchPlaceholder": "Rechercher des produits...",
+    "categoryLabel": "Catégorie:",
+    "priceRangeLabel": "Échelle de prix:",
+    "separatePriceRange": "à",
+    "categories": {
+      "FRUIT": "Fruits",
+      "VEGETABLE": "Légumes"
     }
   },
+  "productCard": {
+    "soldBy": "Vendu par",
+    "available": "Disponible: <b>{quantity}</b> pcs."
+  },
+  "storeGrid": {
+    "empty": "Aucun magasin disponible"
+  },
+  "favoriteButton": {
+    "remove": "Retirer des favoris",
+    "add": "Ajouter aux favoris"
+  },
+  "verificationButton": {
+    "add": "Vérifier",
+    "verified": "Vérifié"
+  },
+  "addOpinion": {
+    "messageLabel": "Message",
+    "messagePlaceholder": "Votre message...",
+    "pending": "Envoi en cours...",
+    "submit": "Envoyer",
+    "ratingLabel": "Note",
+    "starAriaLabel": "Noter avec {count} étoiles"
+  },
   "map": {
-    "loading": "Chargement des données des magasins...",
+    "loading": "Chargement des données des magasins…",
     "loadingError": "Échec du chargement des données des magasins",
-    "selectShop": "Sélectionner un magasin :",
-    "selectShopPlaceholder": "Sélectionner un magasin",
-    "searchCity": "Rechercher des magasins en ville :",
+    "selectShop": "Sélectionnez un stand:",
+    "selectShopPlaceholder": "Sélectionnez un magasin",
+    "searchCity": "Voir les stands dans la ville:",
     "cityPlaceholder": "Entrez le nom de la ville",
     "noShopsInCity": "Aucun magasin dans cette ville",
-    "searchPlaceholder": "Entrez une adresse...",
-    "addressNotFound": "Adresse non trouvée.",
-    "searchError": "Erreur lors de la recherche d'adresse :",
+    "searchPlaceholder": "Entrez l’adresse…",
+    "addressNotFound": "Adresse introuvable.",
+    "searchError": "Erreur lors de la recherche d’adresse:",
     "storeInfo": {
       "description": "Description",
-      "noDescription": "Aucune description disponible.",
+      "noDescription": "Pas de description disponible",
       "address": "Adresse",
-      "openingHours": "Heures d'ouverture",
-      "noHours": "Aucune information sur les heures d'ouverture disponible.",
+      "openingHours": "Horaires",
+      "noHours": "Pas d’information sur les horaires.",
       "photo": "Photo"
     },
     "popup": {
       "searchedAddress": "Adresse recherchée",
       "storeLocation": "{storeName} — {city}"
-    }
-  },
-  "myStores": {
-    "my": "Mes magasins",
-    "favorites": "Magasins favoris"
-  },
-  "storeGrid": {
-    "empty": "Aucun magasin disponible"
-  },
-  "addOpinion": {
-    "ratingLabel": "Note",
-    "starAriaLabel": "Notez avec {count} étoile(s)",
-    "messageLabel": "Message",
-    "messagePlaceholder": "Votre message...",
-    "submit": "Envoyer",
-    "pending": "Envoi..."
-  },
-  "favorites": {
-    "add": "Ajouter aux favoris",
-    "remove": "Retirer des favoris"
-  },
-  "productSection": {
-    "searchLabel": "Rechercher des produits :",
-    "searchPlaceholder": "Rechercher des produits...",
-    "categoryLabel": "Catégorie :",
-    "priceRangeLabel": "Plage de prix :",
-    "separatePriceRange": "à",
-    "categories": {
-      "FRUIT": "Fruits",
-      "VEGETABLE": "Légumes"
     }
   }
 }

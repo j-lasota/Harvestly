@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/auth";
 
 export function SignOut() {
-  const t = useTranslations("avatarMenu");
+  const t = useTranslations("auth");
   return (
     <form
       action={async () => {

@@ -5,8 +5,8 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
 import { NAVLINKS } from "@/constants/global";
-import { Button } from "../ui/button";
 
 const BurgerMenu = () => {
   const t = useTranslations("nav");
@@ -19,12 +19,13 @@ const BurgerMenu = () => {
         variant="ghostPrimary"
         size="icon"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
+        className="md:hidden"
         onClick={() => setMenuOpen((v) => !v)}
       >
         {menuOpen ? (
-          <X size={24} strokeWidth={1.5} />
+          <X size={24} strokeWidth={1.75} />
         ) : (
-          <Menu size={24} strokeWidth={1.5} />
+          <Menu size={24} strokeWidth={1.75} />
         )}
       </Button>
 

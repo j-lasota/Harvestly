@@ -1,80 +1,99 @@
 {
-  "home": {
-    "health": "Gesundheit",
-    "starts": "beginnt",
-    "locally": "lokal",
-    "choose": "wähle",
-    "fresh": "frisch",
-    "fromFarmers": "Produkte von Landwirten in deiner Nähe",
-    "button": "Jetzt starten"
-  },
-  "auth": {
-    "join": "Tritt der Gemeinschaft bei...",
-    "enjoy": "...und genieße",
-    "healthy": "gesund",
-    "food": "Lebensmittel",
-    "login": "Anmelden",
-    "signinKeycloak": "Anmelden"
+  "page": {
+    "home": {
+      "hero": "<s>Gesundheit</s> beginnt <s>lokal</s> – wählen Sie <s>frische</s> Produkte von Bauern in Ihrer Nähe",
+      "action": "Produkte ansehen"
+    },
+    "products": {
+      "title": "Verfügbare Produkte"
+    },
+    "myStores": {
+      "favorites": "Lieblingsgeschäfte",
+      "my": "Meine Geschäfte"
+    },
+    "store": {
+      "location": "Standort",
+      "businessHours": "Öffnungszeiten",
+      "days": {
+        "MONDAY": "Montag",
+        "TUESDAY": "Dienstag",
+        "WEDNESDAY": "Mittwoch",
+        "THURSDAY": "Donnerstag",
+        "FRIDAY": "Freitag",
+        "SATURDAY": "Samstag",
+        "SUNDAY": "Sonntag"
+      },
+      "reviews": {
+        "title": "Bewertungen",
+        "addReview": "Bewertung hinzufügen",
+        "starsLabel": "Sterne",
+        "anonymousUser": "Anonym",
+        "noReviews": "Noch keine Bewertungen",
+        "leaveReview": "Hinterlassen Sie Ihre Bewertung",
+        "yourOpinion": "Ihre Meinung",
+        "submit": "Absenden",
+        "thankYou": "Danke für Ihre Bewertung!"
+      },
+      "store": {
+        "contact": "Wenden Sie sich an den Laden"
+      }
+    }
   },
   "nav": {
     "home": "Startseite",
     "products": "Produkte",
-    "map": "Karte",
-    "about": "Über uns",
-    "contact": "Kontakt",
-    "signIn": "Anmelden"
-  },
-  "products": {
-    "title": "Verfügbare Produkte",
-    "soldBy": "Verkauft von",
-    "available": "Verfügbar"
+    "map": "Karte"
   },
   "avatarMenu": {
     "myAccount": "Mein Konto",
     "profile": "Profil",
-    "myStores": "Meine Läden",
-    "addStore": "Laden hinzufügen",
+    "myStores": "Meine Geschäfte",
+    "addStore": "Geschäft hinzufügen"
+  },
+  "auth": {
+    "signIn": "Anmelden",
     "signOut": "Abmelden"
   },
-  "store": {
-    "location": "Standort",
-    "businessHours": "Öffnungszeiten",
-    "addToFavorites": "Zu Favoriten hinzufügen",
-    "removeFromFavorites": "Aus Favoriten entfernen",
-    "description": "Beschreibung",
-    "noDescription": "Keine Beschreibung vorhanden",
-    "verified": "Verifiziert",
-    "products": {
-      "soldBy": "Verkauft von",
-      "available": "Verfügbar"
-    },
-    "days": {
-      "MONDAY": "Montag",
-      "TUESDAY": "Dienstag",
-      "WEDNESDAY": "Mittwoch",
-      "THURSDAY": "Donnerstag",
-      "FRIDAY": "Freitag",
-      "SATURDAY": "Samstag",
-      "SUNDAY": "Sonntag"
-    },
-    "reviews": {
-      "title": "Bewertungen",
-      "addReview": "Bewertung hinzufügen",
-      "starsLabel": "Sterne",
-      "anonymousUser": "Anonym",
-      "noReviews": "Noch keine Bewertungen",
-      "leaveReview": "Bewertung abgeben",
-      "yourOpinion": "Deine Meinung",
-      "submit": "Absenden",
-      "thankYou": "Danke für deine Bewertung!"
+  "productsSection": {
+    "searchLabel": "Produkte suchen:",
+    "searchPlaceholder": "Produkte suchen...",
+    "categoryLabel": "Kategorie:",
+    "priceRangeLabel": "Preisspanne:",
+    "separatePriceRange": "bis",
+    "categories": {
+      "FRUIT": "Obst",
+      "VEGETABLE": "Gemüse"
     }
   },
+  "productCard": {
+    "soldBy": "Verkauft von",
+    "available": "Verfügbar: <b>{quantity}</b> Stk."
+  },
+  "storeGrid": {
+    "empty": "Keine Geschäfte verfügbar"
+  },
+  "favoriteButton": {
+    "remove": "Aus Favoriten entfernen",
+    "add": "Zu Favoriten hinzufügen"
+  },
+  "verificationButton": {
+    "add": "Verifizieren",
+    "verified": "Verifiziert"
+  },
+  "addOpinion": {
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Ihre Nachricht...",
+    "pending": "Wird gesendet...",
+    "submit": "Senden",
+    "ratingLabel": "Bewertung",
+    "starAriaLabel": "Bewerten mit {count} Sternen"
+  },
   "map": {
-    "loading": "Lade Geschäftsdaten...",
-    "loadingError": "Geschäftsdaten konnten nicht geladen werden",
-    "selectShop": "Geschäft auswählen:",
+    "loading": "Lade Daten der Geschäfte...",
+    "loadingError": "Daten der Geschäfte konnten nicht geladen werden",
+    "selectShop": "Standplatz auswählen:",
     "selectShopPlaceholder": "Geschäft auswählen",
-    "searchCity": "Stände in der Stadt suchen:",
+    "searchCity": "Stände in der Stadt ansehen:",
     "cityPlaceholder": "Stadtname eingeben",
     "noShopsInCity": "Keine Geschäfte in dieser Stadt",
     "searchPlaceholder": "Adresse eingeben...",
@@ -82,7 +101,7 @@
     "searchError": "Fehler bei der Adresssuche:",
     "storeInfo": {
       "description": "Beschreibung",
-      "noDescription": "Keine Beschreibung verfügbar.",
+      "noDescription": "Keine Beschreibung vorhanden",
       "address": "Adresse",
       "openingHours": "Öffnungszeiten",
       "noHours": "Keine Öffnungszeiten verfügbar.",
@@ -91,36 +110,6 @@
     "popup": {
       "searchedAddress": "Gesuchte Adresse",
       "storeLocation": "{storeName} — {city}"
-    }
-  },
-  "myStores": {
-    "my": "Meine Läden",
-    "favorites": "Favorisierte Läden"
-  },
-  "storeGrid": {
-    "empty": "Keine Läden verfügbar"
-  },
-  "addOpinion": {
-    "ratingLabel": "Bewertung",
-    "starAriaLabel": "Bewerte mit {count} Stern(en)",
-    "messageLabel": "Nachricht",
-    "messagePlaceholder": "Deine Nachricht...",
-    "submit": "Senden",
-    "pending": "Wird gesendet..."
-  },
-  "favorites": {
-    "add": "Zu Favoriten hinzufügen",
-    "remove": "Aus Favoriten entfernen"
-  },
-  "productSection": {
-    "searchLabel": "Produkte suchen:",
-    "searchPlaceholder": "Produkte durchsuchen...",
-    "categoryLabel": "Kategorie:",
-    "priceRangeLabel": "Preisspanne:",
-    "separatePriceRange": "bis",
-    "categories": {
-      "FRUIT": "Obst",
-      "VEGETABLE": "Gemüse"
     }
   }
 }

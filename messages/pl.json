@@ -1,64 +1,92 @@
 {
-  "home": {
-    "health": "Zdrowie",
-    "starts": "zaczyna się",
-    "locally": "lokalnie",
-    "choose": "wybieraj",
-    "fresh": "świeże",
-    "fromFarmers": "produkty od rolników w Twojej okolicy",
-    "button": "Zacznij teraz"
-  },
-  "auth": {
-    "join": "Dołącz do społeczności...",
-    "enjoy": "...i ciesz się",
-    "healthy": "zdrową",
-    "food": "żywnością",
-    "login": "Zaloguj się",
-    "signinKeycloak": "Zaloguj się"
+  "page": {
+    "home": {
+      "hero": "<s>Zdrowie</s> zaczyna się <s>lokalnie</s> - wybieraj <s>świeże</s> produkty od rolników w Twojej okolicy",
+      "action": "Sprawdź produkty"
+    },
+    "products": {
+      "title": "Dostępne produkty"
+    },
+    "myStores": {
+      "favorites": "Ulubione sklepy",
+      "my": "Moje sklepy"
+    },
+    "store": {
+      "location": "Lokalizacja",
+      "businessHours": "Godziny pracy",
+      "days": {
+        "MONDAY": "Poniedziałek",
+        "TUESDAY": "Wtorek",
+        "WEDNESDAY": "Środa",
+        "THURSDAY": "Czwartek",
+        "FRIDAY": "Piątek",
+        "SATURDAY": "Sobota",
+        "SUNDAY": "Niedziela"
+      },
+      "reviews": {
+        "title": "Recenzje",
+        "addReview": "Dodaj recenzję",
+        "starsLabel": "gwiazdki",
+        "anonymousUser": "Anonimowy",
+        "noReviews": "Nie ma jeszcze recenzji",
+        "leaveReview": "Zostaw swoją recenzję",
+        "yourOpinion": "Twoja opinia",
+        "submit": "Wyślij",
+        "thankYou": "Dziękujemy za recenzję!"
+      },
+      "store": {
+        "contact": "Skontaktuj się ze sklepem"
+      }
+    }
   },
   "nav": {
     "home": "Strona główna",
     "products": "Produkty",
-    "map": "Mapa",
-    "about": "O nas",
-    "contact": "Kontakt",
-    "signIn": "Zaloguj się"
-  },
-  "products": {
-    "title": "Dostępne produkty",
-    "soldBy": "Sprzedawane przez",
-    "available": "Dostępne"
+    "map": "Mapa"
   },
   "avatarMenu": {
     "myAccount": "Moje Konto",
     "profile": "Profil",
     "myStores": "Moje sklepy",
-    "addStore": "Dodaj sklep",
+    "addStore": "Dodaj sklep"
+  },
+  "auth": {
+    "signIn": "Zaloguj się",
     "signOut": "Wyloguj się"
   },
-  "store": {
-    "location": "Lokalizacja",
-    "businessHours": "Godziny pracy",
-    "days": {
-      "MONDAY": "Poniedziałek",
-      "TUESDAY": "Wtorek",
-      "WEDNESDAY": "Środa",
-      "THURSDAY": "Czwartek",
-      "FRIDAY": "Piątek",
-      "SATURDAY": "Sobota",
-      "SUNDAY": "Niedziela"
-    },
-    "reviews": {
-      "title": "Recenzje",
-      "addReview": "Dodaj recenzję",
-      "starsLabel": "gwiazdki",
-      "anonymousUser": "Anonimowy",
-      "noReviews": "Nie ma jeszcze recenzji",
-      "leaveReview": "Zostaw swoją recenzję",
-      "yourOpinion": "Twoja opinia",
-      "submit": "Wyślij",
-      "thankYou": "Dziękujemy za recenzję!"
+  "productsSection": {
+    "searchLabel": "Szukaj produktów:",
+    "searchPlaceholder": "Wyszukaj produkty...",
+    "categoryLabel": "Kategoria:",
+    "priceRangeLabel": "Zakres cen:",
+    "separatePriceRange": "do",
+    "categories": {
+      "FRUIT": "Owoce",
+      "VEGETABLE": "Warzywa"
     }
+  },
+  "productCard": {
+    "soldBy": "Sprzedawane przez",
+    "available": "Dostępne: <b>{quantity}</b>szt."
+  },
+  "storeGrid": {
+    "empty": "Brak dostępnych sklepów"
+  },
+  "favoriteButton": {
+    "remove": "Usuń z ulubionych",
+    "add": "Dodaj do ulubionych"
+  },
+  "verificationButton": {
+    "add": "Zweryfikuj",
+    "verified": "Zweryfikowano"
+  },
+  "addOpinion": {
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Twoja wiadomość ...",
+    "pending": "Przesyłka...",
+    "submit": "Wysłać",
+    "ratingLabel": "Ocena",
+    "starAriaLabel": "Rate z gwiazdami {count}"
   },
   "map": {
     "loading": "Ładowanie danych sklepów...",
@@ -82,36 +110,6 @@
     "popup": {
       "searchedAddress": "Szukany adres",
       "storeLocation": "{storeName} — {city}"
-    }
-  },
-  "myStores": {
-    "favorites": "Ulubione sklepy",
-    "my": "Moje sklepy"
-  },
-  "storeGrid": {
-    "empty": "Brak dostępnych sklepów"
-  },
-  "favorites": {
-    "remove": "Usuń z ulubionych",
-    "add": "Dodaj do ulubionych"
-  },
-  "addOpinion": {
-    "messageLabel": "Wiadomość",
-    "messagePlaceholder": "Twoja wiadomość ...",
-    "pending": "Przesyłka...",
-    "submit": "Wysłać",
-    "ratingLabel": "Ocena",
-    "starAriaLabel": "Rate z gwiazdami {count}"
-  },
-  "productSection": {
-    "searchLabel": "Szukaj produktów:",
-    "searchPlaceholder": "Wyszukaj produkty...",
-    "categoryLabel": "Kategoria:",
-    "priceRangeLabel": "Zakres cen:",
-    "separatePriceRange": "do",
-    "categories": {
-      "FRUIT": "Owoce",
-      "VEGETABLE": "Warzywa"
     }
   }
 }

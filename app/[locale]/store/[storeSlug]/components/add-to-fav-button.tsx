@@ -14,7 +14,7 @@ const AddToFavButton = ({
   storeId: string;
   isFavorite: boolean;
 }) => {
-  const t = useTranslations("favorites");
+  const t = useTranslations("favoriteButton");
   const [isFavorite, setIsFavorite] = useState(isFav);
 
   const handleFavorite = () => {
@@ -29,18 +29,18 @@ const AddToFavButton = ({
   return (
     <Button
       onClick={handleFavorite}
-      variant="outline"
       size="sm"
       style={{ maxWidth: "max-content" }}
+      className="gap-1.5"
     >
       {isFavorite ? (
         <>
-          <StarOff />
+          <StarOff size={16} strokeWidth={1.5} />
           {t("remove")}
         </>
       ) : (
         <>
-          <Star />
+          <Star size={16} strokeWidth={1.5} />
           {t("add")}
         </>
       )}

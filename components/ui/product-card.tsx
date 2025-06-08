@@ -26,7 +26,7 @@ export const ProductCard = ({
   imageUrl,
   store,
 }: ProductCardProps) => {
-  const t = useTranslations("products");
+  const t = useTranslations("productCard");
 
   return (
     <Link
@@ -56,7 +56,10 @@ export const ProductCard = ({
             PLN/pc
           </p>
           <p className="text-end text-sm">
-            {t("available")}:<span className="font-medium"> {quantity}</span>
+            {t.rich("available", {
+              b: (chunks) => <span className="font-medium">{chunks}</span>,
+              quantity,
+            })}
           </p>
         </div>
       </div>
