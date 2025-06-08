@@ -14,15 +14,7 @@
     "store": {
       "location": "Lokalizacja",
       "businessHours": "Godziny pracy",
-      "days": {
-        "MONDAY": "Poniedziałek",
-        "TUESDAY": "Wtorek",
-        "WEDNESDAY": "Środa",
-        "THURSDAY": "Czwartek",
-        "FRIDAY": "Piątek",
-        "SATURDAY": "Sobota",
-        "SUNDAY": "Niedziela"
-      },
+      "contact": "Skontaktuj się ze sklepem",
       "reviews": {
         "title": "Recenzje",
         "addReview": "Dodaj recenzję",
@@ -33,11 +25,39 @@
         "yourOpinion": "Twoja opinia",
         "submit": "Wyślij",
         "thankYou": "Dziękujemy za recenzję!"
+      }
+    },
+    "addStore": {
+      "title": "Dodaj sklep",
+      "input": {
+        "name": "Nazwa sklepu:",
+        "location": "Lokalizacja:",
+        "address": "Adres:",
+        "city": "Miasto:",
+        "description": "Opis:",
+        "businessHours": "Godziny pracy:"
       },
-      "store": {
-        "contact": "Skontaktuj się ze sklepem"
+      "placeholder": {
+        "name": "Wpisz nazwę sklepu...",
+        "location": "Wyszukaj miasto...",
+        "address": "Nowa 12...",
+        "city": "Warszawa...",
+        "description": "Wprowadź opis..."
+      },
+      "action": {
+        "submit": "Dodaj sklep",
+        "pending": "Dodawanie sklepu..."
       }
     }
+  },
+  "days": {
+    "MONDAY": "Poniedziałek",
+    "TUESDAY": "Wtorek",
+    "WEDNESDAY": "Środa",
+    "THURSDAY": "Czwartek",
+    "FRIDAY": "Piątek",
+    "SATURDAY": "Sobota",
+    "SUNDAY": "Niedziela"
   },
   "nav": {
     "home": "Strona główna",

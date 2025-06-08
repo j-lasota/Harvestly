@@ -14,15 +14,7 @@
     "store": {
       "location": "Posizione",
       "businessHours": "Orari",
-      "days": {
-        "MONDAY": "Lunedì",
-        "TUESDAY": "Martedì",
-        "WEDNESDAY": "Mercoledì",
-        "THURSDAY": "Giovedì",
-        "FRIDAY": "Venerdì",
-        "SATURDAY": "Sabato",
-        "SUNDAY": "Domenica"
-      },
+      "contact": "Contattare il negozio",
       "reviews": {
         "title": "Recensioni",
         "addReview": "Aggiungi recensione",
@@ -33,11 +25,39 @@
         "yourOpinion": "La tua opinione",
         "submit": "Invia",
         "thankYou": "Grazie per la tua recensione!"
+      }
+    },
+    "addStore": {
+      "title": "Aggiungi negozio",
+      "input": {
+        "name": "Nome del negozio:",
+        "location": "Posizione:",
+        "address": "Indirizzo:",
+        "city": "Città:",
+        "description": "Descrizione:",
+        "businessHours": "Orari di apertura:"
       },
-      "store": {
-        "contact": "Contattare il negozio"
+      "placeholder": {
+        "name": "Inserisci il nome del negozio...",
+        "location": "Cerca una città...",
+        "address": "Nowa 12...",
+        "city": "Varsavia...",
+        "description": "Inserisci una descrizione..."
+      },
+      "action": {
+        "submit": "Aggiungi negozio",
+        "pending": "Aggiunta del negozio in corso..."
       }
     }
+  },
+  "days": {
+    "MONDAY": "Lunedì",
+    "TUESDAY": "Martedì",
+    "WEDNESDAY": "Mercoledì",
+    "THURSDAY": "Giovedì",
+    "FRIDAY": "Venerdì",
+    "SATURDAY": "Sabato",
+    "SUNDAY": "Domenica"
   },
   "nav": {
     "home": "Home",

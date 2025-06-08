@@ -14,15 +14,7 @@
     "store": {
       "location": "Standort",
       "businessHours": "Öffnungszeiten",
-      "days": {
-        "MONDAY": "Montag",
-        "TUESDAY": "Dienstag",
-        "WEDNESDAY": "Mittwoch",
-        "THURSDAY": "Donnerstag",
-        "FRIDAY": "Freitag",
-        "SATURDAY": "Samstag",
-        "SUNDAY": "Sonntag"
-      },
+      "contact": "Wenden Sie sich an den Laden",
       "reviews": {
         "title": "Bewertungen",
         "addReview": "Bewertung hinzufügen",
@@ -33,11 +25,39 @@
         "yourOpinion": "Ihre Meinung",
         "submit": "Absenden",
         "thankYou": "Danke für Ihre Bewertung!"
+      }
+    },
+    "addStore": {
+      "title": "Geschäft hinzufügen",
+      "input": {
+        "name": "Name des Geschäfts:",
+        "location": "Standort:",
+        "address": "Adresse:",
+        "city": "Stadt:",
+        "description": "Beschreibung:",
+        "businessHours": "Öffnungszeiten:"
       },
-      "store": {
-        "contact": "Wenden Sie sich an den Laden"
+      "placeholder": {
+        "name": "Geschäftsname eingeben...",
+        "location": "Stadt suchen...",
+        "address": "Nowa 12...",
+        "city": "Warschau...",
+        "description": "Beschreibung eingeben..."
+      },
+      "action": {
+        "submit": "Geschäft hinzufügen",
+        "pending": "Geschäft wird hinzugefügt..."
       }
     }
+  },
+  "days": {
+    "MONDAY": "Montag",
+    "TUESDAY": "Dienstag",
+    "WEDNESDAY": "Mittwoch",
+    "THURSDAY": "Donnerstag",
+    "FRIDAY": "Freitag",
+    "SATURDAY": "Samstag",
+    "SUNDAY": "Sonntag"
   },
   "nav": {
     "home": "Startseite",

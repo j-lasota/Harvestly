@@ -27,7 +27,7 @@ export default async function StorePage({
     storeSlug: string;
   }>;
 }>) {
-  const t = await getTranslations("page.store");
+  const t = await getTranslations("");
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -69,7 +69,7 @@ export default async function StorePage({
             className="gap-1.5 self-end font-normal"
           >
             <a href={`mailto:${data.storeBySlug.user.email}`}>
-              {t("store.contact")}
+              {t("page.store.contact")}
               <Send size={16} strokeWidth={1.75} />
             </a>
           </Button>
@@ -105,13 +105,15 @@ export default async function StorePage({
           </p>
 
           <div className="inline-flex gap-1">
-            <h2 className="font-semibold">{t("location")}:</h2>
+            <h2 className="font-semibold">{t("page.store.location")}:</h2>
             {data.storeBySlug.address}, {data.storeBySlug.city}
           </div>
 
           {data.storeBySlug.businessHours && (
             <div className="flex w-full max-w-max flex-col gap-1">
-              <h2 className="font-semibold">{t("businessHours")}:</h2>
+              <h2 className="font-semibold">
+                {t("page.store.businessHours")}:
+              </h2>
               {data.storeBySlug.businessHours.map(
                 (d: BusinessHoursProps) =>
                   d && (
@@ -136,14 +138,16 @@ export default async function StorePage({
       )}
 
       <section className="flex max-w-3xl flex-col gap-4">
-        <h3 className="mt-4 text-2xl font-semibold">{t("reviews.title")}</h3>
+        <h3 className="mt-4 text-2xl font-semibold">
+          {t("page.store.reviews.title")}
+        </h3>
         {session?.user && <AddOpinion storeId={data.storeBySlug.id} />}
         {data.storeBySlug.opinions && data.storeBySlug.opinions.length > 0 ? (
           data.storeBySlug.opinions.map((opinion: OpinionCardProps) => (
             <OpinionCard key={opinion.id} {...opinion} />
           ))
         ) : (
-          <p>{t("reviews.noReviews")}</p>
+          <p>{t("page.store.reviews.noReviews")}</p>
         )}
       </section>
     </ContainerWrapper>

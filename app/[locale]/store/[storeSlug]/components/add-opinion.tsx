@@ -10,13 +10,13 @@ import { cn } from "@/lib/utils";
 
 const AddOpinion = ({ storeId }: { storeId: string }) => {
   const t = useTranslations("addOpinion");
-  const [stateEmail, actionEmail] = useActionState(addOpinionAction, undefined);
+  const [state, action] = useActionState(addOpinionAction, undefined);
   const [starsPreview, setStarsPreview] = useState(0);
   const [starsValue, setStarsValue] = useState(0);
 
   return (
     <form
-      action={actionEmail}
+      action={action}
       className="bg-background-elevated border-shadow ring-ring rounded-xl border-r-3 border-b-4 px-4 py-3 shadow-md ring"
     >
       <input type="hidden" name="storeId" value={storeId} />
@@ -64,34 +64,34 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
           name="description"
           id="description"
           rows={5}
-          aria-invalid={stateEmail?.errors?.description ? "true" : undefined}
+          aria-invalid={state?.errors?.description ? "true" : undefined}
           aria-describedby={
-            stateEmail?.errors?.description ? "description-error" : undefined
+            state?.errors?.description ? "description-error" : undefined
           }
           className="w-full resize-none px-1 py-2 outline-none"
         />
       </label>
-      {stateEmail?.errors?.description && (
+      {state?.errors?.description && (
         <div
           id="description-error"
           role="alert"
           className="text-sm text-red-600"
         >
-          {stateEmail.errors.description[0]}
+          {state.errors.description[0]}
         </div>
       )}
 
       <div className="mt-2">
-        {!stateEmail?.success && (
+        {!state?.success && (
           <SubmitButton
             label={t("submit")}
             pendingLabel={t("pending")}
             size="lg"
           />
         )}
-        {stateEmail?.message && (
+        {state?.message && (
           <p role="alert" className="text-primary w-full text-center">
-            {stateEmail.message}
+            {state.message}
           </p>
         )}
       </div>

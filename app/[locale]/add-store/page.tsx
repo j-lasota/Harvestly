@@ -1,20 +1,30 @@
-// import { getTranslations } from "next-intl/server";
-
-import { ContainerWrapper } from "@/components/layout/container-wrapper";
-import { getClient } from "@/graphql/apollo-client";
-import { graphql } from "@/graphql";
-
+import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 
-// TODO: Replace mock data with real data
+import AddStoreClientPage from "./components/client-page";
+import { hasUserStoresQuery } from "@/graphql/query";
+import { getClient } from "@/graphql/apollo-client";
+
+const TIER = [1, 5];
+
 export default async function AddStorePage() {
   const session = await auth();
   const userId = session?.user?.id;
 
-  return (
-    <ContainerWrapper
-      comp="main"
-      className="mt-10 mb-16 flex min-h-screen flex-col gap-16 md:mt-10"
-    ></ContainerWrapper>
-  );
+  if (!userId) return notFound();
+
+  const { data } = await getClient().query({
+    query: hasUserStoresQuery,
+    variables: { userId },
+  });
+
+  if (
+    !data.userById ||
+    !data.userById.stores ||
+    !data.userById.tier ||
+    data.userById.stores.length > TIER[data.userById.tier]
+  )
+    redirect("/my-stores");
+
+  return <AddStoreClientPage />;
 }

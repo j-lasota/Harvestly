@@ -108,10 +108,22 @@ const userFavoriteStoresQuery = graphql(`
   }
 `);
 
+const hasUserStoresQuery = graphql(`
+  query hasUserStores($userId: ID!) {
+    userById(id: $userId) {
+      stores {
+        id
+      }
+      tier
+    }
+  }
+`);
+
 export {
   allProductsQuery,
   allCategoriesQuery,
   allMyStoresQuery,
   storeBySlugQuery,
   userFavoriteStoresQuery,
+  hasUserStoresQuery,
 };

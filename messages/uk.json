@@ -14,15 +14,7 @@
     "store": {
       "location": "Розташування",
       "businessHours": "Години роботи",
-      "days": {
-        "MONDAY": "Понеділок",
-        "TUESDAY": "Вівторок",
-        "WEDNESDAY": "Середа",
-        "THURSDAY": "Четвер",
-        "FRIDAY": "П’ятниця",
-        "SATURDAY": "Субота",
-        "SUNDAY": "Неділя"
-      },
+      "contact": "Зверніться до магазину",
       "reviews": {
         "title": "Відгуки",
         "addReview": "Додати відгук",
@@ -33,11 +25,39 @@
         "yourOpinion": "Ваша думка",
         "submit": "Надіслати",
         "thankYou": "Дякуємо за ваш відгук!"
+      }
+    },
+    "addStore": {
+      "title": "Додати магазин",
+      "input": {
+        "name": "Назва магазину:",
+        "location": "Місцезнаходження:",
+        "address": "Адреса:",
+        "city": "Місто:",
+        "description": "Опис:",
+        "businessHours": "Години роботи:"
       },
-      "store": {
-        "contact": "Зверніться до магазину"
+      "placeholder": {
+        "name": "Введіть назву магазину...",
+        "location": "Пошук міста...",
+        "address": "Nowa 12...",
+        "city": "Варшава...",
+        "description": "Введіть опис..."
+      },
+      "action": {
+        "submit": "Додати магазин",
+        "pending": "Додавання магазину..."
       }
     }
+  },
+  "days": {
+    "MONDAY": "Понеділок",
+    "TUESDAY": "Вівторок",
+    "WEDNESDAY": "Середа",
+    "THURSDAY": "Четвер",
+    "FRIDAY": "П’ятниця",
+    "SATURDAY": "Субота",
+    "SUNDAY": "Неділя"
   },
   "nav": {
     "home": "Головна",

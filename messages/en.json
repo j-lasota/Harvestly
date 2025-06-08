@@ -14,15 +14,7 @@
     "store": {
       "location": "Location",
       "businessHours": "Opening hours",
-      "days": {
-        "MONDAY": "Monday",
-        "TUESDAY": "Tuesday",
-        "WEDNESDAY": "Wednesday",
-        "THURSDAY": "Thursday",
-        "FRIDAY": "Friday",
-        "SATURDAY": "Saturday",
-        "SUNDAY": "Sunday"
-      },
+      "contact": "Contact the store",
       "reviews": {
         "title": "Reviews",
         "addReview": "Add review",
@@ -33,11 +25,39 @@
         "yourOpinion": "Your opinion",
         "submit": "Submit",
         "thankYou": "Thank you for your review!"
+      }
+    },
+    "addStore": {
+      "title": "Add Store",
+      "input": {
+        "name": "Store Name:",
+        "location": "Location:",
+        "address": "Address:",
+        "city": "City:",
+        "description": "Description:",
+        "businessHours": "Business Hours:"
       },
-      "store": {
-        "contact": "Contact the store"
+      "placeholder": {
+        "name": "Enter store name...",
+        "location": "Search for a city...",
+        "address": "Nowa 12...",
+        "city": "Warsaw...",
+        "description": "Enter a description..."
+      },
+      "action": {
+        "submit": "Add Store",
+        "pending": "Adding store..."
       }
     }
+  },
+  "days": {
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday"
   },
   "nav": {
     "home": "Home",
