@@ -1,14 +1,37 @@
 "use client";
 
-import { Popup } from "react-leaflet";
-import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { Input } from "../ui/input";
-import { useTranslations } from "next-intl";
+import { Popup } from 'react-leaflet';
+import { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Input } from '../ui/input';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
+
+function calculateDistanceKm(
+  [lat1, lon1]: [number, number],
+  [lat2, lon2]: [number, number]
+): number {
+  const R = 6371; 
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return +(R * c).toFixed(2); 
+}
+
+
 
 interface MapProps {
+  isDarkMode: boolean;
+  setIsDarkMode: (value: boolean) => void;
   center?: [number, number];
   zoom?: number;
   markers?: Store[];
@@ -27,11 +50,9 @@ interface Store {
   businessHours?: BusinessHoursProps[];
 }
 
-interface BusinessHoursProps {
-  dayOfWeek: string;
-  openingTime: string;
-  closingTime: string;
-}
+const Routing = dynamic(() => import('./Routing'),{ ssr: false });
+
+
 
 const customIcon = new L.Icon({
   iconUrl: "/marker.png",
@@ -63,7 +84,14 @@ const Map = ({
   >(null);
   const mapRef = useRef<L.Map | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [travelMode, setTravelMode] = useState<'car' | 'foot'>('foot');  
 
+  const distanceKm =
+  searchedLocation && currentShop
+    ? calculateDistanceKm(searchedLocation, [currentShop.latitude, currentShop.longitude])
+    : null;
+
+  
   const searchAddress = async (address: string) => {
     if (!mapRef.current) return;
 
@@ -75,10 +103,10 @@ const Map = ({
 
       if (data.length > 0) {
         const { lat, lon } = data[0];
-        setSearchedLocation([parseFloat(lat), parseFloat(lon)]);
-        mapRef.current.setView([parseFloat(lat), parseFloat(lon)], 15, {
-          animate: true,
-        });
+        setCurrentShop(null);
+        setIsPanelOpen(false);
+        setSearchedLocation([parseFloat(lat), parseFloat(lon)]); // ✅ Ustawienie szukanego adresu
+        mapRef.current.setView([parseFloat(lat), parseFloat(lon)], 15, { animate: true });
       } else {
         alert(t("map.addressNotFound"));
       }
@@ -139,25 +167,34 @@ const Map = ({
   }, [isPanelOpen, currentShop, isMobile]);
 
   return (
+    
     <div className="relative h-full w-full">
-      <div className="bg-background-elevated rounded-bottom absolute top-39 left-0 z-[1000] w-72 p-2 shadow-md">
-        <Input
-          type="text"
-          placeholder={t("map.searchPlaceholder")}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const address = (e.target as HTMLInputElement).value;
-              if (address) searchAddress(address);
-            }
-          }}
-        />
-      </div>
+      <div className="absolute top-33 left-0 z-[1000] bg-background p-2 rounded-bottom shadow-md w-72">
+      
+  <Input
+    type="text"
+    placeholder="Wpisz adres..."
+    className="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none w-full"
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        const address = (e.target as HTMLInputElement).value;
+        if (address) searchAddress(address);
+      }
+    }}
+    onChange={(e) => {
+      const value = e.target.value.trim();
+      if (value === "") {
+        setSearchedLocation(null); 
+      }
+    }}
+  />
+
+</div>
 
       <MapContainer
         center={center}
         zoom={zoom}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         zoomControl={false}
         className="z-0 h-full w-full overflow-hidden rounded-xl shadow-lg"
       >
@@ -191,7 +228,12 @@ const Map = ({
           </Marker>
         )}
 
-        {/* Store information panel */}
+  {searchedLocation && currentShop && mapRef.current &&(
+  <Routing from={searchedLocation} to={[currentShop.latitude, currentShop.longitude]} mode={travelMode} />
+)} 
+
+
+        {/* Panel z informacjami o sklepie */}
         <div
           className={`absolute z-[1000] overflow-hidden rounded-xl border-2 border-[#d4c9b1] bg-[#f9f5eb] text-[#333] shadow-xl backdrop-blur-sm transition-all duration-300 ease-in-out ${
             isMobile
@@ -247,40 +289,38 @@ const Map = ({
                   </h3>
                   <p className="text-sm">{currentShop.address}</p>
                 </div>
-                <div>
-                  <h3 className="mb-1 text-lg font-semibold text-[#5a4a3a]">
-                    {t("store.businessHours")}
-                  </h3>
-                  {currentShop.businessHours &&
-                  currentShop.businessHours.length > 0 ? (
-                    <ul className="text-sm">
-                      {currentShop.businessHours.map(
-                        (d: BusinessHoursProps) => (
-                          <li key={d.dayOfWeek}>
-                            {t(`store.days.${d.dayOfWeek}`)}: {d.openingTime} -{" "}
-                            {d.closingTime}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  ) : (
-                    <p className="text-sm">{t("map.storeInfo.noHours")}</p>
-                  )}
-                </div>
-                <div>
-                  <h3 className="mb-1 text-lg font-semibold text-[#5a4a3a]">
-                    {t("map.storeInfo.photo")}
-                  </h3>
-                  <img
-                    src={
-                      currentShop.imageUrl
-                        ? currentShop.imageUrl
-                        : "/store_placeholder.jpg"
-                    }
-                    alt={currentShop.name}
-                    className="mt- max-h-60 w-full rounded-lg object-cover"
-                  />
-                </div>
+                {distanceKm && (
+  <div>
+    <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Odległość</h3>
+    <p className="text-sm">{distanceKm} km</p>
+  </div>
+)}
+                {currentShop && (
+  <div>
+    <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Godziny otwarcia</h3>
+    {currentShop.businessHours && currentShop.businessHours.length > 0 ? (
+      <ul className="text-sm">
+        {currentShop.businessHours.map((d: BusinessHoursProps) => (
+          <li key={d.dayOfWeek}>
+            {d.dayOfWeek}: {d.openingTime} - {d.closingTime}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-sm">Brak informacji o godzinach otwarcia.</p>
+    )}
+  </div>
+)}
+                {currentShop && (
+  <div>
+    <h3 className="font-semibold text-lg text-[#5a4a3a] mb-1">Zdjęcie</h3>
+    <img
+      src={currentShop.imageUrl ? currentShop.imageUrl : "/store_placeholder.jpg"}
+      alt={currentShop.name}
+      className="rounded-lg max-h-60 object-cover w-full mt-"
+    />
+  </div>
+)}
               </div>
             </div>
           )}
