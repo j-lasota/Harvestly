@@ -17,7 +17,7 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
   return (
     <form
       action={actionEmail}
-      className="bg-opinion-card rounded-xl px-4 py-3 shadow-md"
+      className="bg-background-elevated border-shadow ring-ring rounded-xl border-r-3 border-b-4 px-4 py-3 shadow-md ring"
     >
       <input type="hidden" name="storeId" value={storeId} />
 

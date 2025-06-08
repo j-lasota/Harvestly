@@ -11,7 +11,7 @@ export interface OpinionCardProps {
 
 export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
   return (
-    <article className="bg-opinion-card flex w-full max-w-3xl flex-col gap-2 rounded-xl px-4 py-3 shadow-md">
+    <article className="bg-background-elevated border-shadow ring-ring flex w-full max-w-3xl flex-col gap-2 rounded-xl border-r-3 border-b-4 px-4 py-3 shadow-md ring">
       <div className="flex items-center justify-between gap-6">
         <p className="border-foreground/15 w-full border-b text-lg font-medium">
           {user.firstName}

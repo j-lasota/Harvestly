@@ -140,7 +140,7 @@ const Map = ({
 
   return (
     <div className="relative h-full w-full">
-      <div className="bg-background rounded-bottom absolute top-39 left-0 z-[1000] w-72 p-2 shadow-md">
+      <div className="bg-background-elevated rounded-bottom absolute top-39 left-0 z-[1000] w-72 p-2 shadow-md">
         <Input
           type="text"
           placeholder={t("map.searchPlaceholder")}

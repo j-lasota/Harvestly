@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 
-export function LanguageSelector() {
+export function LanguageSelector({ className }: { className?: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale();
@@ -33,9 +33,9 @@ export function LanguageSelector() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Globe className="h-5 w-5" />
+      <DropdownMenuTrigger asChild className={className}>
+        <Button variant="ghostPrimary" size="icon">
+          <Globe className="size-5" strokeWidth={1.5} />
           <span className="sr-only">Toggle language</span>
         </Button>
       </DropdownMenuTrigger>

@@ -30,7 +30,7 @@ export const ProductCard = ({
 
   return (
     <Link
-      className="bg-background border-shadow flex w-full flex-col gap-4 rounded-2xl border-r-3 border-b-4 p-4 shadow-md sm:flex-row"
+      className="border-shadow bg-background-elevated ring-ring flex w-full flex-col gap-4 rounded-2xl border-r-3 border-b-4 px-4 py-3 shadow-md ring sm:flex-row"
       href={`/store/${store.slug}`}
     >
       <Image
@@ -56,7 +56,7 @@ export const ProductCard = ({
             PLN/pc
           </p>
           <p className="text-end text-sm">
-            {t("available")}: {quantity}pcs
+            {t("available")}:<span className="font-medium"> {quantity}</span>
           </p>
         </div>
       </div>

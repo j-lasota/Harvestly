@@ -29,21 +29,21 @@ export default function ThemeToggle() {
     }
   }, [isContrast, mounted]);
 
-  if (!mounted) {
-    return null; // lub placeholder ładowania
-  }
+  if (!mounted) return;
 
   return (
     <Button
-      variant="ghost"
+      variant="ghostPrimary"
       size="icon"
       type="button"
-      className="hover:bg-hover-background active:bg-active-background text-foreground[transition:background_20ms_ease-in,_color_0.15s] cursor-pointer rounded-md p-1.5"
       title={isContrast ? "Disable contrast mode" : "Enable contrast mode"}
       aria-label={isContrast ? "Disable contrast mode" : "Enable contrast mode"}
       onClick={() => setIsContrast(!isContrast)}
     >
-      <Contrast className={cn("h-5 w-5", isContrast && "text-primary")} />
+      <Contrast
+        className={cn("size-5", isContrast && "text-primary")}
+        strokeWidth={1.5}
+      />
     </Button>
   );
 }

@@ -3,41 +3,42 @@
 
 @layer base {
   :root {
-    --background: oklch(0.99 0.0085 84.57); /* #fffcf6 */
+    --background-base: oklch(1 0 0); /* #ffffff */
+    --background-elevated: oklch(0.99 0.0085 84.57); /* #fffcf6 */
     --foreground: oklch(0.2 0 0); /* #171717 */
 
     --accent: oklch(0.98 0.018 78.24); /* #fff7eb */
     --primary: oklch(0.65 0.1096 129.1); /* #799b50 */
 
-    --opinion-background: oklch(1 0 0); /* #ffffff */
-
     --shadow: oklch(0.95 0.0272 83.54) /* #f6ecd9 */;
+    --ring: #00000020;
   }
 
   .contrast {
     /* Base colors */
-    --background: oklch(0.15 0 0); /* #0d0d0d*/
+    --background-base: oklch(19.13% 0 0); /* #141414*/
+    --background-elevated: oklch(16.84% 0 0); /* #0f0f0f */
     --foreground: oklch(0.98 0 0); /* #ffffff*/
 
     /* Accent colors */
     --accent: oklch(0.95 0.02 90); /* #f4eee0 - Soft warm white */
     --primary: oklch(0.6 0.15 140); /* #499537 */
 
-    --opinion-card: oklch(0.3 0 0); /* #000000 */
-
-    --shadow: oklch(0.3 0 0); /* #000000 */
+    --shadow: oklch(0 0 0); /* #000000 */
+    --ring: #ffffff20;
   }
 }
 
 @theme {
-  --color-background: var(--background);
+  --color-background-base: var(--background-base);
+  --color-background-elevated: var(--background-elevated);
   --color-foreground: var(--foreground);
 
   --color-accent: var(--accent);
   --color-primary: var(--primary);
 
   --color-shadow: var(--shadow);
-  --color-opinion-card: var(--opinion-card);
+  --color-ring: var(--ring);
 
   --animate-lite-pulse: lite-pulse 1s ease-in-out infinite;
 }

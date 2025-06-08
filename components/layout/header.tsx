@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
-import { LanguageSelector } from "@/components/ui/language-selector";
+import { LanguageSelector } from "@/components/layout/language-selector";
 import { AvatarMenu } from "@/components/layout/avatar-menu";
 import ThemeToggle from "@/components/layout/theme-toggle";
 import { SignOut } from "@/components/auth/signout-button";
@@ -18,7 +18,7 @@ export default async function Header() {
   const session = await auth();
 
   return (
-    <header className="bg-background sticky top-0 z-50 rounded-lg drop-shadow-md">
+    <header className="bg-background-elevated border-shadow ring-ring sticky top-0 z-50 rounded-lg border-b-3 ring">
       <ContainerWrapper className="flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="flex items-center gap-1.5 text-xl font-bold">
           <Image src={logo} alt="Harvesty logo" priority className="w-6" />
@@ -46,8 +46,8 @@ export default async function Header() {
           <BurgerMenu />
 
           <ThemeToggle />
+          <LanguageSelector className="mr-2" />
 
-          <LanguageSelector />
           {session ? (
             <AvatarMenu Logout={<SignOut />} image={session?.user?.image} />
           ) : (

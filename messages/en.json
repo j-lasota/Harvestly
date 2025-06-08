@@ -93,6 +93,17 @@
       "storeLocation": "{storeName} — {city}"
     }
   },
+  "myStores": {
+    "my": "My stores",
+    "favorites": "Favorite stores"
+  },
+  "storeGrid": {
+    "empty": "No stores available"
+  },
+  "favorites": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
   "addOpinion": {
     "ratingLabel": "Rating",
     "starAriaLabel": "Rate with {count} star(s)",
@@ -101,16 +112,15 @@
     "submit": "Send",
     "pending": "Sending..."
   },
-  
-  "favorites": {
-    "add": "Add to favorites",
-    "remove": "Remove from favorites"
-  },
-  "myStores": {
-    "my": "My stores",
-    "favorites": "Favorite stores"
-  },
-  "storeGrid": {
-    "empty": "No stores available"
+  "productSection": {
+    "searchLabel": "Search products:",
+    "searchPlaceholder": "Search for products...",
+    "categoryLabel": "Category:",
+    "priceRangeLabel": "Price range:",
+    "separatePriceRange": "to",
+    "categories": {
+      "FRUIT": "Fruits",
+      "VEGETABLE": "Vegetables"
+    }
   }
 }

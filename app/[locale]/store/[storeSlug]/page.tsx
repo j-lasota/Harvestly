@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { BadgeCheck } from "lucide-react";
 
-import { OpinionCard, OpinionCardProps } from "@/components/opinion-card";
+import { OpinionCard, OpinionCardProps } from "./components/opinion-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { ImageMapPreview } from "./components/image-map-preview";
 import { ProductSection } from "@/components/product-section";

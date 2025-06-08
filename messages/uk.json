@@ -49,8 +49,15 @@
       "SUNDAY": "Неділя"
     },
     "reviews": {
+      "title": "Огляди",
+      "addReview": "Додати огляд",
+      "starsLabel": "зірок",
+      "anonymousUser": "Анонімний",
       "noReviews": "Ще немає відгуків",
-      "title": "Огляди"
+      "leaveReview": "Залишити відгук",
+      "yourOpinion": "Ваше мнение",
+      "submit": "Надіслати",
+      "thankYou": "Дякуємо за ваш відгук!"
     }
   },
   "map": {
@@ -95,5 +102,16 @@
     "submit": "Надсилати",
     "ratingLabel": "Рейтинг",
     "starAriaLabel": "Оцініть з {count} Star (S)"
+  },
+  "productSection": {
+    "searchLabel": "Пошук продуктів:",
+    "searchPlaceholder": "Шукати продукти...",
+    "categoryLabel": "Категорія:",
+    "priceRangeLabel": "Ціновий діапазон:",
+    "separatePriceRange": "до",
+    "categories": {
+      "FRUIT": "Фрукти",
+      "VEGETABLE": "Овочі"
+    }
   }
 }

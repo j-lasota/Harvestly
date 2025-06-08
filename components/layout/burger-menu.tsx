@@ -6,6 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { NAVLINKS } from "@/constants/global";
+import { Button } from "../ui/button";
 
 const BurgerMenu = () => {
   const t = useTranslations("nav");
@@ -14,17 +15,22 @@ const BurgerMenu = () => {
   return (
     <>
       {/* Burger menu button */}
-      <button
-        className="hover:bg-muted cursor-pointer rounded-lg p-2 transition md:hidden"
+      <Button
+        variant="ghostPrimary"
+        size="icon"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
         onClick={() => setMenuOpen((v) => !v)}
       >
-        {menuOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
+        {menuOpen ? (
+          <X size={24} strokeWidth={1.5} />
+        ) : (
+          <Menu size={24} strokeWidth={1.5} />
+        )}
+      </Button>
 
       {/* Mobile nav */}
       {menuOpen && (
-        <nav className="bg-background animate-in fade-in slide-in-from-top-4 absolute top-14 left-0 w-full shadow-lg md:hidden">
+        <nav className="bg-background-elevated animate-in fade-in slide-in-from-top-4 absolute top-14 left-0 w-full shadow-lg md:hidden">
           <ul className="flex flex-col gap-2 p-4 text-lg font-medium">
             {NAVLINKS.map(({ href, label }) => (
               <li key={href}>

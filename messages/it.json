@@ -93,6 +93,13 @@
       "storeLocation": "{storeName} — {city}"
     }
   },
+  "myStores": {
+    "my": "I miei negozi",
+    "favorites": "Negozi preferiti"
+  },
+  "storeGrid": {
+    "empty": "Nessun negozio disponibile"
+  },
   "addOpinion": {
     "ratingLabel": "Valutazione",
     "starAriaLabel": "Valuta con {count} stella/e",
@@ -105,11 +112,15 @@
     "add": "Aggiungi ai preferiti",
     "remove": "Rimuovi dai preferiti"
   },
-  "myStores": {
-    "my": "I miei negozi",
-    "favorites": "Negozi preferiti"
-  },
-  "storeGrid": {
-    "empty": "Nessun negozio disponibile"
+  "productSection": {
+    "searchLabel": "Cerca prodotti:",
+    "searchPlaceholder": "Cerca prodotti...",
+    "categoryLabel": "Categoria:",
+    "priceRangeLabel": "Fascia di prezzo:",
+    "separatePriceRange": "a",
+    "categories": {
+      "FRUIT": "Frutta",
+      "VEGETABLE": "Verdura"
+    }
   }
 }
