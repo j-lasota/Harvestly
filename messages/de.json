@@ -48,6 +48,30 @@
         "submit": "Geschäft hinzufügen",
         "pending": "Geschäft wird hinzugefügt..."
       }
+    },
+    "map": {
+      "loading": "Lade Daten der Geschäfte...",
+      "loadingError": "Daten der Geschäfte konnten nicht geladen werden",
+      "selectShop": "Standplatz auswählen:",
+      "selectShopPlaceholder": "Geschäft auswählen",
+      "searchCity": "Stände in der Stadt ansehen:",
+      "cityPlaceholder": "Stadtname eingeben",
+      "noShopsInCity": "Keine Geschäfte in dieser Stadt",
+      "searchPlaceholder": "Adresse eingeben...",
+      "addressNotFound": "Adresse nicht gefunden.",
+      "searchError": "Fehler bei der Adresssuche:",
+      "storeInfo": {
+        "description": "Beschreibung",
+        "noDescription": "Keine Beschreibung vorhanden",
+        "address": "Adresse",
+        "openingHours": "Öffnungszeiten",
+        "noHours": "Keine Öffnungszeiten verfügbar.",
+        "photo": "Foto"
+      },
+      "popup": {
+        "searchedAddress": "Gesuchte Adresse",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -107,29 +131,5 @@
     "submit": "Senden",
     "ratingLabel": "Bewertung",
     "starAriaLabel": "Bewerten mit {count} Sternen"
-  },
-  "map": {
-    "loading": "Lade Daten der Geschäfte...",
-    "loadingError": "Daten der Geschäfte konnten nicht geladen werden",
-    "selectShop": "Standplatz auswählen:",
-    "selectShopPlaceholder": "Geschäft auswählen",
-    "searchCity": "Stände in der Stadt ansehen:",
-    "cityPlaceholder": "Stadtname eingeben",
-    "noShopsInCity": "Keine Geschäfte in dieser Stadt",
-    "searchPlaceholder": "Adresse eingeben...",
-    "addressNotFound": "Adresse nicht gefunden.",
-    "searchError": "Fehler bei der Adresssuche:",
-    "storeInfo": {
-      "description": "Beschreibung",
-      "noDescription": "Keine Beschreibung vorhanden",
-      "address": "Adresse",
-      "openingHours": "Öffnungszeiten",
-      "noHours": "Keine Öffnungszeiten verfügbar.",
-      "photo": "Foto"
-    },
-    "popup": {
-      "searchedAddress": "Gesuchte Adresse",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

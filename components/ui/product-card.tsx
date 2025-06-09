@@ -34,7 +34,7 @@ export const ProductCard = ({
       href={`/store/${store.slug}`}
     >
       <Image
-        src={imageUrl || placeholder}
+        src={imageUrl && imageUrl !== "" ? imageUrl : placeholder}
         alt={`Image of ${product.name}`}
         width={500}
         height={500}

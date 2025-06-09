@@ -48,6 +48,30 @@
         "submit": "Dodaj sklep",
         "pending": "Dodawanie sklepu..."
       }
+    },
+    "map": {
+      "loading": "Ładowanie danych sklepów...",
+      "loadingError": "Nie udało się załadować danych sklepów",
+      "selectShop": "Wybierz stanowisko:",
+      "selectShopPlaceholder": "Wybierz sklep",
+      "searchCity": "Sprawdź stoiska w mieście:",
+      "cityPlaceholder": "Wpisz nazwę miasta",
+      "noShopsInCity": "Brak sklepów w tym mieście",
+      "searchPlaceholder": "Wprowadź adres...",
+      "addressNotFound": "Adres nie został znaleziony.",
+      "searchError": "Błąd wyszukiwania adresu:",
+      "storeInfo": {
+        "description": "Opis",
+        "noDescription": "Brak opisu sklepu",
+        "address": "Adres",
+        "openingHours": "Godziny otwarcia",
+        "noHours": "Brak informacji o godzinach otwarcia.",
+        "photo": "Zdjęcie"
+      },
+      "popup": {
+        "searchedAddress": "Szukany adres",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -107,29 +131,5 @@
     "submit": "Wysłać",
     "ratingLabel": "Ocena",
     "starAriaLabel": "Rate z gwiazdami {count}"
-  },
-  "map": {
-    "loading": "Ładowanie danych sklepów...",
-    "loadingError": "Nie udało się załadować danych sklepów",
-    "selectShop": "Wybierz stanowisko:",
-    "selectShopPlaceholder": "Wybierz sklep",
-    "searchCity": "Sprawdź stoiska w mieście:",
-    "cityPlaceholder": "Wpisz nazwę miasta",
-    "noShopsInCity": "Brak sklepów w tym mieście",
-    "searchPlaceholder": "Wprowadź adres...",
-    "addressNotFound": "Adres nie został znaleziony.",
-    "searchError": "Błąd wyszukiwania adresu:",
-    "storeInfo": {
-      "description": "Opis",
-      "noDescription": "Brak opisu sklepu",
-      "address": "Adres",
-      "openingHours": "Godziny otwarcia",
-      "noHours": "Brak informacji o godzinach otwarcia.",
-      "photo": "Zdjęcie"
-    },
-    "popup": {
-      "searchedAddress": "Szukany adres",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

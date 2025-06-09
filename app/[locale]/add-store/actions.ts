@@ -120,7 +120,6 @@ type FormState =
     }
   | undefined;
 
-// TODO: Fix this - error from backend - idk why / maybe not all fields which are required are passed
 export async function addStoreAction(state: FormState, formData: FormData) {
   const session = await auth();
   if (!session?.user || !session.user.id) return;

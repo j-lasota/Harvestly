@@ -48,6 +48,30 @@
         "submit": "Aggiungi negozio",
         "pending": "Aggiunta del negozio in corso..."
       }
+    },
+    "map": {
+      "loading": "Caricamento dati negozi...",
+      "loadingError": "Impossibile caricare i dati dei negozi",
+      "selectShop": "Seleziona bancarella:",
+      "selectShopPlaceholder": "Seleziona negozio",
+      "searchCity": "Controlla bancarelle in città:",
+      "cityPlaceholder": "Inserisci il nome della città",
+      "noShopsInCity": "Nessun negozio in questa città",
+      "searchPlaceholder": "Inserisci indirizzo...",
+      "addressNotFound": "Indirizzo non trovato.",
+      "searchError": "Errore nella ricerca indirizzo:",
+      "storeInfo": {
+        "description": "Descrizione",
+        "noDescription": "Nessuna descrizione disponibile",
+        "address": "Indirizzo",
+        "openingHours": "Orari di apertura",
+        "noHours": "Nessuna informazione sugli orari.",
+        "photo": "Foto"
+      },
+      "popup": {
+        "searchedAddress": "Indirizzo cercato",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -107,29 +131,5 @@
     "submit": "Invia",
     "ratingLabel": "Valutazione",
     "starAriaLabel": "Valuta con {count} stelle"
-  },
-  "map": {
-    "loading": "Caricamento dati negozi...",
-    "loadingError": "Impossibile caricare i dati dei negozi",
-    "selectShop": "Seleziona bancarella:",
-    "selectShopPlaceholder": "Seleziona negozio",
-    "searchCity": "Controlla bancarelle in città:",
-    "cityPlaceholder": "Inserisci il nome della città",
-    "noShopsInCity": "Nessun negozio in questa città",
-    "searchPlaceholder": "Inserisci indirizzo...",
-    "addressNotFound": "Indirizzo non trovato.",
-    "searchError": "Errore nella ricerca indirizzo:",
-    "storeInfo": {
-      "description": "Descrizione",
-      "noDescription": "Nessuna descrizione disponibile",
-      "address": "Indirizzo",
-      "openingHours": "Orari di apertura",
-      "noHours": "Nessuna informazione sugli orari.",
-      "photo": "Foto"
-    },
-    "popup": {
-      "searchedAddress": "Indirizzo cercato",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

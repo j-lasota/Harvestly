@@ -34,7 +34,7 @@ export const ImageMapPreview = ({
         <Map posix={market} />
       ) : (
         <Image
-          src={src ?? placeholder}
+          src={src && src !== "" ? src : placeholder}
           alt={`Image of ${name}`}
           width={700}
           height={400}
