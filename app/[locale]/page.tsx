@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import hero from "@/public/hero.jpg";
 
 export default async function Home() {

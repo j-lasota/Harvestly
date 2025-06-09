@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import { LanguageSelector } from "@/components/layout/language-selector";
@@ -10,6 +9,7 @@ import { SignOut } from "@/components/auth/signout-button";
 import { SignIn } from "@/components/auth/signin-button";
 import BurgerMenu from "@/components/layout/burger-menu";
 import { NAVLINKS } from "@/constants/global";
+import { Link } from "@/i18n/navigation";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
 

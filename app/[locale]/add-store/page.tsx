@@ -19,9 +19,9 @@ export default async function AddStorePage() {
   });
 
   if (
-    !data.userById ||
-    !data.userById.stores ||
-    !data.userById.tier ||
+    data.userById &&
+    data.userById.stores &&
+    data.userById.tier &&
     data.userById.stores.length > TIER[data.userById.tier]
   )
     redirect("/my-stores");

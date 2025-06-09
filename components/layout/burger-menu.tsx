@@ -3,10 +3,10 @@
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { NAVLINKS } from "@/constants/global";
+import { Link } from "@/i18n/navigation";
 
 const BurgerMenu = () => {
   const t = useTranslations("nav");
