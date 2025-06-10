@@ -28,8 +28,8 @@ VALUES
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true),
     ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
     ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Smaki Lata', 'smaki-lata-1', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
     ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Zielony Kram', 'zielony-kram-1', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),

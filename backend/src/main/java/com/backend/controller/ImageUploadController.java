@@ -69,7 +69,20 @@ public class ImageUploadController {
             ownProductRepository.save(product);
             return ResponseEntity.ok(imageUrl);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/images")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty() || !Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
+            return ResponseEntity.badRequest().body("Nieprawidłowy plik.");
+        }
+        try {
+            String imageUrl = imageUploadService.uploadImage(file);
+            return ResponseEntity.ok(imageUrl);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
