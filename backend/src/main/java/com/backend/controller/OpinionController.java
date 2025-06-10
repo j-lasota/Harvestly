@@ -60,6 +60,10 @@ public class OpinionController {
         return opinionService.getOpinionsByStoreId(storeId);
     }
 
+    @QueryMapping
+    public List<Opinion> opinionsReported() {
+        return opinionService.getAllOpinionsReported();
+    }
 
     @MutationMapping
     public Boolean deleteOpinion(@Argument Long id) {
@@ -67,7 +71,7 @@ public class OpinionController {
     }
 
     @MutationMapping
-    public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars) {
-        return opinionService.updateOpinion(id, description, stars);
+    public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars, @Argument Boolean reported) {
+        return opinionService.updateOpinion(id, description, stars, reported);
     }
 }

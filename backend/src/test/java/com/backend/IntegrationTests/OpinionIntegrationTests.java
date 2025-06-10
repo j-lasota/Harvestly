@@ -130,7 +130,8 @@ class OpinionIntegrationTests {
         Opinion updatedOpinion = opinionService.updateOpinion(
                 savedOpinion.getId(),
                 "Updated review - much better service",
-                4
+                4,
+                null
         );
 
         assertEquals("Updated review - much better service", updatedOpinion.getDescription());

@@ -140,7 +140,7 @@ class OpinionServiceUnitTests {
         when(opinionRepository.findById(1L)).thenReturn(Optional.of(testOpinion));
         when(opinionRepository.save(testOpinion)).thenReturn(testOpinion);
 
-        Opinion updatedOpinion = opinionService.updateOpinion(1L, "Updated description", 4);
+        Opinion updatedOpinion = opinionService.updateOpinion(1L, "Updated description", 4,null);
 
         assertEquals("Updated description", updatedOpinion.getDescription());
         assertEquals(4, updatedOpinion.getStars());
@@ -154,7 +154,7 @@ class OpinionServiceUnitTests {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> opinionService.updateOpinion(99L, "Updated description", 4)
+                () -> opinionService.updateOpinion(99L, "Updated description", 4, null)
         );
 
         assertEquals("Opinion not found", exception.getMessage());
@@ -169,7 +169,7 @@ class OpinionServiceUnitTests {
         String originalDescription = testOpinion.getDescription();
         int originalStars = testOpinion.getStars();
 
-        Opinion updatedOpinion = opinionService.updateOpinion(1L, null, null);
+        Opinion updatedOpinion = opinionService.updateOpinion(1L, null, null, null);
 
         assertEquals(originalDescription, updatedOpinion.getDescription());
         assertEquals(originalStars, updatedOpinion.getStars());
@@ -183,7 +183,7 @@ class OpinionServiceUnitTests {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> opinionService.updateOpinion(1L, "Valid description", 6)
+                () -> opinionService.updateOpinion(1L, "Valid description", 6, null)
         );
 
         assertEquals("Stars must be between 0 and 5.", exception.getMessage());
@@ -197,7 +197,7 @@ class OpinionServiceUnitTests {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> opinionService.updateOpinion(1L, "Valid description", -1)
+                () -> opinionService.updateOpinion(1L, "Valid description", -1, null)
         );
 
         assertEquals("Stars must be between 0 and 5.", exception.getMessage());
