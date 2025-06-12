@@ -21,27 +21,60 @@ public class ProductController {
         this.productService = productService;
     }
 
+    /**
+     * Fetch all products.
+     *
+     * @return List of all products.
+     */
     @QueryMapping
     public List<Product> products() {
         return productService.getAllProducts();
     }
 
+    /**
+     * Fetch a product by its ID.
+     *
+     * @param id The ID of the product.
+     * @return An Optional containing the product if found, otherwise empty.
+     */
     @QueryMapping
     public Optional<Product> productById(@Argument Long id) {
         return productService.getProductById(id);
     }
 
+    /**
+     * Create a new product.
+     *
+     * @param name The name of the product.
+     * @param category The category of the product.
+     * @return The created product.
+     */
     @MutationMapping
     public Product createProduct(@Argument String name, @Argument ProductCategory category) {
         return productService.saveProduct(new Product(name, category));
     }
 
+    /**
+     * Update an existing product.
+     *
+     * @param id The ID of the product to update.
+     * @param name The new name of the product.
+     * @param category The new category of the product.
+     * @param verified Whether the product is verified.
+     * @return The updated product.
+     */
     @MutationMapping
     public Product updateProduct(@Argument Long id, @Argument String name, @Argument ProductCategory category,
                                  @Argument Boolean verified) {
         return productService.updateProduct(id, name, category, verified);
     }
 
+    /**
+     * Delete a product by its ID.
+     *
+     * @param id The ID of the product to delete.
+     * @return True if the product was deleted, false otherwise.
+     */
     @MutationMapping
     public Boolean deleteProduct(@Argument Long id) {
         return productService.deleteProductById(id);
