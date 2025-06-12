@@ -40,8 +40,8 @@ public class UserController {
     @MutationMapping
     public User updateUser(@Argument String id, @Argument String firstName, @Argument String lastName,
                            @Argument String email, @Argument String phoneNumber,
-                           @Argument Integer tier, @Argument String img) {
-        return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img);
+                           @Argument Integer tier, @Argument String img, @Argument String facebook_nickname) {
+        return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img, facebook_nickname);
     }
 
     @MutationMapping

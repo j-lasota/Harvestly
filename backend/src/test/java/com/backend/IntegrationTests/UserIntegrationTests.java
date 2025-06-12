@@ -140,7 +140,8 @@ class UserIntegrationTests {
                 "emily@example.com",
                 "111222444",
                 1,
-                "emily.jpg"
+                "emily.jpg",
+                null
         );
 
         assertEquals("Emily", updatedUser.getFirstName());
@@ -162,6 +163,7 @@ class UserIntegrationTests {
                 null,
                 null,
                 1,
+                null,
                 null
         );
 
@@ -183,7 +185,8 @@ class UserIntegrationTests {
                     "test@example.com",
                     "123123123",
                     0,
-                    "test.jpg"
+                    "test.jpg",
+                    null
             );
         });
 

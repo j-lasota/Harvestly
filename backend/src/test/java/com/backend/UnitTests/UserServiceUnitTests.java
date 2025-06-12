@@ -152,7 +152,8 @@ class UserServiceUnitTests {
                 "johnny@example.com",
                 "987654321",
                 1,
-                "johnny.jpg"
+                "johnny.jpg",
+                null
         );
 
         assertEquals("Johnny", updatedUser.getFirstName());
@@ -178,7 +179,8 @@ class UserServiceUnitTests {
                         "test@example.com",
                         "123123123",
                         0,
-                        "test.jpg"
+                        "test.jpg",
+                        null
                 )
         );
 
@@ -200,6 +202,7 @@ class UserServiceUnitTests {
 
         User updatedUser = userService.updateUser(
                 "user123",
+                null,
                 null,
                 null,
                 null,
