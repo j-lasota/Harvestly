@@ -22,12 +22,10 @@ class ProductServiceUnitTests {
     @Mock
     private ProductRepository productRepository;
 
-    // Real service instance, not mocked
     private ProductService productService;
 
     @BeforeEach
     void setUp() {
-        // Initialize real service with mocked repository
         productService = new ProductService(productRepository);
     }
 
@@ -86,7 +84,7 @@ class ProductServiceUnitTests {
     @Test
     void testSaveProduct_ProductAlreadyExists() {
         Product existingProduct = new Product("Cucumber", ProductCategory.VEGETABLE);
-        Product newProduct = new Product("cucumber", ProductCategory.VEGETABLE); // same name, different case
+        Product newProduct = new Product("cucumber", ProductCategory.VEGETABLE);
 
         when(productRepository.findAll()).thenReturn(List.of(existingProduct));
 

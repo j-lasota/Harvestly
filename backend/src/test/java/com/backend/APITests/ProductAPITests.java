@@ -9,9 +9,12 @@ import com.backend.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,19 +24,19 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(ProductController.class)
-@Import(GraphQLScalarConfig.class)
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class ProductAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private ProductService productService;
 
     @Test
     void products_ReturnsAllProducts() {
-        // Arrange
         List<Product> mockProducts = Arrays.asList(
                 new Product("Apple", ProductCategory.FRUIT, true),
                 new Product("Carrot", ProductCategory.VEGETABLE, true),
@@ -41,7 +44,6 @@ class ProductAPITests {
         );
         when(productService.getAllProducts()).thenReturn(mockProducts);
 
-        // Act & Assert
         String query = """
                 query {
                   products {
@@ -66,12 +68,10 @@ class ProductAPITests {
 
     @Test
     void productById_ReturnsProduct_WhenProductExists() {
-        // Arrange
         Long productId = 1L;
         Product mockProduct = new Product("Apple", ProductCategory.FRUIT, true);
         when(productService.getProductById(productId)).thenReturn(Optional.of(mockProduct));
 
-        // Act & Assert
         String query = """
                 query {
                   productById(id: 1) {
@@ -95,11 +95,9 @@ class ProductAPITests {
 
     @Test
     void productById_ReturnsNull_WhenProductDoesNotExist() {
-        // Arrange
         Long productId = 999L;
         when(productService.getProductById(productId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String query = """
                 query {
                   productById(id: 999) {
@@ -117,14 +115,12 @@ class ProductAPITests {
 
     @Test
     void createProduct_ReturnsCreatedProduct() {
-        // Arrange
         String productName = "Strawberry";
         ProductCategory category = ProductCategory.FRUIT;
 
         Product createdProduct = new Product(productName, category, false);
         when(productService.saveProduct(any(Product.class))).thenReturn(createdProduct);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createProduct(
@@ -151,7 +147,6 @@ class ProductAPITests {
 
     @Test
     void updateProduct_ReturnsUpdatedProduct() {
-        // Arrange
         Long productId = 1L;
         String updatedName = "Green Apple";
         ProductCategory updatedCategory = ProductCategory.FRUIT;
@@ -161,7 +156,6 @@ class ProductAPITests {
         when(productService.updateProduct(eq(productId), anyString(), any(ProductCategory.class), anyBoolean()))
                 .thenReturn(updatedProduct);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateProduct(
@@ -192,11 +186,9 @@ class ProductAPITests {
 
     @Test
     void deleteProduct_ReturnsTrue_WhenProductDeleted() {
-        // Arrange
         Long productId = 1L;
         when(productService.deleteProductById(productId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteProduct(id: 1)
@@ -212,11 +204,9 @@ class ProductAPITests {
 
     @Test
     void deleteProduct_ReturnsFalse_WhenProductNotFound() {
-        // Arrange
         Long productId = 999L;
         when(productService.deleteProductById(productId)).thenReturn(false);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteProduct(id: 999)
@@ -232,7 +222,6 @@ class ProductAPITests {
 
     @Test
     void ownProducts_ReturnsOwnProductsForProduct() {
-        // Arrange
         Long productId = 1L;
         Product product = new Product(productId, "Apple", ProductCategory.FRUIT, true);
 
@@ -251,7 +240,6 @@ class ProductAPITests {
 
         when(productService.getProductById(productId)).thenReturn(Optional.of(product));
 
-        // Act & Assert
         String query = """
                 query {
                   productById(id: 1) {
@@ -273,14 +261,12 @@ class ProductAPITests {
 
     @Test
     void ownProducts_ReturnsEmptyList_WhenNoOwnProductsExist() {
-        // Arrange
         Long productId = 2L;
         Product product = new Product(productId, "Banana", ProductCategory.FRUIT, true);
         product.setOwnProducts(Collections.emptyList());
 
         when(productService.getProductById(productId)).thenReturn(Optional.of(product));
 
-        // Act & Assert
         String query = """
                 query {
                   productById(id: 2) {

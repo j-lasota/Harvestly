@@ -11,38 +11,43 @@ import com.backend.service.StoreService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static graphql.Assert.assertFalse;
+import static graphql.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(OwnProductController.class)
-@Import(GraphQLScalarConfig.class)
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class OwnProductAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private OwnProductService ownProductService;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
-    @MockBean
+    @MockitoBean
     private ProductService productService;
 
     @Test
     void ownProductById_ReturnsOwnProduct_WhenOwnProductExists() {
-        // Arrange
         Long ownProductId = 1L;
         Store store = new Store();
         store.setId(1L);
@@ -62,7 +67,6 @@ class OwnProductAPITests {
 
         when(ownProductService.getOwnProductById(ownProductId)).thenReturn(Optional.of(mockOwnProduct));
 
-        // Act & Assert
         String query = """
                 query {
                   ownProductById(id: 1) {
@@ -91,11 +95,9 @@ class OwnProductAPITests {
 
     @Test
     void ownProductById_ReturnsNull_WhenOwnProductDoesNotExist() {
-        // Arrange
         Long ownProductId = 999L;
         when(ownProductService.getOwnProductById(ownProductId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String query = """
                 query {
                   ownProductById(id: 999) {
@@ -114,7 +116,6 @@ class OwnProductAPITests {
 
     @Test
     void ownProducts_ReturnsAllOwnProducts() {
-        // Arrange
         Store store = new Store();
         store.setId(1L);
         store.setName("Test Store");
@@ -134,7 +135,6 @@ class OwnProductAPITests {
 
         when(ownProductService.getAllOwnProducts()).thenReturn(mockOwnProducts);
 
-        // Act & Assert
         String query = """
                 query {
                   ownProducts {
@@ -157,7 +157,6 @@ class OwnProductAPITests {
 
     @Test
     void ownProductsByStore_ReturnsOwnProductsForStore() {
-        // Arrange
         Long storeId = 1L;
         Store store = new Store();
         store.setId(storeId);
@@ -172,7 +171,6 @@ class OwnProductAPITests {
 
         when(ownProductService.getByStore(storeId)).thenReturn(mockOwnProducts);
 
-        // Act & Assert
         String query = """
                 query {
                   ownProductsByStore(storeId: 1) {
@@ -192,7 +190,6 @@ class OwnProductAPITests {
 
     @Test
     void createOwnProduct_ReturnsCreatedOwnProduct() {
-        // Arrange
         Long storeId = 1L;
         Long productId = 1L;
         BigDecimal price = BigDecimal.valueOf(12.99);
@@ -217,7 +214,6 @@ class OwnProductAPITests {
         when(productService.getProductById(productId)).thenReturn(Optional.of(product));
         when(ownProductService.save(any(OwnProduct.class))).thenReturn(createdOwnProduct);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createOwnProduct(
@@ -254,7 +250,6 @@ class OwnProductAPITests {
 
     @Test
     void createOwnProduct_ThrowsError_WhenStoreNotFound() {
-        // Arrange
         Long storeId = 999L;
         Long productId = 1L;
 
@@ -264,7 +259,6 @@ class OwnProductAPITests {
         when(storeService.getStoreById(storeId)).thenReturn(Optional.empty());
         when(productService.getProductById(productId)).thenReturn(Optional.of(product));
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createOwnProduct(
@@ -284,14 +278,13 @@ class OwnProductAPITests {
                 .execute()
                 .errors()
                 .satisfy(errors -> {
-                    assert !errors.isEmpty();
+                    assertFalse(errors.isEmpty());
 
                 });
     }
 
     @Test
     void createOwnProduct_ThrowsError_WhenProductNotFound() {
-        // Arrange
         Long storeId = 1L;
         Long productId = 999L;
 
@@ -301,7 +294,6 @@ class OwnProductAPITests {
         when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
         when(productService.getProductById(productId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createOwnProduct(
@@ -328,12 +320,10 @@ class OwnProductAPITests {
 
     @Test
     void updateOwnProduct_ReturnsUpdatedOwnProduct() {
-        // Arrange
         Long ownProductId = 1L;
         Long storeId = 1L;
         Long productId = 1L;
 
-        // Original OwnProduct
         Store store = new Store();
         store.setId(storeId);
         store.setName("Test Store");
@@ -350,12 +340,10 @@ class OwnProductAPITests {
         originalOwnProduct.setQuantity(30);
         originalOwnProduct.setImageUrl("original_image.jpg");
 
-        // Updated values
         BigDecimal newPrice = BigDecimal.valueOf(19.99);
         int newQuantity = 75;
         String newImageUrl = "updated_image.jpg";
 
-        // Updated OwnProduct
         OwnProduct updatedOwnProduct = new OwnProduct();
         updatedOwnProduct.setId(ownProductId);
         updatedOwnProduct.setStore(store);
@@ -364,13 +352,11 @@ class OwnProductAPITests {
         updatedOwnProduct.setQuantity(newQuantity);
         updatedOwnProduct.setImageUrl(newImageUrl);
 
-        // Mock service behavior
         when(ownProductService.getOwnProductById(ownProductId)).thenReturn(Optional.of(originalOwnProduct));
         when(ownProductService.updateOwnProduct(
                 ownProductId, storeId, productId, newPrice, newQuantity, newImageUrl
         )).thenReturn(updatedOwnProduct);
 
-        // Act & Assert
         String mutation = """
             mutation {
               updateOwnProduct(
@@ -394,22 +380,18 @@ class OwnProductAPITests {
                 .path("updateOwnProduct")
                 .entity(OwnProduct.class)
                 .satisfies(ownProduct -> {
-                    assert ownProduct.getPrice().compareTo(newPrice) == 0;
-                    assert ownProduct.getQuantity() == newQuantity;
-                    assert ownProduct.getImageUrl().equals(newImageUrl);
+                    assertTrue(ownProduct.getPrice().compareTo(newPrice) == 0);
+                    assertTrue(ownProduct.getQuantity() == newQuantity);
+                    assertTrue(ownProduct.getImageUrl().equals(newImageUrl));
                 });
     }
 
     @Test
     void updateOwnProduct_ThrowsError_WhenOwnProductNotFound() {
-        // Arrange
-        Long ownProductId = 999L;
-
         when(ownProductService.updateOwnProduct(
                 anyLong(), anyLong(), anyLong(), any(), any(), any()
         )).thenThrow(new IllegalArgumentException("OwnProduct not found"));
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateOwnProduct(
@@ -430,18 +412,16 @@ class OwnProductAPITests {
                 .execute()
                 .errors()
                 .satisfy(errors -> {
-                    assert !errors.isEmpty();
+                    assertFalse(errors.isEmpty());
 
                 });
     }
 
     @Test
     void deleteOwnProduct_ReturnsTrue_WhenOwnProductDeleted() {
-        // Arrange
         Long ownProductId = 1L;
         when(ownProductService.deleteOwnProductById(ownProductId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteOwnProduct(id: 1)
@@ -457,11 +437,9 @@ class OwnProductAPITests {
 
     @Test
     void deleteOwnProduct_ReturnsFalse_WhenOwnProductNotFound() {
-        // Arrange
         Long ownProductId = 999L;
         when(ownProductService.deleteOwnProductById(ownProductId)).thenReturn(false);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteOwnProduct(id: 999)

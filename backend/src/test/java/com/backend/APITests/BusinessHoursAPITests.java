@@ -1,16 +1,15 @@
 package com.backend.APITests;
 
-import com.backend.config.GraphQLScalarConfig;
-import com.backend.controller.BusinessHoursController;
 import com.backend.model.BusinessHours;
 import com.backend.model.Store;
 import com.backend.service.BusinessHoursService;
 import com.backend.service.StoreService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import com.backend.model.DayOfWeek;
@@ -23,22 +22,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(BusinessHoursController.class)
-@Import(GraphQLScalarConfig.class)
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class BusinessHoursAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private BusinessHoursService businessHoursService;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
     @Test
     void businessHours_ReturnsAllBusinessHours() {
-        // Arrange
         Store store = new Store();
         store.setId(1L);
         store.setName("Test Store");
@@ -49,7 +48,6 @@ class BusinessHoursAPITests {
         );
         when(businessHoursService.getAllBusinessHours()).thenReturn(mockBusinessHours);
 
-        // Act & Assert
         String query = """
                 query {
                   businessHours {
@@ -69,7 +67,6 @@ class BusinessHoursAPITests {
 
     @Test
     void businessHoursById_ReturnsBusinessHours_WhenExists() {
-        // Arrange
         Long businessHoursId = 1L;
         Store store = new Store();
         store.setId(1L);
@@ -80,7 +77,6 @@ class BusinessHoursAPITests {
         );
         when(businessHoursService.getBusinessHoursById(businessHoursId)).thenReturn(Optional.of(mockBusinessHours));
 
-        // Act & Assert
         String query = """
                 query {
                   businessHoursById(id: 1) {
@@ -104,7 +100,6 @@ class BusinessHoursAPITests {
 
     @Test
     void createBusinessHours_ReturnsCreatedBusinessHours() {
-        // Arrange
         Long storeId = 1L;
         Store store = new Store();
         store.setId(storeId);
@@ -117,7 +112,6 @@ class BusinessHoursAPITests {
         when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
         when(businessHoursService.saveBusinessHours(any(BusinessHours.class))).thenReturn(createdBusinessHours);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createBusinessHours(
@@ -146,11 +140,8 @@ class BusinessHoursAPITests {
 
     @Test
     void updateBusinessHours_ReturnsUpdatedBusinessHours() {
-        // Arrange
-        Long businessHoursId = 1L;
         Store store = new Store();
         store.setId(1L);
-
         BusinessHours updatedBusinessHours = new BusinessHours(
                 store, DayOfWeek.THURSDAY, LocalTime.of(9, 30), LocalTime.of(17, 30)
         );
@@ -159,7 +150,6 @@ class BusinessHoursAPITests {
                 anyLong(), any(DayOfWeek.class), any(LocalTime.class), any(LocalTime.class))
         ).thenReturn(updatedBusinessHours);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateBusinessHours(
@@ -188,11 +178,9 @@ class BusinessHoursAPITests {
 
     @Test
     void deleteBusinessHours_ReturnsTrue_WhenDeleted() {
-        // Arrange
         Long businessHoursId = 1L;
         when(businessHoursService.deleteBusinessHours(businessHoursId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteBusinessHours(id: 1)
@@ -208,11 +196,9 @@ class BusinessHoursAPITests {
 
     @Test
     void businessHoursById_ReturnsNull_WhenNotExists() {
-        // Arrange
         Long businessHoursId = 999L;
         when(businessHoursService.getBusinessHoursById(businessHoursId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String query = """
                 query {
                   businessHoursById(id: 999) {
@@ -231,11 +217,9 @@ class BusinessHoursAPITests {
 
     @Test
     void deleteBusinessHours_ReturnsFalse_WhenNotFound() {
-        // Arrange
         Long businessHoursId = 999L;
         when(businessHoursService.deleteBusinessHours(businessHoursId)).thenReturn(false);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteBusinessHours(id: 999)

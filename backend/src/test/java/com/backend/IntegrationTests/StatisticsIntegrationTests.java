@@ -44,11 +44,9 @@ class StatisticsIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        // Clean existing data
         opinionRepository.deleteAll();
         clickRepository.deleteAll();
 
-        // Create test user
         testUser = new User(
                 "test-user-id",
                 "Test",
@@ -60,7 +58,6 @@ class StatisticsIntegrationTests {
         );
         testUser = userRepository.save(testUser);
 
-        // Create test store
         testStore = new Store(
                 testUser,
                 "Test Store",
@@ -84,27 +81,22 @@ class StatisticsIntegrationTests {
     @Test
     @Transactional
     void testRecordAndRetrieveEvents() {
-        // Record multiple events
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
         statisticsService.recordEvent(EventType.MAP_PIN, TEST_SLUG);
 
-        // Verify counts
         assertEquals(2, clickRepository.totalStorePageClicks(TEST_SLUG));
         assertEquals(1, clickRepository.totalMapPinClicks(TEST_SLUG));
 
-        // Check click ratio (mapPin/storePage)
         assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG), 0.001);
     }
 
     @Test
     @Transactional
     void testClickRatioWithTimeframe() {
-        // Record events with known dates to test time-based filtering
         LocalDate today = LocalDate.now();
 
-        // Need to directly manipulate repository since service always uses current date
-        // Insert records for different days
+
         DailyClickCount todayCount = new DailyClickCount(TEST_SLUG, today);
         todayCount.setStorePageClicks(10);
         todayCount.setMapPinClicks(5);
@@ -120,43 +112,34 @@ class StatisticsIntegrationTests {
         oldCount.setMapPinClicks(15);
         clickRepository.save(oldCount);
 
-        // Test with different timeframes
-        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG), 0.001); // All time
-        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG, 2), 0.001); // Last 2 days
-        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG, 15), 0.001); // Last 15 days
+        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG), 0.001);
+        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG, 2), 0.001);
+        assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG, 15), 0.001);
     }
 
     @Test
     @Transactional
     void testZeroClicks() {
-        // Test with no clicks
         assertEquals(0.0, statisticsService.getClickRatio(TEST_SLUG));
 
-        // Add only map pin clicks, no store page clicks
         statisticsService.recordEvent(EventType.MAP_PIN, TEST_SLUG);
         statisticsService.recordEvent(EventType.MAP_PIN, TEST_SLUG);
 
-        // Without store page clicks, ratio should be 0
         assertEquals(0.0, statisticsService.getClickRatio(TEST_SLUG));
 
-        // Now add store page clicks
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
 
-        // Ratio should now be calculated
         assertEquals(2.0, statisticsService.getClickRatio(TEST_SLUG), 0.001);
     }
 
     @Test
     @Transactional
     void testNonExistentStoreEvents() {
-        // Test with store slug that doesn't exist
         String nonExistentSlug = "non-existent-store";
 
-        // Should not throw exceptions
         statisticsService.recordEvent(EventType.STORE_PAGE, nonExistentSlug);
         statisticsService.recordEvent(EventType.MAP_PIN, nonExistentSlug);
 
-        // Should return expected results
         assertEquals(1, clickRepository.totalStorePageClicks(nonExistentSlug));
         assertEquals(1, clickRepository.totalMapPinClicks(nonExistentSlug));
         assertEquals(1.0, statisticsService.getClickRatio(nonExistentSlug), 0.001);
@@ -165,16 +148,13 @@ class StatisticsIntegrationTests {
     @Test
     @Transactional
     void testAverageRating() {
-        // With no ratings
         assertEquals(0.0, statisticsService.getAverageRating(TEST_SLUG));
 
-        // Add ratings
         Opinion opinion1 = new Opinion(testStore, testUser, "Great store!", 5);
         opinionRepository.save(opinion1);
 
         assertEquals(5.0, statisticsService.getAverageRating(TEST_SLUG), 0.001);
 
-        // Add another rating
         User secondUser = new User(
                 "second-user-id",
                 "Second",
@@ -189,21 +169,18 @@ class StatisticsIntegrationTests {
         Opinion opinion2 = new Opinion(testStore, secondUser, "Decent store", 3);
         opinionRepository.save(opinion2);
 
-        // Average should be (5+3)/2 = 4.0
         assertEquals(4.0, statisticsService.getAverageRating(TEST_SLUG), 0.001);
     }
 
     @Test
     @Transactional
     void testAverageRatingForNonExistentStore() {
-        // Should return 0.0 for non-existent store
         assertEquals(0.0, statisticsService.getAverageRating("non-existent-store"));
     }
 
     @Test
     @Transactional
     void testMultipleStoreStatistics() {
-        // Create a second store
         Store secondStore = new Store(
                 testUser,
                 "Second Store",
@@ -217,7 +194,6 @@ class StatisticsIntegrationTests {
         );
         secondStore = storeRepository.save(secondStore);
 
-        // Record events for both stores
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
         statisticsService.recordEvent(EventType.MAP_PIN, TEST_SLUG);
@@ -226,18 +202,15 @@ class StatisticsIntegrationTests {
         statisticsService.recordEvent(EventType.MAP_PIN, "second-store");
         statisticsService.recordEvent(EventType.MAP_PIN, "second-store");
 
-        // Each store should have its own statistics
         assertEquals(0.5, statisticsService.getClickRatio(TEST_SLUG), 0.001);
         assertEquals(2.0, statisticsService.getClickRatio("second-store"), 0.001);
 
-        // Add ratings for both stores
         Opinion opinion1 = new Opinion(testStore, testUser, "First store review", 4);
         opinionRepository.save(opinion1);
 
         Opinion opinion2 = new Opinion(secondStore, testUser, "Second store review", 2);
         opinionRepository.save(opinion2);
 
-        // Each store should have its own rating
         assertEquals(4.0, statisticsService.getAverageRating(TEST_SLUG), 0.001);
         assertEquals(2.0, statisticsService.getAverageRating("second-store"), 0.001);
     }

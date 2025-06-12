@@ -38,17 +38,11 @@ class StatisticsServiceUnitTests {
 
     private final String TEST_SLUG = "test-store";
 
-    @BeforeEach
-    void setUp() {
-        // Common setup if needed
-    }
 
     @Test
     void testRecordStorePageEvent() {
-        // Act
         statisticsService.recordEvent(EventType.STORE_PAGE, TEST_SLUG);
 
-        // Assert
         verify(clickRepository, times(1)).upsertStorePageClick(slugCaptor.capture(), dateCaptor.capture());
         assertEquals(TEST_SLUG, slugCaptor.getValue());
         assertEquals(LocalDate.now(), dateCaptor.getValue());
@@ -56,10 +50,8 @@ class StatisticsServiceUnitTests {
 
     @Test
     void testRecordMapPinEvent() {
-        // Act
         statisticsService.recordEvent(EventType.MAP_PIN, TEST_SLUG);
 
-        // Assert
         verify(clickRepository, times(1)).upsertMapPinClick(slugCaptor.capture(), dateCaptor.capture());
         assertEquals(TEST_SLUG, slugCaptor.getValue());
         assertEquals(LocalDate.now(), dateCaptor.getValue());
@@ -67,14 +59,11 @@ class StatisticsServiceUnitTests {
 
     @Test
     void testGetClickRatio() {
-        // Arrange
         when(clickRepository.totalMapPinClicks(TEST_SLUG)).thenReturn(150L);
         when(clickRepository.totalStorePageClicks(TEST_SLUG)).thenReturn(300L);
 
-        // Act
         double ratio = statisticsService.getClickRatio(TEST_SLUG);
 
-        // Assert
         assertEquals(0.5, ratio, 0.001);
         verify(clickRepository, times(1)).totalMapPinClicks(TEST_SLUG);
         verify(clickRepository, times(1)).totalStorePageClicks(TEST_SLUG);
@@ -82,14 +71,11 @@ class StatisticsServiceUnitTests {
 
     @Test
     void testGetClickRatioWithZeroPageClicks() {
-        // Arrange
         when(clickRepository.totalMapPinClicks(TEST_SLUG)).thenReturn(150L);
         when(clickRepository.totalStorePageClicks(TEST_SLUG)).thenReturn(0L);
 
-        // Act
         double ratio = statisticsService.getClickRatio(TEST_SLUG);
 
-        // Assert
         assertEquals(0.0, ratio);
         verify(clickRepository, times(1)).totalMapPinClicks(TEST_SLUG);
         verify(clickRepository, times(1)).totalStorePageClicks(TEST_SLUG);
@@ -97,16 +83,13 @@ class StatisticsServiceUnitTests {
 
     @Test
     void testGetClickRatioWithTimeFrame() {
-        // Arrange
         int days = 30;
         LocalDate expectedDate = LocalDate.now().minusDays(days);
         when(clickRepository.mapPinClicksSince(eq(TEST_SLUG), any(LocalDate.class))).thenReturn(75L);
         when(clickRepository.storePageClicksSince(eq(TEST_SLUG), any(LocalDate.class))).thenReturn(100L);
 
-        // Act
         double ratio = statisticsService.getClickRatio(TEST_SLUG, days);
 
-        // Assert
         assertEquals(0.75, ratio, 0.001);
         verify(clickRepository, times(1)).mapPinClicksSince(eq(TEST_SLUG), argThat(date ->
                 date.isEqual(expectedDate)));
@@ -116,40 +99,31 @@ class StatisticsServiceUnitTests {
 
     @Test
     void testGetClickRatioWithTimeFrameAndZeroPageClicks() {
-        // Arrange
         int days = 30;
         when(clickRepository.mapPinClicksSince(eq(TEST_SLUG), any(LocalDate.class))).thenReturn(75L);
         when(clickRepository.storePageClicksSince(eq(TEST_SLUG), any(LocalDate.class))).thenReturn(0L);
 
-        // Act
         double ratio = statisticsService.getClickRatio(TEST_SLUG, days);
 
-        // Assert
         assertEquals(0.0, ratio);
     }
 
     @Test
     void testGetAverageRating() {
-        // Arrange
         when(opinionRepository.findAverageStarsByStoreSlug(TEST_SLUG)).thenReturn(4.5);
 
-        // Act
         double avgRating = statisticsService.getAverageRating(TEST_SLUG);
 
-        // Assert
         assertEquals(4.5, avgRating, 0.001);
         verify(opinionRepository, times(1)).findAverageStarsByStoreSlug(TEST_SLUG);
     }
 
     @Test
     void testGetAverageRatingWithNoRatings() {
-        // Arrange
         when(opinionRepository.findAverageStarsByStoreSlug(TEST_SLUG)).thenReturn(null);
 
-        // Act
         double avgRating = statisticsService.getAverageRating(TEST_SLUG);
 
-        // Assert
         assertEquals(0.0, avgRating);
         verify(opinionRepository, times(1)).findAverageStarsByStoreSlug(TEST_SLUG);
     }

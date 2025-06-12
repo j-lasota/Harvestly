@@ -46,12 +46,6 @@ public class StatisticsModuleE2ETests {
     @Autowired
     private OpinionRepository opinionRepository;
 
-    @Autowired
-    private StoreService storeService;
-
-    @Autowired
-    private UserService userService;
-
     private Store testStore;
     private User storeOwnerUser;
     private final LocalDate today = LocalDate.now();
@@ -60,12 +54,10 @@ public class StatisticsModuleE2ETests {
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         dailyClickCountRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create test store owner
         storeOwnerUser = new User(
                 UUID.randomUUID().toString(),
                 "Store",
@@ -77,7 +69,6 @@ public class StatisticsModuleE2ETests {
         );
         storeOwnerUser = userRepository.save(storeOwnerUser);
 
-        // Create test store
         testStore = new Store(
                 storeOwnerUser,
                 "Test Store",
@@ -94,7 +85,6 @@ public class StatisticsModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         dailyClickCountRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
@@ -102,7 +92,6 @@ public class StatisticsModuleE2ETests {
 
     @Test
     public void testStorePageClickEvent() {
-        // 1. Record a store page click event
         String url = UriComponentsBuilder.fromPath("/api/stats/event")
                 .queryParam("slug", testStore.getSlug())
                 .queryParam("type", EventType.STORE_PAGE)
@@ -110,10 +99,8 @@ public class StatisticsModuleE2ETests {
 
         ResponseEntity<Void> response = restTemplate.postForEntity(url, null, Void.class);
 
-        // Verify response
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        // 2. Verify click was recorded in the database - directly check database
         Optional<DailyClickCount> savedClick = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
 
@@ -121,10 +108,8 @@ public class StatisticsModuleE2ETests {
         assertEquals(1, savedClick.get().getStorePageClicks());
         assertEquals(0, savedClick.get().getMapPinClicks());
 
-        // 3. Record another click for the same store
         restTemplate.postForEntity(url, null, Void.class);
 
-        // 4. Verify clicks were accumulated - refresh from database
         Optional<DailyClickCount> updatedClick = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
 
@@ -135,7 +120,6 @@ public class StatisticsModuleE2ETests {
 
     @Test
     public void testMapPinClickEvent() {
-        // 1. Record a map pin click event
         String url = UriComponentsBuilder.fromPath("/api/stats/event")
                 .queryParam("slug", testStore.getSlug())
                 .queryParam("type", EventType.MAP_PIN)
@@ -143,10 +127,8 @@ public class StatisticsModuleE2ETests {
 
         ResponseEntity<Void> response = restTemplate.postForEntity(url, null, Void.class);
 
-        // Verify response
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        // 2. Verify click was recorded in the database - using repository method
         Optional<DailyClickCount> savedClick = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
 
@@ -154,10 +136,8 @@ public class StatisticsModuleE2ETests {
         assertEquals(0, savedClick.get().getStorePageClicks());
         assertEquals(1, savedClick.get().getMapPinClicks());
 
-        // 3. Record another click for the same store
         restTemplate.postForEntity(url, null, Void.class);
 
-        // 4. Verify clicks were accumulated - refresh from database
         Optional<DailyClickCount> updatedClick = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
 
@@ -168,7 +148,6 @@ public class StatisticsModuleE2ETests {
 
     @Test
     public void testCombinedClickEvents() {
-        // 1. Record both types of click events
         String storePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
                 .queryParam("slug", testStore.getSlug())
                 .queryParam("type", EventType.STORE_PAGE)
@@ -179,17 +158,14 @@ public class StatisticsModuleE2ETests {
                 .queryParam("type", EventType.MAP_PIN)
                 .toUriString();
 
-        // Record multiple store page clicks
         for (int i = 0; i < 3; i++) {
             restTemplate.postForEntity(storePageUrl, null, Void.class);
         }
 
-        // Record multiple map pin clicks
         for (int i = 0; i < 2; i++) {
             restTemplate.postForEntity(mapPinUrl, null, Void.class);
         }
 
-        // 2. Verify both click types were recorded correctly - direct database query
         Optional<DailyClickCount> combinedClicks = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
 
@@ -200,20 +176,17 @@ public class StatisticsModuleE2ETests {
 
     @Test
     public void testHistoricalClickStatistics() {
-        // 1. Create historical click data for yesterday and last week
-        // For yesterday
+
         DailyClickCount yesterdayClicks = new DailyClickCount(testStore.getSlug(), yesterday);
         yesterdayClicks.setStorePageClicks(5);
         yesterdayClicks.setMapPinClicks(3);
         dailyClickCountRepository.save(yesterdayClicks);
 
-        // For last week
         DailyClickCount lastWeekClicks = new DailyClickCount(testStore.getSlug(), lastWeek);
         lastWeekClicks.setStorePageClicks(10);
         lastWeekClicks.setMapPinClicks(7);
         dailyClickCountRepository.save(lastWeekClicks);
 
-        // 2. Add some clicks for today
         String storePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
                 .queryParam("slug", testStore.getSlug())
                 .queryParam("type", EventType.STORE_PAGE)
@@ -228,12 +201,9 @@ public class StatisticsModuleE2ETests {
         restTemplate.postForEntity(storePageUrl, null, Void.class);
         restTemplate.postForEntity(mapPinUrl, null, Void.class);
 
-        // 3. Instead of querying the API, verify directly in the database
-        // This approach avoids relying on API endpoints that might not exist yet
         long totalStorePageClicks = 0;
         long totalMapPinClicks = 0;
 
-        // Get today's clicks
         Optional<DailyClickCount> todayClicks = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
         if (todayClicks.isPresent()) {
@@ -241,22 +211,18 @@ public class StatisticsModuleE2ETests {
             totalMapPinClicks += todayClicks.get().getMapPinClicks();
         }
 
-        // Add yesterday's clicks
         totalStorePageClicks += yesterdayClicks.getStorePageClicks();
         totalMapPinClicks += yesterdayClicks.getMapPinClicks();
 
-        // Add last week's clicks
         totalStorePageClicks += lastWeekClicks.getStorePageClicks();
         totalMapPinClicks += lastWeekClicks.getMapPinClicks();
 
-        // Verify total counts
-        assertEquals(17L, totalStorePageClicks); // 5 + 10 + 2
-        assertEquals(11L, totalMapPinClicks);    // 3 + 7 + 1
+        assertEquals(17L, totalStorePageClicks);
+        assertEquals(11L, totalMapPinClicks);
     }
 
     @Test
     public void testMultipleStoreStatistics() {
-        // 1. Create another test store
         Store secondStore = new Store(
                 storeOwnerUser,
                 "Second Store",
@@ -270,7 +236,6 @@ public class StatisticsModuleE2ETests {
         );
         secondStore = storeRepository.save(secondStore);
 
-        // 2. Record clicks for both stores
         String firstStorePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
                 .queryParam("slug", testStore.getSlug())
                 .queryParam("type", EventType.STORE_PAGE)
@@ -291,28 +256,23 @@ public class StatisticsModuleE2ETests {
                 .queryParam("type", EventType.MAP_PIN)
                 .toUriString();
 
-        // Record clicks for first store (2 page, 1 map)
         restTemplate.postForEntity(firstStorePageUrl, null, Void.class);
         restTemplate.postForEntity(firstStorePageUrl, null, Void.class);
         restTemplate.postForEntity(firstMapPinUrl, null, Void.class);
 
-        // Record clicks for second store (1 page, 2 map)
         restTemplate.postForEntity(secondStorePageUrl, null, Void.class);
         restTemplate.postForEntity(secondMapPinUrl, null, Void.class);
         restTemplate.postForEntity(secondMapPinUrl, null, Void.class);
 
-        // 3. Query database directly instead of using API endpoints
         Optional<DailyClickCount> firstStoreClicks = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(testStore.getSlug(), today));
         Optional<DailyClickCount> secondStoreClicks = dailyClickCountRepository.findById(
                 new DailyClickCount.Key(secondStore.getSlug(), today));
 
-        // Verify first store clicks
         assertTrue(firstStoreClicks.isPresent());
         assertEquals(2, firstStoreClicks.get().getStorePageClicks());
         assertEquals(1, firstStoreClicks.get().getMapPinClicks());
 
-        // Verify second store clicks
         assertTrue(secondStoreClicks.isPresent());
         assertEquals(1, secondStoreClicks.get().getStorePageClicks());
         assertEquals(2, secondStoreClicks.get().getMapPinClicks());
@@ -320,21 +280,17 @@ public class StatisticsModuleE2ETests {
 
     @Test
     public void testAverageRating() {
-        // This test uses the OpinionRepository to check for average ratings
         String avgRatingUrl = UriComponentsBuilder.fromPath("/api/stats/average-rating")
                 .queryParam("slug", testStore.getSlug())
                 .toUriString();
 
-        // Use Double directly since the API returns a floating-point number
         ResponseEntity<Double> response = restTemplate.getForEntity(avgRatingUrl, Double.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        // Verify the response matches the repository calculation
         Double expectedRating = opinionRepository.findAverageStarsByStoreSlug(testStore.getSlug());
         Double actualRating = response.getBody();
 
         if (expectedRating == null) {
-            // If no ratings, the API might return 0.0 instead of null
             assertTrue(actualRating == null || actualRating == 0.0);
         } else {
             assertEquals(expectedRating, actualRating, 0.001);

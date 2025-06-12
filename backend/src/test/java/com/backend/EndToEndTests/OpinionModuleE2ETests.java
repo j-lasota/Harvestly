@@ -44,22 +44,14 @@ public class OpinionModuleE2ETests {
     @Autowired
     private OpinionService opinionService;
 
-    @Autowired
-    private StoreService storeService;
-
-    @Autowired
-    private UserService userService;
-
     private Store testStore;
     private User testUser;
     private User storeOwnerUser;
 
     @BeforeEach
     public void setUp() {
-        // Clean up existing data
         opinionRepository.deleteAll();
 
-        // Create test users
         storeOwnerUser = new User(
                 "store-owner-id",
                 "Store",
@@ -82,7 +74,6 @@ public class OpinionModuleE2ETests {
         );
         testUser = userRepository.save(testUser);
 
-        // Create test store using proper constructor
         testStore = new Store(
                 storeOwnerUser,
                 "Test Store",
@@ -99,7 +90,6 @@ public class OpinionModuleE2ETests {
 
     @AfterEach
     public void tearDown() {
-        // Clean up all test data
         opinionRepository.deleteAll();
         storeRepository.delete(testStore);
         userRepository.delete(testUser);
@@ -109,7 +99,6 @@ public class OpinionModuleE2ETests {
     @Test
     @Transactional
     public void testCompleteOpinionLifecycle() {
-        // 1. Create a new opinion through GraphQL
         String createOpinionMutation = """
             mutation {
                 createOpinion(
@@ -133,7 +122,6 @@ public class OpinionModuleE2ETests {
             }
             """.formatted(testStore.getId(), testUser.getId());
 
-        // Execute the mutation and verify the response
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createOpinionMutation)
                 .execute();
@@ -149,13 +137,11 @@ public class OpinionModuleE2ETests {
                 .path("createOpinion.store.id").entity(String.class).isEqualTo(testStore.getId().toString())
                 .path("createOpinion.user.id").entity(String.class).isEqualTo(testUser.getId());
 
-        // 2. Verify opinion exists in database
         Optional<Opinion> savedOpinion = opinionService.getOpinionById(opinionId);
         assertTrue(savedOpinion.isPresent());
         assertEquals("Great store with excellent service!", savedOpinion.get().getDescription());
         assertEquals(5, savedOpinion.get().getStars());
 
-        // 3. Get the opinion by ID using GraphQL
         String getOpinionQuery = """
             query {
                 opinionById(id: %d) {
@@ -173,7 +159,6 @@ public class OpinionModuleE2ETests {
                 .path("opinionById.description").entity(String.class).isEqualTo("Great store with excellent service!")
                 .path("opinionById.stars").entity(Integer.class).isEqualTo(5);
 
-        // 4. Get opinions by store ID
         String getOpinionsByStoreQuery = """
             query {
                 opinionsByStoreId(storeId: %d) {
@@ -193,7 +178,6 @@ public class OpinionModuleE2ETests {
                 .path("opinionsByStoreId[0].description").entity(String.class).isEqualTo("Great store with excellent service!")
                 .path("opinionsByStoreId[0].stars").entity(Integer.class).isEqualTo(5);
 
-        // 5. Update the opinion
         String updateOpinionMutation = """
             mutation {
                 updateOpinion(
@@ -215,12 +199,10 @@ public class OpinionModuleE2ETests {
                 .path("updateOpinion.description").entity(String.class).isEqualTo("Updated opinion after second visit.")
                 .path("updateOpinion.stars").entity(Integer.class).isEqualTo(4);
 
-        // 6. Verify update in the database
         Opinion updatedOpinion = opinionService.getOpinionById(opinionId).orElseThrow();
         assertEquals("Updated opinion after second visit.", updatedOpinion.getDescription());
         assertEquals(4, updatedOpinion.getStars());
 
-        // 7. Test getting all opinions
         String getAllOpinionsQuery = """
             query {
                 opinions {
@@ -239,7 +221,6 @@ public class OpinionModuleE2ETests {
                 .execute()
                 .path("opinions").entityList(Opinion.class).hasSize(1);
 
-        // 8. Delete the opinion
         String deleteOpinionMutation = """
             mutation {
                 deleteOpinion(id: %d)
@@ -251,14 +232,12 @@ public class OpinionModuleE2ETests {
                 .execute()
                 .path("deleteOpinion").entity(Boolean.class).isEqualTo(true);
 
-        // 9. Verify opinion was deleted
         Optional<Opinion> deletedOpinion = opinionService.getOpinionById(opinionId);
         assertTrue(deletedOpinion.isEmpty());
     }
 
     @Test
     public void testDuplicateOpinionPrevention() {
-        // First create an opinion
         String createOpinionMutation = """
             mutation {
                 createOpinion(
@@ -277,7 +256,6 @@ public class OpinionModuleE2ETests {
                 .execute()
                 .path("createOpinion.id").entity(Long.class).isNotEqualTo(null);
 
-        // Try to create a duplicate opinion and expect error
         graphQlTester.document(createOpinionMutation)
                 .execute()
                 .errors()
@@ -288,7 +266,6 @@ public class OpinionModuleE2ETests {
 
     @Test
     public void testOpinionInvalidStoreId() {
-        // Test creating opinion with invalid store ID
         String invalidStoreMutation = """
             mutation {
                 createOpinion(
@@ -312,7 +289,6 @@ public class OpinionModuleE2ETests {
 
     @Test
     public void testOpinionInvalidUserId() {
-        // Test creating opinion with invalid user ID
         String invalidUserMutation = """
             mutation {
                 createOpinion(
@@ -336,7 +312,6 @@ public class OpinionModuleE2ETests {
 
     @Test
     public void testOpinionStarsValidation() {
-        // Create an opinion with valid stars (should succeed)
         String validStarsMutation = """
             mutation {
                 createOpinion(
@@ -360,7 +335,6 @@ public class OpinionModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Then try to update with invalid stars (should fail)
         String invalidUpdateMutation = """
             mutation {
                 updateOpinion(
@@ -379,7 +353,6 @@ public class OpinionModuleE2ETests {
                     assert !errors.isEmpty();
                 });
 
-        // And try negative stars (should also fail)
         String negativeStarsMutation = """
             mutation {
                 updateOpinion(
@@ -401,7 +374,6 @@ public class OpinionModuleE2ETests {
 
     @Test
     public void testPartialOpinionUpdate() {
-        // First create an opinion
         String createOpinionMutation = """
             mutation {
                 createOpinion(
@@ -422,7 +394,6 @@ public class OpinionModuleE2ETests {
                 .entity(Long.class)
                 .get();
 
-        // Update only the description
         String updateDescriptionMutation = """
             mutation {
                 updateOpinion(
@@ -440,9 +411,8 @@ public class OpinionModuleE2ETests {
                 .document(updateDescriptionMutation)
                 .execute()
                 .path("updateOpinion.description").entity(String.class).isEqualTo("Updated description only")
-                .path("updateOpinion.stars").entity(Integer.class).isEqualTo(3); // Stars should remain unchanged
+                .path("updateOpinion.stars").entity(Integer.class).isEqualTo(3);
 
-        // Update only the stars
         String updateStarsMutation = """
             mutation {
                 updateOpinion(
@@ -459,7 +429,7 @@ public class OpinionModuleE2ETests {
         graphQlTester
                 .document(updateStarsMutation)
                 .execute()
-                .path("updateOpinion.description").entity(String.class).isEqualTo("Updated description only") // Description should remain unchanged
+                .path("updateOpinion.description").entity(String.class).isEqualTo("Updated description only")
                 .path("updateOpinion.stars").entity(Integer.class).isEqualTo(4);
     }
 }

@@ -34,11 +34,14 @@ public class Opinion {
     @Max(5)
     private int stars;
 
+    private boolean reported;
+
     public Opinion(Store store, User user, String description, int stars) {
         this.store = store;
         this.user = user;
         this.description = description;
         this.stars = stars;
+        this.reported = false;
     }
 
 }

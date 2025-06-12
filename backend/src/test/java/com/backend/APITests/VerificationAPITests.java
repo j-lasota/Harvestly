@@ -11,9 +11,12 @@ import com.backend.service.VerificationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,25 +25,25 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(VerificationController.class)
-@Import(GraphQLScalarConfig.class)
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
 class VerificationAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private VerificationService verificationService;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
     @Test
     void verifications_ReturnsAllVerifications() {
-        // Arrange
         Store store1 = new Store();
         store1.setId(1L);
         store1.setName("Farm Fresh");
@@ -68,7 +71,6 @@ class VerificationAPITests {
 
         when(verificationService.getAllVerifications()).thenReturn(mockVerifications);
 
-        // Act & Assert
         String query = """
                 query {
                   verifications {
@@ -95,7 +97,6 @@ class VerificationAPITests {
 
     @Test
     void verificationById_ReturnsVerification_WhenVerificationExists() {
-        // Arrange
         Long verificationId = 1L;
         Store store = new Store();
         store.setId(1L);
@@ -111,7 +112,6 @@ class VerificationAPITests {
 
         when(verificationService.getVerificationById(verificationId)).thenReturn(Optional.of(mockVerification));
 
-        // Act & Assert
         String query = """
                 query {
                   verificationById(id: 1) {
@@ -142,11 +142,9 @@ class VerificationAPITests {
 
     @Test
     void verificationById_ReturnsNull_WhenVerificationDoesNotExist() {
-        // Arrange
         Long verificationId = 999L;
         when(verificationService.getVerificationById(verificationId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String query = """
                 query {
                   verificationById(id: 999) {
@@ -163,7 +161,6 @@ class VerificationAPITests {
 
     @Test
     void createVerification_ReturnsCreatedVerification() {
-        // Arrange
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
@@ -185,7 +182,6 @@ class VerificationAPITests {
         when(userService.getUserById(userId)).thenReturn(Optional.of(user));
         when(verificationService.saveVerification(any(Verification.class))).thenReturn(createdVerification);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createVerification(
@@ -219,7 +215,6 @@ class VerificationAPITests {
 
     @Test
     void createVerification_ThrowsException_WhenStoreNotFound() {
-        // Arrange
         Long storeId = 999L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
@@ -229,7 +224,6 @@ class VerificationAPITests {
         when(storeService.getStoreById(storeId)).thenReturn(Optional.empty());
         when(userService.getUserById(userId)).thenReturn(Optional.of(user));
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createVerification(
@@ -251,7 +245,6 @@ class VerificationAPITests {
 
     @Test
     void createVerification_ThrowsException_WhenUserNotFound() {
-        // Arrange
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
@@ -261,7 +254,6 @@ class VerificationAPITests {
         when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
         when(userService.getUserById(userId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createVerification(
@@ -283,7 +275,6 @@ class VerificationAPITests {
 
     @Test
     void createVerification_ThrowsException_WhenVerificationAlreadyExists() {
-        // Arrange
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
@@ -300,7 +291,6 @@ class VerificationAPITests {
         when(verificationService.saveVerification(any(Verification.class)))
                 .thenThrow(new IllegalArgumentException("Verification already exists for the given shop and user."));
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createVerification(
@@ -322,11 +312,9 @@ class VerificationAPITests {
 
     @Test
     void deleteVerification_ReturnsTrue_WhenVerificationDeleted() {
-        // Arrange
         Long verificationId = 1L;
         when(verificationService.deleteVerificationById(verificationId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteVerification(id: 1)
@@ -342,11 +330,9 @@ class VerificationAPITests {
 
     @Test
     void deleteVerification_ReturnsFalse_WhenVerificationNotFound() {
-        // Arrange
         Long verificationId = 999L;
         when(verificationService.deleteVerificationById(verificationId)).thenReturn(false);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteVerification(id: 999)
@@ -362,7 +348,6 @@ class VerificationAPITests {
 
     @Test
     void createVerification_VerifiesStore_WhenFiveVerificationsExist() {
-        // Arrange
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
 
@@ -380,11 +365,9 @@ class VerificationAPITests {
         User verifier = new User();
         verifier.setId(userId);
 
-        // Create a verification that changes the verification status
         Verification verificationThatVerifiesStore = new Verification(store, verifier);
         verificationThatVerifiesStore.setId(1L);
 
-        // After this verification, the store and owner should be updated
         Store verifiedStore = new Store();
         verifiedStore.setId(storeId);
         verifiedStore.setName("Farm Fresh");
@@ -401,7 +384,6 @@ class VerificationAPITests {
         when(userService.getUserById(userId)).thenReturn(Optional.of(verifier));
         when(verificationService.saveVerification(any(Verification.class))).thenReturn(verificationThatVerifiesStore);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createVerification(

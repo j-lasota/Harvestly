@@ -48,16 +48,14 @@ class VerificationIntegrationTests {
 
     private Store testStore;
     private User storeOwner;
-    private List<User> verifiers = new ArrayList<>();
+    private final List<User> verifiers = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
-        // Clean repositories
         verificationRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Create store owner
         storeOwner = new User(
                 "owner-" + UUID.randomUUID(),
                 "Store",
@@ -69,7 +67,6 @@ class VerificationIntegrationTests {
         );
         storeOwner = userRepository.save(storeOwner);
 
-        // Create test store
         testStore = new Store(
                 storeOwner,
                 "Test Verification Store",
@@ -83,8 +80,7 @@ class VerificationIntegrationTests {
         );
         testStore = storeRepository.save(testStore);
 
-        // Create verifier users
-        for (int i = 0; i < 6; i++) { // Create 6 users for verification tests
+        for (int i = 0; i < 6; i++) {
             User verifier = new User(
                     "verifier-" + UUID.randomUUID(),
                     "Verifier",
@@ -108,36 +104,29 @@ class VerificationIntegrationTests {
     @Test
     @Transactional
     void testSaveVerification_SingleVerification() {
-        // Arrange
         User verifier = verifiers.get(0);
         Verification verification = new Verification(testStore, verifier);
 
-        // Act
         Verification savedVerification = verificationService.saveVerification(verification);
 
-        // Assert
         assertNotNull(savedVerification.getId());
         assertEquals(testStore.getId(), savedVerification.getStore().getId());
         assertEquals(verifier.getId(), savedVerification.getUser().getId());
 
-        // Store should still be unverified with only one verification
         Store updatedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertFalse(updatedStore.isVerified());
-        assertEquals(0, updatedStore.getUser().getTier()); // Owner still tier 0
+        assertEquals(0, updatedStore.getUser().getTier());
     }
 
     @Test
     @Transactional
     void testSaveVerification_DuplicateVerification() {
-        // Arrange
         User verifier = verifiers.get(0);
         Verification verification = new Verification(testStore, verifier);
         verificationService.saveVerification(verification);
 
-        // Try to save the same verification again
         Verification duplicateVerification = new Verification(testStore, verifier);
 
-        // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> verificationService.saveVerification(duplicateVerification)
@@ -149,17 +138,14 @@ class VerificationIntegrationTests {
     @Test
     @Transactional
     void testStoreVerification_With5Verifications() {
-        // Add 5 verifications from different users
         for (int i = 0; i < 5; i++) {
             Verification verification = new Verification(testStore, verifiers.get(i));
             verificationService.saveVerification(verification);
         }
 
-        // Verify store is now verified
         Store updatedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(updatedStore.isVerified());
 
-        // Check that owner was upgraded to tier 1
         User updatedOwner = userService.getUserById(storeOwner.getId()).orElseThrow();
         assertEquals(1, updatedOwner.getTier());
     }
@@ -167,30 +153,24 @@ class VerificationIntegrationTests {
     @Test
     @Transactional
     void testGetAllVerifications() {
-        // Add 3 verifications
         for (int i = 0; i < 3; i++) {
             Verification verification = new Verification(testStore, verifiers.get(i));
             verificationService.saveVerification(verification);
         }
 
-        // Get all verifications
         List<Verification> allVerifications = verificationService.getAllVerifications();
 
-        // Verify we have exactly 3 verifications
         assertEquals(3, allVerifications.size());
     }
 
     @Test
     @Transactional
     void testGetVerificationById() {
-        // Save a verification
         Verification verification = new Verification(testStore, verifiers.get(0));
         Verification savedVerification = verificationService.saveVerification(verification);
 
-        // Get verification by ID
         Optional<Verification> retrievedVerification = verificationService.getVerificationById(savedVerification.getId());
 
-        // Verify it was retrieved correctly
         assertTrue(retrievedVerification.isPresent());
         assertEquals(savedVerification.getId(), retrievedVerification.get().getId());
     }
@@ -198,14 +178,11 @@ class VerificationIntegrationTests {
     @Test
     @Transactional
     void testDeleteVerification() {
-        // Save a verification
         Verification verification = new Verification(testStore, verifiers.get(0));
         Verification savedVerification = verificationService.saveVerification(verification);
 
-        // Delete the verification
         boolean result = verificationService.deleteVerificationById(savedVerification.getId());
 
-        // Verify it was deleted
         assertTrue(result);
         assertEquals(0, verificationRepository.count());
     }
@@ -213,31 +190,25 @@ class VerificationIntegrationTests {
     @Test
     @Transactional
     void testDeleteNonExistentVerification() {
-        // Try to delete a non-existent verification
         boolean result = verificationService.deleteVerificationById(999L);
 
-        // Should return false
         assertFalse(result);
     }
 
     @Test
     @Transactional
     void testStoreRemainsVerifiedAfterDeletingVerifications() {
-        // Add 5 verifications from different users
         List<Verification> savedVerifications = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Verification verification = new Verification(testStore, verifiers.get(i));
             savedVerifications.add(verificationService.saveVerification(verification));
         }
 
-        // Verify store is now verified
         Store verifiedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(verifiedStore.isVerified());
 
-        // Delete one verification
         verificationService.deleteVerificationById(savedVerifications.get(0).getId());
 
-        // Store should still be verified (verification count is now 4, but once verified it stays verified)
         Store stillVerifiedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(stillVerifiedStore.isVerified());
     }

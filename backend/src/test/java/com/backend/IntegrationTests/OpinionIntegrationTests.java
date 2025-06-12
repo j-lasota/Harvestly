@@ -41,10 +41,8 @@ class OpinionIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        // Clean up before each test
         opinionRepository.deleteAll();
 
-        // Create test user if not exists
         Optional<User> existingUser = userRepository.findByEmail("test@example.com");
         if (existingUser.isPresent()) {
             testUser = existingUser.get();
@@ -61,7 +59,6 @@ class OpinionIntegrationTests {
             testUser = userRepository.save(testUser);
         }
 
-        // Create second user if not exists
         Optional<User> existingSecondUser = userRepository.findByEmail("second@example.com");
         if (existingSecondUser.isPresent()) {
             secondUser = existingSecondUser.get();
@@ -78,7 +75,6 @@ class OpinionIntegrationTests {
             secondUser = userRepository.save(secondUser);
         }
 
-        // Create test store
         testStore = new Store(
                 testUser,
                 "Test Opinion Store",
@@ -96,16 +92,13 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testCreateAndRetrieveOpinion() {
-        // Create a new opinion
         Opinion opinion = new Opinion(testStore, testUser, "Great products and service!", 5);
         Opinion savedOpinion = opinionService.saveOpinion(opinion);
 
-        // Verify it was saved with an ID
         assertNotNull(savedOpinion.getId());
         assertEquals("Great products and service!", savedOpinion.getDescription());
         assertEquals(5, savedOpinion.getStars());
 
-        // Retrieve the opinion by ID
         Optional<Opinion> retrievedOpinion = opinionService.getOpinionById(savedOpinion.getId());
         assertTrue(retrievedOpinion.isPresent());
         assertEquals(savedOpinion.getId(), retrievedOpinion.get().getId());
@@ -115,17 +108,14 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testGetOpinionsByStoreId() {
-        // Create multiple opinions for the same store
         Opinion opinion1 = new Opinion(testStore, testUser, "First opinion", 4);
         Opinion opinion2 = new Opinion(testStore, secondUser, "Second opinion", 5);
 
         opinionService.saveOpinion(opinion1);
         opinionService.saveOpinion(opinion2);
 
-        // Retrieve opinions by store ID
         List<Opinion> storeOpinions = opinionService.getOpinionsByStoreId(testStore.getId());
 
-        // Verify results
         assertEquals(2, storeOpinions.size());
         assertTrue(storeOpinions.stream().anyMatch(o -> o.getDescription().equals("First opinion")));
         assertTrue(storeOpinions.stream().anyMatch(o -> o.getDescription().equals("Second opinion")));
@@ -134,22 +124,19 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testUpdateOpinion() {
-        // Create an opinion
         Opinion opinion = new Opinion(testStore, testUser, "Initial review", 3);
         Opinion savedOpinion = opinionService.saveOpinion(opinion);
 
-        // Update the opinion
         Opinion updatedOpinion = opinionService.updateOpinion(
                 savedOpinion.getId(),
                 "Updated review - much better service",
-                4
+                4,
+                null
         );
 
-        // Verify the update
         assertEquals("Updated review - much better service", updatedOpinion.getDescription());
         assertEquals(4, updatedOpinion.getStars());
 
-        // Verify the opinion in the database was updated
         Optional<Opinion> retrievedOpinion = opinionService.getOpinionById(savedOpinion.getId());
         assertTrue(retrievedOpinion.isPresent());
         assertEquals("Updated review - much better service", retrievedOpinion.get().getDescription());
@@ -159,18 +146,14 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testDeleteOpinion() {
-        // Create an opinion
         Opinion opinion = new Opinion(testStore, testUser, "Opinion to be deleted", 4);
         Opinion savedOpinion = opinionService.saveOpinion(opinion);
         Long opinionId = savedOpinion.getId();
 
-        // Verify it exists
         assertTrue(opinionService.getOpinionById(opinionId).isPresent());
 
-        // Delete the opinion
         boolean deleted = opinionService.deleteOpinionById(opinionId);
 
-        // Verify deletion was successful
         assertTrue(deleted);
         assertFalse(opinionService.getOpinionById(opinionId).isPresent());
     }
@@ -178,14 +161,11 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testCreateDuplicateOpinion() {
-        // Create an opinion
         Opinion opinion1 = new Opinion(testStore, testUser, "First opinion", 4);
         opinionService.saveOpinion(opinion1);
 
-        // Try to create another opinion for the same store and user
         Opinion opinion2 = new Opinion(testStore, testUser, "Second opinion attempt", 5);
 
-        // Should throw exception
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> opinionService.saveOpinion(opinion2)
@@ -197,10 +177,8 @@ class OpinionIntegrationTests {
     @Test
     @Transactional
     void testCreateOpinionWithInvalidStars() {
-        // Create an opinion with stars > 5
         Opinion invalidOpinion = new Opinion(testStore, testUser, "Invalid stars", 6);
 
-        // Save should validate and throw exception
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> opinionService.saveOpinion(invalidOpinion)
@@ -208,7 +186,6 @@ class OpinionIntegrationTests {
 
         assertEquals("Stars must be between 0 and 5.", exception.getMessage());
 
-        // Also test with negative stars
         invalidOpinion.setStars(-1);
 
         exception = assertThrows(

@@ -34,12 +34,10 @@ class OwnProductServiceUnitTests {
     @Mock
     private ProductRepository productRepository;
 
-    // Real service instance, not a mock
     private OwnProductService ownProductService;
 
     @BeforeEach
     void setUp() {
-        // Initialize the real service with mocked repositories
         ownProductService = new OwnProductService(ownProductRepository, storeRepository, productRepository);
     }
 
