@@ -56,6 +56,7 @@ public class StoreController {
      * @return The created store
      */
 
+    @Transactional
     @MutationMapping
     public Store createStore(@Argument String userId, @Argument String name, @Argument String description, @Argument double latitude,
                             @Argument double longitude, @Argument String city, @Argument String address,
