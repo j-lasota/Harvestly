@@ -1,11 +1,24 @@
+scalar DateTime
+@specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
+
+#for later use maybe
+#scalar UUID
+#@specifiedBy(url:
+#"https://tools.ietf.org/html/rfc4122"
+#)
+
 type User {
-    id: String!
+    id: ID!
     firstName: String!
     lastName: String!
-    email: String!
+    #TO JEST NICK, NIE IMIE
+    name: String
+    email: String
     phoneNumber: String
     tier: Int
     img: String
+    # kiedy konto zostało utworzone w Auth0
+    createdAt: DateTime
     stores: [Store]
     favoriteStores: [Store!]!
     facebook_nickname: String

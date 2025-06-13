@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
@@ -24,6 +25,10 @@ public class User {
 
     private String lastName;
 
+    //Nickname
+    private String name;
+
+    @Nullable
     @Column(unique = true)
     @Email(message = "Email must be valid")
     private String email;
@@ -37,6 +42,9 @@ public class User {
     @Max(1)
     private int tier;
     private String img;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
@@ -58,6 +66,17 @@ public class User {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.tier = tier;
+        this.img = img;
+    }
+
+    public User(String id, String firstName, String lastName,String nickName, String email, String phoneNumber, int tier, String img) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.name = nickName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.tier = tier;

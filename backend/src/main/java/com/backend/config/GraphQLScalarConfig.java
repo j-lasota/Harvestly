@@ -12,6 +12,7 @@ public class GraphQLScalarConfig {
     public RuntimeWiringConfigurer addScalars() {
         return wiringBuilder -> wiringBuilder
                 .scalar(ExtendedScalars.GraphQLBigDecimal)
-                .scalar(ExtendedScalars.LocalTime);
+                .scalar(ExtendedScalars.LocalTime)
+                .scalar(ExtendedScalars.DateTime);
     }
 }

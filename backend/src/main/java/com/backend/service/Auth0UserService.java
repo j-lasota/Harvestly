@@ -14,6 +14,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,20 +32,17 @@ public class Auth0UserService {
     private static final int PAGE_SIZE = 50;
     private static final long SYNC_DELAY = 60 * 60 * 1000;
     private static final long SYNC_RATE = 60 * 60 * 1000;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
 
     @Transactional
     public void processIncomingUsers(List<Auth0UserDto> auth0Users) {
         log.info("Processing {} Auth0 users", auth0Users.size());
         for (Auth0UserDto dto : auth0Users) {
-            if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-                log.warn("Skipping user without email: {}", dto);
-                continue;
-            }
-            userRepository.findByEmail(dto.getEmail())
+            userRepository.findById(extractCleanId(dto.getUserId()))
                     .ifPresentOrElse(
                             existing -> updateFromDto(existing, dto),
-                            ()       -> createFromDto(dto)
+                            ()        -> createFromDto(dto)
                     );
         }
         log.info("Finished processing Auth0 users");
@@ -50,29 +50,105 @@ public class Auth0UserService {
 
     private void updateFromDto(User existing, Auth0UserDto dto) {
         boolean changed = false;
-        if (!dto.getName().equals(existing.getFirstName())) {
-            existing.setFirstName(dto.getName());
+
+        // givenName
+        if (dto.getGivenName() != null
+                && !dto.getGivenName().equals(existing.getFirstName())) {
+            existing.setFirstName(dto.getGivenName());
             changed = true;
         }
+
+        // familyName
+        if (dto.getFamilyName() != null
+                && !dto.getFamilyName().equals(existing.getLastName())) {
+            existing.setLastName(dto.getFamilyName());
+            changed = true;
+        }
+
+        // nickname → name
+        if (dto.getName() != null
+                && !dto.getName().equals(existing.getName())) {
+            existing.setName(dto.getName());
+            changed = true;
+        }
+
+        // img
+        if (dto.getImg() != null
+                && !dto.getImg().equals(existing.getImg())) {
+            existing.setImg(dto.getImg());
+            changed = true;
+        }
+
+        // facebookNickname
+        if (dto.getFacebook_nickname() != null
+                && !dto.getFacebook_nickname().equals(existing.getFacebook_nickname())) {
+            existing.setFacebook_nickname(dto.getFacebook_nickname());
+            changed = true;
+        }
+
+        // createdAt
+        if (dto.getCreatedAt() != null) {
+            LocalDateTime ts = LocalDateTime.parse(dto.getCreatedAt(), DateTimeFormatter.ISO_DATE_TIME);
+            if (existing.getCreatedAt() == null || !ts.equals(existing.getCreatedAt())) {
+                existing.setCreatedAt(ts);
+                changed = true;
+            }
+        }
+
         if (changed) {
             userRepository.save(existing);
             log.debug("Updated user {}", existing.getEmail());
         }
     }
 
+    private String extractCleanId(String rawId) {
+        // Auth0 daje np. "google-oauth2|123456", my chcemy tylko po "│"
+        if (rawId == null) return null;
+        int idx = rawId.indexOf('|');
+        return idx >= 0 ? rawId.substring(idx + 1) : rawId;
+    }
+
     private void createFromDto(Auth0UserDto dto) {
         User user = new User();
-        String rawId = dto.getUserId();
-        String cleanId = rawId.contains("|") ? rawId.substring(rawId.indexOf("|") + 1) : rawId;
-        user.setId(cleanId);
+        user.setId(extractCleanId(dto.getUserId()));
+
+        // Email (zakładamy, że nie-null, bo walidujesz wcześniej)
         user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getName());
-        user.setLastName("");
+
+        // Imię i nazwisko
+        user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
+        user.setLastName(dto.getFamilyName() != null ? dto.getFamilyName() : "");
+
+        // Nickname → name
+        user.setName(dto.getName() != null ? dto.getName() : "");
+
+        // Tier i kolekcje
         user.setTier(0);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
+
+        // createdAt
+        if (dto.getCreatedAt() != null) {
+            try {
+                LocalDateTime ts = LocalDateTime.parse(dto.getCreatedAt(), DateTimeFormatter.ISO_DATE_TIME);
+                user.setCreatedAt(ts);
+            } catch (DateTimeParseException e) {
+                log.warn("Cannot parse createdAt='{}', skipping", dto.getCreatedAt());
+            }
+        }
+
+        // Obrazek
+        if (dto.getImg() != null) {
+            user.setImg(dto.getImg());
+        }
+
+        // Facebook nickname
+        if (dto.getFacebook_nickname() != null) {
+            user.setFacebook_nickname(dto.getFacebook_nickname());
+        }
+
         userRepository.save(user);
-        log.debug("Created new user {}", dto.getEmail());
+        log.debug("Created new user {}", user.getId());
     }
 
     @Scheduled(initialDelay = SYNC_DELAY, fixedRate = SYNC_RATE)
@@ -136,18 +212,6 @@ public class Auth0UserService {
         }
     }
 
-
-    private User mapAuth0UserToEntity(com.auth0.json.mgmt.users.User auth0User) {
-        String email = auth0User.getEmail();
-        if (email == null) {
-            log.warn("Skipping user without email");
-            return null;
-        }
-
-        return userRepository.findByEmail(email)
-                .map(existingUser -> updateUserFromAuth0(existingUser, auth0User))
-                .orElseGet(() -> createUserFromAuth0(auth0User));
-    }
 
     private User updateUserFromAuth0(User existingUser, com.auth0.json.mgmt.users.User auth0User) {
         existingUser.setEmail(auth0User.getEmail());
