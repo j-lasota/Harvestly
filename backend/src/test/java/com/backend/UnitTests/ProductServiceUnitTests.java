@@ -1,4 +1,4 @@
-package com.backend.MockTests;
+package com.backend.UnitTests;
 
 import com.backend.model.Product;
 import com.backend.model.ProductCategory;
@@ -6,7 +6,9 @@ import com.backend.repository.ProductRepository;
 import com.backend.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,19 +16,17 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ProductServiceTests {
+@ExtendWith(MockitoExtension.class)
+class ProductServiceUnitTests {
 
     @Mock
     private ProductRepository productRepository;
 
-    @InjectMocks
     private ProductService productService;
-
-    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        productService = new ProductService(productRepository);
     }
 
     @Test
@@ -84,7 +84,7 @@ class ProductServiceTests {
     @Test
     void testSaveProduct_ProductAlreadyExists() {
         Product existingProduct = new Product("Cucumber", ProductCategory.VEGETABLE);
-        Product newProduct = new Product("cucumber", ProductCategory.VEGETABLE); // same name, different case
+        Product newProduct = new Product("cucumber", ProductCategory.VEGETABLE);
 
         when(productRepository.findAll()).thenReturn(List.of(existingProduct));
 

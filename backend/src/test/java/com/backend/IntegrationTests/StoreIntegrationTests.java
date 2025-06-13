@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class StoreServiceTests {
+class StoreIntegrationTests {
 
     @Autowired
     private StoreService storeService;
@@ -54,7 +54,7 @@ class StoreServiceTests {
     @BeforeEach
     void setUp() {
         storeRepository.deleteAll();
-        userRepository.deleteAll();// Clean up
+        userRepository.deleteAll();
     }
 
     @Test
@@ -129,11 +129,9 @@ class StoreServiceTests {
     @Test
     void testGetAllStores() {
         storeService.saveStore(createTestShop());
-//        shopService.saveShop(createTestShop());
 
         List<Store> stores = storeService.getAllStores();
 
-//        assertEquals(2, shops.size());
         assertEquals(1, stores.size());
     }
 

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class OwnProductServiceTests {
+class OwnProductIntegrationTests {
 
     @Autowired
     private OwnProductService ownProductService;

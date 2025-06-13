@@ -29,6 +29,13 @@ public class ImageUploadController {
         this.ownProductRepository = ownProductRepository;
     }
 
+    /**
+     * Endpoint to upload and set an image for a store.
+     *
+     * @param file the image file to upload
+     * @param id   the ID of the store
+     * @return the URL of the uploaded image or an error message
+     */
     @PostMapping("/stores/{id}/image")
     public ResponseEntity<String> uploadStoreImage(@RequestParam("file") MultipartFile file,
                                                    @PathVariable("id") Long id) {
@@ -51,6 +58,13 @@ public class ImageUploadController {
         }
     }
 
+    /**
+     * Endpoint to upload and set an image for a product.
+     *
+     * @param id   the ID of the product
+     * @param file the image file to upload
+     * @return the URL of the uploaded image or an error message
+     */
     @PostMapping("/products/{id}/image")
     public ResponseEntity<?> uploadProductImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty() || !Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
@@ -69,7 +83,26 @@ public class ImageUploadController {
             ownProductRepository.save(product);
             return ResponseEntity.ok(imageUrl);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint to upload an image without associating it with a specific store or product.
+     *
+     * @param file the image file to upload
+     * @return the URL of the uploaded image or an error message
+     */
+    @PostMapping("/images")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty() || !Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
+            return ResponseEntity.badRequest().body("Nieprawidłowy plik.");
+        }
+        try {
+            String imageUrl = imageUploadService.uploadImage(file);
+            return ResponseEntity.ok(imageUrl);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

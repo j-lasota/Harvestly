@@ -28,8 +28,8 @@ VALUES
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', NULL, true),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', NULL, true),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true),
     ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
     ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Smaki Lata', 'smaki-lata-1', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
     ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Zielony Kram', 'zielony-kram-1', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
@@ -197,15 +197,15 @@ VALUES
 (10, 'SUNDAY', '08:00:00', '12:00:00');
 
 -- Opinie
-INSERT INTO opinions (store_id, user_id, description, stars)
+INSERT INTO opinions (store_id, user_id, description, stars, reported)
 VALUES
-    (1, '81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Świetne owoce, bardzo świeże!', 5),
-    (2, '9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Obsługa bardzo miła, polecam!', 4),
-    (3, 'a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Super ceny i lokalizacja.', 5),
-    (4, '8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Jakość mogłaby być lepsza.', 3),
-    (5, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Zawsze wracam po więcej!', 5),
-    (6, 'b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Fajne miejsce, eko owoce.', 4),
-    (7, '07a0fc37-d3a7-408e-a765-098e2c612258', 'Duży wybór i dobra cena.', 5),
-    (8, 'd4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Lubię ten sklep, lokalnie i smacznie.', 5),
-    (9, 'e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Średnie ceny, ale dobra jakość.', 4),
-    (10, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Polecam każdemu!', 5);
+    (1, '81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Świetne owoce, bardzo świeże!', 5, false),
+    (2, '9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Obsługa bardzo miła, polecam!', 4, false),
+    (3, 'a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Super ceny i lokalizacja.', 5,false),
+    (4, '8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Jakość mogłaby być lepsza.', 3, false),
+    (5, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Zawsze wracam po więcej!', 5, false),
+    (6, 'b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Fajne miejsce, eko owoce.', 4, false),
+    (7, '07a0fc37-d3a7-408e-a765-098e2c612258', 'Duży wybór i dobra cena.', 5, false),
+    (8, 'd4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Lubię ten sklep, lokalnie i smacznie.', 5, false),
+    (9, 'e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Średnie ceny, ale dobra jakość.', 4, false),
+    (10, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Polecam każdemu!', 5, false);

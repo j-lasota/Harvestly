@@ -9,10 +9,12 @@ import com.backend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,22 +23,22 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@GraphQlTest(StoreController.class)
-@Import(GraphQLScalarConfig.class)
-class StoreControllerTests {
+@SpringBootTest
+@AutoConfigureGraphQlTester
+@ActiveProfiles("test")
+class StoreAPITests {
 
     @Autowired
     private GraphQlTester graphQlTester;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
     @Test
     void stores_ReturnsAllStores() {
-        // Arrange
         User user1 = new User();
         user1.setId("9b1deb4d-3b7d-4bad-9bdd-2b0d7b3cfd62 ");
         user1.setFirstName("John");
@@ -54,7 +56,6 @@ class StoreControllerTests {
 
         when(storeService.getAllStores()).thenReturn(mockStores);
 
-        // Act & Assert
         String query = """
                 query {
                   stores {
@@ -77,7 +78,6 @@ class StoreControllerTests {
 
     @Test
     void storeById_ReturnsStore_WhenStoreExists() {
-        // Arrange
         Long storeId = 1L;
         User user = new User();
         user.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
@@ -88,7 +88,6 @@ class StoreControllerTests {
         mockStore.setId(storeId);
         when(storeService.getStoreById(storeId)).thenReturn(Optional.of(mockStore));
 
-        // Act & Assert
         String query = """
                 query {
                   storeById(id: 1) {
@@ -119,11 +118,9 @@ class StoreControllerTests {
 
     @Test
     void storeById_ReturnsNull_WhenStoreDoesNotExist() {
-        // Arrange
         Long storeId = 999L;
         when(storeService.getStoreById(storeId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String query = """
                 query {
                   storeById(id: 999) {
@@ -141,7 +138,6 @@ class StoreControllerTests {
 
     @Test
     void storeBySlug_ReturnsStore_WhenStoreExists() {
-        // Arrange
         String slug = "farm-fresh";
         User user = new User();
         user.setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75  ");
@@ -150,7 +146,6 @@ class StoreControllerTests {
         mockStore.setId(1L);
         when(storeService.getStoreBySlug(slug)).thenReturn(mockStore);
 
-        // Act & Assert
         String query = """
                 query {
                   storeBySlug(slug: "farm-fresh") {
@@ -173,7 +168,6 @@ class StoreControllerTests {
 
     @Test
     void createStore_ReturnsCreatedStore() {
-        // Arrange
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
         User user = new User();
         user.setId(userId);
@@ -187,7 +181,6 @@ class StoreControllerTests {
         when(storeService.generateUniqueSlug(anyString())).thenReturn("new-farm");
         when(storeService.saveStore(any(Store.class))).thenReturn(createdStore);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createStore(
@@ -229,11 +222,9 @@ class StoreControllerTests {
 
     @Test
     void createStore_ThrowsException_WhenUserNotFound() {
-        // Arrange
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75  ";
         when(userService.getUserById(userId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   createStore(
@@ -262,7 +253,6 @@ class StoreControllerTests {
 
     @Test
     void updateStore_ReturnsUpdatedStore() {
-        // Arrange
         Long storeId = 1L;
         Store originalStore = new Store();
         originalStore.setId(storeId);
@@ -289,7 +279,6 @@ class StoreControllerTests {
                 eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString()
         )).thenReturn(updatedStore);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateStore(
@@ -329,14 +318,12 @@ class StoreControllerTests {
 
     @Test
     void updateStore_ThrowsException_WhenStoreNotFound() {
-        // Arrange
         Long storeId = 999L;
         when(storeService.getStoreById(storeId)).thenReturn(Optional.empty());
         when(storeService.updateStore(
                 eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString()
         )).thenThrow(new IllegalArgumentException("Store not found"));
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   updateStore(
@@ -365,11 +352,9 @@ class StoreControllerTests {
 
     @Test
     void deleteStore_ReturnsTrue_WhenStoreDeleted() {
-        // Arrange
         Long storeId = 1L;
         when(storeService.deleteStoreById(storeId)).thenReturn(true);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteStore(id: 1)
@@ -385,11 +370,9 @@ class StoreControllerTests {
 
     @Test
     void deleteStore_ReturnsFalse_WhenStoreNotFound() {
-        // Arrange
         Long storeId = 999L;
         when(storeService.deleteStoreById(storeId)).thenReturn(false);
 
-        // Act & Assert
         String mutation = """
                 mutation {
                   deleteStore(id: 999)

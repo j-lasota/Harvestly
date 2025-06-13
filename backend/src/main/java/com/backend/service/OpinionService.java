@@ -19,6 +19,10 @@ public class OpinionService {
         return opinionRepository.findAll();
     }
 
+    public List<Opinion> getAllOpinionsReported() {
+        return opinionRepository.findAllByReportedTrue();
+    }
+
     public Optional<Opinion> getOpinionById(Long id) {
         return opinionRepository.findById(id);
     }
@@ -26,6 +30,9 @@ public class OpinionService {
     public Opinion saveOpinion(Opinion opinion) {
         if (opinionRepository.existsByStoreIdAndUserId(opinion.getStore().getId(), opinion.getUser().getId())) {
             throw new IllegalArgumentException("Opinion already exists for the given shop and user.");
+        }
+        if (opinion.getStars() < 0 || opinion.getStars() > 5) {
+            throw new IllegalArgumentException("Stars must be between 0 and 5.");
         }
         return opinionRepository.save(opinion);
     }
@@ -41,7 +48,7 @@ public class OpinionService {
         return opinionRepository.findByStoreId(storeId);
     }
 
-    public Opinion updateOpinion(Long id, String description, Integer stars) {
+    public Opinion updateOpinion(Long id, String description, Integer stars, Boolean reported) {
         Opinion opinion = opinionRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("Opinion not found"));
         if(description != null) {
@@ -52,6 +59,9 @@ public class OpinionService {
         }
         if(opinion.getStars() < 0 || opinion.getStars() > 5) {
             throw new IllegalArgumentException("Stars must be between 0 and 5.");
+        }
+        if(reported != null) {
+            opinion.setReported(reported);
         }
         return opinionRepository.save(opinion);
     }

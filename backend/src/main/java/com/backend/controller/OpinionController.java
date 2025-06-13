@@ -26,16 +26,36 @@ public class OpinionController {
         this.userService = userService;
     }
 
+    /**
+     * Fetch all opinions.
+     *
+     * @return List of all opinions.
+     */
     @QueryMapping
     public List<Opinion> opinions() {
         return opinionService.getAllOpinions();
     }
 
+    /**
+     * Fetch an opinion by its ID.
+     *
+     * @param id The ID of the opinion.
+     * @return An Optional containing the opinion if found, or empty if not found.
+     */
     @QueryMapping
     public Optional<Opinion> opinionById(@Argument Long id) {
         return opinionService.getOpinionById(id);
     }
 
+    /**
+     * Create a new opinion for a store by a user.
+     *
+     * @param storeId The ID of the store.
+     * @param userId The ID of the user.
+     * @param description The description of the opinion.
+     * @param stars The rating in stars.
+     * @return The created Opinion object.
+     */
     @MutationMapping
     public Opinion createOpinion(@Argument Long storeId, @Argument String userId, @Argument String description, @Argument Integer stars) {
         Optional<Store> shop = storeService.getStoreById(storeId);
@@ -49,6 +69,12 @@ public class OpinionController {
         return opinionService.saveOpinion(new Opinion(shop.get(), user.get(), description, stars));
     }
 
+    /**
+     * Fetch all opinions for a specific store by its ID.
+     *
+     * @param storeId The ID of the store.
+     * @return List of opinions for the specified store.
+     */
     @QueryMapping
     public List<Opinion> opinionsByStoreId(@Argument Long storeId) {
         // Optionally validate that the store exists first
@@ -60,14 +86,38 @@ public class OpinionController {
         return opinionService.getOpinionsByStoreId(storeId);
     }
 
+    /**
+     * Fetch all opinions that have been reported.
+     *
+     * @return List of reported opinions.
+     */
+    @QueryMapping
+    public List<Opinion> opinionsReported() {
+        return opinionService.getAllOpinionsReported();
+    }
 
+    /**
+     * Delete an opinion by its ID.
+     *
+     * @param id The ID of the opinion to delete.
+     * @return Boolean indicating whether the deletion was successful.
+     */
     @MutationMapping
     public Boolean deleteOpinion(@Argument Long id) {
         return opinionService.deleteOpinionById(id);
     }
 
+    /**
+     * Update an existing opinion.
+     *
+     * @param id The ID of the opinion to update.
+     * @param description The new description of the opinion.
+     * @param stars The new rating in stars.
+     * @param reported Whether the opinion is reported or not.
+     * @return The updated Opinion object.
+     */
     @MutationMapping
-    public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars) {
-        return opinionService.updateOpinion(id, description, stars);
+    public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars, @Argument Boolean reported) {
+        return opinionService.updateOpinion(id, description, stars, reported);
     }
 }

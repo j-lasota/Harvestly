@@ -56,6 +56,8 @@ public class User {
     )
     private Set<Store> favoriteStores = new HashSet<>();
 
+    private String facebook_nickname;
+
     public User() {
     }
 

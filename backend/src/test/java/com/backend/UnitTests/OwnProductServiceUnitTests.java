@@ -1,4 +1,4 @@
-package com.backend.MockTests;
+package com.backend.UnitTests;
 
 import com.backend.model.OwnProduct;
 import com.backend.model.Product;
@@ -10,7 +10,10 @@ import com.backend.repository.StoreRepository;
 import com.backend.service.OwnProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,7 +22,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class OwnProductServiceTests {
+@ExtendWith(MockitoExtension.class)
+class OwnProductServiceUnitTests {
 
     @Mock
     private OwnProductRepository ownProductRepository;
@@ -30,14 +34,11 @@ class OwnProductServiceTests {
     @Mock
     private ProductRepository productRepository;
 
-    @InjectMocks
     private OwnProductService ownProductService;
-
-    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        ownProductService = new OwnProductService(ownProductRepository, storeRepository, productRepository);
     }
 
     @Test
@@ -79,6 +80,7 @@ class OwnProductServiceTests {
     }
 
     @Test
+    @Transactional
     void testSaveOwnProduct() {
         OwnProduct ownProduct = new OwnProduct();
 

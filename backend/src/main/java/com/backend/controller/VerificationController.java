@@ -28,16 +28,35 @@ public class VerificationController {
         this.userService = userService;
     }
 
+    /**
+     * Fetch all verifications.
+     *
+     * @return a list of all verifications
+     */
     @QueryMapping
     public List<Verification> verifications() {
         return verificationService.getAllVerifications();
     }
 
+    /**
+     * Fetch verification by its ID.
+     *
+     * @param id the ID of the verification
+     * @return an Optional containing the Verification if found, or empty if not found
+     */
     @QueryMapping
     public Optional<Verification> verificationById(@Argument Long id) {
         return verificationService.getVerificationById(id);
     }
 
+    /**
+     * Create new verification.
+     *
+     * @param storeId the ID of the store to associate with the verification
+     * @param userId the ID of the user to associate with the verification
+     * @return the created Verification object
+     * @throws ResponseStatusException if the store or user is not found
+     */
     @MutationMapping
     public Verification createVerification(@Argument Long storeId, @Argument String userId) {
         Optional<Store> shop = storeService.getStoreById(storeId);
@@ -51,6 +70,12 @@ public class VerificationController {
         return verificationService.saveVerification(new Verification(shop.get(), user.get()));
     }
 
+    /**
+     * Delete verification by its ID.
+     *
+     * @param id the ID of the verification to delete
+     * @return true if the verification was successfully deleted, false otherwise
+     */
     @MutationMapping
     public Boolean deleteVerification(@Argument Long id) {
         return verificationService.deleteVerificationById(id);
