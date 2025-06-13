@@ -25,6 +25,12 @@ public class Auth0UserDto {
     @JsonProperty("nickname")
     private String name;
 
+    @JsonProperty("img")
+    private String img;
+
+    @JsonProperty("facebookNickname")
+    private String facebook_nickname;
+
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private LocalDateTime createdAt;

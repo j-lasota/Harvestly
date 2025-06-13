@@ -1,8 +1,17 @@
+scalar DateTime
+@specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
+
+#for later use maybe
+#scalar UUID
+#@specifiedBy(url:
+#"https://tools.ietf.org/html/rfc4122"
+#)
+
 type User {
     id: ID!
     firstName: String!
     lastName: String!
-    # od teraz trzymamy tutaj nickname z Auth0
+    #TO JEST NICK, NIE IMIE
     name: String
     email: String!
     phoneNumber: String

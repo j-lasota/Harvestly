@@ -87,6 +87,8 @@ public class Auth0UserService {
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
         user.setCreatedAt(dto.getCreatedAt());
+        user.setImg(dto.getImg());
+        user.setFacebook_nickname(dto.getFacebook_nickname());
         userRepository.save(user);
         log.debug("Created new user {}", user.getId());
     }
