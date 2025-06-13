@@ -48,6 +48,30 @@
         "submit": "Add Store",
         "pending": "Adding store..."
       }
+    },
+    "map": {
+      "loading": "Loading store data...",
+      "loadingError": "Failed to load store data",
+      "selectShop": "Select a stall:",
+      "selectShopPlaceholder": "Select store",
+      "searchCity": "Check stalls in city:",
+      "cityPlaceholder": "Enter city name",
+      "noShopsInCity": "No stores in this city",
+      "searchPlaceholder": "Enter address...",
+      "addressNotFound": "Address not found.",
+      "searchError": "Search address error:",
+      "storeInfo": {
+        "description": "Description",
+        "noDescription": "No description available",
+        "address": "Address",
+        "openingHours": "Opening hours",
+        "noHours": "No opening hours info.",
+        "photo": "Photo"
+      },
+      "popup": {
+        "searchedAddress": "Searched address",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -112,29 +136,5 @@
     "submit": "Send",
     "ratingLabel": "Rating",
     "starAriaLabel": "Rate with {count} stars"
-  },
-  "map": {
-    "loading": "Loading store data...",
-    "loadingError": "Failed to load store data",
-    "selectShop": "Select a stall:",
-    "selectShopPlaceholder": "Select store",
-    "searchCity": "Check stalls in city:",
-    "cityPlaceholder": "Enter city name",
-    "noShopsInCity": "No stores in this city",
-    "searchPlaceholder": "Enter address...",
-    "addressNotFound": "Address not found.",
-    "searchError": "Search address error:",
-    "storeInfo": {
-      "description": "Description",
-      "noDescription": "No description available",
-      "address": "Address",
-      "openingHours": "Opening hours",
-      "noHours": "No opening hours info.",
-      "photo": "Photo"
-    },
-    "popup": {
-      "searchedAddress": "Searched address",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

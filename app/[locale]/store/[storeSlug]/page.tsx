@@ -121,8 +121,8 @@ export default async function StorePage({
                       key={d.dayOfWeek}
                       className="flex justify-between gap-4"
                     >
-                      <p>{t(`days.${d.dayOfWeek}`)}</p>
-                      <p className="text-black/60">
+                      <p className="font-medium">{t(`days.${d.dayOfWeek}`)}</p>
+                      <p className="text-foreground/80">
                         {d.openingTime} - {d.closingTime}
                       </p>
                     </div>

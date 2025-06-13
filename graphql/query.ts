@@ -119,6 +119,39 @@ const hasUserStoresQuery = graphql(`
   }
 `);
 
+const allShopsLocationsQuery = graphql(`
+  query AllShopsLocations {
+    stores {
+      id
+      latitude
+      longitude
+      name
+      city
+      description
+      address
+      imageUrl
+      businessHours {
+        dayOfWeek
+        openingTime
+        closingTime
+      }
+    }
+  }
+`);
+
+const userByIdQuery = graphql(`
+  query userById($id: ID!) {
+    userById(id: $id) {
+      id
+      email
+      firstName
+      lastName
+      phoneNumber
+      img
+    }
+  }
+`);
+
 export {
   allProductsQuery,
   allCategoriesQuery,
@@ -126,4 +159,6 @@ export {
   storeBySlugQuery,
   userFavoriteStoresQuery,
   hasUserStoresQuery,
+  allShopsLocationsQuery,
+  userByIdQuery,
 };

@@ -48,6 +48,30 @@
         "submit": "Ajouter le magasin",
         "pending": "Ajout du magasin en cours..."
       }
+    },
+    "map": {
+      "loading": "Chargement des données des magasins…",
+      "loadingError": "Échec du chargement des données des magasins",
+      "selectShop": "Sélectionnez un stand:",
+      "selectShopPlaceholder": "Sélectionnez un magasin",
+      "searchCity": "Voir les stands dans la ville:",
+      "cityPlaceholder": "Entrez le nom de la ville",
+      "noShopsInCity": "Aucun magasin dans cette ville",
+      "searchPlaceholder": "Entrez l’adresse…",
+      "addressNotFound": "Adresse introuvable.",
+      "searchError": "Erreur lors de la recherche d’adresse:",
+      "storeInfo": {
+        "description": "Description",
+        "noDescription": "Pas de description disponible",
+        "address": "Adresse",
+        "openingHours": "Horaires",
+        "noHours": "Pas d’information sur les horaires.",
+        "photo": "Photo"
+      },
+      "popup": {
+        "searchedAddress": "Adresse recherchée",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -111,29 +135,5 @@
     "submit": "Envoyer",
     "ratingLabel": "Note",
     "starAriaLabel": "Noter avec {count} étoiles"
-  },
-  "map": {
-    "loading": "Chargement des données des magasins…",
-    "loadingError": "Échec du chargement des données des magasins",
-    "selectShop": "Sélectionnez un stand:",
-    "selectShopPlaceholder": "Sélectionnez un magasin",
-    "searchCity": "Voir les stands dans la ville:",
-    "cityPlaceholder": "Entrez le nom de la ville",
-    "noShopsInCity": "Aucun magasin dans cette ville",
-    "searchPlaceholder": "Entrez l’adresse…",
-    "addressNotFound": "Adresse introuvable.",
-    "searchError": "Erreur lors de la recherche d’adresse:",
-    "storeInfo": {
-      "description": "Description",
-      "noDescription": "Pas de description disponible",
-      "address": "Adresse",
-      "openingHours": "Horaires",
-      "noHours": "Pas d’information sur les horaires.",
-      "photo": "Photo"
-    },
-    "popup": {
-      "searchedAddress": "Adresse recherchée",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

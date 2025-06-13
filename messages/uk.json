@@ -48,6 +48,30 @@
         "submit": "Додати магазин",
         "pending": "Додавання магазину..."
       }
+    },
+    "map": {
+      "loading": "Завантаження даних магазинів...",
+      "loadingError": "Не вдалося завантажити дані магазинів",
+      "selectShop": "Виберіть торгову точку:",
+      "selectShopPlaceholder": "Оберіть магазин",
+      "searchCity": "Перегляд точок y місті:",
+      "cityPlaceholder": "Введіть назву міста",
+      "noShopsInCity": "Немає магазинів y цьому місті",
+      "searchPlaceholder": "Введіть адресу...",
+      "addressNotFound": "Адресу не знайдено.",
+      "searchError": "Помилка пошуку адреси:",
+      "storeInfo": {
+        "description": "Опис",
+        "noDescription": "Опису немає",
+        "address": "Адреса",
+        "openingHours": "Години роботи",
+        "noHours": "Немає інформації про години роботи.",
+        "photo": "Фото"
+      },
+      "popup": {
+        "searchedAddress": "Шукана адреса",
+        "storeLocation": "{storeName} — {city}"
+      }
     }
   },
   "days": {
@@ -111,29 +135,5 @@
     "submit": "Відправити",
     "ratingLabel": "Оцінка",
     "starAriaLabel": "Оцінити {count} зірками"
-  },
-  "map": {
-    "loading": "Завантаження даних магазинів...",
-    "loadingError": "Не вдалося завантажити дані магазинів",
-    "selectShop": "Виберіть торгову точку:",
-    "selectShopPlaceholder": "Оберіть магазин",
-    "searchCity": "Перегляд точок y місті:",
-    "cityPlaceholder": "Введіть назву міста",
-    "noShopsInCity": "Немає магазинів y цьому місті",
-    "searchPlaceholder": "Введіть адресу...",
-    "addressNotFound": "Адресу не знайдено.",
-    "searchError": "Помилка пошуку адреси:",
-    "storeInfo": {
-      "description": "Опис",
-      "noDescription": "Опису немає",
-      "address": "Адреса",
-      "openingHours": "Години роботи",
-      "noHours": "Немає інформації про години роботи.",
-      "photo": "Фото"
-    },
-    "popup": {
-      "searchedAddress": "Шукана адреса",
-      "storeLocation": "{storeName} — {city}"
-    }
   }
 }

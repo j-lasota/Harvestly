@@ -28,7 +28,13 @@ const StoreGrid = async ({ title, stores }: StoreGridProps) => {
         {stores && stores.length > 0 ? (
           stores.map((store) => (
             <Link href={`/store/${store.slug}`} key={store.id}>
-              <DirectionAwareHover imageUrl={store.imageUrl ?? placeholder}>
+              <DirectionAwareHover
+                imageUrl={
+                  store.imageUrl && store.imageUrl !== ""
+                    ? store.imageUrl
+                    : placeholder
+                }
+              >
                 <p className="text-xl font-bold">{store.name}</p>
               </DirectionAwareHover>
             </Link>

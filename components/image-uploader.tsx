@@ -58,7 +58,7 @@ const ImageUploader: React.FC<Props> = ({ placeholder, onUploaded }) => {
         alt="Upload preview"
         width={400}
         height={400}
-        className="cursor-pointer rounded-2xl"
+        className="cursor-pointer rounded-2xl shadow-md"
         onClick={triggerFileSelect}
       />
     </div>

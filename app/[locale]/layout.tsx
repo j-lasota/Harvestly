@@ -35,11 +35,9 @@ export default async function RootLayout({
       >
         <SessionProvider>
           <NextIntlClientProvider>
-            <div className="flex flex-col">
+            <div className="flex min-h-screen flex-col">
               <Header />
-              <div className="relative flex-1">
-                <ApolloWrapper>{children}</ApolloWrapper>
-              </div>
+              <ApolloWrapper>{children}</ApolloWrapper>
             </div>
           </NextIntlClientProvider>
         </SessionProvider>
