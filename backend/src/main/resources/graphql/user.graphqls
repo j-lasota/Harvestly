@@ -13,7 +13,7 @@ type User {
     lastName: String!
     #TO JEST NICK, NIE IMIE
     name: String
-    email: String!
+    email: String
     phoneNumber: String
     tier: Int
     img: String

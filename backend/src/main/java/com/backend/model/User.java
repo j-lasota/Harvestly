@@ -28,6 +28,7 @@ public class User {
     //Nickname
     private String name;
 
+    @Nullable
     @Column(unique = true)
     @Email(message = "Email must be valid")
     private String email;

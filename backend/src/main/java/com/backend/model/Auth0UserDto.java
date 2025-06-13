@@ -1,6 +1,5 @@
 package com.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -32,6 +31,5 @@ public class Auth0UserDto {
     private String facebook_nickname;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssX")
-    private LocalDateTime createdAt;
+    private String createdAt;
 }
