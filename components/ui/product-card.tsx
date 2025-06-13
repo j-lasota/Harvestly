@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { Info } from "lucide-react";
 
 import placeholder from "@/public/food_placeholder.jpg";
 import { Link } from "@/i18n/navigation";
@@ -17,6 +18,8 @@ export interface ProductCardProps {
     name: string;
     city: string;
   };
+  averagePrice?: number;
+  totalProducts?: number;
 }
 
 export const ProductCard = ({
@@ -25,8 +28,40 @@ export const ProductCard = ({
   quantity,
   imageUrl,
   store,
+  averagePrice = 0,
+  totalProducts = 0,
 }: ProductCardProps) => {
   const t = useTranslations("productCard");
+
+  const getPriceComparison = () => {
+    if (totalProducts < 3) {
+      return {
+        text: t("notEnoughProducts"),
+        className: "text-gray-500"
+      };
+    }
+    
+    if (averagePrice === 0) return null;
+
+    if (price < averagePrice * 0.95) {
+      return {
+        text: t("belowAverage"),
+        className: "text-green-600"
+      };
+    } else if (price > averagePrice * 1.05) {
+      return {
+        text: t("aboveAverage"),
+        className: "text-red-600"
+      };
+    } else {
+      return {
+        text: t("averagePrice"),
+        className: "text-yellow-600"
+      };
+    }
+  };
+
+  const priceComparison = getPriceComparison();
 
   return (
     <Link
@@ -55,6 +90,12 @@ export const ProductCard = ({
             <span className="text-3xl font-semibold">{price.toFixed(2)}</span>{" "}
             PLN/pc
           </p>
+          {priceComparison && (
+            <p className={`text-end text-sm ${priceComparison.className} flex items-center justify-end gap-1`}>
+              <Info className="h-4 w-4" />
+              {priceComparison.text}
+            </p>
+          )}
           <p className="text-end text-sm">
             {t.rich("available", {
               b: (chunks) => <span className="font-medium">{chunks}</span>,

@@ -83,11 +83,16 @@
     "categories": {
       "FRUIT": "Fruit",
       "VEGETABLE": "Vegetables"
-    }
+    },
+    "fewProductsNotice": "Only {count} products found. Consider expanding your search criteria."
   },
   "productCard": {
     "soldBy": "Sold by",
-    "available": "Available: <b>{quantity}</b> pcs."
+    "available": "Available: <b>{quantity}</b> pcs.",
+    "belowAverage": "Below Average Price",
+    "averagePrice": "Average Price",
+    "aboveAverage": "Above Average Price",
+    "notEnoughProducts": "Not enough products"
   },
   "storeGrid": {
     "empty": "No stores available"

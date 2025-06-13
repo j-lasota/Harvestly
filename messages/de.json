@@ -87,7 +87,11 @@
   },
   "productCard": {
     "soldBy": "Verkauft von",
-    "available": "Verfügbar: <b>{quantity}</b> Stk."
+    "available": "Verfügbar: <b>{quantity}</b> Stk.",
+    "belowAverage": "Unter dem Durchschnittspreis",
+    "averagePrice": "Durchschnittspreis",
+    "aboveAverage": "Über dem Durchschnittspreis",
+    "notEnoughProducts": "Nicht genügend Produkte"
   },
   "storeGrid": {
     "empty": "Keine Geschäfte verfügbar"

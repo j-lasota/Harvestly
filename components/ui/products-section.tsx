@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 
@@ -25,6 +25,15 @@ export function ProductsSection({
   const [input, setInput] = useState("");
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
+
+  // Calculate average price from ALL products (unfiltered)
+  const averagePrice = useMemo(() => {
+    if (products.length === 0) return 0;
+    const total = products.reduce((sum, product) => sum + product.price, 0);
+    return total / products.length;
+  }, [products]);
+
+  const totalProductsCount = products.length; // Original unfiltered count
 
   const categoriesData = categories
     ? [...new Set(categories.map((item) => item.category))]
@@ -169,12 +178,14 @@ export function ProductsSection({
       </section>
 
       <section className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
-        {productsData.map(
-          (product) =>
-            productsData && (
-              <ProductCard key={product.id} {...product}></ProductCard>
-            )
-        )}
+        {productsData.map((product) => (
+          <ProductCard
+            key={product.id}
+            {...product}
+            averagePrice={averagePrice}
+            totalProducts={totalProductsCount}
+          />
+        ))}
       </section>
     </>
   );

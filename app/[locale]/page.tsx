@@ -29,7 +29,7 @@ export default async function Home() {
             })}
           </p>
 
-          <Button size="xl" className="mt-5 max-w-xs" asChild>
+          <Button size="xl" className="mt-5 max-w-xs">
             <Link href="/products">{t("action")}</Link>
           </Button>
         </div>
