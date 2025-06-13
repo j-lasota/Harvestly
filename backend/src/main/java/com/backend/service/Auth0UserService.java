@@ -36,13 +36,13 @@ public class Auth0UserService {
         log.info("Processing {} Auth0 users", auth0Users.size());
         for (Auth0UserDto dto : auth0Users) {
             if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-                log.warn("Skipping user without email: {}", dto);
+                log.warn("Skipping no-email user: {}", dto);
                 continue;
             }
-            userRepository.findByEmail(dto.getEmail())
+            userRepository.findById(extractCleanId(dto.getUserId()))
                     .ifPresentOrElse(
                             existing -> updateFromDto(existing, dto),
-                            ()       -> createFromDto(dto)
+                            ()        -> createFromDto(dto)
                     );
         }
         log.info("Finished processing Auth0 users");
@@ -50,29 +50,45 @@ public class Auth0UserService {
 
     private void updateFromDto(User existing, Auth0UserDto dto) {
         boolean changed = false;
-        if (!dto.getName().equals(existing.getFirstName())) {
-            existing.setFirstName(dto.getName());
-            changed = true;
+        if (!dto.getGivenName().equals(existing.getFirstName())) {
+            existing.setFirstName(dto.getGivenName()); changed = true;
+        }
+        if (!dto.getFamilyName().equals(existing.getLastName())) {
+            existing.setLastName(dto.getFamilyName()); changed = true;
+        }
+        if (dto.getName() != null && !dto.getName().equals(existing.getName())) {
+            existing.setName(dto.getName()); changed = true;
+        }
+        // jeśli trzymasz createdAt w encji:
+        if (dto.getCreatedAt() != null && !dto.getCreatedAt().equals(existing.getCreatedAt())) {
+            existing.setCreatedAt(dto.getCreatedAt()); changed = true;
         }
         if (changed) {
             userRepository.save(existing);
-            log.debug("Updated user {}", existing.getEmail());
+            log.debug("Updated user {}", existing.getId());
         }
+    }
+
+    private String extractCleanId(String rawId) {
+        // Auth0 daje np. "google-oauth2|123456", my chcemy tylko po "│"
+        if (rawId == null) return null;
+        int idx = rawId.indexOf('|');
+        return idx >= 0 ? rawId.substring(idx + 1) : rawId;
     }
 
     private void createFromDto(Auth0UserDto dto) {
         User user = new User();
-        String rawId = dto.getUserId();
-        String cleanId = rawId.contains("|") ? rawId.substring(rawId.indexOf("|") + 1) : rawId;
-        user.setId(cleanId);
+        user.setId(extractCleanId(dto.getUserId()));
         user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getName());
-        user.setLastName("");
+        user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
+        user.setLastName(dto.getFamilyName() != null ? dto.getFamilyName() : "");
+        user.setName(dto.getName());
         user.setTier(0);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
+        user.setCreatedAt(dto.getCreatedAt());
         userRepository.save(user);
-        log.debug("Created new user {}", dto.getEmail());
+        log.debug("Created new user {}", user.getId());
     }
 
     @Scheduled(initialDelay = SYNC_DELAY, fixedRate = SYNC_RATE)

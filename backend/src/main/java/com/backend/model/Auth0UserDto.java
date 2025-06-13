@@ -1,20 +1,31 @@
 package com.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Auth0UserDto {
+
     @NotBlank
     @JsonProperty("user_id")
     private String userId;
 
-    @NotBlank
     private String email;
 
-    @NotBlank
-    private String name;    // event.user.name
+    @JsonProperty("given_name")
+    private String givenName;
 
-    private String createdAt;   // event.user.created_at
+    @JsonProperty("family_name")
+    private String familyName;
+
+    @JsonProperty("nickname")
+    private String name;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssX")
+    private LocalDateTime createdAt;
 }
