@@ -26,14 +26,13 @@ export function ProductsSection({
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
 
-  // Calculate average price from ALL products (unfiltered)
   const averagePrice = useMemo(() => {
     if (products.length === 0) return 0;
     const total = products.reduce((sum, product) => sum + product.price, 0);
     return total / products.length;
   }, [products]);
 
-  const totalProductsCount = products.length; // Original unfiltered count
+  const totalProductsCount = products.length;
 
   const categoriesData = categories
     ? [...new Set(categories.map((item) => item.category))]
