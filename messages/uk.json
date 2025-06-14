@@ -112,10 +112,10 @@
   "productCard": {
     "soldBy": "Продає",
     "available": "Доступно: <b>{quantity}</b> шт.",
-    "belowAverage": "Ціна нижче середньої",
-    "averagePrice": "Середня ціна",
-    "aboveAverage": "Ціна вище середньої",
-    "notEnoughProducts": "Недостатньо продуктів"
+    "belowAverage": "Ціна нижче середньої в: {city}",
+    "averagePrice": "Середня ціна в: {city}",
+    "aboveAverage": "Ціна вище середньої в: {city}",
+    "notEnoughProducts": "Недостатньо продуктів в: {city}"
   },
   "storeGrid": {
     "empty": "Немає доступних магазинів"

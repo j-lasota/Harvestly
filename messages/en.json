@@ -113,10 +113,10 @@
   "productCard": {
     "soldBy": "Sold by",
     "available": "Available: <b>{quantity}</b> pcs.",
-    "belowAverage": "Below Average Price",
-    "averagePrice": "Average Price",
-    "aboveAverage": "Above Average Price",
-    "notEnoughProducts": "Not enough products"
+    "belowAverage": "Below Average Price in {city}",
+    "averagePrice": "Average in {city}",
+    "aboveAverage": "Above Average Price in {city}",
+    "notEnoughProducts": "Not enough products in {city}"
   },
   "storeGrid": {
     "empty": "No stores available"

@@ -26,21 +26,34 @@ export function ProductsSection({
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
 
-  const averagePrice = useMemo(() => {
-    if (products.length === 0) return 0;
-    const total = products.reduce((sum, product) => sum + product.price, 0);
-    return total / products.length;
-  }, [products]);
+  const { averagePricesByProductAndTown, productTownGroups } = useMemo(() => {
+    const groups: Record<string, { sum: number; count: number }> = {};
 
-  const totalProductsCount = products.length;
+    products.forEach((product) => {
+      const key = `${product.product.name}-${product.store.city}`;
+      if (!groups[key]) {
+        groups[key] = { sum: 0, count: 0 };
+      }
+      groups[key].sum += product.price;
+      groups[key].count += 1;
+    });
+
+    const averages: Record<string, number> = {};
+    Object.entries(groups).forEach(([key, { sum, count }]) => {
+      averages[key] = sum / count;
+    });
+
+    return { 
+      averagePricesByProductAndTown: averages, 
+      productTownGroups: groups 
+    };
+  }, [products]);
 
   const categoriesData = categories
     ? [...new Set(categories.map((item) => item.category))]
     : [];
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(
-    []
-  );
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -93,7 +106,6 @@ export function ProductsSection({
   return (
     <>
       <section className="border-shadow bg-background-elevated ring-ring mb-4 flex w-full flex-col gap-2 rounded-2xl border-r-3 border-b-4 px-4 py-3 shadow-md ring">
-        {/* Search Input */}
         <div>
           <label className="mb-1 text-sm">{t("searchLabel")}</label>
           <Input
@@ -177,14 +189,17 @@ export function ProductsSection({
       </section>
 
       <section className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
-        {productsData.map((product) => (
-          <ProductCard
-            key={product.id}
-            {...product}
-            averagePrice={averagePrice}
-            totalProducts={totalProductsCount}
-          />
-        ))}
+        {productsData.map((product) => {
+          const townKey = `${product.product.name}-${product.store.city}`;
+          return (
+            <ProductCard
+              key={product.id}
+              {...product}
+              averagePrice={averagePricesByProductAndTown[townKey] || 0}
+              totalProducts={productTownGroups[townKey]?.count || 0}
+            />
+          );
+        })}
       </section>
     </>
   );

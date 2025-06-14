@@ -26,11 +26,9 @@ export default async function Home() {
             })}
           </p>
 
-          <Link href="/products" className="mt-5 max-w-xs">
-            <Button size="xl" className="w-full">
-              {t("action")}
-            </Button>
-          </Link>
+          <Button asChild size="xl" className="mt-5 max-w-xs">
+            <Link href="/products">{t("action")}</Link>
+          </Button>
         </div>
         <Image
           src={hero}

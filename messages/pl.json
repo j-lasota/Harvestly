@@ -112,10 +112,10 @@
   "productCard": {
     "soldBy": "Sprzedawane przez",
     "available": "Dostępne: <b>{quantity}</b> szt.",
-    "belowAverage": "Cena poniżej średniej",
-    "averagePrice": "Średnia cena",
-    "aboveAverage": "Cena powyżej średniej",
-    "notEnoughProducts": "Niewystarczająca liczba produktów"
+    "belowAverage": "Cena poniżej średniej w: {city}",
+    "averagePrice": "Średnia cena w: {city}",
+    "aboveAverage": "Cena powyżej średniej w: {city}",
+    "notEnoughProducts": "Niewystarczająca liczba produktów w: {city}"
   },
   "storeGrid": {
     "empty": "Brak dostępnych sklepów"

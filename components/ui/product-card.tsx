@@ -36,7 +36,7 @@ export const ProductCard = ({
   const getPriceComparison = () => {
     if (totalProducts < 3) {
       return {
-        text: t("notEnoughProducts"),
+        text: t("notEnoughProducts", { city: store.city }),
         className: "text-gray-500"
       };
     }
@@ -45,17 +45,17 @@ export const ProductCard = ({
 
     if (price < averagePrice * 0.95) {
       return {
-        text: t("belowAverage"),
+        text: t("belowAverage", { city: store.city }),
         className: "text-green-600"
       };
     } else if (price > averagePrice * 1.05) {
       return {
-        text: t("aboveAverage"),
+        text: t("aboveAverage", { city: store.city }),
         className: "text-red-600"
       };
     } else {
       return {
-        text: t("averagePrice"),
+        text: t("averagePrice", { city: store.city }),
         className: "text-yellow-600"
       };
     }
