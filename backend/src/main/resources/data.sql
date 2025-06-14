@@ -37,7 +37,17 @@ VALUES
     ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Targowy Raj', 'targowy-raj-1', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
     ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Smaczny Koszyk', 'smaczny-koszyk-1', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
     ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Sadownik', 'sadownik-1', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true);
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Łódzkie Smaki Natury', 'lodzkie-smaki-natury-1', 'Naturalne produkty prosto z Łodzi', 51.77, 19.46, 'Łódź', 'ul. Piotrkowska 101', NULL, true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Stragan Pod Lipą', 'stragan-pod-lipa-1', 'Stragan pod rozłożystą lipą w centrum Łodzi', 51.78, 19.47, 'Łódź', 'ul. Lipowa 5', NULL, true),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Zielony Zakątek Łódź', 'zielony-zakatek-lodz-1', 'Zielone warzywa i owoce z Łodzi', 51.76, 19.45, 'Łódź', 'ul. Zakątek 3', NULL, true),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Ogródek Babci Heli', 'ogrodek-babci-heli-1', 'Domowe przetwory i świeże warzywa', 51.75, 19.44, 'Łódź', 'ul. Helin 7', NULL, true),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tęczowy Koszyk', 'teczowy-koszyk-1', 'Kolorowe owoce i warzywa', 51.74, 19.43, 'Łódź', 'ul. Kolorowa 9', NULL, true),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Łódzka Spiżarnia', 'lodzka-spizarnia-1', 'Tradycyjne produkty z regionu', 51.79, 19.48, 'Łódź', 'ul. Spiżowa 2', NULL, true),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka-1', 'Stragan na świeżym powietrzu', 51.80, 19.49, 'Łódź', 'ul. Chmurna 11', NULL, true),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz-1', 'Ekologiczne produkty od lokalnych rolników', 51.81, 19.50, 'Łódź', 'ul. Targowa 30', NULL, true),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd-1', 'Raj dla miłośników owoców', 51.82, 19.51, 'Łódź', 'ul. Rajska 4', NULL, true),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada-1', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.83, 19.52, 'Łódź', 'ul. Sąsiedzka 8', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (store_id, product_id, price, quantity, image_url)
@@ -101,8 +111,76 @@ VALUES
 (10, 7, 11.00, 150, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590757/sliwki-1_jeu8jg.jpg'),
 (10, 8, 12.00, 160, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591903/pomidory-1_mtxggt.jpg'),
 (10, 9, 13.00, 170, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592200/ogorki-1_kkb4ns.jpg'),
-(10, 10, 14.00, 180, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592507/marchew-1_f4tb3v.jpg');
+(10, 10, 14.00, 180, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592507/marchew-1_f4tb3v.jpg'),
+-- Shop 11
+(11, 1, 10.80, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747582794/truskawki-tunel_bh1mbw.jpg'),
+(11, 2, 12.20, 70, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747583231/maliny-4_zo9ti9.jpg'),
+(11, 3, 15.30, 65, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747587844/Borowki_4_nquqvo.jpg'),
+(11, 4, 18.50, 35, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588200/czeresnie-3_jlmdtz.jpg'),
+(11, 5, 7.20, 180, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588973/jablka-5_mo8yts.jpg'),
 
+-- Shop 12
+(12, 6, 10.10, 140, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747589835/gruszki-5_aww9bz.jpg'),
+(12, 7, 11.40, 85, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590770/sliwki-5_uzphmm.jpg'),
+(12, 8, 10.20, 70, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591950/pomidory-5_owops9.jpg'),
+(12, 9, 13.70, 110, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592215/ogorki-5_vsymlr.jpg'),
+(12, 10, 14.10, 100, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592524/marchew-5_hvdqnf.jpg'),
+
+-- Shop 13
+(13, 1, 9.70, 120, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747582793/owoce-kaszubskie-truskawki-delicje-kaszub-1024x641_ttd8bu.jpg'),
+(13, 2, 11.10, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747583232/maliny-5_whdpbc.jpg'),
+(13, 3, 12.10, 85, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747587845/Borowki_5_f0gf0q.jpg'),
+(13, 4, 13.10, 70, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588204/czeresnie-5_p3eatf.jpg'),
+(13, 5, 8.10, 130, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588971/jablka-4_zdt8oy.jpg'),
+
+-- Shop 14
+(14, 6, 9.20, 150, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747589833/gruszki-4_gapnvu.jpg'),
+(14, 7, 10.60, 80, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590766/sliwki-4_njlx1t.jpg'),
+(14, 8, 11.10, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591947/pomidory-4_s6xkwb.jpg'),
+(14, 9, 12.60, 100, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592212/ogorki-4_uu4t2y.jpg'),
+(14, 10, 13.10, 105, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592519/marchew-4_f1wqat.jpg'),
+
+-- Shop 15
+(15, 1, 10.10, 110, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747582794/z27129298Q_98-procent-Polakow-deklaruje--ze-je-truskawki-przy_uzh0zw.jpg'),
+(15, 2, 10.60, 95, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747583230/Maliny-3_b3bkud.jpg'),
+(15, 3, 12.10, 85, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747587843/Borowki_3_ntghg4.jpg'),
+(15, 4, 13.60, 75, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588204/czeresnie-5_p3eatf.jpg'),
+(15, 5, 14.10, 65, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588968/jablka-3_t16ror.jpg'),
+
+-- Shop 16
+(16, 6, 10.10, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747589830/gruszki-3_gntrbj.jpg'),
+(16, 7, 11.60, 70, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590763/sliwki-3_bseict.jpg'),
+(16, 8, 12.10, 60, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591909/pomidory-3_mzj94r.jpg'),
+(16, 9, 13.10, 50, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592207/ogorki-3_e4ks54.jpg'),
+(16, 10, 14.10, 40, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592515/marchew-3_yey3ad.jpg'),
+
+-- Shop 17
+(17, 1, 9.10, 80, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747582793/000KXR1C07W2JK7D-C461-F4_z1jalv.jpg'),
+(17, 2, 9.60, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747583229/Maliny-1_hy3epk.jpg'),
+(17, 3, 10.60, 100, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747587842/Borowki_2_reu2s9.jpg'),
+(17, 4, 11.10, 110, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588198/czeresnie-2_wm1vlz.jpg'),
+(17, 5, 12.10, 120, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588966/jablka-2_heaomu.jpg'),
+
+-- Shop 18
+(18, 6, 13.10, 75, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747589827/gruszki-2_zqskr9.jpg'),
+(18, 7, 13.60, 85, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590759/sliwki-2_qsldxf.jpg'),
+(18, 8, 14.10, 95, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591906/pomidory-2_hxtwbw.jpg'),
+(18, 9, 14.60, 105, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592203/ogorki-2_sfojr1.jpg'),
+(18, 10, 15.10, 115, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592511/marchew-2_cem9f6.jpg'),
+
+-- Shop 19
+(19, 1, 8.60, 80, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747582793/042749_r0_980_kokfe0.jpg'),
+(19, 2, 9.10, 90, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747583230/Maliny-2_e7pwiv.jpg'),
+(19, 3, 10.10, 100, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747587841/Borowki_1_ruiwtv.png'),
+(19, 4, 10.60, 110, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588198/czeresnie-1_d6zp7l.jpg'),
+(19, 5, 11.10, 120, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747588965/jablka-1_wtktnz.jpg'),
+
+-- Shop 20
+(20, 6, 10.10, 130, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747589826/gruszki-1_yeplh4.jpg'),
+(20, 7, 11.10, 140, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590757/sliwki-1_jeu8jg.jpg'),
+(20, 8, 12.10, 150, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591903/pomidory-1_mtxggt.jpg'),
+(20, 9, 13.10, 160, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592200/ogorki-1_kkb4ns.jpg'),
+(20, 10, 14.10, 170, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592507/marchew-1_f4tb3v.jpg');
 -- Business Hours (7 dni × 10 sklepów = 70 wpisów)
 INSERT INTO business_hours (store_id, day_of_week, opening_time, closing_time)
 VALUES
@@ -194,7 +272,97 @@ VALUES
 (10, 'THURSDAY', '08:00:00', '16:00:00'),
 (10, 'FRIDAY', '08:00:00', '16:00:00'),
 (10, 'SATURDAY', '08:00:00', '14:00:00'),
-(10, 'SUNDAY', '08:00:00', '12:00:00');
+(10, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 11
+(11, 'MONDAY', '08:00:00', '16:00:00'),
+(11, 'TUESDAY', '08:00:00', '16:00:00'),
+(11, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(11, 'THURSDAY', '08:00:00', '16:00:00'),
+(11, 'FRIDAY', '08:00:00', '16:00:00'),
+(11, 'SATURDAY', '08:00:00', '14:00:00'),
+(11, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 12
+(12, 'MONDAY', '08:00:00', '16:00:00'),
+(12, 'TUESDAY', '08:00:00', '16:00:00'),
+(12, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(12, 'THURSDAY', '08:00:00', '16:00:00'),
+(12, 'FRIDAY', '08:00:00', '16:00:00'),
+(12, 'SATURDAY', '08:00:00', '14:00:00'),
+(12, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 13
+(13, 'MONDAY', '08:00:00', '16:00:00'),
+(13, 'TUESDAY', '08:00:00', '16:00:00'),
+(13, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(13, 'THURSDAY', '08:00:00', '16:00:00'),
+(13, 'FRIDAY', '08:00:00', '16:00:00'),
+(13, 'SATURDAY', '08:00:00', '14:00:00'),
+(13, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 14
+(14, 'MONDAY', '08:00:00', '16:00:00'),
+(14, 'TUESDAY', '08:00:00', '16:00:00'),
+(14, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(14, 'THURSDAY', '08:00:00', '16:00:00'),
+(14, 'FRIDAY', '08:00:00', '16:00:00'),
+(14, 'SATURDAY', '08:00:00', '14:00:00'),
+(14, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 15
+(15, 'MONDAY', '08:00:00', '16:00:00'),
+(15, 'TUESDAY', '08:00:00', '16:00:00'),
+(15, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(15, 'THURSDAY', '08:00:00', '16:00:00'),
+(15, 'FRIDAY', '08:00:00', '16:00:00'),
+(15, 'SATURDAY', '08:00:00', '14:00:00'),
+(15, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 16
+(16, 'MONDAY', '08:00:00', '16:00:00'),
+(16, 'TUESDAY', '08:00:00', '16:00:00'),
+(16, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(16, 'THURSDAY', '08:00:00', '16:00:00'),
+(16, 'FRIDAY', '08:00:00', '16:00:00'),
+(16, 'SATURDAY', '08:00:00', '14:00:00'),
+(16, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 17
+(17, 'MONDAY', '08:00:00', '16:00:00'),
+(17, 'TUESDAY', '08:00:00', '16:00:00'),
+(17, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(17, 'THURSDAY', '08:00:00', '16:00:00'),
+(17, 'FRIDAY', '08:00:00', '16:00:00'),
+(17, 'SATURDAY', '08:00:00', '14:00:00'),
+(17, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 18
+(18, 'MONDAY', '08:00:00', '16:00:00'),
+(18, 'TUESDAY', '08:00:00', '16:00:00'),
+(18, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(18, 'THURSDAY', '08:00:00', '16:00:00'),
+(18, 'FRIDAY', '08:00:00', '16:00:00'),
+(18, 'SATURDAY', '08:00:00', '14:00:00'),
+(18, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 19
+(19, 'MONDAY', '08:00:00', '16:00:00'),
+(19, 'TUESDAY', '08:00:00', '16:00:00'),
+(19, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(19, 'THURSDAY', '08:00:00', '16:00:00'),
+(19, 'FRIDAY', '08:00:00', '16:00:00'),
+(19, 'SATURDAY', '08:00:00', '14:00:00'),
+(19, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 20
+(20, 'MONDAY', '08:00:00', '16:00:00'),
+(20, 'TUESDAY', '08:00:00', '16:00:00'),
+(20, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(20, 'THURSDAY', '08:00:00', '16:00:00'),
+(20, 'FRIDAY', '08:00:00', '16:00:00'),
+(20, 'SATURDAY', '08:00:00', '14:00:00'),
+(20, 'SUNDAY', '08:00:00', '12:00:00');
 
 -- Opinie
 INSERT INTO opinions (store_id, user_id, description, stars, reported)
@@ -208,4 +376,14 @@ VALUES
     (7, '07a0fc37-d3a7-408e-a765-098e2c612258', 'Duży wybór i dobra cena.', 5, false),
     (8, 'd4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Lubię ten sklep, lokalnie i smacznie.', 5, false),
     (9, 'e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Średnie ceny, ale dobra jakość.', 4, false),
-    (10, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Polecam każdemu!', 5, false);
+    (10, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Polecam każdemu!', 5, false),
+    (11, 'b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Często tu robię zakupy.', 4, false),
+    (12, '07a0fc37-d3a7-408e-a765-098e2c612258', 'Dobre owoce, miła obsługa.', 5, false),
+    (13, 'd4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Lubię lokalne produkty.', 5, false),
+    (14, 'e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Zawsze świeże owoce!', 5, false),
+    (15, '81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Ceny mogłyby być niższe.', 3, false),
+    (16, '9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Fajne miejsce na zakupy.', 4, false),
+    (17, 'a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Polecam każdemu!', 5, false),
+    (18, '8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Świetne owoce i warzywa.', 5, false),
+    (19, '54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Zawsze wracam po więcej!', 5, false),
+    (20, 'b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Miła obsługa i dobre ceny.', 4, false);
