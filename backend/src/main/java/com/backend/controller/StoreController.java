@@ -7,12 +7,14 @@ import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 // TODO: REMOVE TRANSACTIONAL
+
 @Controller
 public class StoreController {
     private final StoreService storeService;
@@ -58,6 +60,7 @@ public class StoreController {
 
     @Transactional
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Store createStore(@Argument String userId, @Argument String name, @Argument String description, @Argument double latitude,
                             @Argument double longitude, @Argument String city, @Argument String address,
                             @Argument String imageUrl) {
@@ -82,6 +85,7 @@ public class StoreController {
      */
 
     @MutationMapping
+    @PreAuthorize("@storeSecurity.isOwner(authentication, #id)")
     public Store updateStore(@Argument Long id, @Argument String name, @Argument String description,
                             @Argument Double latitude, @Argument Double longitude, @Argument String city,
                             @Argument String address, @Argument String imageUrl) {
@@ -94,6 +98,7 @@ public class StoreController {
      * @return True if the store was deleted successfully, otherwise false
      */
     @MutationMapping
+    @PreAuthorize("@storeSecurity.isOwner(authentication, #id)")
     public Boolean deleteStore(@Argument Long id) {
         return storeService.deleteStoreById(id);
     }
