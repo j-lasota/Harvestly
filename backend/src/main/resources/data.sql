@@ -38,16 +38,16 @@ VALUES
     ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Smaczny Koszyk', 'smaczny-koszyk-1', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
     ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Sadownik', 'sadownik-1', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
     ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek-1', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true),
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Łódzkie Smaki Natury', 'lodzkie-smaki-natury-1', 'Naturalne produkty prosto z Łodzi', 51.77, 19.46, 'Łódź', 'ul. Piotrkowska 101', NULL, true),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Stragan Pod Lipą', 'stragan-pod-lipa-1', 'Stragan pod rozłożystą lipą w centrum Łodzi', 51.78, 19.47, 'Łódź', 'ul. Lipowa 5', NULL, true),
-    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Zielony Zakątek Łódź', 'zielony-zakatek-lodz-1', 'Zielone warzywa i owoce z Łodzi', 51.76, 19.45, 'Łódź', 'ul. Zakątek 3', NULL, true),
-    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Ogródek Babci Heli', 'ogrodek-babci-heli-1', 'Domowe przetwory i świeże warzywa', 51.75, 19.44, 'Łódź', 'ul. Helin 7', NULL, true),
-    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tęczowy Koszyk', 'teczowy-koszyk-1', 'Kolorowe owoce i warzywa', 51.74, 19.43, 'Łódź', 'ul. Kolorowa 9', NULL, true),
-    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Łódzka Spiżarnia', 'lodzka-spizarnia-1', 'Tradycyjne produkty z regionu', 51.79, 19.48, 'Łódź', 'ul. Spiżowa 2', NULL, true),
-    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka-1', 'Stragan na świeżym powietrzu', 51.80, 19.49, 'Łódź', 'ul. Chmurna 11', NULL, true),
-    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz-1', 'Ekologiczne produkty od lokalnych rolników', 51.81, 19.50, 'Łódź', 'ul. Targowa 30', NULL, true),
-    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd-1', 'Raj dla miłośników owoców', 51.82, 19.51, 'Łódź', 'ul. Rajska 4', NULL, true),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada-1', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.83, 19.52, 'Łódź', 'ul. Sąsiedzka 8', NULL, true);
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Łódzkie Smaki Natury', 'lodzkie-smaki-natury-1', 'Naturalne produkty prosto z Łodzi', 51.759248, 19.455983, 'Łódź', 'ul. Piotrkowska 101', NULL, true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Stragan Pod Lipą', 'stragan-pod-lipa-1', 'Stragan pod rozłożystą lipą w centrum Łodzi', 51.759900, 19.426900, 'Łódź', 'ul. Lipowa 5', NULL, true),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Zielony Zakątek Łódź', 'zielony-zakatek-lodz-1', 'Zielone warzywa i owoce z Łodzi', 51.800070, 19.467210, 'Łódź', 'ul. Zakątek 3', NULL, true),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Ogródek Babci Heli', 'ogrodek-babci-heli-1', 'Domowe przetwory i świeże warzywa', 51.747800, 19.411200, 'Łódź', 'ul. Helin 7', NULL, true),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tęczowy Koszyk', 'teczowy-koszyk-1', 'Kolorowe owoce i warzywa', 51.782010, 19.536010, 'Łódź', 'ul. Kolorowa 9', NULL, true),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Łódzka Spiżarnia', 'lodzka-spizarnia-1', 'Tradycyjne produkty z regionu', 51.734520, 19.485010, 'Łódź', 'ul. Spiżowa 2', NULL, true),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka-1', 'Stragan na świeżym powietrzu', 51.813010, 19.410000, 'Łódź', 'ul. Chmurna 11', NULL, true),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz-1', 'Ekologiczne produkty od lokalnych rolników', 51.747040, 19.531000, 'Łódź', 'ul. Targowa 30', NULL, true),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd-1', 'Raj dla miłośników owoców', 51.771200, 19.393000, 'Łódź', 'ul. Rajska 4', NULL, true),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada-1', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.784500, 19.481200, 'Łódź', 'ul. Sąsiedzka 8', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (store_id, product_id, price, quantity, image_url)
