@@ -78,14 +78,15 @@ public class StoreController {
      * @param city New city where the store is located
      * @param address New address of the store
      * @param imageUrl New URL of the store's image
+     * @param reported Whether the store is reported or not
      * @return The updated store
      */
 
     @MutationMapping
     public Store updateStore(@Argument Long id, @Argument String name, @Argument String description,
                             @Argument Double latitude, @Argument Double longitude, @Argument String city,
-                            @Argument String address, @Argument String imageUrl) {
-        return  storeService.updateStore(id, name, description, latitude, longitude, city, address, imageUrl);
+                            @Argument String address, @Argument String imageUrl, @Argument Boolean reported) {
+        return  storeService.updateStore(id, name, description, latitude, longitude, city, address, imageUrl, reported);
     }
 
     /** Delete a store by its ID
@@ -107,5 +108,14 @@ public class StoreController {
     @QueryMapping
     public Store storeBySlug(@Argument String slug) {
         return storeService.getStoreBySlug(slug);
+    }
+
+    /** Fetch all reported stores
+     *
+     * @return List of all reported stores
+     */
+    @QueryMapping
+    public List<Store> storesReported() {
+        return storeService.getAllReportedStores();
     }
 }

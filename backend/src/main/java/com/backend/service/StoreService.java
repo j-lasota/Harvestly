@@ -37,7 +37,7 @@ public class StoreService {
     }
 
     public Store updateStore(Long id, String name, String description, Double latitude, Double longitude, String city,
-                             String address, String imageUrl) {
+                             String address, String imageUrl, Boolean reported) {
         Store store = storeRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("Store not found"));
         if (name != null && !name.isBlank()) {
@@ -61,6 +61,9 @@ public class StoreService {
         }
         if (imageUrl != null && !imageUrl.isBlank()) {
             store.setImageUrl(imageUrl);
+        }
+        if (reported != null) {
+            store.setReported(reported);
         }
 
         return storeRepository.save(store);
@@ -91,5 +94,9 @@ public class StoreService {
 
     public Store getStoreBySlug(String slug) {
         return storeRepository.findBySlug(slug);
+    }
+
+    public List<Store> getAllReportedStores() {
+        return storeRepository.findAllByReportedTrue();
     }
 }

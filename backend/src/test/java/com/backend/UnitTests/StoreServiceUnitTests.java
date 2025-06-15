@@ -110,7 +110,8 @@ class StoreServiceUnitTests {
                 22.2,
                 "New City",
                 "New Address",
-                "new.jpg"
+                "new.jpg",
+                null
         );
 
         assertEquals("New Shop", updatedStore.getName());
@@ -129,7 +130,7 @@ class StoreServiceUnitTests {
         when(storeRepository.findById(4L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            storeService.updateStore(4L, "New Name", "New Desc", 0.0, 0.0, "New City", "New Address", "new.jpg");
+            storeService.updateStore(4L, "New Name", "New Desc", 0.0, 0.0, "New City", "New Address", "new.jpg", null);
         });
 
         assertEquals("Store not found", exception.getMessage());

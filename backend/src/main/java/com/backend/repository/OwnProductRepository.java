@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface OwnProductRepository extends JpaRepository<OwnProduct, Long> {
     List<OwnProduct> findByProductId(Long productId);
-    List<OwnProduct> findByStoreId(Long storeId);
+    List<OwnProduct> findByStoreIdAndProductVerifiedTrue(Long storeId);
     Boolean existsByStoreIdAndProductId(Long storeId, Long productId);
     Optional<OwnProduct> findByStoreIdAndProductId(Long storeId, Long productId);
 

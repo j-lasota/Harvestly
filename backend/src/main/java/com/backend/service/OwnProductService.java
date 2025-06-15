@@ -86,7 +86,7 @@ public class OwnProductService {
         return false;
     }
     public List<OwnProduct> getByStore(Long storeId) {
-        return ownProductRepository.findByStoreId(storeId);
+        return ownProductRepository.findByStoreIdAndProductVerifiedTrue(storeId);
     }
     public Boolean existsByStoreIdAndProductId(Long storeId, Long productId) {
         return ownProductRepository.existsByStoreIdAndProductId(storeId, productId);
