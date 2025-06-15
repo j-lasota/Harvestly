@@ -9,7 +9,8 @@ VALUES ('Truskawki', true, 'FRUIT'),
        ('Śliwki', true, 'FRUIT'),
        ('Pomidory', true, 'VEGETABLE'),
        ('Ogórki', true, 'VEGETABLE'),
-       ('Marchew', true, 'VEGETABLE');
+       ('Marchew', true, 'VEGETABLE'),
+       ('Ziemniaki', true, 'VEGETABLE');
 
 -- Użytkownicy
 INSERT INTO users (id, first_name, last_name, email, phone_number, img, tier)
@@ -47,7 +48,8 @@ VALUES
     ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka-1', 'Stragan na świeżym powietrzu', 51.813010, 19.410000, 'Łódź', 'ul. Chmurna 11', NULL, true),
     ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz-1', 'Ekologiczne produkty od lokalnych rolników', 51.747040, 19.531000, 'Łódź', 'ul. Targowa 30', NULL, true),
     ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd-1', 'Raj dla miłośników owoców', 51.771200, 19.393000, 'Łódź', 'ul. Rajska 4', NULL, true),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada-1', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.784500, 19.481200, 'Łódź', 'ul. Sąsiedzka 8', NULL, true);
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada-1', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.784500, 19.481200, 'Łódź', 'ul. Sąsiedzka 8', NULL, true),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Ziemniakowy Raj', 'ziemniakowy-raj-1', 'Najlepsze ziemniaki z okolicznych pól', 52.232334, 21.000908, 'Warszawa', 'ul. Śliska 5', NULL, true);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (store_id, product_id, price, quantity, image_url)
@@ -180,7 +182,10 @@ VALUES
 (20, 7, 11.10, 140, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747590757/sliwki-1_jeu8jg.jpg'),
 (20, 8, 12.10, 150, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747591903/pomidory-1_mtxggt.jpg'),
 (20, 9, 13.10, 160, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592200/ogorki-1_kkb4ns.jpg'),
-(20, 10, 14.10, 170, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592507/marchew-1_f4tb3v.jpg');
+(20, 10, 14.10, 170, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1747592507/marchew-1_f4tb3v.jpg'),
+
+-- Shop 21
+    (21, 11, 10.90, 80, 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1749989855/ziemniaki_qa3q2z.jpg');
 -- Business Hours (7 dni × 10 sklepów = 70 wpisów)
 INSERT INTO business_hours (store_id, day_of_week, opening_time, closing_time)
 VALUES
@@ -362,7 +367,16 @@ VALUES
 (20, 'THURSDAY', '08:00:00', '16:00:00'),
 (20, 'FRIDAY', '08:00:00', '16:00:00'),
 (20, 'SATURDAY', '08:00:00', '14:00:00'),
-(20, 'SUNDAY', '08:00:00', '12:00:00');
+(20, 'SUNDAY', '08:00:00', '12:00:00'),
+
+-- Shop 21
+(21, 'MONDAY', '08:00:00', '16:00:00'),
+(21, 'TUESDAY', '08:00:00', '16:00:00'),
+(21, 'WEDNESDAY', '08:00:00', '16:00:00'),
+(21, 'THURSDAY', '08:00:00', '16:00:00'),
+(21, 'FRIDAY', '08:00:00', '16:00:00'),
+(21, 'SATURDAY', '08:00:00', '14:00:00'),
+(21, 'SUNDAY', '08:00:00', '12:00:00');
 
 -- Opinie
 INSERT INTO opinions (store_id, user_id, description, stars, reported)
