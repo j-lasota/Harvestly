@@ -15,7 +15,7 @@ type Store {
     opinions: [Opinion!]
     likedByUsers: [User!]!
     slug: String
-    reported: Boolean!
+    reported: Boolean
 }
 
 extend type Query {
