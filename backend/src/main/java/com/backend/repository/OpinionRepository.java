@@ -14,4 +14,5 @@ public interface OpinionRepository extends JpaRepository<Opinion, Long> {
     @Query("SELECT AVG(o.stars) FROM Opinion o WHERE o.store.slug = :slug")
     Double findAverageStarsByStoreSlug(@Param("slug") String slug);
 
+    List<Opinion> findByUserId(String userId);
 }

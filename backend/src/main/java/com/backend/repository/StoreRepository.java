@@ -9,4 +9,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Store getByName(String name);
     Store findBySlug(String slug);
     List<Store> findAllByReportedTrue();
+
+    List<Store> findByUserId(String userId);
 }

@@ -63,6 +63,14 @@ public class BusinessHoursController {
         return businessHoursService.saveBusinessHours(new BusinessHours(store, dayOfWeek, openingTime, closingTime));
     }
 
+    /**
+     * Create multiple business hours for a store.
+     *
+     * @param storeId the ID of the store to associate with the business hours
+     * @param businessHoursList a list of BusinessHoursInput objects containing the details of the business hours
+     * @return a list of created BusinessHours objects
+     * @throws IllegalArgumentException if the store is not found
+     */
     @MutationMapping
     public List<BusinessHours> createMultipleBusinessHours(@Argument Long storeId, @Argument List<BusinessHoursInput> businessHoursList) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Store not found"));
