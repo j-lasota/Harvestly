@@ -99,7 +99,7 @@ public class StoreController {
      * @return True if the store was deleted successfully, otherwise false
      */
     @MutationMapping
-    @PreAuthorize("@storeSecurity.isOwner(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_delete:store') or @storeSecurity.isOwner(authentication, #id)")
     public Boolean deleteStore(@Argument Long id) {
         return storeService.deleteStoreById(id);
     }
@@ -119,6 +119,8 @@ public class StoreController {
      *
      * @return List of all reported stores
      */
+
+    @PreAuthorize("hasAuthority('SCOPE_read:admin-dashboard')")
     @QueryMapping
     public List<Store> storesReported() {
         return storeService.getAllReportedStores();

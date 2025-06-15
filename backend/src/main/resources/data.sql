@@ -1,3 +1,8 @@
+-- Wstawiamy systemowego użytkownika, do którego będą przypisywane osierocone opinie.
+INSERT INTO users (id, email, first_name, last_name, name, active, tier)
+VALUES ('11111111-1111-1111-1111-111111111111', 'deleted.user@system.local', 'Deleted', 'User', 'Deleted User', true, 0)
+ON CONFLICT (id) DO NOTHING;
+
 -- Produkty
 INSERT INTO products (name, verified, category)
 VALUES ('Truskawki', true, 'FRUIT'),
@@ -13,22 +18,23 @@ VALUES ('Truskawki', true, 'FRUIT'),
        ('Ziemniaki', true, 'VEGETABLE');
 
 -- Użytkownicy
-INSERT INTO users (id, first_name, last_name, email, phone_number, img, tier)
+INSERT INTO users (id, first_name, last_name, email, phone_number, img, tier, active)
 VALUES
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Jan', 'Kowalski', 'jan1@example.com', '+48123123123', NULL, 1),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Anna', 'Nowak', 'anna2@example.com', '+48123123124', NULL, 1),
-    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Piotr', 'Wiśniewski', 'piotr3@example.com', '+48123123125', NULL, 1),
-    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Maria', 'Wójcik', 'maria4@example.com', '+48123123126', NULL, 1),
-    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tomasz', 'Kaczmarek', 'tomasz5@example.com', '+48123123127', NULL, 1),
-    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Agnieszka', 'Mazur', 'agnieszka6@example.com', '+48123123128', NULL, 1),
-    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Marek', 'Krawczyk', 'marek7@example.com', '+48123123129', NULL, 1),
-    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Katarzyna', 'Piotrowska', 'kasia8@example.com', '+48123123130', NULL, 1),
-    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Paweł', 'Grabowski', 'pawel9@example.com', '+48123123131', NULL, 1),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL, 1);
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Jan', 'Kowalski', 'jan1@example.com', '+48123123123', NULL, 1, true),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Anna', 'Nowak', 'anna2@example.com', '+48123123124', NULL, 1, true),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Piotr', 'Wiśniewski', 'piotr3@example.com', '+48123123125', NULL, 1, true),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Maria', 'Wójcik', 'maria4@example.com', '+48123123126', NULL, 1, true),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tomasz', 'Kaczmarek', 'tomasz5@example.com', '+48123123127', NULL, 1, true),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Agnieszka', 'Mazur', 'agnieszka6@example.com', '+48123123128', NULL, 1, true),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Marek', 'Krawczyk', 'marek7@example.com', '+48123123129', NULL, 1, true),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Katarzyna', 'Piotrowska', 'kasia8@example.com', '+48123123130', NULL, 1, true),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Paweł', 'Grabowski', 'pawel9@example.com', '+48123123131', NULL, 1, true),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL, 1, true);
 
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
+
     ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true),
     ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true),
     ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),

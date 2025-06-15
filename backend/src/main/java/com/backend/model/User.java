@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     @Nullable
-    @Column(unique = true)
+    //@Column(unique = true)
     @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$", message = "Phone number must be valid")
     private String phoneNumber;
 
@@ -45,6 +45,9 @@ public class User {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
