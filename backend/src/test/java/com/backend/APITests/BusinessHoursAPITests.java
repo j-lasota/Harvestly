@@ -1,5 +1,6 @@
 package com.backend.APITests;
 
+import com.backend.config.SecurityTestConfig;
 import com.backend.model.BusinessHours;
 import com.backend.model.Store;
 import com.backend.service.BusinessHoursService;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.graphql.test.tester.GraphQlTester;

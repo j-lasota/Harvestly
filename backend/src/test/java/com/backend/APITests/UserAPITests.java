@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureG
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -34,7 +33,7 @@ class UserAPITests {
     @MockitoBean
     private UserService userService;
 
-    @MockBean
+    @MockitoBean
     private StoreService storeService;
 
     @Test
