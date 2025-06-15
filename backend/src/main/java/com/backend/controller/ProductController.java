@@ -99,9 +99,4 @@ public class ProductController {
     public List<Product> verifiedProducts() {
         return productService.getVerifiedProducts();
     }
-
-    @SchemaMapping
-    public List<OwnProduct> ownProducts(Product product) {
-        return productById(product.getId()).get().getOwnProducts();
-    }
 }
