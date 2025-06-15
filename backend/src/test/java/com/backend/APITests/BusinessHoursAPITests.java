@@ -43,7 +43,6 @@ class BusinessHoursAPITests {
         Store store = new Store();
         store.setId(1L);
         store.setName("Test Store");
-
         List<BusinessHours> mockBusinessHours = Arrays.asList(
                 new BusinessHours(store, DayOfWeek.MONDAY, LocalTime.of(8, 0), LocalTime.of(16, 0)),
                 new BusinessHours(store, DayOfWeek.TUESDAY, LocalTime.of(8, 0), LocalTime.of(16, 0))

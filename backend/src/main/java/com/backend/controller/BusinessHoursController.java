@@ -9,6 +9,7 @@ import com.backend.service.StoreService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalTime;
@@ -57,6 +58,7 @@ public class BusinessHoursController {
      * @throws IllegalArgumentException if the store is not found
      */
     @MutationMapping
+    @PreAuthorize("@businessHoursSecurity.isStoreOwner(authentication, #storeId)")
     public BusinessHours createBusinessHours(@Argument Long storeId, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
@@ -72,6 +74,7 @@ public class BusinessHoursController {
      * @throws IllegalArgumentException if the store is not found
      */
     @MutationMapping
+    @PreAuthorize("@businessHoursSecurity.isStoreOwner(authentication, #storeId)")
     public List<BusinessHours> createMultipleBusinessHours(@Argument Long storeId, @Argument List<BusinessHoursInput> businessHoursList) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Store not found"));
         return businessHoursService.saveMultipleBusinessHours(store, businessHoursList);
@@ -87,6 +90,7 @@ public class BusinessHoursController {
      * @return the updated BusinessHours object
      */
     @MutationMapping
+    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #storeId)")
     public BusinessHours updateBusinessHours(@Argument Long id, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         return businessHoursService.updateBusinessHours(id, dayOfWeek, openingTime, closingTime);
