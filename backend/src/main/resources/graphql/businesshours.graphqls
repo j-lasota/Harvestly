@@ -25,6 +25,13 @@ extend type Query {
 
 extend type Mutation {
     createBusinessHours(storeId: ID!, dayOfWeek: DayOfWeek!, openingTime: LocalTime!, closingTime: LocalTime!): BusinessHours
+    createMultipleBusinessHours(storeId: ID!, businessHoursList: [BusinessHoursInput!]!): [BusinessHours!]!
     updateBusinessHours(id: ID!, dayOfWeek: DayOfWeek, openingTime: LocalTime, closingTime: LocalTime): BusinessHours
     deleteBusinessHours(id: ID!): Boolean
+}
+
+input BusinessHoursInput {
+    dayOfWeek: DayOfWeek!
+    openingTime: LocalTime!
+    closingTime: LocalTime!
 }
