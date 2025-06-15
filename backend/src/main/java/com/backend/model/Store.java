@@ -5,10 +5,12 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
 import java.util.*;
 
 @Entity
+@Data
 @Table(name = "stores")
 public class Store {
 
@@ -62,6 +64,8 @@ public class Store {
     @ManyToMany(mappedBy = "favoriteStores")
     private Set<User> likedByUsers = new HashSet<>();
 
+    private Boolean reported;
+
     public Store() {
     }
 
@@ -75,6 +79,7 @@ public class Store {
         this.address = address;
         this.imageUrl = imageUrl;
         this.verified = false;
+        this.reported = false;
     }
 
     public Store(User user, String name, String description, double latitude, double longitude, String city, String address, String imageUrl, String slug) {
@@ -88,6 +93,7 @@ public class Store {
         this.imageUrl = imageUrl;
         this.verified = false;
         this.slug = slug;
+        this.reported = false;
     }
 
     public Long getId() {

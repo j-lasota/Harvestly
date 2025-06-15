@@ -62,5 +62,13 @@ public class ProductService {
         }
         return false;
     }
+
+    public List<Product> getUnverifiedProducts() {
+        return productRepository.findAllByVerifiedFalse();
+    }
+
+    public List<Product> getVerifiedProducts() {
+        return productRepository.findAllByVerifiedTrue();
+    }
 }
 
