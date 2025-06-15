@@ -15,12 +15,14 @@ import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureG
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
+import com.backend.config.SecurityTestConfig;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -160,6 +162,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void createVerification_ReturnsCreatedVerification() {
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
@@ -347,6 +350,8 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void createVerification_VerifiesStore_WhenFiveVerificationsExist() {
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
@@ -411,6 +416,44 @@ class VerificationAPITests {
                     assert verification.getId() != null;
                     assert verification.getStore().isVerified();
                     assert verification.getStore().getUser().getTier() == 1;
+                });
+    }
+    @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed76")
+    void createVerification_ReturnsForbidden_WhenUserIdDoesNotMatchAuthenticatedUser() {
+        Long storeId = 1L;
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
+
+        Store store = new Store();
+        store.setId(storeId);
+        store.setName("Farm Fresh");
+
+        User user = new User();
+        user.setId(userId);
+
+        when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
+        when(userService.getUserById(userId)).thenReturn(Optional.of(user));
+
+        String mutation = """
+            mutation {
+              createVerification(
+                storeId: 1
+                userId: "2a6e8658-d6db-45d8-9131-e8f87b62ed75"
+              ) {
+                id
+                store {
+                  id
+                  name
+                }
+              }
+            }
+            """;
+
+        graphQlTester.document(mutation)
+                .execute()
+                .errors()
+                .satisfy(errors -> {
+                    assertFalse(errors.isEmpty());
                 });
     }
 }

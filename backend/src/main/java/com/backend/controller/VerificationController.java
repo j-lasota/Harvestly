@@ -10,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,6 +59,7 @@ public class VerificationController {
      * @throws ResponseStatusException if the store or user is not found
      */
     @MutationMapping
+    @PreAuthorize("@verificationSecurity.isTheSameUser(authentication, #userId)")
     public Verification createVerification(@Argument Long storeId, @Argument String userId) {
         Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
