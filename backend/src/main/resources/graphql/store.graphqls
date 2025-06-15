@@ -15,17 +15,19 @@ type Store {
     opinions: [Opinion!]
     likedByUsers: [User!]!
     slug: String
+    reported: Boolean
 }
 
 extend type Query {
     stores: [Store]
     storeById(id: ID!): Store
     storeBySlug(slug: String!): Store
+    storesReported: [Store]
 }
 
 extend type Mutation {
     createStore(userId: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Store
-    updateStore(id: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String): Store
+    updateStore(id: ID!, name: String, description: String, latitude: Float, longitude: Float, city: String, address: String, imageUrl: String, reported: Boolean): Store
     deleteStore(id: ID!): Boolean
 }
 
