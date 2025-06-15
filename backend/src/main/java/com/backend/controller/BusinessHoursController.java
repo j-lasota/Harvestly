@@ -1,6 +1,7 @@
 package com.backend.controller;
 
 import com.backend.model.BusinessHours;
+import com.backend.model.BusinessHoursInput;
 import com.backend.model.DayOfWeek;
 import com.backend.model.Store;
 import com.backend.service.BusinessHoursService;
@@ -60,6 +61,12 @@ public class BusinessHoursController {
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
         return businessHoursService.saveBusinessHours(new BusinessHours(store, dayOfWeek, openingTime, closingTime));
+    }
+
+    @MutationMapping
+    public List<BusinessHours> createMultipleBusinessHours(@Argument Long storeId, @Argument List<BusinessHoursInput> businessHoursList) {
+        Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Store not found"));
+        return businessHoursService.saveMultipleBusinessHours(store, businessHoursList);
     }
 
     /**
