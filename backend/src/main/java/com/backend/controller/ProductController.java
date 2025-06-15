@@ -80,6 +80,26 @@ public class ProductController {
         return productService.deleteProductById(id);
     }
 
+    /**
+     * Fetch all unverified products.
+     *
+     * @return List of unverified products.
+     */
+    @QueryMapping
+    public List<Product> unverifiedProducts() {
+        return productService.getUnverifiedProducts();
+    }
+
+    /**
+     * Fetch all verified products.
+     *
+     * @return List of verified products.
+     */
+    @QueryMapping
+    public List<Product> verifiedProducts() {
+        return productService.getVerifiedProducts();
+    }
+
     @SchemaMapping
     public List<OwnProduct> ownProducts(Product product) {
         return productById(product.getId()).get().getOwnProducts();
