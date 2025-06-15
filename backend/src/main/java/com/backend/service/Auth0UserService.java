@@ -180,7 +180,7 @@ public class Auth0UserService {
                 } catch (Auth0Exception e) {
                     if (e instanceof com.auth0.exception.RateLimitException) {
                         log.warn("Rate limit reached, waiting before next attempt...");
-                        Thread.sleep(60000); // minutka jakbym znowu rozjebał wszystkie tokeny w sekundę
+                        Thread.sleep(60000); // minutka jakbym znowu zużył wszystkie tokeny w sekundę
                         continue;
                     }
                     throw e;
