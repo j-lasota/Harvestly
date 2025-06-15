@@ -112,7 +112,6 @@ public class VerificationModuleE2ETests {
     @Transactional
     @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testCompleteVerificationLifecycle() {
-        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
         String createVerificationMutation = """
             mutation {
                 createVerification(
@@ -316,6 +315,7 @@ public class VerificationModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidVerificationOperations() {
         String getNonExistentVerificationQuery = """
             query {
@@ -341,5 +341,29 @@ public class VerificationModuleE2ETests {
                 .document(deleteNonExistentVerificationMutation)
                 .execute()
                 .path("deleteVerification").entity(Boolean.class).isEqualTo(false);
+    }
+    @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed76") // Different user than verifierUsers[0]
+    public void testAuthenticationFailsWithDifferentUserId() {
+        String createVerificationMutation = """
+        mutation {
+            createVerification(
+                storeId: %d,
+                userId: "%s"
+            ) {
+                id
+            }
+        }
+        """.formatted(testStore.getId(), verifierUsers[0].getId());
+
+        graphQlTester.document(createVerificationMutation)
+                .execute()
+                .errors()
+                .satisfy(errors -> {
+                    assertFalse(errors.isEmpty());
+                });
+
+        List<Verification> verifications = verificationRepository.findAll();
+        assertEquals(0, verifications.size());
     }
 }

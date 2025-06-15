@@ -79,6 +79,7 @@ public class VerificationController {
      * @return true if the verification was successfully deleted, false otherwise
      */
     @MutationMapping
+    @PreAuthorize("@verificationSecurity.isTheSameUserAsInVerification(authentication, #id)")
     public Boolean deleteVerification(@Argument Long id) {
         return verificationService.deleteVerificationById(id);
     }

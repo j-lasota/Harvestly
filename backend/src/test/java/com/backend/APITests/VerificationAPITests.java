@@ -45,6 +45,8 @@ class VerificationAPITests {
     private UserService userService;
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void verifications_ReturnsAllVerifications() {
         Store store1 = new Store();
         store1.setId(1L);
@@ -98,6 +100,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void verificationById_ReturnsVerification_WhenVerificationExists() {
         Long verificationId = 1L;
         Store store = new Store();
@@ -143,6 +146,8 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void verificationById_ReturnsNull_WhenVerificationDoesNotExist() {
         Long verificationId = 999L;
         when(verificationService.getVerificationById(verificationId)).thenReturn(Optional.empty());
@@ -217,6 +222,8 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void createVerification_ThrowsException_WhenStoreNotFound() {
         Long storeId = 999L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
@@ -247,6 +254,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void createVerification_ThrowsException_WhenUserNotFound() {
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
@@ -277,6 +285,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void createVerification_ThrowsException_WhenVerificationAlreadyExists() {
         Long storeId = 1L;
         String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
@@ -314,6 +323,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void deleteVerification_ReturnsTrue_WhenVerificationDeleted() {
         Long verificationId = 1L;
         when(verificationService.deleteVerificationById(verificationId)).thenReturn(true);
@@ -332,6 +342,7 @@ class VerificationAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void deleteVerification_ReturnsFalse_WhenVerificationNotFound() {
         Long verificationId = 999L;
         when(verificationService.deleteVerificationById(verificationId)).thenReturn(false);

@@ -13,4 +13,9 @@ public class VerificationSecurity {
     public boolean isTheSameUser(Authentication authentication, String userId) {
         return authentication != null && authentication.getName().equals(userId);
     }
+    public boolean isTheSameUserAsInVerification(Authentication authentication, Long verificationId) {
+        return verificationRepository.findById(verificationId)
+                .map(verification -> verification.getUser().getId().equals(authentication.getName()))
+                .orElse(true);
+    }
 }
