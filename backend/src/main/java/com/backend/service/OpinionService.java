@@ -1,6 +1,8 @@
 package com.backend.service;
 
 import com.backend.model.Opinion;
+import com.backend.model.Store;
+import com.backend.model.User;
 import com.backend.repository.OpinionRepository;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +70,10 @@ public class OpinionService {
 
     public List<Opinion> getOpinionsByUserId(String userId) {
         return opinionRepository.findByUserId(userId);
+    }
+
+    public List<Opinion> getOpinionsByUserIn(List<User> users) {
+        return opinionRepository.findByUserIn(users);
     }
 
     public List<Opinion> saveAllOpinions(List<Opinion> opinions) {

@@ -39,18 +39,25 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
     @Value("${app.protected-user.ids}")
     private Set<String> protectedUserIds;
 
-    // Metoda dla webhooka - bez zmian, jest OK
+    // Metoda dla webhooka
     @Transactional
     public void processIncomingUser(Auth0UserDto dto) {
         if (dto.getUserId() == null || dto.getEmail() == null) {
             log.warn("Skipping incoming user due to missing userId or email: {}", dto);
             return;
         }
-        userService.getUserById(extractCleanId(dto.getUserId()))
-                .ifPresentOrElse(
-                        existingUser -> updateUserFromDto(existingUser, dto),
-                        () -> createUserFromDto(dto)
-                );
+
+        // Używamy pełnego ID, bez obcinania
+        Optional<User> userOpt = userService.getUserById(dto.getUserId());
+        if (userOpt.isEmpty()) {
+
+            userOpt = userService.findByEmail(dto.getEmail());
+        }
+
+        userOpt.ifPresentOrElse(
+                existingUser -> updateUserFromDto(existingUser, dto),
+                () -> createUserFromDto(dto)
+        );
     }
 
     // Główna metoda synchronizacji - bez zmian, jest OK
@@ -60,27 +67,32 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         log.info("Starting full user synchronization with Auth0.");
         try {
             List<com.auth0.json.mgmt.users.User> auth0Users = fetchAllAuth0Users();
-            Map<String, com.auth0.json.mgmt.users.User> auth0UsersMap = auth0Users.stream()
-                    .collect(Collectors.toMap(u -> extractCleanId(u.getId()), Function.identity()));
-            log.info("Found {} active users in Auth0.", auth0Users.size());
-
-            Map<String, User> localUsersMap = userService.getAllUsers().stream()
+            Map<String, User> localUsersMapById = userService.getAllUsers().stream()
                     .collect(Collectors.toMap(User::getId, Function.identity()));
-            log.info("Found {} users in local database.", localUsersMap.size());
 
-            handleDeactivatedUsers(localUsersMap, auth0UsersMap.keySet());
+            // Przekazujemy pełne ID do obsługi deaktywacji
+            handleDeactivatedUsers(localUsersMapById, auth0Users.stream().map(com.auth0.json.mgmt.users.User::getId).collect(Collectors.toSet()));
 
-            for (Map.Entry<String, com.auth0.json.mgmt.users.User> entry : auth0UsersMap.entrySet()) {
-                String cleanId = entry.getKey();
-                com.auth0.json.mgmt.users.User auth0User = entry.getValue();
+            for (com.auth0.json.mgmt.users.User auth0User : auth0Users) {
+                // Kluczem jest PEŁNY, nieobcięty ID
+                String fullId = auth0User.getId();
 
-                if (localUsersMap.containsKey(cleanId)) {
-                    User localUser = localUsersMap.get(cleanId);
+                // KROK 1: Inteligentne wyszukiwanie
+                Optional<User> localUserOpt = Optional.ofNullable(localUsersMapById.get(fullId));
+                if (localUserOpt.isEmpty()) {
+                    localUserOpt = userService.findByEmail(auth0User.getEmail());
+                }
+
+                // KROK 2: Decyzja
+                if (localUserOpt.isPresent()) {
+                    // Użytkownik znaleziony -> aktualizujemy Auth0, jeśli trzeba
+                    User localUser = localUserOpt.get();
                     if (dataHasChanged(localUser, auth0User)) {
                         updateUserInAuth0(localUser, auth0User.getId());
                     }
                 } else {
-                    log.info("User {} found in Auth0 but not in local DB. Creating.", cleanId);
+                    // Użytkownika na pewno nie ma -> tworzymy go
+                    log.info("User with email {} not found in local DB. Creating.", auth0User.getEmail());
                     createUserFromAuth0User(auth0User);
                 }
             }
@@ -176,34 +188,34 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
             // Zakładamy, że jest tam zawsze, ale dodajemy solidne sprawdzenie.
             String deletedUserPlaceholderId = "11111111-1111-1111-1111-111111111111"; // Można też wziąć pierwszy element z `protectedUserIds`, ale to jest bezpieczniejsze
 
-//            User deletedUserPlaceholder = userService.getUserById(deletedUserPlaceholderId)
-//                    .orElseThrow(() -> new IllegalStateException("Critical Error: Deleted User placeholder with ID " + deletedUserPlaceholderId + " not found in the database!"));
-//
-//            // Pobierz pełne obiekty użytkowników, których chcemy usunąć
-//            List<User> usersToDelete = userService.findAllById(idsToDelete);
-//
-//            if (!usersToDelete.isEmpty()) {
-//                // Znajdź i przepisz wszystkie powiązane opinie
-//                List<Opinion> opinionsToReassign = opinionService.findByUserId(usersToDelete);
-//                if (!opinionsToReassign.isEmpty()) {
-//                    log.info("Reassigning {} opinions to the deleted-user placeholder.", opinionsToReassign.size());
-//                    opinionsToReassign.forEach(opinion -> opinion.setUser(deletedUserPlaceholder));
-//                    opinionService.saveAll(opinionsToReassign);
-//                }
-//
-//                // Znajdź i przepisz wszystkie powiązane sklepy
-//                // (Zakładam, że masz `StoreRepository` z podobną metodą)
-//                 List<Store> storesToReassign = storeService.findByUserId(usersToDelete);
-//                 if (!storesToReassign.isEmpty()) {
-//                     log.info("Reassigning {} stores to the deleted-user placeholder.", storesToReassign.size());
-//                     storesToReassign.forEach(store -> store.setUser(deletedUserPlaceholder));
-//                     storeService.saveAll(storesToReassign);
-//                 }
-//
-//                // Teraz możemy bezpiecznie usunąć użytkowników
-//                log.info("Proceeding with deletion of {} users.", usersToDelete.size());
-//                userService.deleteAllInBatch(usersToDelete);
-//            }
+            User deletedUserPlaceholder = userService.getUserById(deletedUserPlaceholderId)
+                    .orElseThrow(() -> new IllegalStateException("Critical Error: Deleted User placeholder with ID " + deletedUserPlaceholderId + " not found in the database!"));
+
+            // Pobierz pełne obiekty użytkowników, których chcemy usunąć
+            List<User> usersToDelete = userService.findAllUsersByIdIn(idsToDelete);
+
+            if (!usersToDelete.isEmpty()) {
+                // Znajdź i przepisz wszystkie powiązane opinie
+                List<Opinion> opinionsToReassign = opinionService.getOpinionsByUserIn(usersToDelete);
+                if (!opinionsToReassign.isEmpty()) {
+                    log.info("Reassigning {} opinions to the deleted-user placeholder.", opinionsToReassign.size());
+                    opinionsToReassign.forEach(opinion -> opinion.setUser(deletedUserPlaceholder));
+                    opinionService.saveAllOpinions(opinionsToReassign);
+                }
+
+                // Znajdź i przepisz wszystkie powiązane sklepy
+                // (Zakładam, że masz `StoreRepository` z podobną metodą)
+                 List<Store> storesToReassign = storeService.getStoresByUserIn(usersToDelete);
+                 if (!storesToReassign.isEmpty()) {
+                     log.info("Reassigning {} stores to the deleted-user placeholder.", storesToReassign.size());
+                     storesToReassign.forEach(store -> store.setUser(deletedUserPlaceholder));
+                     storeService.saveAllStores(storesToReassign);
+                 }
+
+                // Teraz możemy bezpiecznie usunąć użytkowników
+                log.info("Proceeding with deletion of {} users.", usersToDelete.size());
+                userService.deleteAllUsersInBatch(usersToDelete);
+            }
         }
     }
 
@@ -215,16 +227,15 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         return false;
     }
 
-    // Metody `...FromDto` i `...FromAuth0User` - bez zmian, są OK
     private void createUserFromDto(Auth0UserDto dto) {
         User user = new User();
-        user.setId(extractCleanId(dto.getUserId()));
+        // Ustawiamy PEŁNY ID, bez obcinania
+        user.setId(dto.getUserId());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
         user.setLastName(dto.getFamilyName() != null ? dto.getFamilyName() : "");
         user.setName(dto.getName() != null ? dto.getName() : "");
         user.setImg(dto.getImg());
-        // W tej wersji usuwamy facebook_nickname, zgodnie z uproszczeniem
 
         if (dto.getCreatedAt() != null) {
             try {
@@ -238,10 +249,18 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         }
 
         user.setTier(0);
+        user.setActive(true);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
-        userService.saveUser(user);
-        log.info("Created new user from DTO with ID: {}", user.getId());
+
+        try {
+            userService.saveUser(user);
+            log.info("Created new user from DTO with ID: {}", user.getId());
+        } catch (IllegalArgumentException e) {
+            // Ignorujemy błędy walidacji (np. duplikat numeru tel.), logujemy i kontynuujemy
+            log.warn("Could not create user {} due to validation error: {}",
+                    (user.getEmail() != null ? user.getEmail() : user.getId()), e.getMessage());
+        }
     }
 
     private void updateUserFromDto(User existing, Auth0UserDto dto) {
@@ -282,14 +301,12 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         createUserFromDto(dto);
     }
 
-    // Metoda extractCleanId - bez zmian, jest OK
     private String extractCleanId(String rawId) {
         if (rawId == null) return null;
         int idx = rawId.indexOf('|');
         return idx >= 0 ? rawId.substring(idx + 1) : rawId;
     }
 
-    // Metoda uruchamiająca na starcie - bez zmian, jest OK
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationStart() {
         new Thread(this::synchronizeAllUsers).start();

@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     @Nullable
-    //@Column(unique = true)
+    @Column(unique = true)
     @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$", message = "Phone number must be valid")
     private String phoneNumber;
 

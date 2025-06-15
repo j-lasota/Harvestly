@@ -27,9 +27,6 @@ public class Auth0UserDto {
     @JsonProperty("img")
     private String img;
 
-    @JsonProperty("facebookNickname")
-    private String facebook_nickname;
-
     @JsonProperty("created_at")
     private String createdAt;
 }
