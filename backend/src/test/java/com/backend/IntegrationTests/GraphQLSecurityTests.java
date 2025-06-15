@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test") // This will NOT include test-no-security
+@ActiveProfiles("test")
 class GraphQLSecurityTests {
 
     @Autowired MockMvc mockMvc;
