@@ -299,8 +299,7 @@ class StoreAPITests {
                     longitude
                     city
                     address
-                    imageUrl
-                    
+                    imageUrl 
                   }
                 }
                 """;
