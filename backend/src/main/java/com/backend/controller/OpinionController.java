@@ -9,6 +9,7 @@ import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -57,6 +58,7 @@ public class OpinionController {
      * @return The created Opinion object.
      */
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Opinion createOpinion(@Argument Long storeId, @Argument String userId, @Argument String description, @Argument Integer stars) {
         Optional<Store> shop = storeService.getStoreById(storeId);
         Optional<User> user = userService.getUserById(userId);
@@ -103,6 +105,7 @@ public class OpinionController {
      * @return Boolean indicating whether the deletion was successful.
      */
     @MutationMapping
+    @PreAuthorize("@opinionSecurity.isAuthor(authentication, #id)")
     public Boolean deleteOpinion(@Argument Long id) {
         return opinionService.deleteOpinionById(id);
     }
@@ -117,6 +120,7 @@ public class OpinionController {
      * @return The updated Opinion object.
      */
     @MutationMapping
+    @PreAuthorize("@opinionSecurity.isAuthor(authentication, #id)")
     public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars, @Argument Boolean reported) {
         return opinionService.updateOpinion(id, description, stars, reported);
     }

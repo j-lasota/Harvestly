@@ -19,7 +19,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(StatisticsController.class) // prevents error: too many clients when running all tests at once
+@SpringBootTest
+@AutoConfigureMockMvc
 @WithMockUser
 @ActiveProfiles("test")
 class StatisticsAPITests {
