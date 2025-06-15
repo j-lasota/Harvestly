@@ -6,6 +6,7 @@ import com.backend.model.User;
 import com.backend.repository.OpinionRepository;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,13 @@ class GraphQLSecurityTests {
         existingOpinion = opinionRepo.save(existingOpinion);
     }
 
+    @AfterEach
+    void tearDown() {
+        opinionRepo.deleteAll();
+        storeRepo.deleteAll();
+        userRepository.deleteAll();
+
+    }
     @Test
     void queryStores_publicAllowed() throws Exception {
         String payload = "{\"query\":\"query { stores { id name } }\"}";
