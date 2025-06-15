@@ -249,7 +249,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         }
 
         user.setTier(0);
-        user.setActive(true);
         user.setStores(new ArrayList<>());
         user.setFavoriteStores(new HashSet<>());
 

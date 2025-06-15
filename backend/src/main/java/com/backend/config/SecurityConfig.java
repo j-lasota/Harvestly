@@ -54,8 +54,8 @@ public class SecurityConfig {
     private Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        authoritiesConverter.setAuthoritiesClaimName("permissions"); // <--- Nazwa claima z Auth0
-        authoritiesConverter.setAuthorityPrefix("SCOPE_"); // <--- Ważne! Spring domyślnie wymaga prefixu
+        authoritiesConverter.setAuthoritiesClaimName("permissions");
+        authoritiesConverter.setAuthorityPrefix("SCOPE_");
         jwtConverter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
         return jwtConverter;
     }
