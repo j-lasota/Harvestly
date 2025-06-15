@@ -19,10 +19,10 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-        if(userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("User with the same email already exists.");
         }
-        if(userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
             throw new IllegalArgumentException("User with the same phone number already exists.");
         }
         return userRepository.save(user);
@@ -79,10 +79,10 @@ public class UserService {
     public User addFavoriteShop(String userId, Long shopId) {
         Optional<User> user = getUserById(userId);
         Optional<Store> shop = storeService.getStoreById(shopId);
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
-        if(shop.isEmpty()) {
+        if (shop.isEmpty()) {
             throw new IllegalArgumentException("Shop not found");
         }
         user.get().getFavoriteStores().add(shop.get());
@@ -92,10 +92,10 @@ public class UserService {
     public User removeFavoriteShop(String userId, Long shopId) {
         Optional<User> user = getUserById(userId);
         Optional<Store> shop = storeService.getStoreById(shopId);
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
-        if(shop.isEmpty()) {
+        if (shop.isEmpty()) {
             throw new IllegalArgumentException("Shop not found");
         }
         user.get().getFavoriteStores().remove(shop.get());
@@ -104,5 +104,17 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> findAllUsersByIdIn(List<String> ids) {
+        return userRepository.findAllByIdIn(ids);
+    }
+
+    public Boolean deleteAllUsersInBatch(List<User> users) {
+        if (users.isEmpty()) {
+            return false;
+        }
+        userRepository.deleteAll(users);
+        return true;
     }
 }

@@ -65,4 +65,20 @@ public class OpinionService {
         }
         return opinionRepository.save(opinion);
     }
+
+    public List<Opinion> getOpinionsByUserId(String userId) {
+        return opinionRepository.findByUserId(userId);
+    }
+
+    public List<Opinion> saveAllOpinions(List<Opinion> opinions) {
+        for (Opinion opinion : opinions) {
+            if (opinionRepository.existsByStoreIdAndUserId(opinion.getStore().getId(), opinion.getUser().getId())) {
+                throw new IllegalArgumentException("Opinion already exists for the given shop and user.");
+            }
+            if (opinion.getStars() < 0 || opinion.getStars() > 5) {
+                throw new IllegalArgumentException("Stars must be between 0 and 5.");
+            }
+        }
+        return opinionRepository.saveAll(opinions);
+    }
 }
