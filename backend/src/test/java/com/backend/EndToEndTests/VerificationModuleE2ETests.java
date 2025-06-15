@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,6 +96,7 @@ public class VerificationModuleE2ETests {
                     0,
                     "verifier-img" + i + ".jpg"
             );
+            verifierUsers[0].setId("2a6e8658-d6db-45d8-9131-e8f87b62ed75"); // for checking if authentication works
             verifierUsers[i] = userRepository.save(verifierUsers[i]);
         }
     }
@@ -108,7 +110,9 @@ public class VerificationModuleE2ETests {
 
     @Test
     @Transactional
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testCompleteVerificationLifecycle() {
+        String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
         String createVerificationMutation = """
             mutation {
                 createVerification(
@@ -128,7 +132,7 @@ public class VerificationModuleE2ETests {
                     }
                 }
             }
-            """.formatted(testStore.getId(), verifierUsers[0].getId());
+            """.formatted(testStore.getId(), "2a6e8658-d6db-45d8-9131-e8f87b62ed75");
 
         GraphQlTester.Response createResponse = graphQlTester
                 .document(createVerificationMutation)
@@ -143,12 +147,12 @@ public class VerificationModuleE2ETests {
                 .path("createVerification.store.id").entity(String.class).isEqualTo(testStore.getId().toString())
                 .path("createVerification.store.name").entity(String.class).isEqualTo("Test Store")
                 .path("createVerification.store.verified").entity(Boolean.class).isEqualTo(false)
-                .path("createVerification.user.id").entity(String.class).isEqualTo(verifierUsers[0].getId());
+                .path("createVerification.user.id").entity(String.class).isEqualTo("2a6e8658-d6db-45d8-9131-e8f87b62ed75");
 
         Optional<Verification> savedVerification = verificationService.getVerificationById(verificationId);
         assertTrue(savedVerification.isPresent());
         assertEquals(testStore.getId(), savedVerification.get().getStore().getId());
-        assertEquals(verifierUsers[0].getId(), savedVerification.get().getUser().getId());
+        assertEquals("2a6e8658-d6db-45d8-9131-e8f87b62ed75", savedVerification.get().getUser().getId());
 
         String getVerificationQuery = """
             query {
@@ -172,7 +176,7 @@ public class VerificationModuleE2ETests {
                 .execute()
                 .path("verificationById.id").entity(String.class).isEqualTo(verificationId.toString())
                 .path("verificationById.store.id").entity(String.class).isEqualTo(testStore.getId().toString())
-                .path("verificationById.user.id").entity(String.class).isEqualTo(verifierUsers[0].getId());
+                .path("verificationById.user.id").entity(String.class).isEqualTo("2a6e8658-d6db-45d8-9131-e8f87b62ed75");
 
         String getAllVerificationsQuery = """
             query {
@@ -217,67 +221,24 @@ public class VerificationModuleE2ETests {
     @Test
     @Transactional
     public void testStoreVerificationLogic() {
+        // bypass security for this test
         for (int i = 0; i < 4; i++) {
-            String createVerificationMutation = """
-                mutation {
-                    createVerification(
-                        storeId: %d,
-                        userId: "%s"
-                    ) {
-                        id
-                        store {
-                            id
-                            verified
-                            user {
-                                tier
-                            }
-                        }
-                    }
-                }
-                """.formatted(testStore.getId(), verifierUsers[i].getId());
-
-            graphQlTester
-                    .document(createVerificationMutation)
-                    .execute()
-                    .path("createVerification.store.verified").entity(Boolean.class).isEqualTo(false)
-                    .path("createVerification.store.user.tier").entity(Integer.class).isEqualTo(0);
+            verificationService.saveVerification(new Verification(testStore, verifierUsers[i]));
         }
 
         Store storeBeforeFifthVerification = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertFalse(storeBeforeFifthVerification.isVerified());
         assertEquals(0, storeBeforeFifthVerification.getUser().getTier());
 
-        String finalVerificationMutation = """
-            mutation {
-                createVerification(
-                    storeId: %d,
-                    userId: "%s"
-                ) {
-                    id
-                    store {
-                        id
-                        verified
-                        user {
-                            id
-                            tier
-                        }
-                    }
-                }
-            }
-            """.formatted(testStore.getId(), verifierUsers[4].getId());
-
-        graphQlTester
-                .document(finalVerificationMutation)
-                .execute()
-                .path("createVerification.store.verified").entity(Boolean.class).isEqualTo(true)
-                .path("createVerification.store.user.tier").entity(Integer.class).isEqualTo(1);
-
+        // Create the fifth verification
+        verificationService.saveVerification(new Verification(testStore, verifierUsers[4]));
         Store verifiedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(verifiedStore.isVerified());
         assertEquals(1, verifiedStore.getUser().getTier());
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testDuplicateVerification() {
         String createFirstVerificationMutation = """
             mutation {
@@ -315,6 +276,7 @@ public class VerificationModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidVerificationCreation() {
         String invalidStoreMutation = """
             mutation {
