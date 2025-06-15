@@ -60,6 +60,8 @@
       "searchPlaceholder": "Wprowadź adres...",
       "addressNotFound": "Adres nie został znaleziony.",
       "searchError": "Błąd wyszukiwania adresu:",
+      "searchProduct":"Wybierz produkt",
+      
       "storeInfo": {
         "description": "Opis",
         "noDescription": "Brak opisu sklepu",

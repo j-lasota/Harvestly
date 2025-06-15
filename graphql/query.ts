@@ -19,6 +19,26 @@ const allProductsQuery = graphql(`
   }
 `);
 
+const allProductsQueryMap = graphql(`
+  query AllProducts {
+    ownProducts {
+      id
+      product {
+        name
+      }
+      store {
+        id
+        slug
+        name
+        city
+      }
+    }
+  }
+`);
+
+
+
+
 const allCategoriesQuery = graphql(`
   query Category {
     products {
@@ -130,6 +150,7 @@ const allShopsLocationsQuery = graphql(`
       description
       address
       imageUrl
+      slug
       businessHours {
         dayOfWeek
         openingTime
@@ -161,4 +182,5 @@ export {
   hasUserStoresQuery,
   allShopsLocationsQuery,
   userByIdQuery,
+  allProductsQueryMap,
 };

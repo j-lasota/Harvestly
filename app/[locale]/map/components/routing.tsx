@@ -2,42 +2,54 @@
 
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import { useMap } from 'react-leaflet';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import 'leaflet-routing-machine';
 import L from 'leaflet';
 
 interface RoutingProps {
   from: [number, number];
   to: [number, number];
-  mode?: 'car' | 'foot';
+  
 }
 
-const Routing = ({ from, to, mode = 'foot' }: RoutingProps) => {
+const Routing = ({ from, to }: RoutingProps) => {
   const map = useMap();
+  // Ustawiamy typ na any, bo TS nie ma definicji L.Routing.Control
+  const routingControlRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!map || !map._loaded) return;
+    if (!map || typeof window === 'undefined') return;
 
-    const routingControl = L.Routing.control({
+    if (!from || !to) return;
+
+    if (routingControlRef.current) {
+      map.removeControl(routingControlRef.current);
+      routingControlRef.current = null;
+    }
+
+    const control = (L.Routing as any).control({
       waypoints: [L.latLng(...from), L.latLng(...to)],
       routeWhileDragging: false,
       addWaypoints: false,
       draggableWaypoints: false,
       createMarker: () => null,
       show: false,
-      lineOptions: {
-        styles: [{ color: mode === 'car' ? 'blue' : 'green', opacity: 0.7, weight: 5 }],
-      },
-      router: new L.Routing.OSRMv1({
+      router: new (L.Routing as any).OSRMv1({
         serviceUrl: 'https://router.project-osrm.org/route/v1',
-        profile: mode === 'car' ? 'car' : 'foot',
       }),
-    }).addTo(map);
+    });
 
+    control.addTo(map);
+    routingControlRef.current = control;
+
+    // Usuwanie po odmontowaniu
     return () => {
-      map.removeControl(routingControl);
+      if (routingControlRef.current) {
+        map.removeControl(routingControlRef.current);
+        routingControlRef.current = null;
+      }
     };
-  }, [from, to, mode, map]);
+  }, [map, from, to]);
 
   return null;
 };
