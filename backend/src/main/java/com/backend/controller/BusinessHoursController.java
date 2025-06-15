@@ -90,7 +90,7 @@ public class BusinessHoursController {
      * @return the updated BusinessHours object
      */
     @MutationMapping
-    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #storeId)")
+    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
     public BusinessHours updateBusinessHours(@Argument Long id, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         return businessHoursService.updateBusinessHours(id, dayOfWeek, openingTime, closingTime);
@@ -103,6 +103,7 @@ public class BusinessHoursController {
      * @return true if the deletion was successful, false otherwise
      */
     @MutationMapping
+    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
     public Boolean deleteBusinessHours(@Argument Long id) {
         return businessHoursService.deleteBusinessHours(id);
     }

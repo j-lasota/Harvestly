@@ -66,7 +66,6 @@ public class UserModuleE2ETests {
     }
 
     @Test
-    @Transactional
     public void testCompleteUserLifecycle() {
         String createUserMutation = """
             mutation {
@@ -203,6 +202,7 @@ public class UserModuleE2ETests {
             """;
 
         List<User> allUsers = userService.getAllUsers();
+        System.out.println(allUsers);
         assertEquals(1, allUsers.size());
 
         graphQlTester

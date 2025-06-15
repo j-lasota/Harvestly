@@ -13,7 +13,7 @@ public class BusinessHoursSecurity {
 
     public BusinessHoursSecurity(StoreRepository StoreRepository, BusinessHoursRepository businessHoursRepository) {
         this.storeRepository = StoreRepository;
-        this.businessHoursRepository = businessHoursRepository();
+        this.businessHoursRepository = businessHoursRepository;
     }
 
     public boolean isStoreOwner(Authentication authentication, Long storeId) {
@@ -31,6 +31,6 @@ public class BusinessHoursSecurity {
                 return false;
             }
             return store.getUser().getId().equals(authentication.getName());
-        }).orElse(false);
+        }).orElse(true);
     }
 }
