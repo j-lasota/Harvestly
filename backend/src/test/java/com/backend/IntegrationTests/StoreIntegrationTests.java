@@ -89,7 +89,7 @@ class StoreIntegrationTests {
 
         Store updated = storeService.updateStore(saved.getId(),
                 "Updated Shop", "Updated Description", 11.1111, 22.2222,
-                "Updated City", "456 Updated Street", "http://example.com/updated.jpg");
+                "Updated City", "456 Updated Street", "http://example.com/updated.jpg", null);
 
         assertEquals("Updated Shop", updated.getName());
         assertEquals("Updated Description", updated.getDescription());
@@ -103,7 +103,7 @@ class StoreIntegrationTests {
     @Test
     void testUpdateStore_NotFound() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            storeService.updateStore(999L, "New", null, null, null, null, null, null);
+            storeService.updateStore(999L, "New", null, null, null, null, null, null, null);
         });
 
         assertEquals("Store not found", exception.getMessage());

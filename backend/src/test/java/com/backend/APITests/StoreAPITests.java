@@ -276,7 +276,7 @@ class StoreAPITests {
 
         when(storeService.getStoreById(storeId)).thenReturn(Optional.of(originalStore));
         when(storeService.updateStore(
-                eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString()
+                eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString(), anyBoolean()
         )).thenReturn(updatedStore);
 
         String mutation = """
@@ -290,6 +290,7 @@ class StoreAPITests {
                     city: "Boston"
                     address: "101 Main St"
                     imageUrl: "updated_image.jpg"
+                    reported: false
                   ) {
                     id
                     name
@@ -299,6 +300,7 @@ class StoreAPITests {
                     city
                     address
                     imageUrl
+                    
                   }
                 }
                 """;
@@ -321,7 +323,7 @@ class StoreAPITests {
         Long storeId = 999L;
         when(storeService.getStoreById(storeId)).thenReturn(Optional.empty());
         when(storeService.updateStore(
-                eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString()
+                eq(storeId), anyString(), anyString(), anyDouble(), anyDouble(), anyString(), anyString(), anyString(), anyBoolean()
         )).thenThrow(new IllegalArgumentException("Store not found"));
 
         String mutation = """
@@ -334,7 +336,8 @@ class StoreAPITests {
                     longitude: -71.0589
                     city: "Boston"
                     address: "101 Main St"
-                    imageUrl: "updated_image.jpg"
+                    imageUrl: "updated_image.jpg",
+                    reported: false
                   ) {
                     id
                     name
