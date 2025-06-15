@@ -78,7 +78,7 @@ export default function AddStoreClientPage() {
             />
           </div>
 
-          <div className="scrollbar-hidden col-span-2 h-[calc(100vh-8rem)] overflow-y-scroll">
+          <div className="scrollbar-hidden h-[calc(100vh-8rem)] overflow-y-scroll lg:col-span-2">
             <div className="mr-4 ml-auto flex max-w-lg flex-col gap-4">
               <input
                 name="image_url"

@@ -36,9 +36,6 @@ const allProductsQueryMap = graphql(`
   }
 `);
 
-
-
-
 const allCategoriesQuery = graphql(`
   query Category {
     products {
@@ -168,6 +165,7 @@ const userByIdQuery = graphql(`
       firstName
       lastName
       phoneNumber
+      facebook_nickname
       img
     }
   }

@@ -13,6 +13,7 @@ const editUserMutation = graphql(`
     $img: String!
     $firstName: String!
     $lastName: String!
+    $facebookNickname: String!
     $phoneNumber: String!
   ) {
     updateUser(
@@ -20,6 +21,7 @@ const editUserMutation = graphql(`
       img: $img
       firstName: $firstName
       lastName: $lastName
+      facebook_nickname: $facebookNickname
       phoneNumber: $phoneNumber
     ) {
       id
@@ -33,7 +35,14 @@ const FormSchema = z.object({
   img: z.string(),
   firstName: z.string().min(2).max(100).trim(),
   lastName: z.string().min(2).max(100).trim(),
-  phoneNumber: z.string().min(2).max(100).trim(),
+  facebookNickname: z
+    .string()
+    .min(2)
+    .max(50)
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  phoneNumber: z.string().min(9).max(10).trim().optional().or(z.literal("")),
 });
 
 type FormState =
@@ -42,6 +51,7 @@ type FormState =
         img?: string[];
         firstName?: string[];
         lastName?: string[];
+        facebookNickname?: string[];
         phoneNumber?: string[];
       };
       success?: boolean;
@@ -57,6 +67,7 @@ export async function editUserAction(state: FormState, formData: FormData) {
     img: formData.get("img") || "",
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
+    facebookNickname: formData.get("facebookNickname") || "",
     phoneNumber: formData.get("phoneNumber"),
   });
 
@@ -66,7 +77,8 @@ export async function editUserAction(state: FormState, formData: FormData) {
     };
   }
 
-  const { img, firstName, lastName, phoneNumber } = validatedFields.data;
+  const { img, firstName, lastName, facebookNickname, phoneNumber } =
+    validatedFields.data;
 
   const { data } = await getClient().mutate({
     mutation: editUserMutation,
@@ -75,7 +87,8 @@ export async function editUserAction(state: FormState, formData: FormData) {
       img,
       firstName,
       lastName,
-      phoneNumber,
+      facebookNickname: facebookNickname || "",
+      phoneNumber: phoneNumber || "",
     },
   });
 
