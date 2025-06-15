@@ -99,4 +99,24 @@ public class StoreService {
     public List<Store> getAllReportedStores() {
         return storeRepository.findAllByReportedTrue();
     }
+
+    public List<Store> getStoresByUserId(String userId) {
+        return storeRepository.findByUserId(userId);
+    }
+
+    public List<Store> saveAllStores(List<Store> stores) {
+        for (Store store : stores) {
+            if (store.getUser().getTier() == 0) {
+                if (!store.getUser().getStores().isEmpty()) {
+                    throw new IllegalArgumentException("User with tier 0 already has a store which is not verified.");
+                }
+            } else {
+                if (store.getUser().getStores().size() >= 3) {
+                    throw new IllegalArgumentException("User can have only 3 stores.");
+                }
+            }
+            store.setSlug(generateUniqueSlug(store.getName()));
+        }
+        return storeRepository.saveAll(stores);
+    }
 }
