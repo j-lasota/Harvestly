@@ -46,6 +46,7 @@ class OwnProductControllerSecurityTest {
     private User anotherUser;
     private Store myStore;
     private Product globalProduct;
+    private Product globalProduct1;
     private OwnProduct ownProductInMyStore;
 
     @BeforeEach
@@ -64,7 +65,8 @@ class OwnProductControllerSecurityTest {
 
         globalProduct = new Product("Test Product", ProductCategory.FRUIT, true);
         productRepository.save(globalProduct);
-
+        globalProduct1 = new Product("Test Product", ProductCategory.FRUIT, true);
+        productRepository.save(globalProduct1);
         ownProductInMyStore = new OwnProduct(myStore, globalProduct, new BigDecimal("9.99"), 100, "img");
         ownProductRepository.save(ownProductInMyStore);
     }
@@ -103,7 +105,7 @@ class OwnProductControllerSecurityTest {
     void createOwnProduct_asOwner_shouldSucceed() throws Exception {
         String payload = String.format("""
             {"query":"mutation { createOwnProduct(storeId: %d, productId: %d, price: 12.50, quantity: 50) { id store { id } } }"}
-            """, myStore.getId(), globalProduct.getId());
+            """, myStore.getId(), globalProduct1.getId());
 
         mockMvc.perform(post("/graphql")
                         .with(jwtWithAuthorities(storeOwner.getId(), List.of()))
@@ -134,7 +136,7 @@ class OwnProductControllerSecurityTest {
     void createOwnProduct_asAdmin_shouldSucceed() throws Exception {
         String payload = String.format("""
             {"query":"mutation { createOwnProduct(storeId: %d, productId: %d, price: 1.0, quantity: 1) { id } }"}
-            """, myStore.getId(), globalProduct.getId());
+            """, myStore.getId(), globalProduct1.getId());
 
         mockMvc.perform(post("/graphql")
                         .with(jwtWithAuthorities("admin-id", List.of("manage:all")))

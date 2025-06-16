@@ -35,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.*;
 //        "app.method-security.enabled=false"
 })
 
-@AutoConfigureMockMvc(addFilters = false)
 public class UserModuleE2ETests {
 
     @Autowired
