@@ -1,0 +1,16 @@
+type OpinionReport {
+    id: ID!
+    opinion: Opinion!
+    user: User!
+    createdAt: DateTime
+}
+
+extend type Query {
+    opinionReports: [OpinionReport]
+    opinionReportById(id: ID!): OpinionReport
+}
+
+extend type Mutation {
+    reportOpinion(opinionId: ID!, userId: ID!): OpinionReport
+    deleteOpinionReport(id: ID!): Boolean
+}
