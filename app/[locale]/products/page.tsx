@@ -28,6 +28,7 @@ export default async function ProductsPage() {
         <ProductsSection
           products={products.ownProducts.filter((p) => p !== null)}
           categories={categories.products.filter((p) => p !== null)}
+          withAveragePrice
         />
       )}
     </ContainerWrapper>

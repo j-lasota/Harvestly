@@ -1,7 +1,8 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRef, useState } from "react";
 
 type Props = {
   placeholder: StaticImageData | string;
@@ -10,7 +11,9 @@ type Props = {
 
 const ImageUploader: React.FC<Props> = ({ placeholder, onUploaded }) => {
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { data: session } = useSession();
+  const token = session?.accessToken;
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -25,8 +28,12 @@ const ImageUploader: React.FC<Props> = ({ placeholder, onUploaded }) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API}/upload/images`,
+
         {
           method: "POST",
+          headers: {
+            authorization: token ? `Bearer ${token}` : "",
+          },
           body: formData,
         }
       );

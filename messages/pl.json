@@ -14,7 +14,12 @@
     "store": {
       "location": "Lokalizacja",
       "businessHours": "Godziny pracy",
-      "contact": "Skontaktuj się ze sklepem",
+      "contact": {
+        "action": "Skontaktuj się ze sklepem",
+        "hero": "Kontakt",
+        "email": "Adres e-mail",
+        "phone": "Numer telefonu"
+      },
       "reviews": {
         "title": "Recenzje",
         "addReview": "Dodaj recenzję",
@@ -60,8 +65,7 @@
       "searchPlaceholder": "Wprowadź adres...",
       "addressNotFound": "Adres nie został znaleziony.",
       "searchError": "Błąd wyszukiwania adresu:",
-      "searchProduct":"Wybierz produkt",
-      
+      "searchProduct": "Wybierz produkt:",
       "storeInfo": {
         "description": "Opis",
         "noDescription": "Brak opisu sklepu",
@@ -73,7 +77,9 @@
       "popup": {
         "searchedAddress": "Szukany adres",
         "storeLocation": "{storeName} — {city}"
-      }
+      },
+      "searchAddress": "Trasa:",
+      "addressPlaceholder": "Wprowadź adres"
     }
   },
   "days": {
@@ -137,5 +143,9 @@
     "submit": "Wysłać",
     "ratingLabel": "Ocena",
     "starAriaLabel": "Rate z gwiazdami {count}"
+  },
+  "reportButton": {
+    "report": "Zgłoś",
+    "reported": "Zgłoszony"
   }
 }

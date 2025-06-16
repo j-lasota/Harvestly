@@ -16,7 +16,7 @@ interface User {
   firstName: string;
   lastName: string;
   phoneNumber: string | null;
-  facebook_nickname: string | null;
+  facebookNickname: string | null;
   img: string | null;
 }
 
@@ -113,7 +113,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder="..."
-                defaultValue={data.facebook_nickname || ""}
+                defaultValue={data.facebookNickname || ""}
               />
             </label>
 

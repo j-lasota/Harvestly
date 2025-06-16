@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       issuer: process.env.AUTH_AUTH0_ISSUER!,
       authorization: {
         params: {
-          audience: process.env.AUTH_AUTH0_AUDIENCE,
+          audience: process.env.AUTH_AUTH0_AUDIENCE!,
         },
       },
     }),

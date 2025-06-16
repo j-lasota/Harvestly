@@ -67,13 +67,13 @@ export async function getAddress(
 const addStoreMutation = graphql(`
   mutation addStore(
     $userId: ID!
-    $imageUrl: String!
+    $imageUrl: String
     $name: String!
     $address: String!
     $city: String!
     $latitude: Float!
     $longitude: Float!
-    $description: String!
+    $description: String
   ) {
     createStore(
       userId: $userId
@@ -92,14 +92,15 @@ const addStoreMutation = graphql(`
 
 // ========== Add Store action ==========
 const FormSchema = z.object({
-  imageUrl: z.string(),
+  imageUrl: z.string().nullable(),
   name: z.string().min(2).max(100).trim(),
   address: z.string().min(2).max(50).trim(),
   city: z.string().min(2).max(50).trim(),
   description: z
     .string({ message: "Opis jest wymagany." })
     .max(250, { message: "Opis jest zbyt długi, maksymalnie 350 znaków." })
-    .trim(),
+    .trim()
+    .nullable(),
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
 });
@@ -125,11 +126,11 @@ export async function addStoreAction(state: FormState, formData: FormData) {
   if (!session?.user || !session.user.id) return;
 
   const validatedFields = FormSchema.safeParse({
-    imageUrl: formData.get("image_url") || "",
+    imageUrl: formData.get("image_url") || null,
     name: formData.get("name"),
     address: formData.get("address"),
     city: formData.get("city"),
-    description: formData.get("description"),
+    description: formData.get("description") || null,
     latitude: Number(formData.get("latitude")),
     longitude: Number(formData.get("longitude")),
   });

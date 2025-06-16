@@ -5,13 +5,13 @@ import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Popup } from "react-leaflet";
+import { Icon, Map } from "leaflet";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
-import { Icon } from "leaflet";
-import L from 'leaflet';
-import { Store } from "../page";
 import Image from "next/image";
-import Link from "next/Link";
+import Link from "next/link";
+
+import { Store } from "../page";
 
 function calculateDistanceKm(
   [lat1, lon1]: [number, number],
@@ -37,7 +37,6 @@ interface MapProps {
   selectedStore?: Store | null;
   searchedLocation?: [number, number] | null;
   selectedProduct: string; // dodaj jeśli jeszcze nie ma
-
 }
 
 const Routing = dynamic(() => import("./routing"), { ssr: false });
@@ -56,22 +55,21 @@ const selectedStoreIcon = new Icon({
   popupAnchor: [0, -32],
 });
 
-const Map = ({
+const InteractiveMap = ({
   center = [5.2297, 21.0122],
   zoom = 6,
   markers = [],
   selectedStore,
   searchedLocation,
-  selectedProduct
+  selectedProduct,
 }: MapProps) => {
   const t = useTranslations("page.map");
   const [currentShop, setCurrentShop] = useState<Store | null>(
     selectedStore ?? null
   );
-  const mapRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<Map | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  
-  
+
   const distanceKm =
     searchedLocation && currentShop
       ? calculateDistanceKm(searchedLocation, [
@@ -104,8 +102,6 @@ const Map = ({
     mapRef.current.setView(center, zoom);
   }, [center, zoom]);
 
-
-
   useEffect(() => {
     if (!mapRef.current) return;
     const map = mapRef.current;
@@ -134,10 +130,10 @@ const Map = ({
 
   useEffect(() => {
     if (currentShop?.slug) {
-      console.log("Slug wybranego sklepu:",currentShop.slug);
+      console.log("Slug wybranego sklepu:", currentShop.slug);
     }
   }, [currentShop]);
-  
+
   return (
     <>
       <MapContainer
@@ -146,7 +142,6 @@ const Map = ({
         zoom={zoom}
         scrollWheelZoom={true}
         zoomControl={false}
-        
         className="relative z-0 size-full rounded-lg"
       >
         <SetMapRef />
@@ -155,44 +150,49 @@ const Map = ({
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
 
-{markers
-  ?.filter((store) =>
-    selectedProduct === "" ||
-    store.products?.some((product) =>
-      product.toLowerCase().includes(selectedProduct.toLowerCase())
-    )
-  )
-  .map((store) => {
-    // Sprawdź, czy sklep ma wybrany produkt
-    const hasProduct = selectedProduct
-      ? store.products?.some((p) =>
-          p.toLowerCase().includes(selectedProduct.toLowerCase())
-        )
-      : false;
+        {markers
+          ?.filter(
+            (store) =>
+              selectedProduct === "" ||
+              store.products?.some((product) =>
+                product.toLowerCase().includes(selectedProduct.toLowerCase())
+              )
+          )
+          .map((store) => {
+            // Sprawdź, czy sklep ma wybrany produkt
+            const hasProduct = selectedProduct
+              ? store.products?.some((p) =>
+                  p.toLowerCase().includes(selectedProduct.toLowerCase())
+                )
+              : false;
 
-    // Jeśli to jest aktualnie wybrany sklep (kliknięty), to ikonę możesz zostawić
-    // albo nadpisać, np. na czerwony, zależy co wolisz — tu zostawiłem tak, aby kliknięty sklep był wyraźny czerwony
-    const icon = currentShop?.id === store.id ? selectedStoreIcon : hasProduct ? selectedStoreIcon : storeIcon;
+            // Jeśli to jest aktualnie wybrany sklep (kliknięty), to ikonę możesz zostawić
+            // albo nadpisać, np. na czerwony, zależy co wolisz — tu zostawiłem tak, aby kliknięty sklep był wyraźny czerwony
+            const icon =
+              currentShop?.id === store.id
+                ? selectedStoreIcon
+                : hasProduct
+                  ? selectedStoreIcon
+                  : storeIcon;
 
-    return (
-      <Marker
-        key={store.id}
-        position={[store.latitude, store.longitude]}
-        icon={icon}
-        eventHandlers={{
-          click: () => handleMarkerClick(store),
-        }}
-      >
-        <Popup>
-          {t("popup.storeLocation", {
-            storeName: store.name,
-            city: store.city,
+            return (
+              <Marker
+                key={store.id}
+                position={[store.latitude, store.longitude]}
+                icon={icon}
+                eventHandlers={{
+                  click: () => handleMarkerClick(store),
+                }}
+              >
+                <Popup>
+                  {t("popup.storeLocation", {
+                    storeName: store.name,
+                    city: store.city,
+                  })}
+                </Popup>
+              </Marker>
+            );
           })}
-        </Popup>
-      </Marker>
-    );
-  })}
-
 
         {searchedLocation && (
           <Marker position={searchedLocation} icon={selectedStoreIcon}>
@@ -200,7 +200,7 @@ const Map = ({
           </Marker>
         )}
 
-        {searchedLocation && currentShop &&   (
+        {searchedLocation && currentShop && (
           <Routing
             from={searchedLocation}
             to={[currentShop.latitude, currentShop.longitude]}
@@ -277,19 +277,18 @@ const Map = ({
                     <p className="text-sm">{distanceKm} km</p>
                   </div>
                 )}
-{currentShop?.slug ? (
-  <div className="mt-4">
-    <Link
-      href={`/store/${currentShop.slug}`}
-      className="bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary/90 transition"
-    >
-      Zobacz stoisko
-    </Link>
-  </div>
-) : (
-  <div>Stoisko nie jest dostępne</div>
-  
-)}
+                {currentShop?.slug ? (
+                  <div className="mt-4">
+                    <Link
+                      href={`/store/${currentShop.slug}`}
+                      className="bg-primary hover:bg-primary/90 rounded px-3 py-1 text-sm text-white transition"
+                    >
+                      Zobacz stoisko
+                    </Link>
+                  </div>
+                ) : (
+                  <div>Stoisko nie jest dostępne</div>
+                )}
 
                 <div>
                   <h3 className="mb-1 text-lg font-semibold text-[#5a4a3a]">
@@ -336,4 +335,4 @@ const Map = ({
   );
 };
 
-export default Map;
+export default InteractiveMap;

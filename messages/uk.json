@@ -14,7 +14,12 @@
     "store": {
       "location": "Розташування",
       "businessHours": "Години роботи",
-      "contact": "Зверніться до магазину",
+      "contact": {
+        "action": "Зверніться до магазину",
+        "hero": "Контакт",
+        "email": "Адреса електронної пошти",
+        "phone": "Номер телефону"
+      },
       "reviews": {
         "title": "Відгуки",
         "addReview": "Додати відгук",
@@ -71,7 +76,10 @@
       "popup": {
         "searchedAddress": "Шукана адреса",
         "storeLocation": "{storeName} — {city}"
-      }
+      },
+      "searchProduct": "Виберіть продукт:",
+      "searchAddress": "Маршрут:",
+      "addressPlaceholder": "Введіть адресу"
     }
   },
   "days": {
@@ -135,5 +143,9 @@
     "submit": "Відправити",
     "ratingLabel": "Оцінка",
     "starAriaLabel": "Оцінити {count} зірками"
+  },
+  "reportButton": {
+    "report": "Доповідь",
+    "reported": "Повідомлений"
   }
 }

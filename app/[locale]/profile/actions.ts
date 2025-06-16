@@ -10,18 +10,18 @@ import { auth } from "@/auth";
 const editUserMutation = graphql(`
   mutation editUser(
     $id: ID!
-    $img: String!
+    $img: String
     $firstName: String!
     $lastName: String!
-    $facebookNickname: String!
-    $phoneNumber: String!
+    $facebookNickname: String
+    $phoneNumber: String
   ) {
     updateUser(
       id: $id
       img: $img
       firstName: $firstName
       lastName: $lastName
-      facebook_nickname: $facebookNickname
+      facebookNickname: $facebookNickname
       phoneNumber: $phoneNumber
     ) {
       id
@@ -32,17 +32,11 @@ const editUserMutation = graphql(`
 // TODO: Improve schema
 // ========== Edit User action ==========
 const FormSchema = z.object({
-  img: z.string(),
+  img: z.string().nullable(),
   firstName: z.string().min(2).max(100).trim(),
   lastName: z.string().min(2).max(100).trim(),
-  facebookNickname: z
-    .string()
-    .min(2)
-    .max(50)
-    .trim()
-    .optional()
-    .or(z.literal("")),
-  phoneNumber: z.string().min(9).max(10).trim().optional().or(z.literal("")),
+  facebookNickname: z.string().min(2).max(50).trim().nullable(),
+  phoneNumber: z.string().min(9).max(10).trim().nullable(),
 });
 
 type FormState =
@@ -64,11 +58,11 @@ export async function editUserAction(state: FormState, formData: FormData) {
   if (!session?.user || !session.user.id) return;
 
   const validatedFields = FormSchema.safeParse({
-    img: formData.get("img") || "",
+    img: formData.get("img") || null,
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
-    facebookNickname: formData.get("facebookNickname") || "",
-    phoneNumber: formData.get("phoneNumber"),
+    facebookNickname: formData.get("facebookNickname") || null,
+    phoneNumber: formData.get("phoneNumber") || null,
   });
 
   if (!validatedFields.success) {
@@ -87,8 +81,8 @@ export async function editUserAction(state: FormState, formData: FormData) {
       img,
       firstName,
       lastName,
-      facebookNickname: facebookNickname || "",
-      phoneNumber: phoneNumber || "",
+      facebookNickname,
+      phoneNumber,
     },
   });
 

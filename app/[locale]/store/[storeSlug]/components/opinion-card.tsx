@@ -1,5 +1,8 @@
 import { Star } from "lucide-react";
 
+import { ReportOpinionButton } from "./report-buttons";
+import { auth } from "@/auth";
+
 export interface OpinionCardProps {
   id: string;
   description: string | null;
@@ -7,9 +10,24 @@ export interface OpinionCardProps {
   user: {
     firstName: string;
   };
+  opinionReports:
+    | {
+        user: {
+          id: string;
+        };
+      }[]
+    | null;
 }
 
-export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
+export const OpinionCard = async ({
+  id,
+  description,
+  stars,
+  user,
+  opinionReports,
+}: OpinionCardProps) => {
+  const session = await auth();
+
   return (
     <article className="bg-background-elevated border-shadow ring-ring flex w-full max-w-3xl flex-col gap-2 rounded-xl border-r-3 border-b-4 px-4 py-3 shadow-md ring">
       <div className="flex items-center justify-between gap-6">
@@ -38,8 +56,18 @@ export const OpinionCard = ({ description, stars, user }: OpinionCardProps) => {
           </div>
         )}
       </div>
-
       {description && <p>{description}</p>}
+
+      {session?.user && (
+        <ReportOpinionButton
+          opinionId={id}
+          isReportedByUser={
+            opinionReports?.some(
+              (report) => report.user.id === session.user?.id
+            ) || false
+          }
+        />
+      )}
     </article>
   );
 };

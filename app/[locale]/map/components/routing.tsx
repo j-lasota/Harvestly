@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
-import { useMap } from 'react-leaflet';
-import { useEffect, useRef } from 'react';
-import 'leaflet-routing-machine';
-import L from 'leaflet';
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import { useEffect, useRef } from "react";
+import { useMap } from "react-leaflet";
+import "leaflet-routing-machine";
+import L from "leaflet";
 
 interface RoutingProps {
   from: [number, number];
   to: [number, number];
-  
 }
 
 const Routing = ({ from, to }: RoutingProps) => {
@@ -18,7 +17,7 @@ const Routing = ({ from, to }: RoutingProps) => {
   const routingControlRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!map || typeof window === 'undefined') return;
+    if (!map || typeof window === "undefined") return;
 
     if (!from || !to) return;
 
@@ -35,7 +34,7 @@ const Routing = ({ from, to }: RoutingProps) => {
       createMarker: () => null,
       show: false,
       router: new (L.Routing as any).OSRMv1({
-        serviceUrl: 'https://router.project-osrm.org/route/v1',
+        serviceUrl: "https://router.project-osrm.org/route/v1",
       }),
     });
 

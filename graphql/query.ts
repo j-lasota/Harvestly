@@ -78,8 +78,15 @@ const storeBySlugQuery = graphql(`
       verified
       user {
         email
+        phoneNumber
+        facebookNickname
       }
       verifications {
+        user {
+          id
+        }
+      }
+      storeReports {
         user {
           id
         }
@@ -90,6 +97,11 @@ const storeBySlugQuery = graphql(`
         stars
         user {
           firstName
+        }
+        opinionReports {
+          user {
+            id
+          }
         }
       }
       businessHours {
@@ -165,7 +177,7 @@ const userByIdQuery = graphql(`
       firstName
       lastName
       phoneNumber
-      facebook_nickname
+      facebookNickname
       img
     }
   }

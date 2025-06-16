@@ -14,7 +14,12 @@
     "store": {
       "location": "Posizione",
       "businessHours": "Orari",
-      "contact": "Contattare il negozio",
+      "contact": {
+        "action": "Contattare il negozio",
+        "hero": "Contatto",
+        "email": "Indirizzo e-mail",
+        "phone": "Numero di telefono"
+      },
       "reviews": {
         "title": "Recensioni",
         "addReview": "Aggiungi recensione",
@@ -71,7 +76,10 @@
       "popup": {
         "searchedAddress": "Indirizzo cercato",
         "storeLocation": "{storeName} — {city}"
-      }
+      },
+      "searchProduct": "Seleziona il prodotto:",
+      "searchAddress": "Itinerario:",
+      "addressPlaceholder": "Immettere l'indirizzo"
     }
   },
   "days": {
@@ -135,5 +143,9 @@
     "submit": "Invia",
     "ratingLabel": "Valutazione",
     "starAriaLabel": "Valuta con {count} stelle"
+  },
+  "reportButton": {
+    "report": "Rapporto",
+    "reported": "Riportato"
   }
 }

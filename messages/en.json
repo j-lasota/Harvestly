@@ -14,7 +14,12 @@
     "store": {
       "location": "Location",
       "businessHours": "Opening hours",
-      "contact": "Contact the store",
+      "contact": {
+        "action": "Contact the store",
+        "hero": "Contact",
+        "email": "E-mail address",
+        "phone": "Telephone number"
+      },
       "reviews": {
         "title": "Reviews",
         "addReview": "Add review",
@@ -71,7 +76,10 @@
       "popup": {
         "searchedAddress": "Searched address",
         "storeLocation": "{storeName} — {city}"
-      }
+      },
+      "searchProduct": "Select the product:",
+      "searchAddress": "Route:",
+      "addressPlaceholder": "Enter the address"
     }
   },
   "days": {
@@ -136,5 +144,9 @@
     "submit": "Send",
     "ratingLabel": "Rating",
     "starAriaLabel": "Rate with {count} stars"
+  },
+  "reportButton": {
+    "report": "Report",
+    "reported": "Reported"
   }
 }

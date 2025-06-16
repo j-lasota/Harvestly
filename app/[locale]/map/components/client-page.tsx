@@ -1,42 +1,44 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { useMemo, useState, useEffect } from 'react';
-import { Loader } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import { Store } from '../page';
+import { useMemo, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { Loader } from "lucide-react";
+import dynamic from "next/dynamic";
+
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/select";
+import { Store } from "../page";
 
-const Map = dynamic(() => import('./map'), {
+const InteractiveMap = dynamic(() => import("./map"), {
   loading: () => <Loader />,
   ssr: false,
 });
 
 export default function MapClientPage({ stores }: { stores: Store[] }) {
-  const t = useTranslations('page.map');
-  const [mapCenter, setMapCenter] = useState<[number, number] | undefined>(undefined);
+  const t = useTranslations("page.map");
+  const [mapCenter, setMapCenter] = useState<[number, number] | undefined>(
+    undefined
+  );
   const [mapZoom, setMapZoom] = useState(6);
-  const [cityInput, setCityInput] = useState('');
-  const [productInput, setProductInput] = useState('');
+  const [cityInput, setCityInput] = useState("");
+  const [productInput, setProductInput] = useState("");
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [filteredStores, setFilteredStores] = useState<Store[]>(stores ?? []);
-  const [searchedLocation, setSearchedLocation] = useState<[number, number] | null>(null);
+  const [searchedLocation, setSearchedLocation] = useState<
+    [number, number] | null
+  >(null);
 
-  // Unikalna lista produktów dostępnych w sklepach
   const allProducts = useMemo(
-    () =>
-      Array.from(new Set(stores.flatMap((s) => s.products ?? []))).sort(),
+    () => Array.from(new Set(stores.flatMap((s) => s.products ?? []))).sort(),
     [stores]
   );
 
-  // Filtrowanie sklepów wg miasta i produktu
   useEffect(() => {
     let filtered = stores;
 
@@ -53,13 +55,13 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
         )
       );
     }
-
     setFilteredStores(filtered);
 
     if (filtered.length > 0) {
-      // Średnie położenie dla wyśrodkowania mapy
-      const avgLat = filtered.reduce((sum, s) => sum + s.latitude, 0) / filtered.length;
-      const avgLng = filtered.reduce((sum, s) => sum + s.longitude, 0) / filtered.length;
+      const avgLat =
+        filtered.reduce((sum, s) => sum + s.latitude, 0) / filtered.length;
+      const avgLng =
+        filtered.reduce((sum, s) => sum + s.longitude, 0) / filtered.length;
       setMapCenter([avgLat, avgLng]);
       setMapZoom(13);
     } else {
@@ -67,12 +69,11 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
       setMapZoom(7);
     }
 
-    // Reset wyboru sklepu, jeśli został odfiltrowany
     if (selectedStore && !filtered.some((s) => s.id === selectedStore.id)) {
       setSelectedStore(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityInput, productInput, stores]);
-
 
   useEffect(() => {
     if (productInput.trim()) {
@@ -88,7 +89,6 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
       }
     }
   }, [productInput, filteredStores]);
-  
 
   const handleShopChange = (selectedId: string) => {
     const store = stores.find((s) => s.id === selectedId) || null;
@@ -99,13 +99,13 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
     }
   };
   const handleProductChange = (value: string) => {
-    if (value === '__none') {
-      setProductInput('');
+    if (value === "__none") {
+      setProductInput("");
     } else {
       setProductInput(value);
     }
   };
-  
+
   const searchAddress = async (address: string) => {
     try {
       const response = await fetch(
@@ -123,23 +123,29 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
         setMapCenter(coords);
         setMapZoom(15);
       } else {
-        alert(t('addressNotFound'));
+        alert(t("addressNotFound"));
       }
     } catch (error) {
-      console.error(t('searchError'), error);
-      alert(t('searchError'));
+      console.error(t("searchError"), error);
+      alert(t("searchError"));
     }
   };
 
   return (
     <main className="h-[calc(100vh-4rem-3px)] w-full md:h-[calc(100vh-5rem-3px)]">
-      <div className="bg-background-elevated border-shadow ring-ring absolute top-0 left-0 z-50 flex flex-wrap gap-4 rounded-br-lg border-r-3 border-b-4 p-4">
+      <div className="bg-background-elevated border-shadow ring-ring absolute top-0 left-0 z-50 flex flex-wrap gap-4 rounded-br-lg border-r-3 border-b-4 p-4 ring">
         {/* Wybór stoiska */}
-        <label htmlFor="storeSelect" className="flex flex-col gap-1 text-sm font-medium">
-          {t('selectShop')}
-          <Select value={selectedStore?.id || ''} onValueChange={handleShopChange}>
+        <label
+          htmlFor="storeSelect"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
+          {t("selectShop")}
+          <Select
+            value={selectedStore?.id || ""}
+            onValueChange={handleShopChange}
+          >
             <SelectTrigger className="w-full min-w-48" id="storeSelect">
-              <SelectValue placeholder={t('selectShop')} />
+              <SelectValue placeholder="..." />
             </SelectTrigger>
             <SelectContent>
               {filteredStores.map((store) => (
@@ -152,66 +158,74 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
         </label>
 
         {/* Wyszukiwanie miasta */}
-        <label htmlFor="cityInput" className="flex flex-col gap-1 text-sm font-medium">
-          {t('searchCity')}
+        <label
+          htmlFor="cityInput"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
+          {t("searchCity")}
           <Input
             id="cityInput"
             type="text"
             className="w-full min-w-48"
             value={cityInput}
             onChange={(e) => setCityInput(e.target.value)}
-            placeholder={t('cityPlaceholder')}
+            placeholder={t("cityPlaceholder")}
           />
         </label>
 
         {/* Wyszukiwanie produktu */}
-        <label htmlFor="productSelect" className="flex flex-col gap-1 text-sm font-medium">
-          {t('searchProduct')}
-          <Select
-            value={productInput}
-            onValueChange={handleProductChange}
-          >
+        <label
+          htmlFor="productSelect"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
+          {t("searchProduct")}
+          <Select value={productInput} onValueChange={handleProductChange}>
             <SelectTrigger className="w-full min-w-48" id="productSelect">
-              <SelectValue placeholder={t('searchProduct')} />
+              <SelectValue placeholder="..." />
             </SelectTrigger>
             <SelectContent>
-            <SelectItem value="__none">Wyczyść filtr dla produktów</SelectItem>
-            {allProducts.map((product) => (
-    <SelectItem key={product} value={product}>
-      {product}
-    </SelectItem>
-  ))}
-</SelectContent>
+              <SelectItem value="__none">
+                Wyczyść filtr dla produktów
+              </SelectItem>
+              {allProducts.map((product) => (
+                <SelectItem key={product} value={product}>
+                  {product}
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </label>
 
         {/* Wyszukiwanie adresu */}
-        <label htmlFor="addressInput" className="flex flex-col gap-1 text-sm font-medium">
-          {t('searchAddress')}
+        <label
+          htmlFor="addressInput"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
+          {t("searchAddress")}
           <Input
             id="addressInput"
             type="text"
             className="w-full min-w-60"
-            placeholder={t('addressPlaceholder')}
+            placeholder={t("addressPlaceholder")}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 const address = (e.target as HTMLInputElement).value.trim();
                 if (address) searchAddress(address);
               }
             }}
             onChange={(e) => {
-              if (e.target.value.trim() === '') setSearchedLocation(null);
+              if (e.target.value.trim() === "") setSearchedLocation(null);
             }}
           />
         </label>
 
         {/* Komunikat brak sklepów */}
         {cityInput && filteredStores.length === 0 && (
-          <p className="mt-2 text-sm text-red-500">{t('noShopsInCity')}</p>
+          <p className="mt-2 text-sm text-red-500">{t("noShopsInCity")}</p>
         )}
       </div>
 
-      <Map
+      <InteractiveMap
         markers={filteredStores}
         center={mapCenter}
         zoom={mapZoom}

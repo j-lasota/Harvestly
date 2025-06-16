@@ -16,9 +16,11 @@ interface CategoryProps {
 export function ProductsSection({
   products,
   categories,
+  withAveragePrice,
 }: {
   products: ProductCardProps[];
   categories?: CategoryProps[];
+  withAveragePrice?: boolean;
 }) {
   const t = useTranslations("productsSection");
   const [productsData, setProductsData] = useState(products);
@@ -43,9 +45,9 @@ export function ProductsSection({
       averages[key] = sum / count;
     });
 
-    return { 
-      averagePricesByProductAndTown: averages, 
-      productTownGroups: groups 
+    return {
+      averagePricesByProductAndTown: averages,
+      productTownGroups: groups,
     };
   }, [products]);
 
@@ -53,7 +55,9 @@ export function ProductsSection({
     ? [...new Set(categories.map((item) => item.category))]
     : [];
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(
+    []
+  );
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -195,8 +199,10 @@ export function ProductsSection({
             <ProductCard
               key={product.id}
               {...product}
-              averagePrice={averagePricesByProductAndTown[townKey] || 0}
-              totalProducts={productTownGroups[townKey]?.count || 0}
+              {...(withAveragePrice && {
+                averagePrice: averagePricesByProductAndTown[townKey] || 0,
+                totalProducts: productTownGroups[townKey]?.count || 0,
+              })}
             />
           );
         })}

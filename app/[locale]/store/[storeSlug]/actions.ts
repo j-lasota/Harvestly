@@ -32,6 +32,22 @@ const addVerificationMutation = graphql(`
   }
 `);
 
+const reportStoreMutation = graphql(`
+  mutation reportStore($userId: ID!, $storeId: ID!) {
+    reportStore(userId: $userId, storeId: $storeId) {
+      id
+    }
+  }
+`);
+
+const reportOpinionMutation = graphql(`
+  mutation reportOpinion($userId: ID!, $opinionId: ID!) {
+    reportOpinion(userId: $userId, opinionId: $opinionId) {
+      id
+    }
+  }
+`);
+
 const addOpinionMutation = graphql(`
   mutation addOpinion(
     $userId: ID!
@@ -83,6 +99,32 @@ export const addVerification = async (storeId: string) => {
   const { data } = await getClient().mutate({
     mutation: addVerificationMutation,
     variables: { userId: session.user.id, storeId },
+  });
+
+  return data;
+};
+
+// ========== Report store action ==========
+export const reportStore = async (storeId: string) => {
+  const session = await auth();
+  if (!session?.user || !session.user.id) return;
+
+  const { data } = await getClient().mutate({
+    mutation: reportStoreMutation,
+    variables: { userId: session.user.id, storeId },
+  });
+
+  return data;
+};
+
+// ========== Report opinion action ==========
+export const reportOpinion = async (opinionId: string) => {
+  const session = await auth();
+  if (!session?.user || !session.user.id) return;
+
+  const { data } = await getClient().mutate({
+    mutation: reportOpinionMutation,
+    variables: { userId: session.user.id, opinionId },
   });
 
   return data;

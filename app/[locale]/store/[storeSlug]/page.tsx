@@ -5,14 +5,25 @@ import { notFound } from "next/navigation";
 import { storeBySlugQuery, userFavoriteStoresQuery } from "@/graphql/query";
 import { OpinionCard, OpinionCardProps } from "./components/opinion-card";
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
+import AddVerificationButton from "./components/add-verification-button";
 import { ProductsSection } from "@/components/ui/products-section";
-import AddVerificationButton from "./components/add-verification";
 import { ImageMapPreview } from "./components/image-map-preview";
+import { ReportStoreButton } from "./components/report-buttons";
 import AddToFavButton from "./components/add-to-fav-button";
 import { getClient } from "@/graphql/apollo-client";
 import AddOpinion from "./components/add-opinion";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { auth } from "@/auth";
+import Image from "next/image";
+
+import messenger from "@/public/messenger.png";
 
 interface BusinessHoursProps {
   dayOfWeek: string;
@@ -63,16 +74,60 @@ export default async function StorePage({
               lng: data.storeBySlug.longitude,
             }}
           />
-          <Button
-            variant="ghostPrimary"
-            asChild
-            className="gap-1.5 self-end font-normal"
-          >
-            <a href={`mailto:${data.storeBySlug.user.email}`}>
-              {t("page.store.contact")}
-              <Send size={16} strokeWidth={1.75} />
-            </a>
-          </Button>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghostPrimary"
+                className="gap-1.5 self-end font-normal"
+              >
+                {t("page.store.contact.action")}
+                <Send size={16} strokeWidth={1.75} />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{t("page.store.contact.hero")}</DialogTitle>
+                <div className="mt-4 flex flex-col gap-2">
+                  {data.storeBySlug.user.email && (
+                    <div className="flex justify-between">
+                      <p className="font-medium">
+                        {t("page.store.contact.email")}:
+                      </p>
+                      <a href={`mailto:${data.storeBySlug.user.email}`}>
+                        {data.storeBySlug.user.email}
+                      </a>
+                    </div>
+                  )}
+
+                  {data.storeBySlug.user.phoneNumber && (
+                    <div className="flex justify-between">
+                      <p className="font-medium">
+                        {t("page.store.contact.phone")}:
+                      </p>
+                      <a href={`tel:${data.storeBySlug.user.phoneNumber}`}>
+                        {data.storeBySlug.user.phoneNumber}
+                      </a>
+                    </div>
+                  )}
+
+                  {data.storeBySlug.user.facebookNickname && (
+                    <Button
+                      className="mt-4 bg-white font-normal text-black hover:bg-gray-50"
+                      size="lg"
+                    >
+                      <Image src={messenger} width="24" alt="Messenger" />
+                      <a
+                        href={`m.me/${data.storeBySlug.user.facebookNickname}`}
+                      >
+                        Skontaktuj za pomocą Messenger
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -97,6 +152,12 @@ export default async function StorePage({
                   (verification) => verification.user.id === session.user?.id
                 )}
               />
+              <ReportStoreButton
+                storeId={data.storeBySlug.id}
+                isReportedByUser={(data.storeBySlug?.storeReports || []).some(
+                  (storeReport) => storeReport.user.id === session.user?.id
+                )}
+              />
             </div>
           )}
 
@@ -109,27 +170,30 @@ export default async function StorePage({
             {data.storeBySlug.address}, {data.storeBySlug.city}
           </div>
 
-          {data.storeBySlug.businessHours && (
-            <div className="flex w-full max-w-max flex-col gap-1">
-              <h2 className="font-semibold">
-                {t("page.store.businessHours")}:
-              </h2>
-              {data.storeBySlug.businessHours.map(
-                (d: BusinessHoursProps) =>
-                  d && (
-                    <div
-                      key={d.dayOfWeek}
-                      className="flex justify-between gap-4"
-                    >
-                      <p className="font-medium">{t(`days.${d.dayOfWeek}`)}</p>
-                      <p className="text-foreground/80">
-                        {d.openingTime} - {d.closingTime}
-                      </p>
-                    </div>
-                  )
-              )}
-            </div>
-          )}
+          {data.storeBySlug.businessHours &&
+            data.storeBySlug.businessHours.length > 0 && (
+              <div className="flex w-full max-w-max flex-col gap-1">
+                <h2 className="font-semibold">
+                  {t("page.store.businessHours")}:
+                </h2>
+                {data.storeBySlug.businessHours.map(
+                  (d: BusinessHoursProps) =>
+                    d && (
+                      <div
+                        key={d.dayOfWeek}
+                        className="flex justify-between gap-4"
+                      >
+                        <p className="font-medium">
+                          {t(`days.${d.dayOfWeek}`)}
+                        </p>
+                        <p className="text-foreground/80">
+                          {d.openingTime} - {d.closingTime}
+                        </p>
+                      </div>
+                    )
+                )}
+              </div>
+            )}
         </div>
       </div>
 

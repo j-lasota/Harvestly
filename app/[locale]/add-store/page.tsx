@@ -5,7 +5,7 @@ import AddStoreClientPage from "./components/client-page";
 import { hasUserStoresQuery } from "@/graphql/query";
 import { getClient } from "@/graphql/apollo-client";
 
-const TIER = [1, 5];
+const TIER = [1, 3];
 
 export default async function AddStorePage() {
   const session = await auth();
