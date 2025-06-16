@@ -34,7 +34,6 @@ class StatisticsAPITests {
     @Test
     void recordEvent_whenStorePage_thenReturnsOkAndInvokesService() throws Exception {
         mockMvc.perform(post("/api/stats/event")
-                        .with(csrf())
                         .param("slug", "test-store")
                         .param("type", "STORE_PAGE")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
@@ -47,7 +46,6 @@ class StatisticsAPITests {
     @Test
     void recordEvent_whenMapPin_thenReturnsOkAndInvokesService() throws Exception {
         mockMvc.perform(post("/api/stats/event")
-                        .with(csrf())
                         .param("slug", "test-pin")
                         .param("type", "MAP_PIN")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
@@ -60,7 +58,6 @@ class StatisticsAPITests {
     @Test
     void recordEvent_missingSlug_thenBadRequest() throws Exception {
         mockMvc.perform(post("/api/stats/event")
-                        .with(csrf())
                         .param("type", "STORE_PAGE")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isBadRequest());
@@ -71,7 +68,6 @@ class StatisticsAPITests {
     @Test
     void recordEvent_invalidType_thenBadRequest() throws Exception {
         mockMvc.perform(post("/api/stats/event")
-                        .with(csrf())
                         .param("slug", "x")
                         .param("type", "UNKNOWN")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
