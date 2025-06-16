@@ -325,7 +325,29 @@ public class BusinessHoursModuleE2ETests {
                 .path("updateBusinessHours.openingTime").entity(String.class).isEqualTo("10:30:00")
                 .path("updateBusinessHours.closingTime").entity(String.class).isEqualTo("19:30:00");
     }
+    @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed76")
+    public void testCreateBusinessHoursWithDifferentUserId() {
+        String createBusinessHoursMutation = """
+            mutation {
+                createBusinessHours(
+                    storeId: %d,
+                    dayOfWeek: THURSDAY,
+                    openingTime: "10:00:00",
+                    closingTime: "18:00:00"
+                ) {
+                    id
+                }
+            }
+            """.formatted(testStore.getId());
 
+        graphQlTester.document(createBusinessHoursMutation)
+                .execute()
+                .errors()
+                .satisfy(errors -> {
+                    assert !errors.isEmpty();
+                });
+    }
     @Test
     @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testDuplicateBusinessHours() {
