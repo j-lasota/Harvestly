@@ -5,7 +5,6 @@ import com.backend.model.User;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.StoreService;
-import com.backend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
-//@TestPropertySource(properties = "app.method-security.enabled=false")
+@TestPropertySource(properties = "app.method-security.enabled=false")
 public class StoreModuleE2ETests {
 
     @Autowired

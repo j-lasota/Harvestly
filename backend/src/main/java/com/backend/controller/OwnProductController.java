@@ -83,9 +83,7 @@ public class OwnProductController {
             return savedProduct;
 
         } catch (Exception e) {
-            // Złap WSZYSTKIE wyjątki i zaloguj je, aby zobaczyć, co się dzieje
             log.error("An unexpected error occurred during createOwnProduct execution", e);
-            // Rzuć wyjątek dalej, aby GraphQL mógł go obsłużyć
             throw e;
         }
     }
