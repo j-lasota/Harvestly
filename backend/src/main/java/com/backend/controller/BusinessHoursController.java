@@ -57,8 +57,9 @@ public class BusinessHoursController {
      * @return the created BusinessHours object
      * @throws IllegalArgumentException if the store is not found
      */
+
     @MutationMapping
-    @PreAuthorize("@businessHoursSecurity.isStoreOwner(authentication, #storeId)")
+    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @businessHoursSecurity.isStoreOwner(authentication, #storeId)")
     public BusinessHours createBusinessHours(@Argument Long storeId, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
@@ -74,7 +75,7 @@ public class BusinessHoursController {
      * @throws IllegalArgumentException if the store is not found
      */
     @MutationMapping
-    @PreAuthorize("@businessHoursSecurity.isStoreOwner(authentication, #storeId)")
+    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @businessHoursSecurity.isStoreOwner(authentication, #storeId)")
     public List<BusinessHours> createMultipleBusinessHours(@Argument Long storeId, @Argument List<BusinessHoursInput> businessHoursList) {
         Store store = storeService.getStoreById(storeId).orElseThrow(() -> new IllegalArgumentException("Store not found"));
         return businessHoursService.saveMultipleBusinessHours(store, businessHoursList);
@@ -90,7 +91,7 @@ public class BusinessHoursController {
      * @return the updated BusinessHours object
      */
     @MutationMapping
-    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
     public BusinessHours updateBusinessHours(@Argument Long id, @Argument DayOfWeek dayOfWeek,
                                              @Argument LocalTime openingTime, @Argument LocalTime closingTime) {
         return businessHoursService.updateBusinessHours(id, dayOfWeek, openingTime, closingTime);
@@ -103,7 +104,7 @@ public class BusinessHoursController {
      * @return true if the deletion was successful, false otherwise
      */
     @MutationMapping
-    @PreAuthorize("@businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @businessHoursSecurity.isStoreOwnerByBHId(authentication, #id)")
     public Boolean deleteBusinessHours(@Argument Long id) {
         return businessHoursService.deleteBusinessHours(id);
     }

@@ -82,7 +82,8 @@ public class Auth0UserService {
                 if (localUserOpt.isPresent()) {
                     User localUser = localUserOpt.get();
                     if (dataHasChanged(localUser, auth0User)) {
-                        updateUserInAuth0(localUser, auth0User.getId());
+                        updateUserInAuth0(localUser);
+                        Thread.sleep(200);
                     }
                 } else {
                     log.info("User with email {} not found in local DB. Creating.", auth0User.getEmail());
@@ -127,27 +128,41 @@ public class Auth0UserService {
             return allUsers;
         }
 
+    // W klasie Auth0UserService.java
+
     /**
-     * [POPRAWIONA] Aktualizuje profil użytkownika w Auth0 na podstawie danych z naszej bazy.
-     * Używa poprawnych nazw metod z biblioteki Auth0.
-     * @param localUser Użytkownik z naszej bazy danych (com.backend.model.User).
-     * @param auth0Id Pełny identyfikator Auth0 (np. "google-oauth2|123456").
+     * Aktualizuje profil użytkownika w Auth0 na podstawie danych z naszej lokalnej bazy.
+     * @param localUser Użytkownik z naszej bazy danych (com.backend.model.User),
      */
-    private void updateUserInAuth0(User localUser, String auth0Id) {
+    private void updateUserInAuth0(User localUser) {
+        String fullUserId = localUser.getId();
+
+        if (fullUserId == null || fullUserId.isBlank()) {
+            log.error("Cannot update user in Auth0 without a valid ID. User object: {}", localUser);
+            return;
+        }
+
         try {
             com.auth0.json.mgmt.users.User auth0UpdateRequest = new com.auth0.json.mgmt.users.User();
 
-            auth0UpdateRequest.setGivenName(localUser.getFirstName());
-            auth0UpdateRequest.setFamilyName(localUser.getLastName());
-            auth0UpdateRequest.setName(localUser.getName());
-            auth0UpdateRequest.setNickname(localUser.getName());
+            if (localUser.getFirstName() != null && !localUser.getFirstName().isBlank()) {
+                auth0UpdateRequest.setGivenName(localUser.getFirstName());
+            }
+            if (localUser.getLastName() != null && !localUser.getLastName().isBlank()) {
+                auth0UpdateRequest.setFamilyName(localUser.getLastName());
+            }
+            if (localUser.getName() != null && !localUser.getName().isBlank()) {
+                auth0UpdateRequest.setName(localUser.getName());
+                auth0UpdateRequest.setNickname(localUser.getName());
+            }
+
             auth0UpdateRequest.setPicture(localUser.getImg());
 
-            managementAPI.users().update(auth0Id, auth0UpdateRequest).execute();
-            log.info("Successfully updated user {} in Auth0.", auth0Id);
+            managementAPI.users().update(fullUserId, auth0UpdateRequest).execute();
+            log.info("Successfully updated user {} in Auth0.", fullUserId);
 
         } catch (Auth0Exception e) {
-            log.error("Failed to update user {} in Auth0: {}", auth0Id, e.getMessage());
+            log.error("Failed to update user {} in Auth0: {}", fullUserId, e.getMessage());
         }
     }
 
@@ -230,7 +245,6 @@ public class Auth0UserService {
             userService.saveUser(user);
             log.info("Created new user from DTO with ID: {}", user.getId());
         } catch (IllegalArgumentException e) {
-            // Ignorujemy błędy walidacji (np. duplikat numeru tel.), logujemy i kontynuujemy
             log.warn("Could not create user {} due to validation error: {}",
                     (user.getEmail() != null ? user.getEmail() : user.getId()), e.getMessage());
         }

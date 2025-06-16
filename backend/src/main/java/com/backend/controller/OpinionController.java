@@ -93,6 +93,7 @@ public class OpinionController {
      *
      * @return List of reported opinions.
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @QueryMapping
     public List<Opinion> opinionsReported() {
         return opinionService.getAllOpinionsReported();
@@ -120,8 +121,22 @@ public class OpinionController {
      * @return The updated Opinion object.
      */
     @MutationMapping
-    @PreAuthorize("isAuthenticated() and @opinionSecurity.isAuthor(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_read:admin-dashboard')")
     public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars, @Argument Boolean reported) {
         return opinionService.updateOpinion(id, description, stars, reported);
+    }
+
+    /**
+     * Update an existing opinion.
+     *
+     * @param id The ID of the opinion to update.
+     * @param description The new description of the opinion.
+     * @param stars The new rating in stars.
+     * @return The updated Opinion object.
+     */
+    @MutationMapping
+    @PreAuthorize("isAuthenticated() and @opinionSecurity.isAuthor(authentication, #id)")
+    public Opinion updateOpinionByOwner(@Argument Long id, @Argument String description, @Argument Integer stars) {
+        return opinionService.updateOpinion(id, description, stars, null);
     }
 }
