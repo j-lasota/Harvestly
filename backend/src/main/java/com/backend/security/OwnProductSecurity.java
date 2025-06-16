@@ -15,11 +15,6 @@ public class OwnProductSecurity {
     private final OwnProductRepository ownProductRepository;
     private final StoreSecurity storeSecurity;
 
-    /**
-     * Sprawdza, czy zalogowany użytkownik jest właścicielem produktu w sklepie.
-     * Robi to, znajdując produkt, pobierając ID jego sklepu,
-     * a następnie delegując sprawdzenie własności do StoreSecurity.
-     */
     public boolean isOwner(Long ownProductId, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return false;

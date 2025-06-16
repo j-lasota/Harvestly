@@ -61,13 +61,9 @@ class ImageUploadControllerSecurityTests {
         myStore = new Store(storeOwner, "My Store", "Desc", 10, 10, "City", "Addr", null, "my-store");
         storeRepository.save(myStore);
 
-        // Konfigurujemy domyślne zachowanie mocka dla serwisu uploadu
         when(imageUploadService.uploadImage(any())).thenReturn("http://mock.url/image.jpg");
     }
-
-    // Metoda pomocnicza do tworzenia poprawnego kontekstu bezpieczeństwa
     public static RequestPostProcessor jwtWithAuthorities(String subject) {
-        // Uproszczona wersja, bo nie potrzebujemy tu uprawnień
         Jwt jwt = Jwt.withTokenValue("test-token")
                 .header("alg", "none")
                 .subject(subject)

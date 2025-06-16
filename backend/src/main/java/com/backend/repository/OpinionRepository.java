@@ -19,11 +19,8 @@ public interface OpinionRepository extends JpaRepository<Opinion, Long> {
     List<Opinion> findByUserId(String userId);
 
     /**
-     * Znajduje wszystkie opinie, które zostały napisane przez użytkowników
-     * znajdujących się na podanej liście.
-     *
-     * @param users Lista obiektów użytkowników.
-     * @return Lista pasujących opinii.
+     * @param users List of user objects
+     * @return List of matching opinions
      */
     List<Opinion> findByUserIn(List<User> users);
 }

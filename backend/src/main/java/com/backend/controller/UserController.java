@@ -1,7 +1,6 @@
 package com.backend.controller;
 
 import com.backend.model.User;
-import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;

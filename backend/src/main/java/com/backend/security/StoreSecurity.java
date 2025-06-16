@@ -12,10 +12,6 @@ public class StoreSecurity {
         this.stores = stores;
     }
 
-    /**
-     * true jeżeli sub z JWT (authentication.getName())
-     * równy jest ownerId sklepu o danym storeId
-     */
     public boolean isOwner(Authentication authentication, Long storeId) {
         return stores.findById(storeId)
                 .map(s -> s.getUser().getId().equals(authentication.getName()))
