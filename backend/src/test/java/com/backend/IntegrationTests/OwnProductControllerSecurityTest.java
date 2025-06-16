@@ -147,7 +147,6 @@ class OwnProductControllerSecurityTest {
     }
 
     @Test
-    @DisplayName("Anonimowy użytkownik NIE powinien móc dodać produktu")
     void createOwnProduct_asAnonymous_shouldBeUnauthorized() throws Exception {
         String payload = String.format("""
             {"query":"mutation { createOwnProduct(storeId: %d, productId: %d, price: 1.0, quantity: 1) { id } }"}

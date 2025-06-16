@@ -173,7 +173,7 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 
     @Test
@@ -319,6 +319,6 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 }

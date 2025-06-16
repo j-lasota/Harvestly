@@ -5,6 +5,7 @@ import com.backend.model.User;
 import com.backend.repository.OpinionRepository;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
+import com.backend.service.Auth0UserService;
 import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -54,6 +56,9 @@ public class UserModuleE2ETests {
 
     @Autowired
     private StoreService storeService;
+
+    @MockBean
+    private Auth0UserService auth0UserService;
 
     private Store testStore;
     private User testUser;

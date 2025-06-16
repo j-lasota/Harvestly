@@ -4,11 +4,11 @@ import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.client.mgmt.filter.UserFilter;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.exception.RateLimitException;
-import com.auth0.json.mgmt.Page; // Import dla paginacji
+import com.auth0.json.mgmt.Page;
 import com.backend.model.Auth0UserDto;
 import com.backend.model.Opinion;
 import com.backend.model.Store;
-import com.backend.model.User; // Twoja encja User
+import com.backend.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
+public class Auth0UserService {
     private final UserService userService;
     private final ManagementAPI managementAPI;
     private final OpinionService opinionService;
@@ -48,7 +48,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
             return;
         }
 
-        // Używamy pełnego ID, bez obcinania
         Optional<User> userOpt = userService.getUserById(dto.getUserId());
         if (userOpt.isEmpty()) {
 
@@ -61,7 +60,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         );
     }
 
-    // Główna metoda synchronizacji - bez zmian, jest OK
     @Scheduled(initialDelayString = "${app.sync.initial-delay:3600000}", fixedRateString = "${app.sync.fixed-rate:3600000}")
     @Transactional
     public void synchronizeAllUsers() {
@@ -71,28 +69,22 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
             Map<String, User> localUsersMapById = userService.getAllUsers().stream()
                     .collect(Collectors.toMap(User::getId, Function.identity()));
 
-            // Przekazujemy pełne ID do obsługi deaktywacji
             handleDeactivatedUsers(localUsersMapById, auth0Users.stream().map(com.auth0.json.mgmt.users.User::getId).collect(Collectors.toSet()));
 
             for (com.auth0.json.mgmt.users.User auth0User : auth0Users) {
-                // Kluczem jest PEŁNY, nieobcięty ID
                 String fullId = auth0User.getId();
 
-                // KROK 1: Inteligentne wyszukiwanie
                 Optional<User> localUserOpt = Optional.ofNullable(localUsersMapById.get(fullId));
                 if (localUserOpt.isEmpty()) {
                     localUserOpt = userService.findByEmail(auth0User.getEmail());
                 }
 
-                // KROK 2: Decyzja
                 if (localUserOpt.isPresent()) {
-                    // Użytkownik znaleziony -> aktualizujemy Auth0, jeśli trzeba
                     User localUser = localUserOpt.get();
                     if (dataHasChanged(localUser, auth0User)) {
                         updateUserInAuth0(localUser, auth0User.getId());
                     }
                 } else {
-                    // Użytkownika na pewno nie ma -> tworzymy go
                     log.info("User with email {} not found in local DB. Creating.", auth0User.getEmail());
                     createUserFromAuth0User(auth0User);
                 }
@@ -103,30 +95,25 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         log.info("Full user synchronization finished.");
     }
 
-    // --- POPRAWIONE I DODANE METODY POMOCNICZE ---
-
     /**
-     * [NOWA i KLUCZOWA] Pobiera WSZYSTKIE pełne obiekty użytkowników z Auth0, strona po stronie.
      * @return Lista obiektów użytkowników z biblioteki Auth0.
      */
     private List<com.auth0.json.mgmt.users.User> fetchAllAuth0Users() throws Auth0Exception, InterruptedException {
         List<com.auth0.json.mgmt.users.User> allUsers = new ArrayList<>();
         int page = 0;
-        final int pageSize = 50; // Użyjemy stałej dla czytelności
+        final int pageSize = 50;
 
         while (true) {
             UserFilter filter = new UserFilter().withPage(page, pageSize);
             try {
-                // POPRAWKA: API zwraca generyczny obiekt Page<User>, a nie UserPage
                 Page<com.auth0.json.mgmt.users.User> pageResult = managementAPI.users().list(filter).execute().getBody();
 
                 if (pageResult == null || pageResult.getItems() == null || pageResult.getItems().isEmpty()) {
-                    break; // Koniec stron, przerywamy pętlę
+                    break;
                 }
 
                 allUsers.addAll(pageResult.getItems());
 
-                // Jeśli dostaliśmy mniej wyników niż rozmiar strony, to jest to ostatnia strona
                 if (pageResult.getItems().size() < pageSize) {
                     break;
                 }
@@ -148,14 +135,12 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
      */
     private void updateUserInAuth0(User localUser, String auth0Id) {
         try {
-            // Tworzymy obiekt żądania aktualizacji z biblioteki Auth0
             com.auth0.json.mgmt.users.User auth0UpdateRequest = new com.auth0.json.mgmt.users.User();
 
-            // Używamy poprawnych setterów z klasy com.auth0.json.mgmt.users.User
             auth0UpdateRequest.setGivenName(localUser.getFirstName());
             auth0UpdateRequest.setFamilyName(localUser.getLastName());
             auth0UpdateRequest.setName(localUser.getName());
-            auth0UpdateRequest.setNickname(localUser.getName()); // Często name i nickname są tym samym
+            auth0UpdateRequest.setNickname(localUser.getName());
             auth0UpdateRequest.setPicture(localUser.getImg());
 
             managementAPI.users().update(auth0Id, auth0UpdateRequest).execute();
@@ -166,37 +151,29 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
         }
     }
 
-    // Metody handleDeactivatedUsers i dataHasChanged - bez zmian, są OK
     private void handleDeactivatedUsers(Map<String, User> localUsersMap, Set<String> auth0UserIds) {
         Set<String> localUserIds = localUsersMap.keySet();
 
-        // 1. Znajdź kandydatów do usunięcia
         Set<String> idsToDelete = new HashSet<>(localUserIds);
         idsToDelete.removeAll(auth0UserIds);
 
-        // 2. KROK KRYTYCZNY: Usuń WSZYSTKIE chronione ID z listy kandydatów do skasowania.
-        // Używamy `removeAll`, które jest wydajne dla zbiorów.
         boolean wereAnyProtected = idsToDelete.removeAll(protectedUserIds);
         if (wereAnyProtected) {
             log.info("Protected users were correctly excluded from the deletion list.");
         }
 
-        // 3. Kontynuuj tylko, jeśli nadal są jacyś użytkownicy do usunięcia
         if (!idsToDelete.isEmpty()) {
             log.warn("Found {} users to delete. Reassigning their content first.", idsToDelete.size());
 
-            // Pobierz ID "Użytkownika Usuniętego" z naszej listy chronionych.
-            // Zakładamy, że jest tam zawsze, ale dodajemy solidne sprawdzenie.
-            String deletedUserPlaceholderId = "11111111-1111-1111-1111-111111111111"; // Można też wziąć pierwszy element z `protectedUserIds`, ale to jest bezpieczniejsze
+
+            String deletedUserPlaceholderId = "11111111-1111-1111-1111-111111111111";
 
             User deletedUserPlaceholder = userService.getUserById(deletedUserPlaceholderId)
                     .orElseThrow(() -> new IllegalStateException("Critical Error: Deleted User placeholder with ID " + deletedUserPlaceholderId + " not found in the database!"));
 
-            // Pobierz pełne obiekty użytkowników, których chcemy usunąć
             List<User> usersToDelete = userService.findAllUsersByIdIn(idsToDelete);
 
             if (!usersToDelete.isEmpty()) {
-                // Znajdź i przepisz wszystkie powiązane opinie
                 List<Opinion> opinionsToReassign = opinionService.getOpinionsByUserIn(usersToDelete);
                 if (!opinionsToReassign.isEmpty()) {
                     log.info("Reassigning {} opinions to the deleted-user placeholder.", opinionsToReassign.size());
@@ -204,8 +181,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
                     opinionService.saveAllOpinions(opinionsToReassign);
                 }
 
-                // Znajdź i przepisz wszystkie powiązane sklepy
-                // (Zakładam, że masz `StoreRepository` z podobną metodą)
                  List<Store> storesToReassign = storeService.getStoresByUserIn(usersToDelete);
                  if (!storesToReassign.isEmpty()) {
                      log.info("Reassigning {} stores to the deleted-user placeholder.", storesToReassign.size());
@@ -213,7 +188,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
                      storeService.saveAllStores(storesToReassign);
                  }
 
-                // Teraz możemy bezpiecznie usunąć użytkowników
                 log.info("Proceeding with deletion of {} users.", usersToDelete.size());
                 userService.deleteAllUsersInBatch(usersToDelete);
             }
@@ -230,7 +204,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
 
     private void createUserFromDto(Auth0UserDto dto) {
         User user = new User();
-        // Ustawiamy PEŁNY ID, bez obcinania
         user.setId(dto.getUserId());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
@@ -269,7 +242,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
             existing.setFirstName(dto.getGivenName());
             changed = true;
         }
-        // ... reszta pól jak w poprzednim kodzie
         if (dto.getFamilyName() != null && !dto.getFamilyName().equals(existing.getLastName())) {
             existing.setLastName(dto.getFamilyName());
             changed = true;
@@ -299,12 +271,6 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
             dto.setCreatedAt(auth0User.getCreatedAt().toInstant().toString());
         }
         createUserFromDto(dto);
-    }
-
-    private String extractCleanId(String rawId) {
-        if (rawId == null) return null;
-        int idx = rawId.indexOf('|');
-        return idx >= 0 ? rawId.substring(idx + 1) : rawId;
     }
 
     @EventListener(ApplicationReadyEvent.class)
