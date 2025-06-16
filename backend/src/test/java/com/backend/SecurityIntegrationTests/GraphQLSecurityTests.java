@@ -141,7 +141,7 @@ class GraphQLSecurityTests {
     @Test
     void updateStore_asOwner_allowed() throws Exception {
         String payload = String.format(
-                "{\"query\":\"mutation { updateStore("
+                "{\"query\":\"mutation { updateStoreByOwner("
                         + "id:%d,name:\\\"UpdName\\\",description:\\\"UpdDesc\\\","
                         + "latitude:3.0,longitude:4.0,city:\\\"NewCity\\\","
                         + "address:\\\"NewAddr\\\",imageUrl:\\\"NewUrl\\\")"
@@ -153,8 +153,8 @@ class GraphQLSecurityTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.updateStore.name").value("UpdName"))
-                .andExpect(jsonPath("$.data.updateStore.city").value("NewCity"));
+                .andExpect(jsonPath("$.data.updateStoreByOwner.name").value("UpdName"))
+                .andExpect(jsonPath("$.data.updateStoreByOwner.city").value("NewCity"));
     }
 
     @Test
@@ -262,9 +262,9 @@ class GraphQLSecurityTests {
     @Test
     void updateOpinion_asAuthor_allowed() throws Exception {
         String payload = String.format(
-                "{\"query\":\"mutation { updateOpinion("
-                        + "id:%d,description:\\\"Updated Desc\\\",stars:3,reported:true)"
-                        + "{ id description stars reported }}\"}",
+                "{\"query\":\"mutation { updateOpinionByOwner("
+                        + "id:%d,description:\\\"Updated Desc\\\",stars:3,)"
+                        + "{ id description stars }}\"}",
                 existingOpinion.getId()
         );
         mockMvc.perform(post("/graphql")
@@ -272,9 +272,9 @@ class GraphQLSecurityTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.updateOpinion.description").value("Updated Desc"))
-                .andExpect(jsonPath("$.data.updateOpinion.stars").value(3))
-                .andExpect(jsonPath("$.data.updateOpinion.reported").value(true));
+                .andExpect(jsonPath("$.data.updateOpinionByOwner.description").value("Updated Desc"))
+                .andExpect(jsonPath("$.data.updateOpinionByOwner.stars").value(3));
+//                .andExpect(jsonPath("$.data.updateOpinionByOwner.reported").value(true));
     }
 
     @Test
