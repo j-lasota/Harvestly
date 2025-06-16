@@ -127,7 +127,7 @@ class UserAPITests {
     void updateUser_ReturnsUpdatedUser() {
         Long userId = 1L;
         User updatedUser = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75","John", "Updated", "john@example.com", "123456789", 1, "newimg.jpg");
-        when(userService.updateUser(eq("2a6e8658-d6db-45d8-9131-e8f87b62ed75"), any(), any(), any(), any(), any(), any(), any()))
+        when(userService.updateUser(eq("2a6e8658-d6db-45d8-9131-e8f87b62ed75"), any(), any(), any(), any(), any(), any(), any(), any(), any()))
                 .thenReturn(updatedUser);
 
         String mutation = """

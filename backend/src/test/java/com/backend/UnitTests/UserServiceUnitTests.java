@@ -153,6 +153,8 @@ class UserServiceUnitTests {
                 "987654321",
                 1,
                 "johnny.jpg",
+                null,
+                null,
                 null
         );
 
@@ -180,6 +182,8 @@ class UserServiceUnitTests {
                         "123123123",
                         0,
                         "test.jpg",
+                        null,
+                        null,
                         null
                 )
         );
@@ -202,6 +206,8 @@ class UserServiceUnitTests {
 
         User updatedUser = userService.updateUser(
                 "user123",
+                null,
+                null,
                 null,
                 null,
                 null,
