@@ -25,7 +25,7 @@ public class Product {
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OwnProduct> ownProducts = new ArrayList<>();;
+    private List<OwnProduct> ownProducts = new ArrayList<>();
 
     public Product() {
     }

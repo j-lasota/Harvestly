@@ -40,7 +40,7 @@ public class OwnProductService {
         return ownProductRepository.findAll();
     }
 
-    public OwnProduct updateOwnProduct(Long id, Long shopId, Long productId, BigDecimal price, Integer quantity, String imageUrl) {
+    public OwnProduct updateOwnProduct(Long id, Long shopId, Long productId, BigDecimal price, Integer quantity, String imageUrl, Integer discount) {
 
         OwnProduct ownProduct = ownProductRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("Product not found"));
@@ -57,6 +57,7 @@ public class OwnProductService {
         }
         if (price != null) {
             ownProduct.setPrice(price);
+            ownProduct.setBasePrice(price);
         }
 
         if (ownProduct.getPrice().compareTo(BigDecimal.ZERO) < 0) {
@@ -73,6 +74,10 @@ public class OwnProductService {
 
         if (imageUrl != null) {
             ownProduct.setImageUrl(imageUrl);
+        }
+
+        if (discount != null) {
+            ownProduct.setPriceAfterDiscount(discount);
         }
 
         return ownProductRepository.save(ownProduct);

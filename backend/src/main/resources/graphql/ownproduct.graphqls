@@ -5,6 +5,7 @@ type OwnProduct {
     store: Store!
     product: Product!
     price: BigDecimal!
+    discount: Int
     quantity: Int!
     imageUrl: String
 }
@@ -18,6 +19,6 @@ extend type Query {
 
 extend type Mutation {
     createOwnProduct(storeId: ID!, productId: ID!, price: BigDecimal!, quantity: Int, imageUrl: String): OwnProduct
-    updateOwnProduct(id: ID!, storeId: ID, productId: ID, price: BigDecimal, quantity: Int, imageUrl: String): OwnProduct
+    updateOwnProduct(id: ID!, storeId: ID, productId: ID, price: BigDecimal, quantity: Int, imageUrl: String, discount: Int): OwnProduct
     deleteOwnProduct(id: ID!): Boolean
 }
