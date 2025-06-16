@@ -106,7 +106,7 @@ public class OpinionController {
      * @return Boolean indicating whether the deletion was successful.
      */
     @MutationMapping
-    @PreAuthorize("isAuthenticated() and @opinionSecurity.isAuthor(authentication, #id)")
+    @PreAuthorize("isAuthenticated() or @opinionSecurity.isAuthor(authentication, #id)")
     public Boolean deleteOpinion(@Argument Long id) {
         return opinionService.deleteOpinionById(id);
     }
