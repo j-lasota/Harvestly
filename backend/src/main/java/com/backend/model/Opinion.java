@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,6 +31,9 @@ public class Opinion {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     private String description;
+
+    @OneToMany(mappedBy = "opinion", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<OpinionReport> opinionReports = new ArrayList<>();
 
     @NotNull
     @Min(1)

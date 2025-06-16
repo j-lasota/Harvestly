@@ -5,6 +5,7 @@ type Opinion {
     description: String
     stars: Int!
     reported: Boolean
+    opinionReports: [OpinionReport!]
 }
 
 extend type Query {

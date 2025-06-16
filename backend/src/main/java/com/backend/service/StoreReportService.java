@@ -13,12 +13,10 @@ import java.util.Optional;
 public class StoreReportService {
     private final StoreReportRepository storeReportRepository;
     private final StoreRepository storeRepository;
-    private final UserRepository userRepository;
 
     public StoreReportService(StoreReportRepository storeReportRepository, StoreRepository storeRepository, UserRepository userRepository) {
         this.storeReportRepository = storeReportRepository;
         this.storeRepository = storeRepository;
-        this.userRepository = userRepository;
     }
 
     public StoreReport saveStoreReport(StoreReport storeReport) {
