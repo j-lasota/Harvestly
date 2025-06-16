@@ -14,11 +14,6 @@ public class Auth0ManagementService {
 
     private final ManagementAPI managementAPI;
 
-    /**
-     * Aktualizuje dane użytkownika w Auth0 na podstawie obiektu User z naszej bazy.
-     * Wywoływane, gdy użytkownik zapisuje zmiany w swoim profilu w naszej aplikacji.
-     * @param localUser Obiekt użytkownika z naszej bazy z nowymi danymi.
-     */
     public void updateUserInAuth0(User localUser) {
         if (localUser.getId() == null) {
             log.error("Cannot update user in Auth0 without an ID.");

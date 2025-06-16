@@ -97,7 +97,7 @@ public class Auth0UserService {
     }
 
     /**
-     * @return Lista obiektów użytkowników z biblioteki Auth0.
+     * @return List of user objects fetched from auth0
      */
     private List<com.auth0.json.mgmt.users.User> fetchAllAuth0Users() throws Auth0Exception, InterruptedException {
         List<com.auth0.json.mgmt.users.User> allUsers = new ArrayList<>();
@@ -128,11 +128,10 @@ public class Auth0UserService {
             return allUsers;
         }
 
-    // W klasie Auth0UserService.java
 
     /**
-     * Aktualizuje profil użytkownika w Auth0 na podstawie danych z naszej lokalnej bazy.
-     * @param localUser Użytkownik z naszej bazy danych (com.backend.model.User),
+     * Updates the user profile in Auth0 based on data from our local database.
+     * @param localUser A user from our database (com.backend.model.User)
      */
     private void updateUserInAuth0(User localUser) {
         String fullUserId = localUser.getId();

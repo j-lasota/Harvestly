@@ -14,11 +14,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     List<Store> findByUserId(String userId);
     /**
-     * Znajduje wszystkie sklepy, których właścicielem jest jeden z użytkowników
-     * znajdujących się na podanej liście.
+     * Finds all stores of users from list
      *
-     * @param users Lista obiektów użytkowników.
-     * @return Lista pasujących sklepów.
+     * @param users List of user objects
+     * @return List of matching stores.
      */
     List<Store> findByUserIn(List<User> users);
 }
