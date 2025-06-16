@@ -85,7 +85,7 @@ public class StoreController {
      */
 
     @MutationMapping
-    @PreAuthorize("@storeSecurity.isOwner(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @storeSecurity.isOwner(authentication, #id)")
     public Store updateStore(@Argument Long id, @Argument String name, @Argument String description,
                             @Argument Double latitude, @Argument Double longitude, @Argument String city,
                             @Argument String address, @Argument String imageUrl, @Argument Boolean reported) {
