@@ -12,6 +12,7 @@ import com.backend.model.User; // Twoja encja User
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -307,6 +308,7 @@ public class Auth0UserService { // Zmieniam nazwę na bardziej standardową
     }
 
     @EventListener(ApplicationReadyEvent.class)
+    @ConditionalOnProperty(name = "app.sync.on-startup.enabled", havingValue = "true", matchIfMissing = true)
     public void onApplicationStart() {
         new Thread(this::synchronizeAllUsers).start();
     }

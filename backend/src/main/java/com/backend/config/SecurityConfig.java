@@ -47,7 +47,14 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 )
-                 .addFilterBefore(logAuthHeader(), BearerTokenAuthenticationFilter.class);
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())
+                        )
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                                response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage())
+                        ))
+                .addFilterBefore(logAuthHeader(), BearerTokenAuthenticationFilter.class);
         return http.build();
     }
 

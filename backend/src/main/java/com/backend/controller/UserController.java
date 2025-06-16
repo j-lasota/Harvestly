@@ -6,6 +6,7 @@ import com.backend.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -14,11 +15,9 @@ import java.util.Optional;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final StoreService storeService;
 
-    public UserController(UserService userService, StoreService storeService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.storeService = storeService;
     }
 
     /**
@@ -72,6 +71,7 @@ public class UserController {
      * @param facebook_nickname the new Facebook nickname of the user
      * @return the updated user
      */
+    @PreAuthorize("#id == authentication.name or hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public User updateUser(@Argument String id, @Argument String firstName, @Argument String lastName,
                            @Argument String email, @Argument String phoneNumber,
@@ -85,6 +85,7 @@ public class UserController {
      * @param id the ID of the user to delete
      * @return true if the user was deleted, false otherwise
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public Boolean deleteUser(@Argument String id) {
         return userService.deleteUserById(id);
@@ -97,6 +98,7 @@ public class UserController {
      * @param storeId the ID of the store to add as a favorite
      * @return the updated user with the favorite store added
      */
+    @PreAuthorize("#userId == authentication.name")
     @MutationMapping
     public User addFavoriteStore(@Argument String userId, @Argument Long storeId) {
         return userService.addFavoriteShop(userId, storeId);
@@ -109,6 +111,7 @@ public class UserController {
      * @param storeId the ID of the store to remove from favorites
      * @return the updated user with the favorite store removed
      */
+    @PreAuthorize("#userId == authentication.name")
     @MutationMapping
     public User removeFavoriteStore(@Argument String userId, @Argument Long storeId) {
         return userService.removeFavoriteShop(userId, storeId);

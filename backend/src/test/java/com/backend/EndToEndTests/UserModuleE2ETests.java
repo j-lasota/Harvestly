@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureG
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,6 +27,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+        "spring.task.scheduling.enabled=false",
+        "app.sync.on-startup.enabled=false"
+})
 public class UserModuleE2ETests {
 
     @Autowired
