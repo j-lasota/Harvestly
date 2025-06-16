@@ -58,13 +58,16 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Verification> verifications = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<StoreReport> storeReports = new ArrayList<>();
+
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Opinion> opinions = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteStores")
     private Set<User> likedByUsers = new HashSet<>();
 
-    private Boolean reported;
+    private boolean reported;
 
     public Store() {
     }

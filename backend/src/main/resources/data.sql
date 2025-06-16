@@ -32,30 +32,30 @@ VALUES
     ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Ewa', 'Zając', 'ewa10@example.com', '+48123123132', NULL, 1);
 
 -- Sklepy
-INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
+INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified, reported)
 VALUES
 
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true),
-    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),
-    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Smaki Lata', 'smaki-lata', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true),
-    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Zielony Kram', 'zielony-kram', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true),
-    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Ogród Marii', 'ogrod-marii', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true),
-    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Targowy Raj', 'targowy-raj', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true),
-    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Smaczny Koszyk', 'smaczny-koszyk', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true),
-    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Sadownik', 'sadownik', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true),
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Łódzkie Smaki Natury', 'lodzkie-smaki-natury', 'Naturalne produkty prosto z Łodzi', 51.759248, 19.455983, 'Łódź', 'ul. Piotrkowska 101', NULL, true),
-    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Stragan Pod Lipą', 'stragan-pod-lipa', 'Stragan pod rozłożystą lipą w centrum Łodzi', 51.759900, 19.426900, 'Łódź', 'ul. Lipowa 5', NULL, true),
-    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Zielony Zakątek Łódź', 'zielony-zakatek-lodz', 'Zielone warzywa i owoce z Łodzi', 51.800070, 19.467210, 'Łódź', 'ul. Zakątek 3', NULL, true),
-    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Ogródek Babci Heli', 'ogrodek-babci-heli', 'Domowe przetwory i świeże warzywa', 51.747800, 19.411200, 'Łódź', 'ul. Helin 7', NULL, true),
-    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tęczowy Koszyk', 'teczowy-koszyk', 'Kolorowe owoce i warzywa', 51.782010, 19.536010, 'Łódź', 'ul. Kolorowa 9', NULL, true),
-    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Łódzka Spiżarnia', 'lodzka-spizarnia', 'Tradycyjne produkty z regionu', 51.734520, 19.485010, 'Łódź', 'ul. Spiżowa 2', NULL, true),
-    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka', 'Stragan na świeżym powietrzu', 51.813010, 19.410000, 'Łódź', 'ul. Chmurna 11', NULL, true),
-    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz', 'Ekologiczne produkty od lokalnych rolników', 51.747040, 19.531000, 'Łódź', 'ul. Targowa 30', NULL, true),
-    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd', 'Raj dla miłośników owoców', 51.771200, 19.393000, 'Łódź', 'ul. Rajska 4', NULL, true),
-    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.784500, 19.481200, 'Łódź', 'ul. Sąsiedzka 8', NULL, true),
-    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Ziemniakowy Raj', 'ziemniakowy-raj', 'Najlepsze ziemniaki z okolicznych pól', 52.232334, 21.000908, 'Warszawa', 'ul. Śliska 5', NULL, true);
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true, false),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true, false),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true, false),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Smaki Lata', 'smaki-lata', 'Słodkie owoce z ogródka', 52.21, 21.03, 'Warszawa', 'ul. Owocowa 3', NULL, true, false),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Zielony Kram', 'zielony-kram', 'Lokalne smaki', 52.20, 21.04, 'Warszawa', 'ul. Kramarska 7', NULL, true, false),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Ogród Marii', 'ogrod-marii', 'Z rodzinnego gospodarstwa', 52.25, 21.05, 'Warszawa', 'ul. Marii 10', NULL, true, false),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Targowy Raj', 'targowy-raj', 'Codziennie świeże', 52.26, 21.06, 'Warszawa', 'ul. Targowa 15', NULL, true, false),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Smaczny Koszyk', 'smaczny-koszyk', 'Bez chemii i nawozów', 52.27, 21.07, 'Warszawa', 'ul. Koszykowa 8', NULL, true, false),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Sadownik', 'sadownik', 'Prosto z sadu', 52.28, 21.08, 'Warszawa', 'ul. Sadowa 2', NULL, true, false),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Owocowy Zakątek', 'owocowy-zakatek', 'Naturalnie i zdrowo', 52.29, 21.09, 'Warszawa', 'ul. Zakątek 11', NULL, true, false),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Łódzkie Smaki Natury', 'lodzkie-smaki-natury', 'Naturalne produkty prosto z Łodzi', 51.759248, 19.455983, 'Łódź', 'ul. Piotrkowska 101', NULL, true, false),
+    ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Stragan Pod Lipą', 'stragan-pod-lipa', 'Stragan pod rozłożystą lipą w centrum Łodzi', 51.759900, 19.426900, 'Łódź', 'ul. Lipowa 5', NULL, true, false),
+    ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'Zielony Zakątek Łódź', 'zielony-zakatek-lodz', 'Zielone warzywa i owoce z Łodzi', 51.800070, 19.467210, 'Łódź', 'ul. Zakątek 3', NULL, true, false),
+    ('b379f994-2dc7-4f12-802b-1e646f74bdbb', 'Ogródek Babci Heli', 'ogrodek-babci-heli', 'Domowe przetwory i świeże warzywa', 51.747800, 19.411200, 'Łódź', 'ul. Helin 7', NULL, true, false),
+    ('8d7f1f12-38b3-4b14-97a4-b1a7631d13b1', 'Tęczowy Koszyk', 'teczowy-koszyk', 'Kolorowe owoce i warzywa', 51.782010, 19.536010, 'Łódź', 'ul. Kolorowa 9', NULL, true, false),
+    ('72ec4c7f-bb9c-4b2d-8d0e-6dc123b7f3a4', 'Łódzka Spiżarnia', 'lodzka-spizarnia', 'Tradycyjne produkty z regionu', 51.734520, 19.485010, 'Łódź', 'ul. Spiżowa 2', NULL, true, false),
+    ('54ed9b1f-5905-4a98-bd4d-faf263de62d1', 'Stragan Pod Chmurką', 'stragan-pod-chmurka', 'Stragan na świeżym powietrzu', 51.813010, 19.410000, 'Łódź', 'ul. Chmurna 11', NULL, true, false),
+    ('e734f6ef-b738-4ed7-9293-7d96e1f7f2e2', 'Eko Targ Łódź', 'eko-targ-lodz', 'Ekologiczne produkty od lokalnych rolników', 51.747040, 19.531000, 'Łódź', 'ul. Targowa 30', NULL, true, false),
+    ('d4f0aa48-28a5-4bb3-b194-bac4919a5603', 'Owocowy Rajd', 'owocowy-rajd', 'Raj dla miłośników owoców', 51.771200, 19.393000, 'Łódź', 'ul. Rajska 4', NULL, true, false),
+    ('07a0fc37-d3a7-408e-a765-098e2c612258', 'Warzywniak u Sąsiada', 'warzywniak-u-sasiada', 'Warzywa od zaprzyjaźnionych gospodarzy', 51.784500, 19.481200, 'Łódź', 'ul. Sąsiedzka 8', NULL, true, false),
+    ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Ziemniakowy Raj', 'ziemniakowy-raj', 'Najlepsze ziemniaki z okolicznych pól', 52.232334, 21.000908, 'Warszawa', 'ul. Śliska 5', NULL, true, false);
 
 -- Produkty w sklepach (own_products)
 INSERT INTO own_products (store_id, product_id, base_price, price, quantity, image_url, discount)
