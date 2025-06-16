@@ -12,10 +12,11 @@ import { editUserAction } from "../actions";
 
 interface User {
   id: string;
-  email: string;
+  email: string | null;
   firstName: string;
   lastName: string;
   phoneNumber: string | null;
+  facebook_nickname: string | null;
   img: string | null;
 }
 
@@ -31,10 +32,10 @@ export default function ProfileClientPage({ data }: { data: User }) {
       className="flex h-full items-center justify-center"
     >
       <form
-        className="grid w-full max-w-6xl items-center justify-center gap-4 lg:grid-cols-3"
+        className="my-10 grid w-full max-w-6xl items-center justify-center gap-4 lg:my-0 lg:grid-cols-3"
         action={action}
       >
-        <div className="col-span-3">
+        <div className="lg:col-span-3">
           <h1 className="text-4xl font-semibold">Profil</h1>
         </div>
 
@@ -45,7 +46,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
           />
         </div>
 
-        <div className="scrollbar-hidden col-span-2">
+        <div className="scrollbar-hidden lg:col-span-2">
           <div className="mr-4 ml-auto flex max-w-lg flex-col gap-4">
             <input
               name="img"
@@ -66,7 +67,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder="..."
-                defaultValue={data.firstName}
+                defaultValue={data.firstName || ""}
               />
             </label>
 
@@ -81,7 +82,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder="..."
-                defaultValue={data.lastName}
+                defaultValue={data.lastName || ""}
               />
             </label>
 
@@ -94,9 +95,25 @@ export default function ProfileClientPage({ data }: { data: User }) {
                 id="email"
                 name="email"
                 type="text"
+                className="w-full rounded border px-2 py-1 text-sm opacity-50"
+                placeholder="..."
+                defaultValue={data.email || ""}
+                readOnly
+              />
+            </label>
+
+            <label
+              htmlFor="facebookNickname"
+              className="flex flex-col gap-1 text-sm font-medium"
+            >
+              Nazwa użytkownika Facebooka/Messenger
+              <Input
+                id="facebookNickname"
+                name="facebookNickname"
+                type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder="..."
-                defaultValue={data.email}
+                defaultValue={data.facebook_nickname || ""}
               />
             </label>
 

@@ -3,15 +3,15 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { Popup } from "react-leaflet";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-
+import L from 'leaflet';
 import { Store } from "../page";
 import Image from "next/image";
+import Link from "next/Link";
 
 function calculateDistanceKm(
   [lat1, lon1]: [number, number],
@@ -35,6 +35,9 @@ interface MapProps {
   zoom?: number;
   markers?: Store[];
   selectedStore?: Store | null;
+  searchedLocation?: [number, number] | null;
+  selectedProduct: string; // dodaj jeśli jeszcze nie ma
+
 }
 
 const Routing = dynamic(() => import("./routing"), { ssr: false });
@@ -54,21 +57,21 @@ const selectedStoreIcon = new Icon({
 });
 
 const Map = ({
-  center = [52.2297, 21.0122],
-  zoom = 7,
+  center = [5.2297, 21.0122],
+  zoom = 6,
   markers = [],
   selectedStore,
+  searchedLocation,
+  selectedProduct
 }: MapProps) => {
   const t = useTranslations("page.map");
   const [currentShop, setCurrentShop] = useState<Store | null>(
     selectedStore ?? null
   );
-  const [searchedLocation, setSearchedLocation] = useState<
-    [number, number] | null
-  >(null);
   const mapRef = useRef<L.Map | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-
+  
+  
   const distanceKm =
     searchedLocation && currentShop
       ? calculateDistanceKm(searchedLocation, [
@@ -76,30 +79,6 @@ const Map = ({
           currentShop.longitude,
         ])
       : null;
-
-  const searchAddress = async (address: string) => {
-    if (!mapRef.current) return;
-
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
-      );
-      const data = await response.json();
-
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        setCurrentShop(null);
-        setSearchedLocation([parseFloat(lat), parseFloat(lon)]); // ✅ Ustawienie szukanego adresu
-        mapRef.current.setView([parseFloat(lat), parseFloat(lon)], 15, {
-          animate: true,
-        });
-      } else {
-        alert(t("addressNotFound"));
-      }
-    } catch (error) {
-      console.error(t("searchError"), error);
-    }
-  };
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768);
@@ -125,6 +104,8 @@ const Map = ({
     mapRef.current.setView(center, zoom);
   }, [center, zoom]);
 
+
+
   useEffect(() => {
     if (!mapRef.current) return;
     const map = mapRef.current;
@@ -144,33 +125,28 @@ const Map = ({
     }
   }, [currentShop, isMobile]);
 
+  useEffect(() => {
+    if (selectedStore) {
+      setCurrentShop(selectedStore);
+    }
+  }, [selectedStore]);
+  const [mapReady, setMapReady] = useState(false);
+
+  useEffect(() => {
+    if (currentShop?.slug) {
+      console.log("Slug wybranego sklepu:",currentShop.slug);
+    }
+  }, [currentShop]);
+  
   return (
     <>
-      {/* <div className="bg-background rounded-bottom absolute top-33 left-0 z-[1000] w-72 p-2 shadow-md">
-        <Input
-          type="text"
-          placeholder="Wpisz adres..."
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const address = (e.target as HTMLInputElement).value;
-              if (address) searchAddress(address);
-            }
-          }}
-          onChange={(e) => {
-            const value = e.target.value.trim();
-            if (value === "") {
-              setSearchedLocation(null);
-            }
-          }}
-        />
-      </div> */}
-
       <MapContainer
+        whenReady={() => setMapReady(true)}
         center={center}
         zoom={zoom}
         scrollWheelZoom={true}
         zoomControl={false}
+        
         className="relative z-0 size-full rounded-lg"
       >
         <SetMapRef />
@@ -179,23 +155,44 @@ const Map = ({
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
 
-        {markers?.map((store) => (
-          <Marker
-            key={store.id}
-            position={[store.latitude, store.longitude]}
-            icon={currentShop?.id === store.id ? selectedStoreIcon : storeIcon}
-            eventHandlers={{
-              click: () => handleMarkerClick(store),
-            }}
-          >
-            <Popup>
-              {t("popup.storeLocation", {
-                storeName: store.name,
-                city: store.city,
-              })}
-            </Popup>
-          </Marker>
-        ))}
+{markers
+  ?.filter((store) =>
+    selectedProduct === "" ||
+    store.products?.some((product) =>
+      product.toLowerCase().includes(selectedProduct.toLowerCase())
+    )
+  )
+  .map((store) => {
+    // Sprawdź, czy sklep ma wybrany produkt
+    const hasProduct = selectedProduct
+      ? store.products?.some((p) =>
+          p.toLowerCase().includes(selectedProduct.toLowerCase())
+        )
+      : false;
+
+    // Jeśli to jest aktualnie wybrany sklep (kliknięty), to ikonę możesz zostawić
+    // albo nadpisać, np. na czerwony, zależy co wolisz — tu zostawiłem tak, aby kliknięty sklep był wyraźny czerwony
+    const icon = currentShop?.id === store.id ? selectedStoreIcon : hasProduct ? selectedStoreIcon : storeIcon;
+
+    return (
+      <Marker
+        key={store.id}
+        position={[store.latitude, store.longitude]}
+        icon={icon}
+        eventHandlers={{
+          click: () => handleMarkerClick(store),
+        }}
+      >
+        <Popup>
+          {t("popup.storeLocation", {
+            storeName: store.name,
+            city: store.city,
+          })}
+        </Popup>
+      </Marker>
+    );
+  })}
+
 
         {searchedLocation && (
           <Marker position={searchedLocation} icon={selectedStoreIcon}>
@@ -203,7 +200,7 @@ const Map = ({
           </Marker>
         )}
 
-        {searchedLocation && currentShop && mapRef.current && (
+        {searchedLocation && currentShop &&   (
           <Routing
             from={searchedLocation}
             to={[currentShop.latitude, currentShop.longitude]}
@@ -214,8 +211,16 @@ const Map = ({
         <div
           className={`absolute z-[1000] overflow-hidden rounded-xl border-2 border-[#d4c9b1] bg-[#f9f5eb] text-[#333] shadow-xl backdrop-blur-sm transition-all duration-300 ease-in-out ${
             isMobile
-              ? `right-4 bottom-4 left-4 h-1/2 max-h-96 ${currentShop ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-10 opacity-0"}`
-              : `top-7 right-4 h-[85%] w-96 max-w-[30vw] ${currentShop ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-10 opacity-0"}`
+              ? `right-4 bottom-4 left-4 h-1/2 max-h-96 ${
+                  currentShop
+                    ? "translate-y-0 opacity-100"
+                    : "pointer-events-none translate-y-10 opacity-0"
+                }`
+              : `top-7 right-4 h-[85%] w-96 max-w-[30vw] ${
+                  currentShop
+                    ? "translate-x-0 opacity-100"
+                    : "pointer-events-none translate-x-10 opacity-0"
+                }`
           }`}
         >
           {currentShop && (
@@ -272,6 +277,19 @@ const Map = ({
                     <p className="text-sm">{distanceKm} km</p>
                   </div>
                 )}
+{currentShop?.slug ? (
+  <div className="mt-4">
+    <Link
+      href={`/store/${currentShop.slug}`}
+      className="bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary/90 transition"
+    >
+      Zobacz stoisko
+    </Link>
+  </div>
+) : (
+  <div>Stoisko nie jest dostępne</div>
+  
+)}
 
                 <div>
                   <h3 className="mb-1 text-lg font-semibold text-[#5a4a3a]">
