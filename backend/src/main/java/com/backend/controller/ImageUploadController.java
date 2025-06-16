@@ -96,6 +96,7 @@ public class ImageUploadController {
      * @param file the image file to upload
      * @return the URL of the uploaded image or an error message
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/images")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty() || !Objects.requireNonNull(file.getContentType()).startsWith("image/")) {

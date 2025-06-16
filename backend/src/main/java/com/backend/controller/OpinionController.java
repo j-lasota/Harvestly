@@ -93,6 +93,7 @@ public class OpinionController {
      *
      * @return List of reported opinions.
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @QueryMapping
     public List<Opinion> opinionsReported() {
         return opinionService.getAllOpinionsReported();
