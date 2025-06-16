@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureGraphQlTester
 @SpringBootTest
 @Transactional
-public class StoreReportE2ETests {
+public class StoreReportModuleE2ETests {
 
     @Autowired
     private GraphQlTester graphQlTester;
@@ -32,6 +32,7 @@ public class StoreReportE2ETests {
     private UserRepository userRepository;
 
     private Store store;
+
     private User user;
 
     @BeforeEach
