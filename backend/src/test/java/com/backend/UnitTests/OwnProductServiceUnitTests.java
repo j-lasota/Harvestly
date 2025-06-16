@@ -124,7 +124,7 @@ class OwnProductServiceUnitTests {
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         when(ownProductRepository.save(any(OwnProduct.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        OwnProduct updated = ownProductService.updateOwnProduct(id, shopId, productId, price, quantity, imageUrl);
+        OwnProduct updated = ownProductService.updateOwnProduct(id, shopId, productId, price, quantity, imageUrl, 0);
 
         assertNotNull(updated);
         assertEquals(store, updated.getStore());
@@ -146,7 +146,7 @@ class OwnProductServiceUnitTests {
         when(ownProductRepository.findById(id)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                ownProductService.updateOwnProduct(id, null, null, null, null, null));
+                ownProductService.updateOwnProduct(id, null, null, null, null, null, 0));
 
         assertEquals("Product not found", exception.getMessage());
         verify(ownProductRepository, times(1)).findById(id);

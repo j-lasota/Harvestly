@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,7 +58,7 @@ public class BusinessHoursModuleE2ETests {
         userRepository.deleteAll();
 
         storeOwnerUser = new User(
-                UUID.randomUUID().toString(),
+                "2a6e8658-d6db-45d8-9131-e8f87b62ed75",
                 "Store",
                 "Owner",
                 "storeowner@example.com",
@@ -89,7 +90,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
-    @Transactional
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testCompleteBusinessHoursLifecycle() {
         String createBusinessHoursMutation = """
             mutation {
@@ -240,6 +241,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testPartialBusinessHoursUpdate() {
         String createBusinessHoursMutation = """
             mutation {
@@ -325,6 +327,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testDuplicateBusinessHours() {
         String createFirstBusinessHoursMutation = """
             mutation {
@@ -366,6 +369,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidBusinessHoursTime() {
         String createInvalidTimeMutation = """
             mutation {
@@ -428,6 +432,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidBusinessHoursOperations() {
         String getNonExistentBusinessHoursQuery = """
             query {
@@ -499,6 +504,7 @@ public class BusinessHoursModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testCreateAndGetMultipleBusinessHoursForStore() {
         for (DayOfWeek day : new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY}) {
             String createBusinessHoursMutation = """

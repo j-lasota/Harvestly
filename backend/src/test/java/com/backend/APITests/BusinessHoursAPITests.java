@@ -3,17 +3,23 @@ package com.backend.APITests;
 import com.backend.config.SecurityTestConfig;
 import com.backend.model.BusinessHours;
 import com.backend.model.Store;
+import com.backend.model.User;
+import com.backend.repository.UserRepository;
 import com.backend.service.BusinessHoursService;
 import com.backend.service.StoreService;
+import com.backend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.graphql.test.tester.GraphQlTester;
-
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import com.backend.model.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -27,6 +33,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
+
 class BusinessHoursAPITests {
 
     @Autowired
@@ -38,12 +45,17 @@ class BusinessHoursAPITests {
     @MockitoBean
     private StoreService storeService;
 
+    @MockitoBean
+    private UserService userService;
+
+    @MockitoBean
+    private UserRepository userRepository;
+
     @Test
     void businessHours_ReturnsAllBusinessHours() {
         Store store = new Store();
         store.setId(1L);
         store.setName("Test Store");
-
         List<BusinessHours> mockBusinessHours = Arrays.asList(
                 new BusinessHours(store, DayOfWeek.MONDAY, LocalTime.of(8, 0), LocalTime.of(16, 0)),
                 new BusinessHours(store, DayOfWeek.TUESDAY, LocalTime.of(8, 0), LocalTime.of(16, 0))
@@ -100,47 +112,76 @@ class BusinessHoursAPITests {
                 });
     }
 
-    @Test
-    void createBusinessHours_ReturnsCreatedBusinessHours() {
-        Long storeId = 1L;
-        Store store = new Store();
-        store.setId(storeId);
-        store.setName("Test Store");
 
-        BusinessHours createdBusinessHours = new BusinessHours(
-                store, DayOfWeek.WEDNESDAY, LocalTime.of(10, 0), LocalTime.of(18, 0)
-        );
+    @SpringBootTest
+    @AutoConfigureGraphQlTester
+    @ActiveProfiles("test")
+    @AutoConfigureMockMvc(addFilters = false)
+    @TestPropertySource(properties = "app.method-security.enabled=false")
+    class BusinessHoursAPINoSecurityTests {
 
-        when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
-        when(businessHoursService.saveBusinessHours(any(BusinessHours.class))).thenReturn(createdBusinessHours);
+        @Autowired
+        private GraphQlTester graphQlTester;
 
-        String mutation = """
-                mutation {
-                  createBusinessHours(
-                    storeId: 1
-                    dayOfWeek: WEDNESDAY
-                    openingTime: "10:00:00"
-                    closingTime: "18:00:00"
-                  ) {
-                    dayOfWeek
-                    openingTime
-                    closingTime
-                  }
-                }
-                """;
+        @MockitoBean
+        private BusinessHoursService businessHoursService;
 
-        graphQlTester.document(mutation)
-                .execute()
-                .path("createBusinessHours")
-                .entity(BusinessHours.class)
-                .satisfies(businessHours -> {
-                    assert businessHours.getDayOfWeek() == DayOfWeek.WEDNESDAY;
-                    assert businessHours.getOpeningTime().equals(LocalTime.of(10, 0));
-                    assert businessHours.getClosingTime().equals(LocalTime.of(18, 0));
-                });
+        @MockitoBean
+        private StoreService storeService;
+
+        @MockitoBean
+        private UserService userService;
+
+        @MockitoBean
+        private UserRepository userRepository;
+
+        @Test
+        void createBusinessHours_ReturnsCreatedBusinessHours() {
+            Long storeId = 1L;
+            Store store = new Store();
+            store.setId(storeId);
+            store.setName("Test Store");
+            User user = new User();
+            String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
+            user.setId(userId);
+            store.setUser(user);
+
+            BusinessHours createdBusinessHours = new BusinessHours(
+                    store, DayOfWeek.WEDNESDAY, LocalTime.of(10, 0), LocalTime.of(18, 0)
+            );
+
+            when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
+            when(businessHoursService.saveBusinessHours(any(BusinessHours.class))).thenReturn(createdBusinessHours);
+
+            String mutation = """
+            mutation {
+              createBusinessHours(
+                storeId: 1
+                dayOfWeek: WEDNESDAY
+                openingTime: "10:00:00"
+                closingTime: "18:00:00"
+              ) {
+                dayOfWeek
+                openingTime
+                closingTime
+              }
+            }
+            """;
+
+            graphQlTester.document(mutation)
+                    .execute()
+                    .path("createBusinessHours")
+                    .entity(BusinessHours.class)
+                    .satisfies(businessHours -> {
+                        assert businessHours.getDayOfWeek() == DayOfWeek.WEDNESDAY;
+                        assert businessHours.getOpeningTime().equals(LocalTime.of(10, 0));
+                        assert businessHours.getClosingTime().equals(LocalTime.of(18, 0));
+                    });
+        }
     }
-
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void updateBusinessHours_ReturnsUpdatedBusinessHours() {
         Store store = new Store();
         store.setId(1L);
@@ -179,6 +220,7 @@ class BusinessHoursAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void deleteBusinessHours_ReturnsTrue_WhenDeleted() {
         Long businessHoursId = 1L;
         when(businessHoursService.deleteBusinessHours(businessHoursId)).thenReturn(true);
@@ -197,6 +239,8 @@ class BusinessHoursAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     void businessHoursById_ReturnsNull_WhenNotExists() {
         Long businessHoursId = 999L;
         when(businessHoursService.getBusinessHoursById(businessHoursId)).thenReturn(Optional.empty());
@@ -218,6 +262,7 @@ class BusinessHoursAPITests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     void deleteBusinessHours_ReturnsFalse_WhenNotFound() {
         Long businessHoursId = 999L;
         when(businessHoursService.deleteBusinessHours(businessHoursId)).thenReturn(false);
