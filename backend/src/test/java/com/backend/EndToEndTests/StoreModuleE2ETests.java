@@ -516,4 +516,68 @@ public class StoreModuleE2ETests {
                     assert !errors.isEmpty();
                 });
     }
+    @Test
+    public void testSlugUniquenessIntegration() {
+        String storeName = "Unique Slug Store";
+
+        // Create first store by testUser
+        String createFirstStoreMutation = """
+        mutation {
+            createStore(
+                userId: "%s",
+                name: "%s",
+                description: "First store",
+                latitude: 10.0,
+                longitude: 20.0,
+                city: "City",
+                address: "Address 1",
+                imageUrl: "img1.jpg"
+            ) {
+                id
+                slug
+            }
+        }
+        """.formatted(testUser.getId(), storeName);
+
+        GraphQlTester.Response firstResponse = graphQlTester
+                .document(createFirstStoreMutation)
+                .execute();
+
+        String firstSlug = firstResponse
+                .path("createStore.slug")
+                .entity(String.class)
+                .get();
+
+        String createSecondStoreMutation = """
+        mutation {
+            createStore(
+                userId: "%s",
+                name: "%s",
+                description: "Second store",
+                latitude: 11.0,
+                longitude: 21.0,
+                city: "City",
+                address: "Address 2",
+                imageUrl: "img2.jpg"
+            ) {
+                id
+                slug
+            }
+        }
+        """.formatted(tierOneUser.getId(), storeName);
+
+        GraphQlTester.Response secondResponse = graphQlTester
+                .document(createSecondStoreMutation)
+                .execute();
+
+        String secondSlug = secondResponse
+                .path("createStore.slug")
+                .entity(String.class)
+                .get();
+
+        assertNotNull(firstSlug);
+        assertNotNull(secondSlug);
+        assertNotEquals(firstSlug, secondSlug);
+        assertTrue(secondSlug.startsWith(firstSlug) || firstSlug.startsWith(secondSlug));
+    }
 }

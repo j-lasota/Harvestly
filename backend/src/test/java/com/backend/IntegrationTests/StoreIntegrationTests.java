@@ -134,5 +134,4 @@ class StoreIntegrationTests {
 
         assertEquals(1, stores.size());
     }
-
 }
