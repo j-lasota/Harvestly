@@ -85,13 +85,32 @@ public class StoreController {
      */
 
     @MutationMapping
-    @PreAuthorize("hasAuthority('SCOPE_manage:all') or @storeSecurity.isOwner(authentication, #id)")
+    @PreAuthorize("hasAuthority('SCOPE_read:admin-dashboard')")
     public Store updateStore(@Argument Long id, @Argument String name, @Argument String description,
                             @Argument Double latitude, @Argument Double longitude, @Argument String city,
                             @Argument String address, @Argument String imageUrl, @Argument Boolean reported) {
         return  storeService.updateStore(id, name, description, latitude, longitude, city, address, imageUrl, reported);
     }
 
+    /** Update an existing store
+     *
+     * @param id ID of the store to update
+     * @param name New name of the store
+     * @param description New description of the store
+     * @param latitude New latitude of the store's location
+     * @param longitude New longitude of the store's location
+     * @param city New city where the store is located
+     * @param address New address of the store
+     * @param imageUrl New URL of the store's image
+     * @return The updated store
+     */
+    @MutationMapping
+    @PreAuthorize("@storeSecurity.isOwner(authentication, #id)")
+    public Store updateStoreByOwner(@Argument Long id, @Argument String name, @Argument String description,
+                             @Argument Double latitude, @Argument Double longitude, @Argument String city,
+                             @Argument String address, @Argument String imageUrl) {
+        return  storeService.updateStore(id, name, description, latitude, longitude, city, address, imageUrl, null);
+    }
     /** Delete a store by its ID
      *
      * @param id ID of the store to delete
