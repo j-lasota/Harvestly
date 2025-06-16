@@ -1,4 +1,3 @@
-// src/test/java/com/backend/config/TestSecurityConfig.java
 package com.backend.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
@@ -12,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile("test")
 public class TestSecurityConfig {
 
-    // Ten chain odpali się jako pierwszy i złapie wszystkie /api/**
     @Bean
     @Order(1)
     SecurityFilterChain apiPermitAll(HttpSecurity http) throws Exception {
@@ -23,7 +21,6 @@ public class TestSecurityConfig {
         return http.build();
     }
 
-    // A to będzie chain domyślny – reszta Twoich reguł (OAuth2, PreAuthorize itd.)
     @Bean
     @Order(2)
     SecurityFilterChain defaultChain(HttpSecurity http) throws Exception {

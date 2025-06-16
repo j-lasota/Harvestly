@@ -19,10 +19,8 @@ spring:
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   task:
     scheduling:
-      # Wyłączamy automatyczne uruchamianie zadań @Scheduled w testach
       enabled: false
   app:
     sync:
       on-startup:
-        # Wyłączamy synchronizację przy starcie aplikacji w testach
         enabled: false
