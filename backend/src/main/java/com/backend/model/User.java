@@ -13,7 +13,6 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-// #TODO: wywalic password z usera
 @EqualsAndHashCode(of = {"id", "firstName", "lastName", "email", "phoneNumber", "tier", "img"})
 @Table(name = "users")
 public class User {

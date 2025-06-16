@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/opinions/**").permitAll()
                         //.requestMatchers(HttpMethod.POST, "/graphql").authenticated()
                         .requestMatchers("/api/**").authenticated()
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
