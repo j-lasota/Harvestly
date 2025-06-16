@@ -30,7 +30,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
-@AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = "app.method-security.enabled=false")
 class BusinessHoursAPINoSecurityTests {
 

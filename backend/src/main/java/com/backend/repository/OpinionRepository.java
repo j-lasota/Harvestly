@@ -1,11 +1,13 @@
 package com.backend.repository;
 
 import com.backend.model.Opinion;
+import com.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface OpinionRepository extends JpaRepository<Opinion, Long> {
     Boolean existsByStoreIdAndUserId(Long store_id, String user_id);
@@ -15,4 +17,13 @@ public interface OpinionRepository extends JpaRepository<Opinion, Long> {
     Double findAverageStarsByStoreSlug(@Param("slug") String slug);
 
     List<Opinion> findByUserId(String userId);
+
+    /**
+     * Znajduje wszystkie opinie, które zostały napisane przez użytkowników
+     * znajdujących się na podanej liście.
+     *
+     * @param users Lista obiektów użytkowników.
+     * @return Lista pasujących opinii.
+     */
+    List<Opinion> findByUserIn(List<User> users);
 }

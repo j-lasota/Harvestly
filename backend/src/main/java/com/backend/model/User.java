@@ -45,6 +45,7 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
 

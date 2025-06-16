@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -22,7 +23,7 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("User with the same email already exists.");
         }
-        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber()) && user.getPhoneNumber() != null) {
             throw new IllegalArgumentException("User with the same phone number already exists.");
         }
         return userRepository.save(user);
@@ -106,7 +107,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public List<User> findAllUsersByIdIn(List<String> ids) {
+    public List<User> findAllUsersByIdIn(Set<String> ids) {
         return userRepository.findAllByIdIn(ids);
     }
 

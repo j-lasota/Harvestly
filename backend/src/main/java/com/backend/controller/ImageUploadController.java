@@ -8,6 +8,7 @@ import com.backend.service.ImageUploadService;
 import com.backend.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class ImageUploadController {
      * @param id   the ID of the store
      * @return the URL of the uploaded image or an error message
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/stores/{id}/image")
     public ResponseEntity<String> uploadStoreImage(@RequestParam("file") MultipartFile file,
                                                    @PathVariable("id") Long id) {
@@ -65,6 +67,7 @@ public class ImageUploadController {
      * @param file the image file to upload
      * @return the URL of the uploaded image or an error message
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/products/{id}/image")
     public ResponseEntity<?> uploadProductImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty() || !Objects.requireNonNull(file.getContentType()).startsWith("image/")) {

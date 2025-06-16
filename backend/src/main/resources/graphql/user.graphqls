@@ -19,6 +19,7 @@ type User {
     img: String
     # kiedy konto zostało utworzone w Auth0
     createdAt: DateTime
+    active: Boolean
     stores: [Store]
     favoriteStores: [Store!]!
     facebook_nickname: String
