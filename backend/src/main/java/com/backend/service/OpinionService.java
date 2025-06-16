@@ -3,6 +3,7 @@ package com.backend.service;
 import com.backend.model.Opinion;
 import com.backend.model.Store;
 import com.backend.model.User;
+import com.backend.repository.OpinionReportRepository;
 import com.backend.repository.OpinionRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.Optional;
 @Service
 public class OpinionService {
     private final OpinionRepository opinionRepository;
+    private final OpinionReportRepository opinionReportRepository;
 
-    public OpinionService(OpinionRepository opinionRepository) {
+    public OpinionService(OpinionRepository opinionRepository, OpinionReportRepository opinionReportRepository) {
         this.opinionRepository = opinionRepository;
+        this.opinionReportRepository = opinionReportRepository;
     }
 
     public List<Opinion> getAllOpinions() {
@@ -64,6 +67,9 @@ public class OpinionService {
         }
         if(reported != null) {
             opinion.setReported(reported);
+            if (!opinion.isReported()) {
+                opinionReportRepository.deleteByOpinionId(opinion.getId());
+            }
         }
         return opinionRepository.save(opinion);
     }
