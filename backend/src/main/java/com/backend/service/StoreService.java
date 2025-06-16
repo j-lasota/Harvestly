@@ -2,6 +2,7 @@ package com.backend.service;
 
 import com.backend.model.Store;
 import com.backend.model.User;
+import com.backend.repository.StoreReportRepository;
 import com.backend.repository.StoreRepository;
 import com.github.slugify.Slugify;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class StoreService {
     private static final Slugify SLUGIFY = Slugify.builder().build();
     private final StoreRepository storeRepository;
+    private final StoreReportRepository storeReportRepository;
 
-    public StoreService(StoreRepository storeRepository) {
+    public StoreService(StoreRepository storeRepository, StoreReportRepository storeReportRepository) {
         this.storeRepository = storeRepository;
+        this.storeReportRepository = storeReportRepository;
     }
 
     public Optional<Store> getStoreById(Long id) {
@@ -65,6 +68,9 @@ public class StoreService {
         }
         if (reported != null) {
             store.setReported(reported);
+            if (!store.isReported()) {
+                storeReportRepository.deleteByStoreId(store.getId());
+            }
         }
 
         return storeRepository.save(store);
