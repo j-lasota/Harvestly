@@ -22,7 +22,9 @@ type User {
     active: Boolean
     stores: [Store]
     favoriteStores: [Store!]!
-    facebook_nickname: String
+    facebookNickname: String
+    nip: String
+    publicTradePermitNumber: String
 }
 
 extend type Query {
@@ -33,7 +35,8 @@ extend type Query {
 
 extend type Mutation {
     createUser(id: ID!, firstName: String, lastName: String, email: String!, phoneNumber: String, img: String): User
-    updateUser(id: ID!, firstName: String, lastName: String, email: String, phoneNumber: String, tier: Int, img: String, facebook_nickname: String): User
+    updateUser(id: ID!, firstName: String, lastName: String, email: String, phoneNumber: String, tier: Int, img: String,
+        facebookNickname: String, nip: String, publicTradePermitNumber: String): User
     deleteUser(id: ID!): Boolean
     addFavoriteStore(userId: ID!, storeId: ID!): User
     removeFavoriteStore(userId: ID!, storeId: ID!): User

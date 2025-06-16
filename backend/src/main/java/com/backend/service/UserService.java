@@ -29,7 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(String id, String firstName, String lastName, String email, String phoneNumber, Integer tier, String img, String facebook_nickname) {
+    public User updateUser(String id, String firstName, String lastName, String email, String phoneNumber, Integer tier, String img, String facebook_nickname, String nip, String publicTradePermitNumber) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (firstName != null) {
@@ -51,7 +51,13 @@ public class UserService {
             user.setImg(img);
         }
         if (facebook_nickname != null) {
-            user.setFacebook_nickname(facebook_nickname);
+            user.setFacebookNickname(facebook_nickname);
+        }
+        if (nip != null) {
+            user.setNip(nip);
+        }
+        if (publicTradePermitNumber != null) {
+            user.setPublicTradePermitNumber(publicTradePermitNumber);
         }
         return userRepository.save(user);
     }

@@ -68,15 +68,18 @@ public class UserController {
      * @param phoneNumber the new phone number of the user
      * @param tier the new tier of the user
      * @param img the new image URL of the user
-     * @param facebook_nickname the new Facebook nickname of the user
+     * @param facebookNickname the new Facebook nickname of the user
+     * @param nip the new NIP of the user
+     * @param publicTradePermitNumber the new public trade permit number of the user
      * @return the updated user
      */
     @PreAuthorize("#id == authentication.name or hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public User updateUser(@Argument String id, @Argument String firstName, @Argument String lastName,
                            @Argument String email, @Argument String phoneNumber,
-                           @Argument Integer tier, @Argument String img, @Argument String facebook_nickname) {
-        return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img, facebook_nickname);
+                           @Argument Integer tier, @Argument String img, @Argument String facebookNickname,
+                           @Argument String nip, @Argument String publicTradePermitNumber) {
+        return userService.updateUser(id, firstName, lastName, email, phoneNumber, tier, img, facebookNickname, nip, publicTradePermitNumber);
     }
 
     /**
