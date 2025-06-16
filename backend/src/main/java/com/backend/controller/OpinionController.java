@@ -79,7 +79,6 @@ public class OpinionController {
      */
     @QueryMapping
     public List<Opinion> opinionsByStoreId(@Argument Long storeId) {
-        // Optionally validate that the store exists first
         Optional<Store> store = storeService.getStoreById(storeId);
         if (store.isEmpty()) {
             throw new IllegalArgumentException("Store not found");

@@ -50,7 +50,7 @@ public class OwnProductController {
     @MutationMapping
     @PreAuthorize("@storeSecurity.isOwner(authentication, #storeId) or hasAuthority('SCOPE_manage:all')")
     public OwnProduct createOwnProduct(@Argument Long storeId, @Argument Long productId, @Argument BigDecimal price,
-                                       @Argument int quantity, @Argument(name = "imageUrl") String imageUrl) { // Jawnie nazwij argument, żeby uniknąć pomyłek
+                                       @Argument int quantity, @Argument(name = "imageUrl") String imageUrl) {
 
         log.info("Attempting to create OwnProduct for storeId: {}, productId: {}", storeId, productId);
 
