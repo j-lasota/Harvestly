@@ -35,12 +35,10 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public: fetching data
                         .requestMatchers("/graphql").permitAll()
                         .requestMatchers("/api/auth0/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/stores/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/opinions/**").permitAll()
-                        //.requestMatchers(HttpMethod.POST, "/graphql").authenticated()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().denyAll()
                 )

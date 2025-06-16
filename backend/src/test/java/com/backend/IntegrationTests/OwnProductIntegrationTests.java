@@ -133,6 +133,7 @@ class OwnProductIntegrationTests {
 
         BigDecimal newPrice = BigDecimal.valueOf(15.99);
         Integer newQuantity = 50;
+        Integer discount = 0;
         String newImageUrl = "http://example.com/newimage.jpg";
 
         OwnProduct updated = ownProductService.updateOwnProduct(
@@ -141,7 +142,8 @@ class OwnProductIntegrationTests {
                 product.getId(),
                 newPrice,
                 newQuantity,
-                newImageUrl
+                newImageUrl,
+                discount
         );
 
         assertEquals(newPrice, updated.getPrice());
@@ -171,6 +173,8 @@ class OwnProductIntegrationTests {
         ownProduct.setStore(store);
         ownProduct.setProduct(product);
         ownProduct.setPrice(BigDecimal.valueOf(5.00));
+        ownProduct.setBasePrice(BigDecimal.valueOf(5.00));
+        ownProduct.setDiscount(0);
         ownProduct.setQuantity(20);
         ownProduct.setImageUrl("http://example.com/sample.jpg");
         return ownProduct;

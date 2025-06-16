@@ -356,7 +356,7 @@ class OwnProductAPITests {
 
         when(ownProductService.getOwnProductById(ownProductId)).thenReturn(Optional.of(originalOwnProduct));
         when(ownProductService.updateOwnProduct(
-                ownProductId, storeId, productId, newPrice, newQuantity, newImageUrl
+                ownProductId, storeId, productId, newPrice, newQuantity, newImageUrl, 0
         )).thenReturn(updatedOwnProduct);
 
         String mutation = """
@@ -368,6 +368,7 @@ class OwnProductAPITests {
                 price: 19.99
                 quantity: 75
                 imageUrl: "updated_image.jpg"
+                discount: 0
               ) {
                 id
                 price
@@ -391,7 +392,7 @@ class OwnProductAPITests {
     @Test
     void updateOwnProduct_ThrowsError_WhenOwnProductNotFound() {
         when(ownProductService.updateOwnProduct(
-                anyLong(), anyLong(), anyLong(), any(), any(), any()
+                anyLong(), anyLong(), anyLong(), any(), any(), any(), any()
         )).thenThrow(new IllegalArgumentException("OwnProduct not found"));
 
         String mutation = """
@@ -403,6 +404,7 @@ class OwnProductAPITests {
                     price: 19.99
                     quantity: 75
                     imageUrl: "updated_image.jpg"
+                    discount: 0
                   ) {
                     id
                     price
