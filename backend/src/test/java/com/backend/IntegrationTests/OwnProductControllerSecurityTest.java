@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -54,7 +55,7 @@ class OwnProductControllerSecurityTest {
         productRepository.deleteAll();
         userRepository.deleteAll();
 
-        storeOwner = new User("owner-id", "Owner", "User", "owner@test.com", null, 0, null);
+        storeOwner = new User("2a6e8658-d6db-45d8-9131-e8f87b62ed75", "Owner", "User", "owner@test.com", null, 0, null);
         anotherUser = new User("another-user-id", "Another", "User", "another@test.com", null, 0, null);
         userRepository.saveAll(List.of(storeOwner, anotherUser));
 
