@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestPropertySource(properties = {
         "spring.task.scheduling.enabled=false",
         "app.sync.on-startup.enabled=false",
-//        "app.method-security.enabled=false"
+        "app.method-security.enabled=false"
 })
 
 public class UserModuleE2ETests {
