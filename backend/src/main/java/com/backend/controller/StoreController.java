@@ -117,7 +117,7 @@ public class StoreController {
      * @return True if the store was deleted successfully, otherwise false
      */
     @MutationMapping
-    @PreAuthorize("hasAuthority('SCOPE_delete:store') or @storeSecurity.isOwner(authentication, #id)")
+    @PreAuthorize("@storeSecurity.isOwner(authentication, #id) or hasAuthority('SCOPE_delete:store')")
     public Boolean deleteStore(@Argument Long id) {
         return storeService.deleteStoreById(id);
     }
