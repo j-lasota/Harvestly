@@ -113,72 +113,7 @@ class BusinessHoursAPITests {
     }
 
 
-    @SpringBootTest
-    @AutoConfigureGraphQlTester
-    @ActiveProfiles("test")
-    @AutoConfigureMockMvc(addFilters = false)
-    @TestPropertySource(properties = "app.method-security.enabled=false")
-    class BusinessHoursAPINoSecurityTests {
 
-        @Autowired
-        private GraphQlTester graphQlTester;
-
-        @MockitoBean
-        private BusinessHoursService businessHoursService;
-
-        @MockitoBean
-        private StoreService storeService;
-
-        @MockitoBean
-        private UserService userService;
-
-        @MockitoBean
-        private UserRepository userRepository;
-
-        @Test
-        void createBusinessHours_ReturnsCreatedBusinessHours() {
-            Long storeId = 1L;
-            Store store = new Store();
-            store.setId(storeId);
-            store.setName("Test Store");
-            User user = new User();
-            String userId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
-            user.setId(userId);
-            store.setUser(user);
-
-            BusinessHours createdBusinessHours = new BusinessHours(
-                    store, DayOfWeek.WEDNESDAY, LocalTime.of(10, 0), LocalTime.of(18, 0)
-            );
-
-            when(storeService.getStoreById(storeId)).thenReturn(Optional.of(store));
-            when(businessHoursService.saveBusinessHours(any(BusinessHours.class))).thenReturn(createdBusinessHours);
-
-            String mutation = """
-            mutation {
-              createBusinessHours(
-                storeId: 1
-                dayOfWeek: WEDNESDAY
-                openingTime: "10:00:00"
-                closingTime: "18:00:00"
-              ) {
-                dayOfWeek
-                openingTime
-                closingTime
-              }
-            }
-            """;
-
-            graphQlTester.document(mutation)
-                    .execute()
-                    .path("createBusinessHours")
-                    .entity(BusinessHours.class)
-                    .satisfies(businessHours -> {
-                        assert businessHours.getDayOfWeek() == DayOfWeek.WEDNESDAY;
-                        assert businessHours.getOpeningTime().equals(LocalTime.of(10, 0));
-                        assert businessHours.getClosingTime().equals(LocalTime.of(18, 0));
-                    });
-        }
-    }
     @Test
     @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
 

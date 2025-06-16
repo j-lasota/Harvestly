@@ -57,10 +57,19 @@ public class User {
     )
     private Set<Store> favoriteStores = new HashSet<>();
 
-    private String facebook_nickname;
+    private String facebookNickname;
+
+    @Column(name = "nip", unique = true)
+    private String nip;
+
+    @Column(name = "public_trade_permit_number", unique = true)
+    private String publicTradePermitNumber;
+
 
     public User() {
     }
+
+
 
     public User(String id, String firstName, String lastName, String email, String phoneNumber, int tier, String img) {
         this.id = id;
@@ -98,4 +107,3 @@ public class User {
 
 
 }
-
