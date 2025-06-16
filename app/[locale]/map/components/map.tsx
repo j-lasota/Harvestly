@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Store } from "../page";
+import { recordEvent } from "@/utils/api"; 
 
 function calculateDistanceKm(
   [lat1, lon1]: [number, number],
@@ -36,7 +37,7 @@ interface MapProps {
   markers?: Store[];
   selectedStore?: Store | null;
   searchedLocation?: [number, number] | null;
-  selectedProduct: string; // dodaj jeśli jeszcze nie ma
+  selectedProduct: string; 
 }
 
 const Routing = dynamic(() => import("./routing"), { ssr: false });
@@ -87,6 +88,10 @@ const InteractiveMap = ({
 
   const handleMarkerClick = (store: Store) => {
     setCurrentShop(store);
+    if (store.slug) {
+      recordEvent(store.slug, "MAP_PIN");
+    } else {
+    }
   };
 
   const SetMapRef = () => {
@@ -130,7 +135,6 @@ const InteractiveMap = ({
 
   useEffect(() => {
     if (currentShop?.slug) {
-      console.log("Slug wybranego sklepu:", currentShop.slug);
     }
   }, [currentShop]);
 
@@ -154,26 +158,24 @@ const InteractiveMap = ({
           ?.filter(
             (store) =>
               selectedProduct === "" ||
-              store.products?.some((product) =>
-                product.toLowerCase().includes(selectedProduct.toLowerCase())
+              store.products?.some(
+                (product) =>
+                  product.toLowerCase().includes(selectedProduct.toLowerCase())
               )
           )
           .map((store) => {
-            // Sprawdź, czy sklep ma wybrany produkt
             const hasProduct = selectedProduct
               ? store.products?.some((p) =>
                   p.toLowerCase().includes(selectedProduct.toLowerCase())
                 )
               : false;
 
-            // Jeśli to jest aktualnie wybrany sklep (kliknięty), to ikonę możesz zostawić
-            // albo nadpisać, np. na czerwony, zależy co wolisz — tu zostawiłem tak, aby kliknięty sklep był wyraźny czerwony
             const icon =
               currentShop?.id === store.id
                 ? selectedStoreIcon
                 : hasProduct
-                  ? selectedStoreIcon
-                  : storeIcon;
+                ? selectedStoreIcon
+                : storeIcon;
 
             return (
               <Marker
@@ -207,7 +209,6 @@ const InteractiveMap = ({
           />
         )}
 
-        {/* Panel z informacjami o sklepie */}
         <div
           className={`absolute z-[1000] overflow-hidden rounded-xl border-2 border-[#d4c9b1] bg-[#f9f5eb] text-[#333] shadow-xl backdrop-blur-sm transition-all duration-300 ease-in-out ${
             isMobile
@@ -282,6 +283,9 @@ const InteractiveMap = ({
                     <Link
                       href={`/store/${currentShop.slug}`}
                       className="bg-primary hover:bg-primary/90 rounded px-3 py-1 text-sm text-white transition"
+                      onClick={() => {
+                        recordEvent(currentShop.slug!, "STORE_PAGE");
+                      }}
                     >
                       Zobacz stoisko
                     </Link>

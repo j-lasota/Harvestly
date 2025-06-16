@@ -12,11 +12,11 @@ export function SignIn() {
     <form
       action={async () => {
         "use server";
-        await signIn("keycloak");
+        await signIn("auth0");
       }}
     >
       <Button type="submit">
-        <Image src={auth0} alt="Keycloak logo" className="w-6" />
+        <Image src={auth0} alt="Oauth logo" className="w-6" />
         {t("signIn")}
       </Button>
     </form>

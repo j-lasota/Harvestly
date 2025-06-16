@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Location",
-      "businessHours": "Opening hours",
+      "businessHours": {
+        "title": "Opening hours",
+        "days": {
+          "MONDAY": "Monday",
+          "TUESDAY": "Tuesday",
+          "WEDNESDAY": "Wednesday",
+          "THURSDAY": "Thursday",
+          "FRIDAY": "Friday",
+          "SATURDAY": "Saturday",
+          "SUNDAY": "Sunday"
+        }
+      },
       "contact": {
-        "action": "Contact the store",
-        "hero": "Contact",
+        "action": "Contact",
+        "hero": "Contact the store",
         "email": "E-mail address",
-        "phone": "Telephone number"
+        "phone": "Phone number",
+        "messengerAction": "Contact via Messenger"
       },
       "reviews": {
         "title": "Reviews",
@@ -30,6 +42,15 @@
         "yourOpinion": "Your opinion",
         "submit": "Submit",
         "thankYou": "Thank you for your review!"
+      },
+      "stats": {
+        "title": "Stand statistics",
+        "overallRatio": "Overall visit ratio",
+        "noOverallStats": "No general statistics available.",
+        "last7DaysRatio": "Visit ratio (last 7 days)",
+        "no7DayStats": "No statistics available from the last 7 days.",
+        "averageRating": "Average rating",
+        "noAverageRating": "No average rating available."
       }
     },
     "addStore": {
@@ -80,6 +101,58 @@
       "searchProduct": "Select the product:",
       "searchAddress": "Route:",
       "addressPlaceholder": "Enter the address"
+    },
+    "admin": {
+      "loadingPage": "Loading admin page...",
+      "loadingData": "Loading reported stores and opinions data...",
+      "errorTitle": "An error occurred while loading data!",
+      "shopsError": "Stores: {errorMessage}",
+      "opinionsError": "Opinions: {errorMessage}",
+      "checkConnection": "Check GraphQL server connection and logs.",
+      "panelTitle": "Admin Panel",
+      "welcomeMessage": "Welcome, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Reported Stores ({count})",
+      "noReportedShops": "No stores reported.",
+      "cityLabel": "City",
+      "addressLabel": "Address",
+      "goToShop": "Go to store",
+      "unreportShopTitle": "Dismiss report",
+      "deleteShopTitle": "Delete store",
+      "confirmDeleteShop": "Are you sure you want to delete this store? This operation cannot be undone!",
+      "shopDeletedSuccess": "The store {shopId} has been deleted.",
+      "deleteShopError": "Error: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Error while deleting the store:",
+      "deleteShopUnexpectedErrorAlert": "An unexpected error occurred while deleting the store.",
+      "confirmUnreportShop": "Are you sure you want to dismiss the report for this store?",
+      "shopUnreportedSuccess": "The store's report {shopId} has been dismissed.",
+      "unreportShopError": "Error: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Error while dismissing the store's report:",
+      "unreportShopUnexpectedErrorAlert": "An unexpected error occurred while dismissing the store's report.",
+      "unknownError": "Unknown error."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Reported Opinions ({count})",
+      "noReportedOpinions": "No reported opinions.",
+      "ratingLabel": "Rating",
+      "starsLabel": "stars",
+      "storeLabel": "Store",
+      "notAvailable": "N/A",
+      "goToOpinionStore": "Go to opinion's store",
+      "unreportOpinionTitle": "Dismiss report",
+      "deleteOpinionTitle": "Delete opinion",
+      "confirmDeleteOpinion": "Are you sure you want to delete this opinion? This operation cannot be undone!",
+      "opinionDeletedSuccess": "Opinion {opinionId} has been deleted.",
+      "deleteOpinionError": "Error: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Error while deleting opinion:",
+      "deleteOpinionUnexpectedErrorAlert": "An unexpected error occurred while deleting the opinion.",
+      "confirmUnreportOpinion": "Are you sure you want to dismiss the report for this opinion?",
+      "opinionUnreportedSuccess": "The opinion's report {opinionId} has been dismissed.",
+      "unreportOpinionError": "Error: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Error while dismissing the opinion's report:",
+      "unreportOpinionUnexpectedErrorAlert": "An unexpected error occurred while dismissing the opinion's report.",
+      "unknownError": "Unknown error."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "My Account",
     "profile": "Profile",
     "myStores": "My stores",
-    "addStore": "Add store"
+    "addStore": "Add store",
+    "adminPanel": "Admin Panel"
   },
   "auth": {
     "signIn": "Sign in",

@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Emplacement",
-      "businessHours": "Horaires",
+      "businessHours": {
+        "title": "Horaires d'ouverture",
+        "days": {
+          "MONDAY": "Lundi",
+          "TUESDAY": "Mardi",
+          "WEDNESDAY": "Mercredi",
+          "THURSDAY": "Jeudi",
+          "FRIDAY": "Vendredi",
+          "SATURDAY": "Samedi",
+          "SUNDAY": "Dimanche"
+        }
+      },
       "contact": {
-        "action": "Contacter le magasin",
-        "hero": "Contact",
-        "email": "Adresse email",
-        "phone": "Numéro de téléphone"
+        "action": "Contacter",
+        "hero": "Contacter le magasin",
+        "email": "Adresse e-mail",
+        "phone": "Numéro de téléphone",
+        "messengerAction": "Contacter via Messenger"
       },
       "reviews": {
         "title": "Avis",
@@ -30,6 +42,15 @@
         "yourOpinion": "Votre avis",
         "submit": "Envoyer",
         "thankYou": "Merci pour votre avis!"
+      },
+      "stats": {
+        "title": "Statistiques du stand",
+        "overallRatio": "Indicateur général de visite",
+        "noOverallStats": "Aucune statistique générale disponible.",
+        "last7DaysRatio": "Indicateur de visite (7 derniers jours)",
+        "no7DayStats": "Aucune statistique disponible pour les 7 derniers jours.",
+        "averageRating": "Note moyenne",
+        "noAverageRating": "Aucune note moyenne disponible."
       }
     },
     "addStore": {
@@ -69,7 +90,7 @@
         "description": "Description",
         "noDescription": "Pas de description disponible",
         "address": "Adresse",
-        "openingHours": "Horaires",
+        "openingHours": "Horaires d'ouverture",
         "noHours": "Pas d’information sur les horaires.",
         "photo": "Photo"
       },
@@ -80,6 +101,58 @@
       "searchProduct": "Sélectionnez le produit:",
       "searchAddress": "Itinéraire:",
       "addressPlaceholder": "Entrez l'adresse"
+    },
+    "admin": {
+      "loadingPage": "Chargement de la page d'administration...",
+      "loadingData": "Chargement des données des magasins et des avis signalés...",
+      "errorTitle": "Une erreur est survenue lors du chargement des données!",
+      "shopsError": "Magasins: {errorMessage}",
+      "opinionsError": "Avis: {errorMessage}",
+      "checkConnection": "Vérifiez la connexion au serveur GraphQL et les journaux.",
+      "panelTitle": "Panneau d'administration",
+      "welcomeMessage": "Bienvenue, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Magasins signalés ({count})",
+      "noReportedShops": "Aucun magasin signalé.",
+      "cityLabel": "Ville",
+      "addressLabel": "Adresse",
+      "goToShop": "Aller au magasin",
+      "unreportShopTitle": "Annuler le signalement",
+      "deleteShopTitle": "Supprimer le magasin",
+      "confirmDeleteShop": "Êtes-vous sûr de vouloir supprimer ce magasin? Cette opération ne peut pas être annulée!",
+      "shopDeletedSuccess": "Le magasin {shopId} a été supprimé.",
+      "deleteShopError": "Erreur: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Erreur lors de la suppression du magasin:",
+      "deleteShopUnexpectedErrorAlert": "Une erreur inattendue s'est produite lors de la suppression du magasin.",
+      "confirmUnreportShop": "Êtes-vous sûr de vouloir annuler le signalement pour ce magasin?",
+      "shopUnreportedSuccess": "Le signalement du magasin {shopId} a été annulé.",
+      "unreportShopError": "Erreur: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Erreur lors de l'annulation du signalement du magasin:",
+      "unreportShopUnexpectedErrorAlert": "Une erreur inattendue s'est produite lors de l'annulation du signalement du magasin.",
+      "unknownError": "Erreur inconnue."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Avis signalés ({count})",
+      "noReportedOpinions": "Aucun avis signalé.",
+      "ratingLabel": "Note",
+      "starsLabel": "étoiles",
+      "storeLabel": "Magasin",
+      "notAvailable": "N/A",
+      "goToOpinionStore": "Aller au magasin de l'avis",
+      "unreportOpinionTitle": "Annuler le signalement",
+      "deleteOpinionTitle": "Supprimer l'avis",
+      "confirmDeleteOpinion": "Êtes-vous sûr de vouloir supprimer cet avis? Cette opération ne peut pas être annulée!",
+      "opinionDeletedSuccess": "L'avis {opinionId} a été supprimé.",
+      "deleteOpinionError": "Erreur: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Erreur lors de la suppression des avis:",
+      "deleteOpinionUnexpectedErrorAlert": "Une erreur inattendue s'est produite lors de la suppression des avis.",
+      "confirmUnreportOpinion": "Êtes-vous sûr de vouloir annuler le signalement pour cet avis?",
+      "opinionUnreportedSuccess": "Le signalement de l'avis {opinionId} a été annulé.",
+      "unreportOpinionError": "Erreur: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Erreur lors de l'annulation du signalement de l'avis:",
+      "unreportOpinionUnexpectedErrorAlert": "Une erreur inattendue s'est produite lors de l'annulation du signalement de l'avis.",
+      "unknownError": "Erreur inconnue."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "Mon compte",
     "profile": "Profil",
     "myStores": "Mes magasins",
-    "addStore": "Ajouter un magasin"
+    "addStore": "Ajouter un magasin",
+    "adminPanel": "Panneau d'administration"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -110,20 +184,21 @@
     "searchLabel": "Rechercher des produits:",
     "searchPlaceholder": "Rechercher des produits...",
     "categoryLabel": "Catégorie:",
-    "priceRangeLabel": "Échelle de prix:",
+    "priceRangeLabel": "Fourchette de prix:",
     "separatePriceRange": "à",
     "categories": {
       "FRUIT": "Fruits",
       "VEGETABLE": "Légumes"
-    }
+    },
+    "fewProductsNotice": "Seuls {count} produits ont été trouvés. Envisagez d'élargir vos critères de recherche."
   },
   "productCard": {
     "soldBy": "Vendu par",
-    "available": "Disponible: <b>{quantity}</b> pcs.",
-    "belowAverage": "Prix en dessous de la moyenne dans: {city}",
-    "averagePrice": "Prix moyen dans: {city}",
-    "aboveAverage": "Prix au-dessus de la moyenne dans: {city}",
-    "notEnoughProducts": "Pas assez de produits dans: {city}"
+    "available": "Disponible: <b>{quantity}</b> pces.",
+    "belowAverage": "Prix inférieur à la moyenne à {city}",
+    "averagePrice": "Prix moyen à {city}",
+    "aboveAverage": "Prix supérieur à la moyenne à {city}",
+    "notEnoughProducts": "Pas assez de produits à {city}"
   },
   "storeGrid": {
     "empty": "Aucun magasin disponible"
@@ -145,7 +220,7 @@
     "starAriaLabel": "Noter avec {count} étoiles"
   },
   "reportButton": {
-    "report": "Rapport",
+    "report": "Signaler",
     "reported": "Signalé"
   }
 }

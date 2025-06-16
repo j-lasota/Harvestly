@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Posizione",
-      "businessHours": "Orari",
+      "businessHours": {
+        "title": "Orari di apertura",
+        "days": {
+          "MONDAY": "Lunedì",
+          "TUESDAY": "Martedì",
+          "WEDNESDAY": "Mercoledì",
+          "THURSDAY": "Giovedì",
+          "FRIDAY": "Venerdì",
+          "SATURDAY": "Sabato",
+          "SUNDAY": "Domenica"
+        }
+      },
       "contact": {
-        "action": "Contattare il negozio",
-        "hero": "Contatto",
+        "action": "Contatta",
+        "hero": "Contatta il negozio",
         "email": "Indirizzo e-mail",
-        "phone": "Numero di telefono"
+        "phone": "Numero di telefono",
+        "messengerAction": "Contatta tramite Messenger"
       },
       "reviews": {
         "title": "Recensioni",
@@ -30,6 +42,15 @@
         "yourOpinion": "La tua opinione",
         "submit": "Invia",
         "thankYou": "Grazie per la tua recensione!"
+      },
+      "stats": {
+        "title": "Statistiche dello stand",
+        "overallRatio": "Rapporto complessivo delle visite",
+        "noOverallStats": "Nessuna statistica generale disponibile.",
+        "last7DaysRatio": "Rapporto delle visite (ultimi 7 giorni)",
+        "no7DayStats": "Nessuna statistica disponibile dagli ultimi 7 giorni.",
+        "averageRating": "Valutazione media",
+        "noAverageRating": "Nessuna valutazione media disponibile."
       }
     },
     "addStore": {
@@ -57,14 +78,14 @@
     "map": {
       "loading": "Caricamento dati negozi...",
       "loadingError": "Impossibile caricare i dati dei negozi",
-      "selectShop": "Seleziona bancarella:",
+      "selectShop": "Seleziona una bancarella:",
       "selectShopPlaceholder": "Seleziona negozio",
-      "searchCity": "Controlla bancarelle in città:",
+      "searchCity": "Controlla le bancarelle in città:",
       "cityPlaceholder": "Inserisci il nome della città",
       "noShopsInCity": "Nessun negozio in questa città",
       "searchPlaceholder": "Inserisci indirizzo...",
       "addressNotFound": "Indirizzo non trovato.",
-      "searchError": "Errore nella ricerca indirizzo:",
+      "searchError": "Errore nella ricerca dell'indirizzo:",
       "storeInfo": {
         "description": "Descrizione",
         "noDescription": "Nessuna descrizione disponibile",
@@ -78,8 +99,60 @@
         "storeLocation": "{storeName} — {city}"
       },
       "searchProduct": "Seleziona il prodotto:",
-      "searchAddress": "Itinerario:",
-      "addressPlaceholder": "Immettere l'indirizzo"
+      "searchAddress": "Percorso:",
+      "addressPlaceholder": "Inserisci l'indirizzo"
+    },
+    "admin": {
+      "loadingPage": "Caricamento pagina amministratore...",
+      "loadingData": "Caricamento dati dei negozi e delle recensioni segnalate...",
+      "errorTitle": "Si è verificato un errore durante il caricamento dei dati!",
+      "shopsError": "Negozi: {errorMessage}",
+      "opinionsError": "Recensioni: {errorMessage}",
+      "checkConnection": "Controlla la connessione al server GraphQL e i log.",
+      "panelTitle": "Pannello di amministrazione",
+      "welcomeMessage": "Benvenuto, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Negozi segnalati ({count})",
+      "noReportedShops": "Nessun negozio segnalato.",
+      "cityLabel": "Città",
+      "addressLabel": "Indirizzo",
+      "goToShop": "Vai al negozio",
+      "unreportShopTitle": "Annulla segnalazione",
+      "deleteShopTitle": "Elimina negozio",
+      "confirmDeleteShop": "Sei sicuro di voler eliminare questo negozio? Questa operazione non può essere annullata!",
+      "shopDeletedSuccess": "Il negozio {shopId} è stato eliminato.",
+      "deleteShopError": "Errore: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Errore durante l'eliminazione del negozio:",
+      "deleteShopUnexpectedErrorAlert": "Si è verificato un errore imprevisto durante l'eliminazione del negozio.",
+      "confirmUnreportShop": "Sei sicuro di voler annullare la segnalazione per questo negozio?",
+      "shopUnreportedSuccess": "La segnalazione del negozio {shopId} è stata annullata.",
+      "unreportShopError": "Errore: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Errore durante l'annullamento della segnalazione del negozio:",
+      "unreportShopUnexpectedErrorAlert": "Si è verificato un errore imprevisto durante l'annullamento della segnalazione del negozio.",
+      "unknownError": "Errore sconosciuto."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Opinioni segnalate ({count})",
+      "noReportedOpinions": "Nessuna opinione segnalata.",
+      "ratingLabel": "Valutazione",
+      "starsLabel": "stelle",
+      "storeLabel": "Negozio",
+      "notAvailable": "N/D",
+      "goToOpinionStore": "Vai al negozio dell'opinione",
+      "unreportOpinionTitle": "Annulla segnalazione",
+      "deleteOpinionTitle": "Elimina opinione",
+      "confirmDeleteOpinion": "Sei sicuro di voler eliminare questa opinione? Questa operazione non può essere annullata!",
+      "opinionDeletedSuccess": "L'opinione {opinionId} è stata eliminata.",
+      "deleteOpinionError": "Errore: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Errore durante l'eliminazione dell'opinione:",
+      "deleteOpinionUnexpectedErrorAlert": "Si è verificato un errore imprevisto durante l'eliminazione dell'opinione.",
+      "confirmUnreportOpinion": "Sei sicuro di voler annullare la segnalazione per questa opinione?",
+      "opinionUnreportedSuccess": "La segnalazione dell'opinione {opinionId} è stata annullata.",
+      "unreportOpinionError": "Errore: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Errore durante l'annullamento della segnalazione dell'opinione:",
+      "unreportOpinionUnexpectedErrorAlert": "Si è verificato un errore imprevisto durante l'annullamento della segnalazione dell'opinione.",
+      "unknownError": "Errore sconosciuto."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "Il mio account",
     "profile": "Profilo",
     "myStores": "I miei negozi",
-    "addStore": "Aggiungi negozio"
+    "addStore": "Aggiungi negozio",
+    "adminPanel": "Pannello di amministrazione"
   },
   "auth": {
     "signIn": "Accedi",
@@ -114,16 +188,17 @@
     "separatePriceRange": "a",
     "categories": {
       "FRUIT": "Frutta",
-      "VEGETABLE": "Verdure"
-    }
+      "VEGETABLE": "Verdura"
+    },
+    "fewProductsNotice": "Trovati solo {count} prodotti. Valuta di ampliare i criteri di ricerca."
   },
   "productCard": {
     "soldBy": "Venduto da",
     "available": "Disponibile: <b>{quantity}</b> pz.",
-    "belowAverage": "Prezzo sotto la media in: {city}",
-    "averagePrice": "Prezzo medio in: {city}",
-    "aboveAverage": "Prezzo sopra la media in: {city}",
-    "notEnoughProducts": "Prodotti insufficienti in: {city}"
+    "belowAverage": "Prezzo sotto la media a {city}",
+    "averagePrice": "Media a {city}",
+    "aboveAverage": "Prezzo sopra la media a {city}",
+    "notEnoughProducts": "Prodotti insufficienti a {city}"
   },
   "storeGrid": {
     "empty": "Nessun negozio disponibile"
@@ -145,7 +220,7 @@
     "starAriaLabel": "Valuta con {count} stelle"
   },
   "reportButton": {
-    "report": "Rapporto",
-    "reported": "Riportato"
+    "report": "Segnala",
+    "reported": "Segnalato"
   }
 }

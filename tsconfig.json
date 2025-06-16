@@ -19,7 +19,7 @@
       },
       {
         "name": "gql.tada/ts-plugin",
-        "schema": "https://sumy-backend.1c8zj6.easypanel.host/graphql", // <-- add your endpoint here
+        "schema": "https://sumy-backend.1c8zj6.easypanel.host/graphql",
         "tadaOutputLocation": "./types/graphql-env.d.ts"
       }
     ],
@@ -32,7 +32,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/types/next-auth.d.ts"
+    "**/types/next-auth.d.ts",
+    "**/types/graphql-env.d.ts",
   ],
   "exclude": ["node_modules"]
 }

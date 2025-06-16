@@ -77,6 +77,7 @@ const storeBySlugQuery = graphql(`
       description
       verified
       user {
+        id
         email
         phoneNumber
         facebookNickname
@@ -183,6 +184,43 @@ const userByIdQuery = graphql(`
   }
 `);
 
+const allReportedShopsQuery = graphql(`
+  query storesReported {
+     storesReported {
+        id
+        name
+        description
+        latitude
+        longitude
+        city
+        address
+        imageUrl
+        verified
+        slug
+        reported
+    }
+  }
+`);
+
+const allReportedOpinionsQuery = graphql(`
+  query opinionsReported {
+    opinionsReported {
+      id
+      description
+      stars
+      reported
+      user {
+        firstName
+        lastName
+      }
+      store {
+        id
+        name
+        slug
+      }
+    }
+  }`);
+
 export {
   allProductsQuery,
   allCategoriesQuery,
@@ -193,4 +231,6 @@ export {
   allShopsLocationsQuery,
   userByIdQuery,
   allProductsQueryMap,
+  allReportedShopsQuery,
+  allReportedOpinionsQuery,
 };

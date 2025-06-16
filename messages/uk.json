@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Розташування",
-      "businessHours": "Години роботи",
+      "businessHours": {
+        "title": "Години роботи",
+        "days": {
+          "MONDAY": "Понеділок",
+          "TUESDAY": "Вівторок",
+          "WEDNESDAY": "Середа",
+          "THURSDAY": "Четвер",
+          "FRIDAY": "П’ятниця",
+          "SATURDAY": "Субота",
+          "SUNDAY": "Неділя"
+        }
+      },
       "contact": {
-        "action": "Зверніться до магазину",
-        "hero": "Контакт",
+        "action": "Зв'язатися",
+        "hero": "Зв'язок з магазином",
         "email": "Адреса електронної пошти",
-        "phone": "Номер телефону"
+        "phone": "Номер телефону",
+        "messengerAction": "Зв'язатися через Messenger"
       },
       "reviews": {
         "title": "Відгуки",
@@ -30,6 +42,15 @@
         "yourOpinion": "Ваша думка",
         "submit": "Надіслати",
         "thankYou": "Дякуємо за ваш відгук!"
+      },
+      "stats": {
+        "title": "Статистика магазину",
+        "overallRatio": "Загальний індикатор відвідування",
+        "noOverallStats": "Загальної статистики немає.",
+        "last7DaysRatio": "Індикатор відвідування (останні 7 днів)",
+        "no7DayStats": "Немає доступних статистичних даних за останні 7 днів.",
+        "averageRating": "Середня оцінка",
+        "noAverageRating": "Немає середньої оцінки."
       }
     },
     "addStore": {
@@ -59,9 +80,9 @@
       "loadingError": "Не вдалося завантажити дані магазинів",
       "selectShop": "Виберіть торгову точку:",
       "selectShopPlaceholder": "Оберіть магазин",
-      "searchCity": "Перегляд точок y місті:",
+      "searchCity": "Перегляд точок у місті:",
       "cityPlaceholder": "Введіть назву міста",
-      "noShopsInCity": "Немає магазинів y цьому місті",
+      "noShopsInCity": "Немає магазинів у цьому місті",
       "searchPlaceholder": "Введіть адресу...",
       "addressNotFound": "Адресу не знайдено.",
       "searchError": "Помилка пошуку адреси:",
@@ -80,6 +101,58 @@
       "searchProduct": "Виберіть продукт:",
       "searchAddress": "Маршрут:",
       "addressPlaceholder": "Введіть адресу"
+    },
+    "admin": {
+      "loadingPage": "Завантаження сторінки адміністратора...",
+      "loadingData": "Завантаження даних про магазини та відгуки...",
+      "errorTitle": "Сталася помилка при завантаженні даних!",
+      "shopsError": "Магазини: {errorMessage}",
+      "opinionsError": "Відгуки: {errorMessage}",
+      "checkConnection": "Перевірте з’єднання з GraphQL сервером та логи.",
+      "panelTitle": "Панель адміністратора",
+      "welcomeMessage": "Ласкаво просимо, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Повідомлені магазини ({count})",
+      "noReportedShops": "Жодного магазину не повідомлялося.",
+      "cityLabel": "Місто",
+      "addressLabel": "Адреса",
+      "goToShop": "Перейти до магазину",
+      "unreportShopTitle": "Відхилити скаргу",
+      "deleteShopTitle": "Видалити магазин",
+      "confirmDeleteShop": "Ви впевнені, що хочете видалити цей магазин? Цю операцію не можна скасувати!",
+      "shopDeletedSuccess": "Магазин {shopId} видалено.",
+      "deleteShopError": "Помилка: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Помилка під час видалення магазину:",
+      "deleteShopUnexpectedErrorAlert": "Під час видалення магазину сталася несподівана помилка.",
+      "confirmUnreportShop": "Ви впевнені, що хочете відхилити скаргу на цей магазин?",
+      "shopUnreportedSuccess": "Скаргу на магазин {shopId} було відхилено.",
+      "unreportShopError": "Помилка: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Помилка під час відхилення скарги на магазин:",
+      "unreportShopUnexpectedErrorAlert": "Під час відхилення скарги на магазин сталася несподівана помилка.",
+      "unknownError": "Невідома помилка."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Повідомлені відгуки ({count})",
+      "noReportedOpinions": "Не повідомлялося про відгуки.",
+      "ratingLabel": "Оцінка",
+      "starsLabel": "зірки",
+      "storeLabel": "Магазин",
+      "notAvailable": "Н/Д",
+      "goToOpinionStore": "Перейти до магазину відгуку",
+      "unreportOpinionTitle": "Відхилити скаргу",
+      "deleteOpinionTitle": "Видалити відгук",
+      "confirmDeleteOpinion": "Ви впевнені, що хочете видалити цей відгук? Цю операцію не можна скасувати!",
+      "opinionDeletedSuccess": "Відгук {opinionId} було видалено.",
+      "deleteOpinionError": "Помилка: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Помилка при видаленні відгуку:",
+      "deleteOpinionUnexpectedErrorAlert": "Під час видалення відгуків сталася несподівана помилка.",
+      "confirmUnreportOpinion": "Ви впевнені, що хочете відхилити скаргу на цей відгук?",
+      "opinionUnreportedSuccess": "Скаргу на відгук {opinionId} було відхилено.",
+      "unreportOpinionError": "Помилка: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Помилка, відхиляючи скаргу на відгук:",
+      "unreportOpinionUnexpectedErrorAlert": "Під час відхилення скарги на відгук сталася несподівана помилка.",
+      "unknownError": "Невідома помилка."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "Мій акаунт",
     "profile": "Профіль",
     "myStores": "Мої магазини",
-    "addStore": "Додати магазин"
+    "addStore": "Додати магазин",
+    "adminPanel": "Панель адміністратора"
   },
   "auth": {
     "signIn": "Увійти",
@@ -115,15 +189,16 @@
     "categories": {
       "FRUIT": "Фрукти",
       "VEGETABLE": "Овочі"
-    }
+    },
+    "fewProductsNotice": "Знайдено лише {count} продуктів. Розгляньте можливість розширити критерії пошуку."
   },
   "productCard": {
     "soldBy": "Продає",
-    "available": "Доступно: <b>{quantity}</b> шт.",
-    "belowAverage": "Ціна нижче середньої в: {city}",
-    "averagePrice": "Середня ціна в: {city}",
-    "aboveAverage": "Ціна вище середньої в: {city}",
-    "notEnoughProducts": "Недостатньо продуктів в: {city}"
+    "available": "В наявності: <b>{quantity}</b> шт.",
+    "belowAverage": "Ціна нижче середньої в {city}",
+    "averagePrice": "Середня ціна в {city}",
+    "aboveAverage": "Ціна вище середньої в {city}",
+    "notEnoughProducts": "Недостатньо продуктів у {city}"
   },
   "storeGrid": {
     "empty": "Немає доступних магазинів"
@@ -145,7 +220,7 @@
     "starAriaLabel": "Оцінити {count} зірками"
   },
   "reportButton": {
-    "report": "Доповідь",
-    "reported": "Повідомлений"
+    "report": "Повідомити",
+    "reported": "Повідомлено"
   }
 }

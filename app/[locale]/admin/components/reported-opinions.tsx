@@ -1,7 +1,9 @@
 "use client";
 
-import { MessageSquareText } from 'lucide-react';
+import { MessageSquareText, Trash2, CheckCircle2 } from 'lucide-react';
 import { useRouter } from "next/navigation";
+import { deleteOpinionAdminAction, unreportOpinionAdminAction } from "../actions";
+import { useTranslations } from 'next-intl';
 
 interface ReportedOpinion {
   id: string;
@@ -15,18 +17,57 @@ interface ReportedOpinion {
     name?: string | null;
     slug: string | null;
   };
+  reported: boolean | null;
 }
 
 interface ReportedOpinionsListProps {
   opinions: (ReportedOpinion | null)[];
+  refetchOpinions: () => void;
 }
 
-export default function ReportedOpinionsList({ opinions }: ReportedOpinionsListProps) {
+export default function ReportedOpinionsList({ opinions, refetchOpinions }: ReportedOpinionsListProps) {
   const router = useRouter();
+  const t = useTranslations('page.reportedOpinions'); // Inicjalizacja hooka useTranslations
 
   const handleOpinionClick = (storeSlug: string | null) => {
     if (storeSlug) {
       router.push(`/store/${storeSlug}`);
+    }
+  };
+
+  const handleDeleteOpinion = async (opinionId: string) => {
+    if (!window.confirm(t('confirmDeleteOpinion'))) { // Użyj tłumaczenia
+      return;
+    }
+    try {
+      const result = await deleteOpinionAdminAction(opinionId);
+      if (result.success) {
+        console.log(t('opinionDeletedSuccess', { opinionId })); // Użyj tłumaczenia
+        refetchOpinions();
+      } else {
+        alert(t('deleteOpinionError', { errorMessage: result.error || t('unknownError') })); // Użyj tłumaczenia
+      }
+    } catch (error) {
+      console.error(t('deleteOpinionUnexpectedErrorConsole'), error); // Użyj tłumaczenia w konsoli
+      alert(t('deleteOpinionUnexpectedErrorAlert')); // Użyj tłumaczenia w alercie
+    }
+  };
+
+  const handleUnreportOpinion = async (opinionId: string) => {
+    if (!window.confirm(t('confirmUnreportOpinion'))) { // Użyj tłumaczenia
+      return;
+    }
+    try {
+      const result = await unreportOpinionAdminAction(opinionId);
+      if (result.success) {
+        console.log(t('opinionUnreportedSuccess', { opinionId })); // Użyj tłumaczenia
+        refetchOpinions();
+      } else {
+        alert(t('unreportOpinionError', { errorMessage: result.error || t('unknownError') })); // Użyj tłumaczenia
+      }
+    } catch (error) {
+      console.error(t('unreportOpinionUnexpectedErrorConsole'), error); // Użyj tłumaczenia w konsoli
+      alert(t('unreportOpinionUnexpectedErrorAlert')); // Użyj tłumaczenia w alercie
     }
   };
 
@@ -35,41 +76,57 @@ export default function ReportedOpinionsList({ opinions }: ReportedOpinionsListP
   return (
     <section className="bg-background-elevated p-6 rounded-xl shadow-lg border border-shadow">
       <h2 className="text-2xl font-bold mb-6 text-primary flex items-center justify-center gap-3">
-        <MessageSquareText className="h-8 w-8" /> Zgłoszone Opinie ({nonNullOpinions.length})
+        <MessageSquareText className="h-8 w-8" /> {t('sectionTitle', { count: nonNullOpinions.length })}
       </h2>
       {nonNullOpinions.length === 0 ? (
         <p className="text-foreground text-center py-4">
-          Brak zgłoszonych opinii.
+          {t('noReportedOpinions')}
         </p>
       ) : (
-        // Zmienione klasy: 'grid grid-cols-1 gap-6' na 'flex flex-wrap gap-6'
-        // Możesz też użyć siatki z automatycznymi kolumnami: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
-        <div className="flex flex-wrap gap-6 justify-center"> {/* Dodano justify-center dla lepszego wyśrodkowania */}
+        <div className="flex flex-wrap gap-6 justify-center">
           {nonNullOpinions.map((opinion: ReportedOpinion) => (
             <div
               key={opinion.id}
-              // Dodano w-full na mniejszych ekranach, md:w-[calc(50%-12px)] dla dwóch kolumn na średnich
-              className="border-shadow bg-background-elevated ring-ring flex flex-col gap-4 rounded-2xl border-r-3 border-b-4 px-4 py-3 shadow-md ring cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]
-                         w-full sm:w-[calc(50%-0.75rem)] xl:w-[calc(33.333%-1rem)]" /* calc(50% - gap/2) */
-              onClick={() => handleOpinionClick(opinion.store.slug)}
+              className="border-shadow bg-background-elevated ring-ring flex flex-col gap-4 rounded-2xl border-r-3 border-b-4 px-4 py-3 shadow-md ring"
             >
               <div className="flex w-full flex-col justify-between gap-2 sm:mt-4">
                 <div>
-                  <h3 className="text-2xl font-semibold text-primary">
+                  <h3 className="text-2xl font-semibold text-primary cursor-pointer hover:underline" onClick={() => handleOpinionClick(opinion.store.slug)}>
                     {opinion.user?.firstName} {opinion.user?.lastName}
                   </h3>
                   <p className="text-foreground text-base italic mb-2">
                     "{opinion.description}"
                   </p>
                   <p className="text-foreground text-sm">
-                    <span className="font-medium">Ocena:</span> {opinion.stars} gwiazdek
+                    <span className="font-medium">{t('ratingLabel')}:</span> {opinion.stars} {t('starsLabel')}
                   </p>
                   <p className="text-foreground text-sm">
-                    <span className="font-medium">Sklep:</span> {opinion.store.name || 'N/A'} (Slug: {opinion.store.slug})
+                    <span className="font-medium">{t('storeLabel')}:</span> {opinion.store.name || t('notAvailable')} (Slug: {opinion.store.slug || t('notAvailable')})
                   </p>
                 </div>
-                <div className="mt-4 text-sm text-blue-500 dark:text-blue-300 font-semibold flex items-center gap-1 self-end">
-                  Przejdź do sklepu opinii
+                <div className="mt-4 flex justify-between items-center gap-2">
+                  <button
+                    onClick={() => handleOpinionClick(opinion.store.slug!)}
+                    className="text-sm text-blue-500 dark:text-blue-300 font-semibold flex items-center gap-1 hover:underline transition-colors duration-200"
+                  >
+                    {t('goToOpinionStore')}
+                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleUnreportOpinion(opinion.id); }}
+                      className="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors duration-200"
+                      title={t('unreportOpinionTitle')} // Użyj tłumaczenia
+                    >
+                      <CheckCircle2 className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleDeleteOpinion(opinion.id); }}
+                      className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors duration-200"
+                      title={t('deleteOpinionTitle')} // Użyj tłumaczenia
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Lokalizacja",
-      "businessHours": "Godziny pracy",
+      "businessHours": {
+        "title": "Godziny otwarcia",
+        "days": {
+          "MONDAY": "Poniedziałek",
+          "TUESDAY": "Wtorek",
+          "WEDNESDAY": "Środa",
+          "THURSDAY": "Czwartek",
+          "FRIDAY": "Piątek",
+          "SATURDAY": "Sobota",
+          "SUNDAY": "Niedziela"
+        }
+      },
       "contact": {
-        "action": "Skontaktuj się ze sklepem",
-        "hero": "Kontakt",
+        "action": "Kontakt",
+        "hero": "Skontaktuj się ze sklepem",
         "email": "Adres e-mail",
-        "phone": "Numer telefonu"
+        "phone": "Numer telefonu",
+        "messengerAction": "Skontaktuj za pomocą Messenger"
       },
       "reviews": {
         "title": "Recenzje",
@@ -30,6 +42,15 @@
         "yourOpinion": "Twoja opinia",
         "submit": "Wyślij",
         "thankYou": "Dziękujemy za recenzję!"
+      },
+      "stats": {
+        "title": "Statystyki stoiska",
+        "overallRatio": "Ogólny wskaźnik odwiedzin",
+        "noOverallStats": "Brak dostępnych statystyk ogólnych.",
+        "last7DaysRatio": "Wskaźnik odwiedzin (ostatnie 7 dni)",
+        "no7DayStats": "Brak dostępnych statystyk z ostatnich 7 dni.",
+        "averageRating": "Średnia ocena",
+        "noAverageRating": "Brak dostępnej średniej oceny."
       }
     },
     "addStore": {
@@ -80,6 +101,58 @@
       },
       "searchAddress": "Trasa:",
       "addressPlaceholder": "Wprowadź adres"
+    },
+    "admin": {
+      "loadingPage": "Ładowanie strony administratora...",
+      "loadingData": "Ładowanie danych sklepów i zgłoszonych recenzji...",
+      "errorTitle": "Wystąpił błąd podczas ładowania danych!",
+      "shopsError": "Sklepy: {errorMessage}",
+      "opinionsError": "Recenzje: {errorMessage}",
+      "checkConnection": "Sprawdź połączenie z serwerem GraphQL i logi.",
+      "panelTitle": "Panel administratora",
+      "welcomeMessage": "Witaj, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Zgłoszone Sklepy ({count})",
+      "noReportedShops": "Brak zgłoszonych sklepów.",
+      "cityLabel": "Miasto",
+      "addressLabel": "Adres",
+      "goToShop": "Przejdź do sklepu",
+      "unreportShopTitle": "Odrzuć zgłoszenie",
+      "deleteShopTitle": "Usuń sklep",
+      "confirmDeleteShop": "Czy na pewno chcesz USUNĄĆ ten sklep? Tej operacji nie można cofnąć!",
+      "shopDeletedSuccess": "Sklep {shopId} został usunięty.",
+      "deleteShopError": "Błąd: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Błąd podczas usuwania sklepu:",
+      "deleteShopUnexpectedErrorAlert": "Wystąpił nieoczekiwany błąd podczas usuwania sklepu.",
+      "confirmUnreportShop": "Czy na pewno chcesz ODRZUCIĆ ZGŁOSZENIE dla tego sklepu?",
+      "shopUnreportedSuccess": "Zgłoszenie sklepu {shopId} zostało odrzucone.",
+      "unreportShopError": "Błąd: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Błąd podczas odrzucania zgłoszenia sklepu:",
+      "unreportShopUnexpectedErrorAlert": "Wystąpił nieoczekiwany błąd podczas odrzucania zgłoszenia sklepu.",
+      "unknownError": "Nieznany błąd."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Zgłoszone Opinie ({count})",
+      "noReportedOpinions": "Brak zgłoszonych opinii.",
+      "ratingLabel": "Ocena",
+      "starsLabel": "gwiazdek",
+      "storeLabel": "Sklep",
+      "notAvailable": "N/A",
+      "goToOpinionStore": "Przejdź do sklepu opinii",
+      "unreportOpinionTitle": "Odrzuć zgłoszenie",
+      "deleteOpinionTitle": "Usuń opinię",
+      "confirmDeleteOpinion": "Czy na pewno chcesz USUNĄĆ tę opinię? Tej operacji nie można cofnąć!",
+      "opinionDeletedSuccess": "Opinia {opinionId} została usunięta.",
+      "deleteOpinionError": "Błąd: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Błąd podczas usuwania opinii:",
+      "deleteOpinionUnexpectedErrorAlert": "Wystąpił nieoczekiwany błąd podczas usuwania opinii.",
+      "confirmUnreportOpinion": "Czy na pewno chcesz ODRZUCIĆ ZGŁOSZENIE dla tej opinii?",
+      "opinionUnreportedSuccess": "Zgłoszenie opinii {opinionId} zostało odrzucone.",
+      "unreportOpinionError": "Błąd: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Błąd podczas odrzucania zgłoszenia opinii:",
+      "unreportOpinionUnexpectedErrorAlert": "Wystąpił nieoczekiwany błąd podczas odrzucania zgłoszenia opinii.",
+      "unknownError": "Nieznany błąd."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "Moje Konto",
     "profile": "Profil",
     "myStores": "Moje sklepy",
-    "addStore": "Dodaj sklep"
+    "addStore": "Dodaj sklep",
+    "adminPanel": "Panel administratora"
   },
   "auth": {
     "signIn": "Zaloguj się",

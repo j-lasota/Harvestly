@@ -13,12 +13,24 @@
     },
     "store": {
       "location": "Standort",
-      "businessHours": "Öffnungszeiten",
+      "businessHours": {
+        "title": "Öffnungszeiten",
+        "days": {
+          "MONDAY": "Montag",
+          "TUESDAY": "Dienstag",
+          "WEDNESDAY": "Mittwoch",
+          "THURSDAY": "Donnerstag",
+          "FRIDAY": "Freitag",
+          "SATURDAY": "Samstag",
+          "SUNDAY": "Sonntag"
+        }
+      },
       "contact": {
-        "action": "Wenden Sie sich an den Laden",
-        "hero": "Kontakt",
+        "action": "Kontakt",
+        "hero": "Kontakt zum Geschäft",
         "email": "E-Mail-Adresse",
-        "phone": "Telefonnummer"
+        "phone": "Telefonnummer",
+        "messengerAction": "Per Messenger kontaktieren"
       },
       "reviews": {
         "title": "Bewertungen",
@@ -28,8 +40,17 @@
         "noReviews": "Noch keine Bewertungen",
         "leaveReview": "Hinterlassen Sie Ihre Bewertung",
         "yourOpinion": "Ihre Meinung",
-        "submit": "Absenden",
+        "submit": "Senden",
         "thankYou": "Danke für Ihre Bewertung!"
+      },
+      "stats": {
+        "title": "Standstatistik",
+        "overallRatio": "Gesamter Besuchsindikator",
+        "noOverallStats": "Keine allgemeinen Statistiken verfügbar.",
+        "last7DaysRatio": "Besuchsindikator (letzte 7 Tage)",
+        "no7DayStats": "Keine Statistiken für die letzten 7 Tage verfügbar.",
+        "averageRating": "Durchschnittliche Bewertung",
+        "noAverageRating": "Keine durchschnittliche Bewertung verfügbar."
       }
     },
     "addStore": {
@@ -55,11 +76,11 @@
       }
     },
     "map": {
-      "loading": "Lade Daten der Geschäfte...",
-      "loadingError": "Daten der Geschäfte konnten nicht geladen werden",
-      "selectShop": "Standplatz auswählen:",
+      "loading": "Lade Geschäftsdaten...",
+      "loadingError": "Geschäftsdaten konnten nicht geladen werden",
+      "selectShop": "Wählen Sie einen Stand:",
       "selectShopPlaceholder": "Geschäft auswählen",
-      "searchCity": "Stände in der Stadt ansehen:",
+      "searchCity": "Stände in der Stadt prüfen:",
       "cityPlaceholder": "Stadtname eingeben",
       "noShopsInCity": "Keine Geschäfte in dieser Stadt",
       "searchPlaceholder": "Adresse eingeben...",
@@ -77,9 +98,61 @@
         "searchedAddress": "Gesuchte Adresse",
         "storeLocation": "{storeName} — {city}"
       },
-      "searchProduct": "Wählen Sie das Produkt aus:",
+      "searchProduct": "Produkt auswählen:",
       "searchAddress": "Route:",
       "addressPlaceholder": "Geben Sie die Adresse ein"
+    },
+    "admin": {
+      "loadingPage": "Lade Admin-Seite...",
+      "loadingData": "Lade Daten zu gemeldeten Geschäften und Meinungen...",
+      "errorTitle": "Ein Fehler ist beim Laden der Daten aufgetreten!",
+      "shopsError": "Geschäfte: {errorMessage}",
+      "opinionsError": "Meinungen: {errorMessage}",
+      "checkConnection": "Überprüfen Sie die Verbindung zum GraphQL-Server und die Protokolle.",
+      "panelTitle": "Admin-Panel",
+      "welcomeMessage": "Willkommen, <strong>{userName}</strong>!"
+    },
+    "reportedShops": {
+      "sectionTitle": "Gemeldete Geschäfte ({count})",
+      "noReportedShops": "Keine Geschäfte gemeldet.",
+      "cityLabel": "Stadt",
+      "addressLabel": "Adresse",
+      "goToShop": "Zum Geschäft gehen",
+      "unreportShopTitle": "Meldung verwerfen",
+      "deleteShopTitle": "Geschäft löschen",
+      "confirmDeleteShop": "Sind Sie sicher, dass Sie dieses Geschäft löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden!",
+      "shopDeletedSuccess": "Das Geschäft {shopId} wurde gelöscht.",
+      "deleteShopError": "Fehler: {errorMessage}",
+      "deleteShopUnexpectedErrorConsole": "Fehler beim Löschen des Geschäfts:",
+      "deleteShopUnexpectedErrorAlert": "Beim Löschen des Geschäfts ist ein unerwarteter Fehler aufgetreten.",
+      "confirmUnreportShop": "Sind Sie sicher, dass Sie die Meldung für dieses Geschäft verwerfen möchten?",
+      "shopUnreportedSuccess": "Die Meldung für Geschäft {shopId} wurde verworfen.",
+      "unreportShopError": "Fehler: {errorMessage}",
+      "unreportShopUnexpectedErrorConsole": "Fehler beim Verwerfen der Meldung des Geschäfts:",
+      "unreportShopUnexpectedErrorAlert": "Beim Verwerfen der Meldung des Geschäfts ist ein unerwarteter Fehler aufgetreten.",
+      "unknownError": "Unbekannter Fehler."
+    },
+    "reportedOpinions": {
+      "sectionTitle": "Gemeldete Meinungen ({count})",
+      "noReportedOpinions": "Keine Meinungen gemeldet.",
+      "ratingLabel": "Bewertung",
+      "starsLabel": "Sterne",
+      "storeLabel": "Geschäft",
+      "notAvailable": "N/A",
+      "goToOpinionStore": "Zur Meinungs-Geschäftsseite gehen",
+      "unreportOpinionTitle": "Meldung verwerfen",
+      "deleteOpinionTitle": "Meinung löschen",
+      "confirmDeleteOpinion": "Sind Sie sicher, dass Sie diese Meinung löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden!",
+      "opinionDeletedSuccess": "Die Meinung {opinionId} wurde gelöscht.",
+      "deleteOpinionError": "Fehler: {errorMessage}",
+      "deleteOpinionUnexpectedErrorConsole": "Fehler beim Löschen der Meinung:",
+      "deleteOpinionUnexpectedErrorAlert": "Beim Löschen der Meinung ist ein unerwarteter Fehler aufgetreten.",
+      "confirmUnreportOpinion": "Sind Sie sicher, dass Sie die Meldung für diese Meinung verwerfen möchten?",
+      "opinionUnreportedSuccess": "Die Meldung für Meinung {opinionId} wurde verworfen.",
+      "unreportOpinionError": "Fehler: {errorMessage}",
+      "unreportOpinionUnexpectedErrorConsole": "Fehler beim Verwerfen der Meldung der Meinung:",
+      "unreportOpinionUnexpectedErrorAlert": "Beim Verwerfen der Meldung der Meinung ist ein unerwarteter Fehler aufgetreten.",
+      "unknownError": "Unbekannter Fehler."
     }
   },
   "days": {
@@ -100,7 +173,8 @@
     "myAccount": "Mein Konto",
     "profile": "Profil",
     "myStores": "Meine Geschäfte",
-    "addStore": "Geschäft hinzufügen"
+    "addStore": "Geschäft hinzufügen",
+    "adminPanel": "Admin-Panel"
   },
   "auth": {
     "signIn": "Anmelden",
@@ -115,15 +189,16 @@
     "categories": {
       "FRUIT": "Obst",
       "VEGETABLE": "Gemüse"
-    }
+    },
+    "fewProductsNotice": "Es wurden nur {count} Produkte gefunden. Erwägen Sie, Ihre Suchkriterien zu erweitern."
   },
   "productCard": {
     "soldBy": "Verkauft von",
     "available": "Verfügbar: <b>{quantity}</b> Stk.",
-    "belowAverage": "Unter dem Durchschnittspreis in: {city}",
-    "averagePrice": "Durchschnittspreis in: {city}",
-    "aboveAverage": "Über dem Durchschnittspreis in: {city}",
-    "notEnoughProducts": "Nicht genügend Produkte in: {city}"
+    "belowAverage": "Unter dem Durchschnittspreis in {city}",
+    "averagePrice": "Durchschnitt in {city}",
+    "aboveAverage": "Über dem Durchschnittspreis in {city}",
+    "notEnoughProducts": "Nicht genügend Produkte in {city}"
   },
   "storeGrid": {
     "empty": "Keine Geschäfte verfügbar"
@@ -145,7 +220,7 @@
     "starAriaLabel": "Bewerten mit {count} Sternen"
   },
   "reportButton": {
-    "report": "Bericht",
+    "report": "Melden",
     "reported": "Gemeldet"
   }
 }

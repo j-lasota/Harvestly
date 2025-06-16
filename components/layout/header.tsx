@@ -13,9 +13,13 @@ import { Link } from "@/i18n/navigation";
 import logo from "@/public/logo.svg";
 import { auth } from "@/auth";
 
+const ADMIN_PERMISSION = "manage:all";
+
 export default async function Header() {
   const t = await getTranslations("nav");
   const session = await auth();
+
+  const isAdmin = session?.user?.permissions?.includes(ADMIN_PERMISSION) || false;
 
   return (
     <header className="bg-background-elevated border-shadow ring-ring sticky top-0 z-50 rounded-lg border-b-3 ring">
@@ -26,7 +30,6 @@ export default async function Header() {
         </Link>
 
         <div className="flex items-center gap-1">
-          {/* Desktop nav */}
           <nav className="hidden md:block">
             <ul className="flex items-center gap-0.5 text-lg font-medium">
               {NAVLINKS.map(({ href, label }) => (
@@ -42,14 +45,13 @@ export default async function Header() {
             </ul>
           </nav>
 
-          {/* Mobile nav */}
           <BurgerMenu />
 
           <ThemeToggle />
           <LanguageSelector className="mr-2" />
 
           {session ? (
-            <AvatarMenu Logout={<SignOut />} image={session?.user?.image} />
+            <AvatarMenu Logout={<SignOut />} image={session?.user?.image} isAdmin={isAdmin} />
           ) : (
             <SignIn />
           )}

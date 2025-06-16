@@ -25,6 +25,12 @@ import Image from "next/image";
 
 import messenger from "@/public/messenger.png";
 
+import {
+  getStoreStatistics,
+  getStoreStatisticsForPeriod,
+  getStoreAverageRating,
+} from "@/utils/api";
+
 interface BusinessHoursProps {
   dayOfWeek: string;
   openingTime: string;
@@ -38,7 +44,7 @@ export default async function StorePage({
     storeSlug: string;
   }>;
 }>) {
-  const t = await getTranslations("");
+  const t = await getTranslations("page.store");
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -58,6 +64,18 @@ export default async function StorePage({
   }
 
   if (!data || !data.storeBySlug) return notFound();
+
+  const isOwner = userId === data.storeBySlug.user.id;
+
+  let overallRatio = null;
+  let last7DaysRatio = null;
+  let averageRating = null;
+
+  if (isOwner) {
+    overallRatio = await getStoreStatistics(storeSlug);
+    last7DaysRatio = await getStoreStatisticsForPeriod(storeSlug, 7);
+    averageRating = await getStoreAverageRating(storeSlug);
+  }
 
   return (
     <ContainerWrapper
@@ -81,18 +99,18 @@ export default async function StorePage({
                 variant="ghostPrimary"
                 className="gap-1.5 self-end font-normal"
               >
-                {t("page.store.contact.action")}
+                {t("contact.action")}
                 <Send size={16} strokeWidth={1.75} />
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>{t("page.store.contact.hero")}</DialogTitle>
+                <DialogTitle>{t("contact.hero")}</DialogTitle>
                 <div className="mt-4 flex flex-col gap-2">
                   {data.storeBySlug.user.email && (
                     <div className="flex justify-between">
                       <p className="font-medium">
-                        {t("page.store.contact.email")}:
+                        {t("contact.email")}:
                       </p>
                       <a href={`mailto:${data.storeBySlug.user.email}`}>
                         {data.storeBySlug.user.email}
@@ -103,7 +121,7 @@ export default async function StorePage({
                   {data.storeBySlug.user.phoneNumber && (
                     <div className="flex justify-between">
                       <p className="font-medium">
-                        {t("page.store.contact.phone")}:
+                        {t("contact.phone")}:
                       </p>
                       <a href={`tel:${data.storeBySlug.user.phoneNumber}`}>
                         {data.storeBySlug.user.phoneNumber}
@@ -120,7 +138,7 @@ export default async function StorePage({
                       <a
                         href={`m.me/${data.storeBySlug.user.facebookNickname}`}
                       >
-                        Skontaktuj za pomocą Messenger
+                        {t("contact.messengerAction")}
                       </a>
                     </Button>
                   )}
@@ -166,7 +184,7 @@ export default async function StorePage({
           </p>
 
           <div className="inline-flex gap-1">
-            <h2 className="font-semibold">{t("page.store.location")}:</h2>
+            <h2 className="font-semibold">{t("location")}:</h2>
             {data.storeBySlug.address}, {data.storeBySlug.city}
           </div>
 
@@ -174,7 +192,7 @@ export default async function StorePage({
             data.storeBySlug.businessHours.length > 0 && (
               <div className="flex w-full max-w-max flex-col gap-1">
                 <h2 className="font-semibold">
-                  {t("page.store.businessHours")}:
+                  {t("businessHours.title")}:
                 </h2>
                 {data.storeBySlug.businessHours.map(
                   (d: BusinessHoursProps) =>
@@ -184,7 +202,7 @@ export default async function StorePage({
                         className="flex justify-between gap-4"
                       >
                         <p className="font-medium">
-                          {t(`days.${d.dayOfWeek}`)}
+                          {t(`businessHours.days.${d.dayOfWeek}`)}
                         </p>
                         <p className="text-foreground/80">
                           {d.openingTime} - {d.closingTime}
@@ -194,6 +212,36 @@ export default async function StorePage({
                 )}
               </div>
             )}
+
+          {isOwner && (
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold mb-3">{t("stats.title")}</h2>
+              {overallRatio !== null ? (
+                <p>
+                  <strong>{t("stats.overallRatio")}:</strong>{" "}
+                  {overallRatio.toFixed(2)}
+                </p>
+              ) : (
+                <p>{t("stats.noOverallStats")}</p>
+              )}
+              {last7DaysRatio !== null ? (
+                <p>
+                  <strong>{t("stats.last7DaysRatio")}:</strong>{" "}
+                  {last7DaysRatio.toFixed(2)}
+                </p>
+              ) : (
+                <p>{t("stats.no7DayStats")}</p> 
+              )}
+              {averageRating !== null ? (
+                <p>
+                  <strong>{t("stats.averageRating")}:</strong>{" "}
+                  {averageRating.toFixed(2)}
+                </p>
+              ) : (
+                <p>{t("stats.noAverageRating")}</p> 
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -203,7 +251,7 @@ export default async function StorePage({
 
       <section className="flex max-w-3xl flex-col gap-4">
         <h3 className="mt-4 text-2xl font-semibold">
-          {t("page.store.reviews.title")}
+          {t("reviews.title")}
         </h3>
         {session?.user && <AddOpinion storeId={data.storeBySlug.id} />}
         {data.storeBySlug.opinions && data.storeBySlug.opinions.length > 0 ? (
@@ -211,7 +259,7 @@ export default async function StorePage({
             <OpinionCard key={opinion.id} {...opinion} />
           ))
         ) : (
-          <p>{t("page.store.reviews.noReviews")}</p>
+          <p>{t("reviews.noReviews")}</p>
         )}
       </section>
     </ContainerWrapper>

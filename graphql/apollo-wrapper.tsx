@@ -1,22 +1,22 @@
-"use client";
-
+"use client"; 
 import { setContext } from "@apollo/client/link/context";
 import { HttpLink, from } from "@apollo/client";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react"; 
 import {
   ApolloNextAppProvider,
   ApolloClient,
   InMemoryCache,
 } from "@apollo/client-integration-nextjs";
 
+
 function makeClient() {
   const httpLink = new HttpLink({
     uri: `${process.env.NEXT_PUBLIC_GRAPHQL}`,
   });
-
-  const authLink = setContext((_, { headers }) => {
-    const { data: session } = useSession();
-    const token = session?.accessToken;
+  
+  const authLink = setContext(async (_, { headers }) => {
+    const session = await getSession(); 
+    const token = session?.accessToken; 
 
     return {
       headers: {

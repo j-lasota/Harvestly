@@ -17,9 +17,11 @@ import {
 export const AvatarMenu = ({
   Logout,
   image,
+  isAdmin,
 }: {
   Logout: React.ReactNode;
   image: string | null | undefined;
+  isAdmin: boolean;
 }) => {
   const t = useTranslations("avatarMenu");
   return (
@@ -44,6 +46,13 @@ export const AvatarMenu = ({
         <DropdownMenuItem asChild>
           <Link href="/add-store">{t("addStore")}</Link>
         </DropdownMenuItem>
+
+        {isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin">{t("adminPanel")}</Link> 
+          </DropdownMenuItem>
+        )}
+
         <div className="mt-2">{Logout}</div>
       </DropdownMenuContent>
     </DropdownMenu>
