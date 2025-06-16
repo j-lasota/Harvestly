@@ -1,0 +1,17 @@
+type StoreReport {
+    id: ID!
+    store: Store!
+    user: User!
+    createdAt: DateTime
+}
+
+extend type Query {
+    storeReports: [StoreReport]
+    storeReportById(id: ID!): StoreReport
+}
+
+extend type Mutation {
+    reportStore(storeId: ID!, userId: ID!): StoreReport
+    deleteStoreReport(id: ID!): Boolean
+}
+
