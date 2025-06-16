@@ -3,6 +3,7 @@ package com.backend.UnitTests;
 import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
+import com.backend.service.Auth0ManagementService;
 import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceUnitTests {
+
+    @Mock
+    private Auth0ManagementService auth0ManagementService;
 
     @Mock
     private UserRepository userRepository;

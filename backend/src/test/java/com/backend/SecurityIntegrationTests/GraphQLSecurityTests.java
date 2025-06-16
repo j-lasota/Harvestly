@@ -1,4 +1,4 @@
-package com.backend.IntegrationTests;
+package com.backend.SecurityIntegrationTests;
 
 import com.backend.model.Opinion;
 import com.backend.model.Store;

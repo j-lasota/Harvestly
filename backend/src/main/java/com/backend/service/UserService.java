@@ -13,10 +13,12 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final StoreService storeService;
+    private final Auth0ManagementService auth0ManagementService;
 
-    public UserService(UserRepository userRepository, StoreService storeService) {
+    public UserService(UserRepository userRepository, StoreService storeService, Auth0ManagementService auth0ManagementService) {
         this.userRepository = userRepository;
         this.storeService = storeService;
+        this.auth0ManagementService = auth0ManagementService;
     }
 
     public User saveUser(User user) {
@@ -59,7 +61,12 @@ public class UserService {
         if (publicTradePermitNumber != null) {
             user.setPublicTradePermitNumber(publicTradePermitNumber);
         }
-        return userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+
+        new Thread(() -> auth0ManagementService.updateUserInAuth0(savedUser)).start();
+
+        return savedUser;
     }
 
     public Boolean deleteUserById(String id) {
