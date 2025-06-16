@@ -1,4 +1,4 @@
-package com.backend.IntegrationTests;
+package com.backend.SecurityIntegrationTests;
 
 import com.backend.model.*;
 import com.backend.repository.*;
@@ -14,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -79,7 +78,6 @@ class OwnProductControllerSecurityTest {
         userRepository.deleteAll();
     }
 
-    // --- Metoda pomocnicza do tworzenia poprawnego kontekstu bezpieczeństwa ---
     public static RequestPostProcessor jwtWithAuthorities(String subject, List<String> permissions) {
         Collection<GrantedAuthority> authorities = permissions.stream()
                 .map(p -> "SCOPE_" + p)
@@ -95,10 +93,6 @@ class OwnProductControllerSecurityTest {
         JwtAuthenticationToken token = new JwtAuthenticationToken(jwt, authorities);
         return authentication(token);
     }
-
-    // ========================================================================
-    // === Testy dla Mutacji `createOwnProduct`
-    // ========================================================================
 
     @Test
     @DisplayName("Właściciel sklepu powinien móc dodać produkt do swojego sklepu")
@@ -160,10 +154,6 @@ class OwnProductControllerSecurityTest {
                         containsString("FORBIDDEN")));
     }
 
-    // ========================================================================
-    // === Testy dla Mutacji `updateOwnProduct`
-    // ========================================================================
-
     @Test
     @DisplayName("Właściciel sklepu powinien móc zaktualizować swój produkt")
     void updateOwnProduct_asOwner_shouldSucceed() throws Exception {
@@ -194,10 +184,6 @@ class OwnProductControllerSecurityTest {
                 .andExpect(jsonPath("$.errors[0].message",
                         containsString("FORBIDDEN")));
     }
-
-    // ========================================================================
-    // === Testy dla Mutacji `deleteOwnProduct`
-    // ========================================================================
 
     @Test
     @DisplayName("Właściciel sklepu powinien móc usunąć swój produkt")
@@ -248,10 +234,6 @@ class OwnProductControllerSecurityTest {
 
         assertFalse(ownProductRepository.findById(ownProductInMyStore.getId()).isPresent());
     }
-
-    // ========================================================================
-    // === Testy dla Zapytań `ownProducts` (zakładamy, że są publiczne)
-    // ========================================================================
 
     @Test
     @DisplayName("Każdy, nawet anonimowy użytkownik, powinien móc przeglądać produkty")
