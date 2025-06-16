@@ -26,7 +26,6 @@ public class StatisticsService {
         }
     }
 
-    @Transactional(readOnly = true)
     public double getClickRatio(String slug) {
         long pin = clickRepo.totalMapPinClicks(slug);
         long page = clickRepo.totalStorePageClicks(slug);
@@ -36,7 +35,6 @@ public class StatisticsService {
         return (double) pin / page;
     }
 
-    @Transactional(readOnly = true)
     public double getClickRatio(String slug, int days) {
         LocalDate from = LocalDate.now().minusDays(days);
         long pin = clickRepo.mapPinClicksSince(slug, from);
@@ -46,7 +44,6 @@ public class StatisticsService {
         }
         return (double) pin / page;
     }
-    @Transactional(readOnly = true)
     public double getAverageRating(String slug) {
         Double avg = opinionRepo.findAverageStarsByStoreSlug(slug);
         return (avg != null ? avg : 0.0);
