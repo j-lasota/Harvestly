@@ -99,20 +99,22 @@ public class OwnProductController {
      * @param price the new price of the product
      * @param quantity the new quantity of the product
      * @param imageUrl the new URL of the product image
+     * @param discount the new discount of the product
      * @return the updated OwnProduct object
      * @throws ResponseStatusException if the own product is not found
      */
     @PreAuthorize("@ownProductSecurity.isOwner(#id, authentication) or hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long storeId, @Argument Long productId,
-                                       @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl) {
+                                       @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl,
+                                       @Argument Integer discount) {
         Optional<OwnProduct> ownProduct = ownProductService.getOwnProductById(id);
 
         if(ownProduct.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         }
 
-        return ownProductService.updateOwnProduct(id, storeId, productId, price, quantity, imageUrl);
+        return ownProductService.updateOwnProduct(id, storeId, productId, price, quantity, imageUrl, discount);
     }
 
     /**
