@@ -79,7 +79,7 @@ public class StoreReportModuleE2ETests {
 
     @Test
     void testReportStore_ThresholdSetsReported() {
-        IntStream.range(0, 4).forEach(i -> {
+        for (int i = 0; i < 4; i++) {
             User u = new User();
             u.setId("e2euser" + (i + 2));
             userRepository.save(u);
@@ -93,7 +93,7 @@ public class StoreReportModuleE2ETests {
             """.formatted(store.getId(), u.getId());
 
             graphQlTester.document(mutation).execute().path("reportStore.id").hasValue();
-        });
+        }
 
         String mutation = """
             mutation {

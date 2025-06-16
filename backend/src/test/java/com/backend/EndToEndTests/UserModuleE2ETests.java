@@ -49,19 +49,12 @@ public class UserModuleE2ETests {
     private StoreRepository storeRepository;
 
     @Autowired
-    private OpinionRepository opinionRepository;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private StoreService storeService;
 
     @MockitoBean
     private Auth0UserService auth0UserService;
 
     private Store testStore;
-    private User testUser;
     private String testUserId;
 
     @BeforeEach
