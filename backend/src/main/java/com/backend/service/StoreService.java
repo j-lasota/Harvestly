@@ -1,6 +1,7 @@
 package com.backend.service;
 
 import com.backend.model.Store;
+import com.backend.model.User;
 import com.backend.repository.StoreRepository;
 import com.github.slugify.Slugify;
 import org.springframework.stereotype.Service;
@@ -102,6 +103,10 @@ public class StoreService {
 
     public List<Store> getStoresByUserId(String userId) {
         return storeRepository.findByUserId(userId);
+    }
+
+    public List<Store> getStoresByUserIn(List<User> users) {
+        return storeRepository.findByUserIn(users);
     }
 
     public List<Store> saveAllStores(List<Store> stores) {

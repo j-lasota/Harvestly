@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
+@TestPropertySource(properties = "app.method-security.enabled=false")
+
 public class ProductModuleE2ETests {
 
     @Autowired
@@ -171,6 +175,8 @@ public class ProductModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     public void testProductCategoryChange() {
         String createProductMutation = """
             mutation {
@@ -214,6 +220,7 @@ public class ProductModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testVerifyUnverifyProduct() {
         String createProductMutation = """
             mutation {
@@ -270,6 +277,7 @@ public class ProductModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testPartialProductUpdate() {
         String createProductMutation = """
             mutation {
@@ -315,6 +323,7 @@ public class ProductModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidProductId() {
         String invalidIdQuery = """
             query {

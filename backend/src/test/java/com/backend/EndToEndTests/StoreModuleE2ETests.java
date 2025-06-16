@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureG
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = "app.method-security.enabled=false")
+//@TestPropertySource(properties = "app.method-security.enabled=false")
 public class StoreModuleE2ETests {
 
     @Autowired
@@ -52,7 +53,7 @@ public class StoreModuleE2ETests {
         userRepository.deleteAll();
 
         testUser = new User(
-                UUID.randomUUID().toString(),
+                "2a6e8658-d6db-45d8-9131-e8f87b62ed75",
                 "Store",
                 "Owner",
                 "storeowner@example.com",
@@ -81,7 +82,7 @@ public class StoreModuleE2ETests {
     }
 
     @Test
-    @Transactional
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testCompleteStoreLifecycle() {
         String createStoreMutation = """
             mutation {
@@ -261,6 +262,7 @@ public class StoreModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testStoreTierRestrictions() {
         String createFirstStoreMutation = """
             mutation {
@@ -364,6 +366,7 @@ public class StoreModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testNonExistentStoreOperations() {
         String getNonExistentStoreQuery = """
             query {

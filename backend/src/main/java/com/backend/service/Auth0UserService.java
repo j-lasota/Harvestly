@@ -3,11 +3,16 @@ package com.backend.service;
 import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.client.mgmt.filter.UserFilter;
 import com.auth0.exception.Auth0Exception;
+import com.auth0.exception.RateLimitException;
+import com.auth0.json.mgmt.Page;
 import com.backend.model.Auth0UserDto;
+import com.backend.model.Opinion;
+import com.backend.model.Store;
 import com.backend.model.User;
-import com.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,240 +22,260 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class Auth0UserService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ManagementAPI managementAPI;
+    private final OpinionService opinionService;
+    private final StoreService storeService;
 
-    private static final int PAGE_SIZE = 50;
-    private static final long SYNC_DELAY = 60 * 60 * 1000;
-    private static final long SYNC_RATE = 60 * 60 * 1000;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
+    private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
+    @Value("${app.protected-user.ids}")
+    private Set<String> protectedUserIds;
 
+    // Metoda dla webhooka
     @Transactional
-    public void processIncomingUsers(List<Auth0UserDto> auth0Users) {
-        log.info("Processing {} Auth0 users", auth0Users.size());
-        for (Auth0UserDto dto : auth0Users) {
-            userRepository.findById(extractCleanId(dto.getUserId()))
-                    .ifPresentOrElse(
-                            existing -> updateFromDto(existing, dto),
-                            ()        -> createFromDto(dto)
-                    );
+    public void processIncomingUser(Auth0UserDto dto) {
+        if (dto.getUserId() == null || dto.getEmail() == null) {
+            log.warn("Skipping incoming user due to missing userId or email: {}", dto);
+            return;
         }
-        log.info("Finished processing Auth0 users");
+
+        Optional<User> userOpt = userService.getUserById(dto.getUserId());
+        if (userOpt.isEmpty()) {
+
+            userOpt = userService.findByEmail(dto.getEmail());
+        }
+
+        userOpt.ifPresentOrElse(
+                existingUser -> updateUserFromDto(existingUser, dto),
+                () -> createUserFromDto(dto)
+        );
     }
 
-    private void updateFromDto(User existing, Auth0UserDto dto) {
-        boolean changed = false;
+    @Scheduled(initialDelayString = "${app.sync.initial-delay:3600000}", fixedRateString = "${app.sync.fixed-rate:3600000}")
+    @Transactional
+    public void synchronizeAllUsers() {
+        log.info("Starting full user synchronization with Auth0.");
+        try {
+            List<com.auth0.json.mgmt.users.User> auth0Users = fetchAllAuth0Users();
+            Map<String, User> localUsersMapById = userService.getAllUsers().stream()
+                    .collect(Collectors.toMap(User::getId, Function.identity()));
 
-        // givenName
-        if (dto.getGivenName() != null
-                && !dto.getGivenName().equals(existing.getFirstName())) {
+            handleDeactivatedUsers(localUsersMapById, auth0Users.stream().map(com.auth0.json.mgmt.users.User::getId).collect(Collectors.toSet()));
+
+            for (com.auth0.json.mgmt.users.User auth0User : auth0Users) {
+                String fullId = auth0User.getId();
+
+                Optional<User> localUserOpt = Optional.ofNullable(localUsersMapById.get(fullId));
+                if (localUserOpt.isEmpty()) {
+                    localUserOpt = userService.findByEmail(auth0User.getEmail());
+                }
+
+                if (localUserOpt.isPresent()) {
+                    User localUser = localUserOpt.get();
+                    if (dataHasChanged(localUser, auth0User)) {
+                        updateUserInAuth0(localUser, auth0User.getId());
+                    }
+                } else {
+                    log.info("User with email {} not found in local DB. Creating.", auth0User.getEmail());
+                    createUserFromAuth0User(auth0User);
+                }
+            }
+        } catch (Exception e) {
+            log.error("A critical error occurred during user synchronization.", e);
+        }
+        log.info("Full user synchronization finished.");
+    }
+
+    /**
+     * @return Lista obiektów użytkowników z biblioteki Auth0.
+     */
+    private List<com.auth0.json.mgmt.users.User> fetchAllAuth0Users() throws Auth0Exception, InterruptedException {
+        List<com.auth0.json.mgmt.users.User> allUsers = new ArrayList<>();
+        int page = 0;
+        final int pageSize = 50;
+
+        while (true) {
+            UserFilter filter = new UserFilter().withPage(page, pageSize);
+            try {
+                Page<com.auth0.json.mgmt.users.User> pageResult = managementAPI.users().list(filter).execute().getBody();
+
+                if (pageResult == null || pageResult.getItems() == null || pageResult.getItems().isEmpty()) {
+                    break;
+                }
+
+                allUsers.addAll(pageResult.getItems());
+
+                if (pageResult.getItems().size() < pageSize) {
+                    break;
+                }
+                    page++;
+                    Thread.sleep(1000);
+                } catch (RateLimitException e) {
+                    log.warn("Auth0 rate limit hit. Waiting for 60 seconds before retrying.");
+                    Thread.sleep(60000);
+                }
+            }
+            return allUsers;
+        }
+
+    /**
+     * [POPRAWIONA] Aktualizuje profil użytkownika w Auth0 na podstawie danych z naszej bazy.
+     * Używa poprawnych nazw metod z biblioteki Auth0.
+     * @param localUser Użytkownik z naszej bazy danych (com.backend.model.User).
+     * @param auth0Id Pełny identyfikator Auth0 (np. "google-oauth2|123456").
+     */
+    private void updateUserInAuth0(User localUser, String auth0Id) {
+        try {
+            com.auth0.json.mgmt.users.User auth0UpdateRequest = new com.auth0.json.mgmt.users.User();
+
+            auth0UpdateRequest.setGivenName(localUser.getFirstName());
+            auth0UpdateRequest.setFamilyName(localUser.getLastName());
+            auth0UpdateRequest.setName(localUser.getName());
+            auth0UpdateRequest.setNickname(localUser.getName());
+            auth0UpdateRequest.setPicture(localUser.getImg());
+
+            managementAPI.users().update(auth0Id, auth0UpdateRequest).execute();
+            log.info("Successfully updated user {} in Auth0.", auth0Id);
+
+        } catch (Auth0Exception e) {
+            log.error("Failed to update user {} in Auth0: {}", auth0Id, e.getMessage());
+        }
+    }
+
+    private void handleDeactivatedUsers(Map<String, User> localUsersMap, Set<String> auth0UserIds) {
+        Set<String> localUserIds = localUsersMap.keySet();
+
+        Set<String> idsToDelete = new HashSet<>(localUserIds);
+        idsToDelete.removeAll(auth0UserIds);
+
+        boolean wereAnyProtected = idsToDelete.removeAll(protectedUserIds);
+        if (wereAnyProtected) {
+            log.info("Protected users were correctly excluded from the deletion list.");
+        }
+
+        if (!idsToDelete.isEmpty()) {
+            log.warn("Found {} users to delete. Reassigning their content first.", idsToDelete.size());
+
+
+            String deletedUserPlaceholderId = "11111111-1111-1111-1111-111111111111";
+
+            User deletedUserPlaceholder = userService.getUserById(deletedUserPlaceholderId)
+                    .orElseThrow(() -> new IllegalStateException("Critical Error: Deleted User placeholder with ID " + deletedUserPlaceholderId + " not found in the database!"));
+
+            List<User> usersToDelete = userService.findAllUsersByIdIn(idsToDelete);
+
+            if (!usersToDelete.isEmpty()) {
+                List<Opinion> opinionsToReassign = opinionService.getOpinionsByUserIn(usersToDelete);
+                if (!opinionsToReassign.isEmpty()) {
+                    log.info("Reassigning {} opinions to the deleted-user placeholder.", opinionsToReassign.size());
+                    opinionsToReassign.forEach(opinion -> opinion.setUser(deletedUserPlaceholder));
+                    opinionService.saveAllOpinions(opinionsToReassign);
+                }
+
+                 List<Store> storesToReassign = storeService.getStoresByUserIn(usersToDelete);
+                 if (!storesToReassign.isEmpty()) {
+                     log.info("Reassigning {} stores to the deleted-user placeholder.", storesToReassign.size());
+                     storesToReassign.forEach(store -> store.setUser(deletedUserPlaceholder));
+                     storeService.saveAllStores(storesToReassign);
+                 }
+
+                log.info("Proceeding with deletion of {} users.", usersToDelete.size());
+                userService.deleteAllUsersInBatch(usersToDelete);
+            }
+        }
+    }
+
+    private boolean dataHasChanged(User localUser, com.auth0.json.mgmt.users.User auth0User) {
+        if (!Objects.equals(localUser.getFirstName(), auth0User.getGivenName())) return true;
+        if (!Objects.equals(localUser.getLastName(), auth0User.getFamilyName())) return true;
+        if (!Objects.equals(localUser.getName(), auth0User.getNickname())) return true;
+        if (!Objects.equals(localUser.getImg(), auth0User.getPicture())) return true;
+        return false;
+    }
+
+    private void createUserFromDto(Auth0UserDto dto) {
+        User user = new User();
+        user.setId(dto.getUserId());
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
+        user.setLastName(dto.getFamilyName() != null ? dto.getFamilyName() : "");
+        user.setName(dto.getName() != null ? dto.getName() : "");
+        user.setImg(dto.getImg());
+
+        if (dto.getCreatedAt() != null) {
+            try {
+                user.setCreatedAt(LocalDateTime.parse(dto.getCreatedAt(), ISO_FORMATTER));
+            } catch (DateTimeParseException e) {
+                user.setCreatedAt(LocalDateTime.now());
+                log.warn("Cannot parse createdAt='{}', setting to now.", dto.getCreatedAt());
+            }
+        } else {
+            user.setCreatedAt(LocalDateTime.now());
+        }
+
+        user.setTier(0);
+        user.setStores(new ArrayList<>());
+        user.setFavoriteStores(new HashSet<>());
+
+        try {
+            userService.saveUser(user);
+            log.info("Created new user from DTO with ID: {}", user.getId());
+        } catch (IllegalArgumentException e) {
+            // Ignorujemy błędy walidacji (np. duplikat numeru tel.), logujemy i kontynuujemy
+            log.warn("Could not create user {} due to validation error: {}",
+                    (user.getEmail() != null ? user.getEmail() : user.getId()), e.getMessage());
+        }
+    }
+
+    private void updateUserFromDto(User existing, Auth0UserDto dto) {
+        boolean changed = false;
+        if (dto.getGivenName() != null && !dto.getGivenName().equals(existing.getFirstName())) {
             existing.setFirstName(dto.getGivenName());
             changed = true;
         }
-
-        // familyName
-        if (dto.getFamilyName() != null
-                && !dto.getFamilyName().equals(existing.getLastName())) {
+        if (dto.getFamilyName() != null && !dto.getFamilyName().equals(existing.getLastName())) {
             existing.setLastName(dto.getFamilyName());
             changed = true;
         }
-
-        // nickname → name
-        if (dto.getName() != null
-                && !dto.getName().equals(existing.getName())) {
+        if (dto.getName() != null && !dto.getName().equals(existing.getName())) {
             existing.setName(dto.getName());
             changed = true;
         }
-
-        // img
-        if (dto.getImg() != null
-                && !dto.getImg().equals(existing.getImg())) {
+        if (dto.getImg() != null && !dto.getImg().equals(existing.getImg())) {
             existing.setImg(dto.getImg());
             changed = true;
         }
-
-        // facebookNickname
-        if (dto.getFacebook_nickname() != null
-                && !dto.getFacebook_nickname().equals(existing.getFacebook_nickname())) {
-            existing.setFacebook_nickname(dto.getFacebook_nickname());
-            changed = true;
-        }
-
-        // createdAt
-        if (dto.getCreatedAt() != null) {
-            LocalDateTime ts = LocalDateTime.parse(dto.getCreatedAt(), DateTimeFormatter.ISO_DATE_TIME);
-            if (existing.getCreatedAt() == null || !ts.equals(existing.getCreatedAt())) {
-                existing.setCreatedAt(ts);
-                changed = true;
-            }
-        }
-
         if (changed) {
-            userRepository.save(existing);
-            log.debug("Updated user {}", existing.getEmail());
+            userService.saveUser(existing);
         }
     }
 
-    private String extractCleanId(String rawId) {
-        // Auth0 daje np. "google-oauth2|123456", my chcemy tylko po "│"
-        if (rawId == null) return null;
-        int idx = rawId.indexOf('|');
-        return idx >= 0 ? rawId.substring(idx + 1) : rawId;
-    }
-
-    private void createFromDto(Auth0UserDto dto) {
-        User user = new User();
-        user.setId(extractCleanId(dto.getUserId()));
-
-        // Email (zakładamy, że nie-null, bo walidujesz wcześniej)
-        user.setEmail(dto.getEmail());
-
-        // Imię i nazwisko
-        user.setFirstName(dto.getGivenName() != null ? dto.getGivenName() : "");
-        user.setLastName(dto.getFamilyName() != null ? dto.getFamilyName() : "");
-
-        // Nickname → name
-        user.setName(dto.getName() != null ? dto.getName() : "");
-
-        // Tier i kolekcje
-        user.setTier(0);
-        user.setStores(new ArrayList<>());
-        user.setFavoriteStores(new HashSet<>());
-
-        // createdAt
-        if (dto.getCreatedAt() != null) {
-            try {
-                LocalDateTime ts = LocalDateTime.parse(dto.getCreatedAt(), DateTimeFormatter.ISO_DATE_TIME);
-                user.setCreatedAt(ts);
-            } catch (DateTimeParseException e) {
-                log.warn("Cannot parse createdAt='{}', skipping", dto.getCreatedAt());
-            }
+    private void createUserFromAuth0User(com.auth0.json.mgmt.users.User auth0User) {
+        Auth0UserDto dto = new Auth0UserDto();
+        dto.setUserId(auth0User.getId());
+        dto.setEmail(auth0User.getEmail());
+        dto.setGivenName(auth0User.getGivenName());
+        dto.setFamilyName(auth0User.getFamilyName());
+        dto.setName(auth0User.getNickname());
+        dto.setImg(auth0User.getPicture());
+        if (auth0User.getCreatedAt() != null) {
+            dto.setCreatedAt(auth0User.getCreatedAt().toInstant().toString());
         }
-
-        // Obrazek
-        if (dto.getImg() != null) {
-            user.setImg(dto.getImg());
-        }
-
-        // Facebook nickname
-        if (dto.getFacebook_nickname() != null) {
-            user.setFacebook_nickname(dto.getFacebook_nickname());
-        }
-
-        userRepository.save(user);
-        log.debug("Created new user {}", user.getId());
-    }
-
-    @Scheduled(initialDelay = SYNC_DELAY, fixedRate = SYNC_RATE)
-    @Transactional
-    public void synchronizeUsers() {
-        try {
-            log.info("Starting user synchronization");
-            int pageIndex = 0;
-            boolean hasMore = true;
-
-            while (hasMore) {
-                try {
-                    UserFilter filter = new UserFilter();
-                    filter.withPage(pageIndex, PAGE_SIZE);
-
-                    com.auth0.json.mgmt.users.UsersPage usersPage = managementAPI.users()
-                            .list(filter)
-                            .execute()
-                            .getBody();
-
-                    List<com.auth0.json.mgmt.users.User> users = usersPage.getItems();
-                    if (users == null || users.isEmpty()) {
-                        hasMore = false;
-                    } else {
-                        synchronizeUsersPage(users);
-                        pageIndex++;
-                        Thread.sleep(1000); // 1 sekunda przerwy między stronami
-                    }
-                } catch (Auth0Exception e) {
-                    if (e instanceof com.auth0.exception.RateLimitException) {
-                        log.warn("Rate limit reached, waiting before next attempt...");
-                        Thread.sleep(60000); // minutka jakbym znowu zużył wszystkie tokeny w sekundę
-                        continue;
-                    }
-                    throw e;
-                }
-            }
-            log.info("User synchronization completed successfully");
-        } catch (Exception e) {
-            log.error("Error during user synchronization", e);
-        }
-    }
-
-    private void synchronizeUsersPage(List<com.auth0.json.mgmt.users.User> auth0Users) {
-        for (com.auth0.json.mgmt.users.User auth0User : auth0Users) {
-            try {
-                String email = auth0User.getEmail();
-                if (email == null) {
-                    log.warn("Skipping user without email");
-                    continue;
-                }
-
-                userRepository.findByEmail(email)
-                        .ifPresentOrElse(
-                                existingUser -> updateUserFromAuth0(existingUser, auth0User),
-                                () -> createUserFromAuth0(auth0User)
-                        );
-            } catch (Exception e) {
-                log.error("Error synchronizing user: " + auth0User.getEmail(), e);
-            }
-        }
-    }
-
-
-    private User updateUserFromAuth0(User existingUser, com.auth0.json.mgmt.users.User auth0User) {
-        existingUser.setEmail(auth0User.getEmail());
-        Map<String, Object> userMetadata = auth0User.getUserMetadata();
-        if (userMetadata != null) {
-            Object givenName = userMetadata.get("given_name");
-            Object familyName = userMetadata.get("family_name");
-            existingUser.setFirstName(givenName != null ? givenName.toString() : "");
-            existingUser.setLastName(familyName != null ? familyName.toString() : "");
-        }
-        return userRepository.save(existingUser);
-    }
-
-    private User createUserFromAuth0(com.auth0.json.mgmt.users.User auth0User) {
-        User user = new User();
-        String rawId = auth0User.getId();
-        String cleanId = rawId.contains("|") ? rawId.substring(rawId.indexOf("|") + 1) : rawId;
-        user.setId(cleanId);
-        user.setEmail(auth0User.getEmail());
-
-        Map<String, Object> userMetadata = auth0User.getUserMetadata();
-        if (userMetadata != null) {
-            Object givenName = userMetadata.get("given_name");
-            Object familyName = userMetadata.get("family_name");
-            user.setFirstName(givenName != null ? givenName.toString() : "");
-            user.setLastName(familyName != null ? familyName.toString() : "");
-        } else {
-            user.setFirstName("");
-            user.setLastName("");
-        }
-
-        user.setTier(0);
-        user.setStores(new ArrayList<>());
-        user.setFavoriteStores(new HashSet<>());
-        return userRepository.save(user);
+        createUserFromDto(dto);
     }
 
     @EventListener(ApplicationReadyEvent.class)
+    @ConditionalOnProperty(name = "app.sync.on-startup.enabled", havingValue = "true", matchIfMissing = true)
     public void onApplicationStart() {
-        synchronizeUsers();
+        new Thread(this::synchronizeAllUsers).start();
     }
 }

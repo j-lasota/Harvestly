@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+
 class GraphQLSecurityTests {
 
     @Autowired MockMvc mockMvc;
@@ -41,10 +42,10 @@ class GraphQLSecurityTests {
         userRepository.deleteAll();
 
         User owner = new User(
-                "owner1",              // musi się zgadzać z tym, co wstawiasz jako userId
+                "owner1",
                 "John",
                 "Doe",
-                null,                  // nickName
+                null,
                 "john.doe@example.com",
                 "000",
                 0,
@@ -95,7 +96,6 @@ class GraphQLSecurityTests {
 
     @Test
     void createStore_withoutAuth_unauthorized() throws Exception {
-        // mutation do próby stworzenia sklepu
         String payload = """
       {
         "query":"mutation { createStore(userId:\\\"someUser\\\",name:\\\"X\\\",description:\\\"D\\\",latitude:1.0,longitude:2.0,city:\\\"C\\\",address:\\\"A\\\",imageUrl:\\\"U\\\"){ id } }"
@@ -112,7 +112,6 @@ class GraphQLSecurityTests {
 
     @Test
     void createStore_withAuth_allowed() throws Exception {
-        // 1) Utwórz nowego "czystego" właściciela, który jeszcze nie ma sklepu
         User freshOwner = new User(
                 "freshOwner",
                 "Foo", "Bar",
@@ -124,7 +123,6 @@ class GraphQLSecurityTests {
         );
         userRepository.save(freshOwner);
 
-        // 2) Mutation prosi o tego właśnie świeżego właściciela
         String payload = "{\"query\":"
                 + "\"mutation { createStore(userId:\\\"freshOwner\\\","
                 + "name:\\\"NewStore\\\",description:\\\"D\\\","
@@ -133,12 +131,10 @@ class GraphQLSecurityTests {
                 + "id } }\"}";
 
         mockMvc.perform(post("/graphql")
-                        // token subject musi odpowiadać userId
                         .with(jwt().jwt(t -> t.subject("freshOwner")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isOk())
-                // sprawdzamy tylko, że dostaliśmy newStore.id
                 .andExpect(jsonPath("$.data.createStore.id").isNotEmpty());
     }
 
@@ -177,7 +173,7 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 
     @Test
@@ -206,7 +202,7 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 
     @Test
@@ -221,7 +217,6 @@ class GraphQLSecurityTests {
 
     @Test
     void createOpinion_withoutAuth_unauthorized() throws Exception {
-        // mutation do próby stworzenia opinii
         String payload = String.format("""
       {
         "query":"mutation { createOpinion(userId:\\\"authorX\\\",storeId:%d,description:\\\"X\\\",stars:5){ id } }"
@@ -238,12 +233,9 @@ class GraphQLSecurityTests {
 
     @Test
     void createOpinion_withAuth_allowed() throws Exception {
-        // --- Użyj świeżego autora, nie "author1" ---
         User author2 = new User(
                 "author2", "Second", "User",
-                /* nick */ null,
-                /* email */ "author2@example.com",
-                /* phone */ "555-222",
+                null, "author2@example.com", "555-222",
                 0, "img2.jpg"
         );
         userRepository.save(author2);
@@ -298,7 +290,7 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 
     @Test
@@ -327,6 +319,6 @@ class GraphQLSecurityTests {
                         .content(payload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors[0].message",
-                        containsString("Forbidden")));
+                        containsString("FORBIDDEN")));
     }
 }

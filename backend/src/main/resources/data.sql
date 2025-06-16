@@ -1,3 +1,8 @@
+-- Wstawiamy systemowego użytkownika, do którego będą przypisywane osierocone opinie.
+INSERT INTO users (id, email, first_name, last_name, name, tier)
+VALUES ('11111111-1111-1111-1111-111111111111', 'deleted.user@system.local', 'Deleted', 'User', 'Deleted User', 0)
+ON CONFLICT (id) DO NOTHING;
+
 -- Produkty
 INSERT INTO products (name, verified, category)
 VALUES ('Truskawki', true, 'FRUIT'),
@@ -29,6 +34,7 @@ VALUES
 -- Sklepy
 INSERT INTO stores (user_id, name, slug, description, latitude, longitude, city, address, image_url, verified)
 VALUES
+
     ('9f1c22f3-1a10-4d4e-8b73-72a60b973401', 'Stragan u Zosi', 'stragan-u-zosi-1', 'Tradycyjny stragan z owocami', 52.23, 21.01, 'Warszawa', 'ul. Wiejska 1', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/2_uaqhvo.avif', true),
     ('a134f4e6-b305-45e3-94cd-12ae4e50df3c', 'Owoce Rynku', 'owoce-rynku-1', 'Świeże owoce z Podlasia', 52.24, 21.02, 'Warszawa', 'ul. Rynek 5', 'https://res.cloudinary.com/dfzgy9znb/image/upload/v1748339178/1_kvyhn4.webp', true),
     ('81e5d01c-7cc2-4213-b3d3-598df3520ff2', 'EkoSad', 'ekosad-1', 'Eko-uprawy z Mazur', 52.22, 21.00, 'Warszawa', 'ul. Zielona 12', NULL, true),

@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -49,6 +50,8 @@ public class ProductController {
      * @param category The category of the product.
      * @return The created product.
      */
+
+    @PreAuthorize("isAuthenticated()")
     @MutationMapping
     public Product createProduct(@Argument String name, @Argument ProductCategory category) {
         return productService.saveProduct(new Product(name, category));
@@ -63,6 +66,7 @@ public class ProductController {
      * @param verified Whether the product is verified.
      * @return The updated product.
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public Product updateProduct(@Argument Long id, @Argument String name, @Argument ProductCategory category,
                                  @Argument Boolean verified) {
@@ -75,6 +79,7 @@ public class ProductController {
      * @param id The ID of the product to delete.
      * @return True if the product was deleted, false otherwise.
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public Boolean deleteProduct(@Argument Long id) {
         return productService.deleteProductById(id);
@@ -85,6 +90,7 @@ public class ProductController {
      *
      * @return List of unverified products.
      */
+    @PreAuthorize("hasAuthority('SCOPE_manage:all')")
     @QueryMapping
     public List<Product> unverifiedProducts() {
         return productService.getUnverifiedProducts();

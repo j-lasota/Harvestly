@@ -5,6 +5,7 @@ import com.backend.model.User;
 import com.backend.repository.OpinionRepository;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
+import com.backend.service.Auth0UserService;
 import com.backend.service.StoreService;
 import com.backend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
@@ -12,9 +13,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,6 +31,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+        "spring.task.scheduling.enabled=false",
+        "app.sync.on-startup.enabled=false",
+        "app.method-security.enabled=false"
+})
+
 public class UserModuleE2ETests {
 
     @Autowired
@@ -46,6 +57,9 @@ public class UserModuleE2ETests {
     @Autowired
     private StoreService storeService;
 
+    @MockBean
+    private Auth0UserService auth0UserService;
+
     private Store testStore;
     private User testUser;
     private String testUserId;
@@ -53,8 +67,7 @@ public class UserModuleE2ETests {
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
-
-        testUserId = UUID.randomUUID().toString();
+        testUserId = "2a6e8658-d6db-45d8-9131-e8f87b62ed75";
     }
 
     @AfterEach
@@ -317,6 +330,8 @@ public class UserModuleE2ETests {
 
     @Test
     @Transactional
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
+
     public void testPartialUserUpdate() {
         String createUserMutation = """
             mutation {
@@ -381,6 +396,7 @@ public class UserModuleE2ETests {
 
     @Test
     @Transactional
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testFavoriteStoreOperations() {
         String createUserMutation = """
             mutation {
@@ -479,6 +495,7 @@ public class UserModuleE2ETests {
     }
 
     @Test
+    @WithMockUser(username = "2a6e8658-d6db-45d8-9131-e8f87b62ed75")
     public void testInvalidFavoriteStoreOperations() {
         String createUserMutation = """
             mutation {
