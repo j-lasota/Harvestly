@@ -28,7 +28,7 @@ public class OwnProductSecurity {
         // 1. Znajdź OwnProduct na podstawie jego ID
         Optional<OwnProduct> ownProductOpt = ownProductRepository.findById(ownProductId);
         if (ownProductOpt.isEmpty()) {
-            return false;
+            return true;
         }
 
         Long storeId = ownProductOpt.get().getStore().getId();
