@@ -194,7 +194,7 @@ public class StoreModuleE2ETests {
 
         String updateStoreMutation = """
             mutation {
-                updateStore(
+                updateStoreByOwner(
                     id: %d,
                     name: "Updated Coffee Shop",
                     description: "The best coffee in town",
@@ -220,10 +220,10 @@ public class StoreModuleE2ETests {
         graphQlTester
                 .document(updateStoreMutation)
                 .execute()
-                .path("updateStore.id").entity(String.class).isEqualTo(storeId.toString())
-                .path("updateStore.name").entity(String.class).isEqualTo("Updated Coffee Shop")
-                .path("updateStore.description").entity(String.class).isEqualTo("The best coffee in town")
-                .path("updateStore.address").entity(String.class).isEqualTo("456 Oxford Street");
+                .path("updateStoreByOwner.id").entity(String.class).isEqualTo(storeId.toString())
+                .path("updateStoreByOwner.name").entity(String.class).isEqualTo("Updated Coffee Shop")
+                .path("updateStoreByOwner.description").entity(String.class).isEqualTo("The best coffee in town")
+                .path("updateStoreByOwner.address").entity(String.class).isEqualTo("456 Oxford Street");
 
         Store updatedStore = storeService.getStoreById(storeId).orElseThrow();
         assertEquals("Updated Coffee Shop", updatedStore.getName());
