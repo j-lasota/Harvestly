@@ -5,47 +5,45 @@ import com.backend.model.EventType;
 import com.backend.model.Store;
 import com.backend.model.User;
 import com.backend.repository.DailyClickCountRepository;
+import com.backend.repository.OpinionRepository;
 import com.backend.repository.StoreRepository;
 import com.backend.repository.UserRepository;
-import com.backend.repository.OpinionRepository;
+import com.backend.service.StoreService;
+import com.backend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class StatisticsModuleE2ETests {
+public class StatisticsModuleE2ETests {
 
     @Autowired
-    private WebApplicationContext wac;
-
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private DailyClickCountRepository dailyClickCountRepository;
+
     @Autowired
     private StoreRepository storeRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private OpinionRepository opinionRepository;
 
@@ -56,216 +54,247 @@ class StatisticsModuleE2ETests {
     private final LocalDate lastWeek = today.minusDays(7);
 
     @BeforeEach
-    void setUp() {
-        // budujemy MockMvc z włączonym Spring Security
-        this.mockMvc = org.springframework.test.web.servlet.setup.MockMvcBuilders
-                .webAppContextSetup(wac)
-                .apply(springSecurity())
-                .build();
-
-        // czyszczenie bazy
+    public void setUp() {
         dailyClickCountRepository.deleteAll();
-        opinionRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
 
-        // tworzymy użytkownika–właściciela i sklep
         storeOwnerUser = new User(
                 UUID.randomUUID().toString(),
-                "OwnerFirst",
-                "OwnerLast",
-                "owner@example.com",
+                "Store",
+                "Owner",
+                "storeowner@example.com",
                 "123456789",
                 0,
-                "img.jpg"
+                "owner-img.jpg"
         );
         storeOwnerUser = userRepository.save(storeOwnerUser);
 
         testStore = new Store(
                 storeOwnerUser,
-                "Stat Store",
-                "Desc",
-                10.0,
-                20.0,
-                "City",
-                "Addr",
-                "img.jpg",
-                "stat-store"
+                "Test Store",
+                "A store for testing",
+                45.0,
+                45.0,
+                "Test City",
+                "123 Test Street",
+                "store-img.jpg",
+                "test-store"
         );
         testStore = storeRepository.save(testStore);
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         dailyClickCountRepository.deleteAll();
-        opinionRepository.deleteAll();
         storeRepository.deleteAll();
         userRepository.deleteAll();
     }
 
-    // helper aby dodać JWT do żądania
-    private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor jwtForOwner() {
-        return SecurityMockMvcRequestPostProcessors.jwt()
-                .jwt(jwt -> jwt.subject(storeOwnerUser.getId()));
+    @Test
+    public void testStorePageClickEvent() {
+        String url = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.STORE_PAGE)
+                .toUriString();
+
+        ResponseEntity<Void> response = restTemplate.postForEntity(url, null, Void.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        Optional<DailyClickCount> savedClick = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+
+        assertTrue(savedClick.isPresent());
+        assertEquals(1, savedClick.get().getStorePageClicks());
+        assertEquals(0, savedClick.get().getMapPinClicks());
+
+        restTemplate.postForEntity(url, null, Void.class);
+
+        Optional<DailyClickCount> updatedClick = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+
+        assertTrue(updatedClick.isPresent());
+        assertEquals(2, updatedClick.get().getStorePageClicks());
+        assertEquals(0, updatedClick.get().getMapPinClicks());
     }
 
     @Test
-    void testStorePageClickEvent() throws Exception {
-        mockMvc.perform(post("/api/stats/event")
-                        .param("slug", testStore.getSlug())
-                        .param("type", EventType.STORE_PAGE.name())
-                        .with(jwtForOwner())
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk());
+    public void testMapPinClickEvent() {
+        String url = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.MAP_PIN)
+                .toUriString();
 
-        var key = new DailyClickCount.Key(testStore.getSlug(), today);
-        Optional<DailyClickCount> saved = dailyClickCountRepository.findById(key);
-        assertThat(saved).isPresent();
-        assertThat(saved.get().getStorePageClicks()).isEqualTo(1);
-        assertThat(saved.get().getMapPinClicks()).isZero();
+        ResponseEntity<Void> response = restTemplate.postForEntity(url, null, Void.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        Optional<DailyClickCount> savedClick = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+
+        assertTrue(savedClick.isPresent());
+        assertEquals(0, savedClick.get().getStorePageClicks());
+        assertEquals(1, savedClick.get().getMapPinClicks());
+
+        restTemplate.postForEntity(url, null, Void.class);
+
+        Optional<DailyClickCount> updatedClick = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+
+        assertTrue(updatedClick.isPresent());
+        assertEquals(0, updatedClick.get().getStorePageClicks());
+        assertEquals(2, updatedClick.get().getMapPinClicks());
     }
 
     @Test
-    void testMapPinClickEvent() throws Exception {
-        mockMvc.perform(post("/api/stats/event")
-                        .param("slug", testStore.getSlug())
-                        .param("type", EventType.MAP_PIN.name())
-                        .with(jwtForOwner())
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk());
+    public void testCombinedClickEvents() {
+        String storePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.STORE_PAGE)
+                .toUriString();
 
-        var key = new DailyClickCount.Key(testStore.getSlug(), today);
-        Optional<DailyClickCount> saved = dailyClickCountRepository.findById(key);
-        assertThat(saved).isPresent();
-        assertThat(saved.get().getMapPinClicks()).isEqualTo(1);
-        assertThat(saved.get().getStorePageClicks()).isZero();
-    }
+        String mapPinUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.MAP_PIN)
+                .toUriString();
 
-    @Test
-    void testCombinedClickEvents() throws Exception {
-        // 3 × STORE_PAGE
         for (int i = 0; i < 3; i++) {
-            mockMvc.perform(post("/api/stats/event")
-                            .param("slug", testStore.getSlug())
-                            .param("type", EventType.STORE_PAGE.name())
-                            .with(jwtForOwner())
-                            .contentType(MediaType.APPLICATION_JSON)
-                    )
-                    .andExpect(status().isOk());
+            restTemplate.postForEntity(storePageUrl, null, Void.class);
         }
-        // 2 × MAP_PIN
+
         for (int i = 0; i < 2; i++) {
-            mockMvc.perform(post("/api/stats/event")
-                            .param("slug", testStore.getSlug())
-                            .param("type", EventType.MAP_PIN.name())
-                            .with(jwtForOwner())
-                            .contentType(MediaType.APPLICATION_JSON)
-                    )
-                    .andExpect(status().isOk());
+            restTemplate.postForEntity(mapPinUrl, null, Void.class);
         }
 
-        var key = new DailyClickCount.Key(testStore.getSlug(), today);
-        var saved = dailyClickCountRepository.findById(key).orElseThrow();
-        assertThat(saved.getStorePageClicks()).isEqualTo(3);
-        assertThat(saved.getMapPinClicks()).isEqualTo(2);
+        Optional<DailyClickCount> combinedClicks = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+
+        assertTrue(combinedClicks.isPresent());
+        assertEquals(3, combinedClicks.get().getStorePageClicks());
+        assertEquals(2, combinedClicks.get().getMapPinClicks());
     }
 
     @Test
-    void testHistoricalClickStatistics() throws Exception {
-        // przygotowujemy starsze rekordy
-        var y = new DailyClickCount(testStore.getSlug(), yesterday);
-        y.setStorePageClicks(5); y.setMapPinClicks(3);
-        dailyClickCountRepository.save(y);
+    public void testHistoricalClickStatistics() {
 
-        var lw = new DailyClickCount(testStore.getSlug(), lastWeek);
-        lw.setStorePageClicks(10); lw.setMapPinClicks(7);
-        dailyClickCountRepository.save(lw);
+        DailyClickCount yesterdayClicks = new DailyClickCount(testStore.getSlug(), yesterday);
+        yesterdayClicks.setStorePageClicks(5);
+        yesterdayClicks.setMapPinClicks(3);
+        dailyClickCountRepository.save(yesterdayClicks);
 
-        // dodajemy dzisiejsze eventy
-        mockMvc.perform(post("/api/stats/event")
-                .param("slug", testStore.getSlug())
-                .param("type", EventType.STORE_PAGE.name())
-                .with(jwtForOwner())
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        DailyClickCount lastWeekClicks = new DailyClickCount(testStore.getSlug(), lastWeek);
+        lastWeekClicks.setStorePageClicks(10);
+        lastWeekClicks.setMapPinClicks(7);
+        dailyClickCountRepository.save(lastWeekClicks);
 
-        mockMvc.perform(post("/api/stats/event")
-                .param("slug", testStore.getSlug())
-                .param("type", EventType.MAP_PIN.name())
-                .with(jwtForOwner())
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        String storePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.STORE_PAGE)
+                .toUriString();
 
-        // sumujemy lokalnie
-        AtomicLong totalPage = new AtomicLong();
-        AtomicLong totalPin = new AtomicLong();
-        dailyClickCountRepository.findById(new DailyClickCount.Key(testStore.getSlug(), today))
-                .ifPresent(c -> {
-                    totalPage.addAndGet(c.getStorePageClicks());
-                    totalPin.addAndGet(c.getMapPinClicks());
-                });
-        totalPage.addAndGet(y.getStorePageClicks());
-        totalPin.addAndGet(y.getMapPinClicks());
-        totalPage.addAndGet(lw.getStorePageClicks());
-        totalPin.addAndGet(lw.getMapPinClicks());
+        String mapPinUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.MAP_PIN)
+                .toUriString();
 
-        assertThat(totalPage.get()).isEqualTo(5 + 10 + 1);
-        assertThat(totalPin.get()).isEqualTo(3 + 7 + 1);
+        restTemplate.postForEntity(storePageUrl, null, Void.class);
+        restTemplate.postForEntity(storePageUrl, null, Void.class);
+        restTemplate.postForEntity(mapPinUrl, null, Void.class);
+
+        long totalStorePageClicks = 0;
+        long totalMapPinClicks = 0;
+
+        Optional<DailyClickCount> todayClicks = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+        if (todayClicks.isPresent()) {
+            totalStorePageClicks += todayClicks.get().getStorePageClicks();
+            totalMapPinClicks += todayClicks.get().getMapPinClicks();
+        }
+
+        totalStorePageClicks += yesterdayClicks.getStorePageClicks();
+        totalMapPinClicks += yesterdayClicks.getMapPinClicks();
+
+        totalStorePageClicks += lastWeekClicks.getStorePageClicks();
+        totalMapPinClicks += lastWeekClicks.getMapPinClicks();
+
+        assertEquals(17L, totalStorePageClicks);
+        assertEquals(11L, totalMapPinClicks);
     }
 
     @Test
-    void testMultipleStoreStatistics() throws Exception {
-        // drugi sklep
-        Store second = new Store(
-                storeOwnerUser, "Another", "Desc", 11.0, 22.0,
-                "SecondCity", "Addr2", "img2.jpg", "second-store"
+    public void testMultipleStoreStatistics() {
+        Store secondStore = new Store(
+                storeOwnerUser,
+                "Second Store",
+                "Another store for testing",
+                46.0,
+                46.0,
+                "Second City",
+                "456 Test Avenue",
+                "second-store-img.jpg",
+                "second-store"
         );
-        second = storeRepository.save(second);
+        secondStore = storeRepository.save(secondStore);
 
-        // eventy dla pierwszego i drugiego
-        mockMvc.perform(post("/api/stats/event")
-                .param("slug", testStore.getSlug())
-                .param("type", EventType.STORE_PAGE.name())
-                .with(jwtForOwner())
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        String firstStorePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.STORE_PAGE)
+                .toUriString();
 
-        mockMvc.perform(post("/api/stats/event")
-                .param("slug", second.getSlug())
-                .param("type", EventType.MAP_PIN.name())
-                .with(jwtForOwner())
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        String secondStorePageUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", secondStore.getSlug())
+                .queryParam("type", EventType.STORE_PAGE)
+                .toUriString();
 
-        assertThat(dailyClickCountRepository.findById(
-                new DailyClickCount.Key(testStore.getSlug(), today))
-        ).map(DailyClickCount::getStorePageClicks).contains(1L);
+        String firstMapPinUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", testStore.getSlug())
+                .queryParam("type", EventType.MAP_PIN)
+                .toUriString();
 
-        assertThat(dailyClickCountRepository.findById(
-                new DailyClickCount.Key(second.getSlug(), today))
-        ).map(DailyClickCount::getMapPinClicks).contains(1L);
+        String secondMapPinUrl = UriComponentsBuilder.fromPath("/api/stats/event")
+                .queryParam("slug", secondStore.getSlug())
+                .queryParam("type", EventType.MAP_PIN)
+                .toUriString();
+
+        restTemplate.postForEntity(firstStorePageUrl, null, Void.class);
+        restTemplate.postForEntity(firstStorePageUrl, null, Void.class);
+        restTemplate.postForEntity(firstMapPinUrl, null, Void.class);
+
+        restTemplate.postForEntity(secondStorePageUrl, null, Void.class);
+        restTemplate.postForEntity(secondMapPinUrl, null, Void.class);
+        restTemplate.postForEntity(secondMapPinUrl, null, Void.class);
+
+        Optional<DailyClickCount> firstStoreClicks = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(testStore.getSlug(), today));
+        Optional<DailyClickCount> secondStoreClicks = dailyClickCountRepository.findById(
+                new DailyClickCount.Key(secondStore.getSlug(), today));
+
+        assertTrue(firstStoreClicks.isPresent());
+        assertEquals(2, firstStoreClicks.get().getStorePageClicks());
+        assertEquals(1, firstStoreClicks.get().getMapPinClicks());
+
+        assertTrue(secondStoreClicks.isPresent());
+        assertEquals(1, secondStoreClicks.get().getStorePageClicks());
+        assertEquals(2, secondStoreClicks.get().getMapPinClicks());
     }
 
     @Test
-    void testAverageRating() throws Exception {
-        // nic nie ma → zwróci 0 lub null
-        var mvcResult = mockMvc.perform(get("/api/stats/average-rating")
-                        .param("slug", testStore.getSlug())
-                        .with(jwtForOwner())
-                )
-                .andExpect(status().isOk())
-                .andReturn();
+    public void testAverageRating() {
+        String avgRatingUrl = UriComponentsBuilder.fromPath("/api/stats/average-rating")
+                .queryParam("slug", testStore.getSlug())
+                .toUriString();
 
-        String body = mvcResult.getResponse().getContentAsString();
-        Double resp = body.isEmpty() ? null : Double.valueOf(body);
+        ResponseEntity<Double> response = restTemplate.getForEntity(avgRatingUrl, Double.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Double expected = opinionRepository.findAverageStarsByStoreSlug(testStore.getSlug());
-        if (expected == null) {
-            assertThat(resp).isEqualTo(0.0);
+        Double expectedRating = opinionRepository.findAverageStarsByStoreSlug(testStore.getSlug());
+        Double actualRating = response.getBody();
+
+        if (expectedRating == null) {
+            assertTrue(actualRating == null || actualRating == 0.0);
         } else {
-            assertThat(resp).isEqualTo(expected);
+            assertEquals(expectedRating, actualRating, 0.001);
         }
     }
 }

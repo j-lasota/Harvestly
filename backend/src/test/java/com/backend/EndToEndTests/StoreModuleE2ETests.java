@@ -522,7 +522,6 @@ public class StoreModuleE2ETests {
     public void testSlugUniquenessIntegration() {
         String storeName = "Unique Slug Store";
 
-        // Create first store by testUser
         String createFirstStoreMutation = """
         mutation {
             createStore(
