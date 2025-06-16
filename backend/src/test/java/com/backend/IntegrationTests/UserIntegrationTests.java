@@ -141,6 +141,8 @@ class UserIntegrationTests {
                 "111222444",
                 1,
                 "emily.jpg",
+                null,
+                null,
                 null
         );
 
@@ -164,6 +166,8 @@ class UserIntegrationTests {
                 null,
                 1,
                 null,
+                null,
+                null,
                 null
         );
 
@@ -186,6 +190,8 @@ class UserIntegrationTests {
                     "123123123",
                     0,
                     "test.jpg",
+                    null,
+                    null,
                     null
             );
         });
