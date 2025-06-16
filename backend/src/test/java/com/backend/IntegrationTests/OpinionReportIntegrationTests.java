@@ -87,14 +87,12 @@ public class OpinionReportIntegrationTests {
 
     @Test
     void testSaveOpinionReport_ThresholdSetsReported() {
-        // Add 4 reports from different users
         for (int i = 0; i < 4; i++) {
             User u = new User();
             u.setId("user" + (i + 2));
             userRepository.save(u);
             opinionReportService.saveOpinionReport(new OpinionReport(opinion, u));
         }
-        // 5th report triggers reported=true
         OpinionReport report = new OpinionReport(opinion, user);
         opinionReportService.saveOpinionReport(report);
 

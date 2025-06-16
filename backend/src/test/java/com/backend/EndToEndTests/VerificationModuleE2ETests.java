@@ -48,8 +48,6 @@ public class VerificationModuleE2ETests {
     @Autowired
     private StoreService storeService;
 
-    @Autowired
-    private UserService userService;
 
     private Store testStore;
     private User storeOwnerUser;
@@ -229,7 +227,6 @@ public class VerificationModuleE2ETests {
         assertFalse(storeBeforeFifthVerification.isVerified());
         assertEquals(0, storeBeforeFifthVerification.getUser().getTier());
 
-        // Create the fifth verification
         verificationService.saveVerification(new Verification(testStore, verifierUsers[4]));
         Store verifiedStore = storeService.getStoreById(testStore.getId()).orElseThrow();
         assertTrue(verifiedStore.isVerified());

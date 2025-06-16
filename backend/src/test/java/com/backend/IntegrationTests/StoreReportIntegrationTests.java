@@ -82,14 +82,12 @@ public class StoreReportIntegrationTests {
 
     @Test
     void testSaveStoreReport_ThresholdSetsReported() {
-        // Add 4 reports from different users
         for (int i = 0; i < 4; i++) {
             User u = new User();
             u.setId("user" + (i + 2));
             userRepository.save(u);
             storeReportService.saveStoreReport(new StoreReport(store, u));
         }
-        // 5th report triggers reported=true
         StoreReport report = new StoreReport(store, user);
         storeReportService.saveStoreReport(report);
 

@@ -274,7 +274,6 @@ class GraphQLSecurityTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.updateOpinionByOwner.description").value("Updated Desc"))
                 .andExpect(jsonPath("$.data.updateOpinionByOwner.stars").value(3));
-//                .andExpect(jsonPath("$.data.updateOpinionByOwner.reported").value(true));
     }
 
     @Test
