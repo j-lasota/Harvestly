@@ -1,21 +1,32 @@
-import { HttpLink } from "@apollo/client";
+import { HttpLink, from } from "@apollo/client";
 import {
   registerApolloClient,
   ApolloClient,
   InMemoryCache,
 } from "@apollo/client-integration-nextjs";
+import { setContext } from "@apollo/client/link/context";
+import { auth } from "@/auth";
+
+
+const authLink = setContext(async (_, { headers }) => {
+  const session = await auth();
+  const token = session?.accessToken;
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+const httpLink = new HttpLink({
+  uri: `${process.env.NEXT_PUBLIC_GRAPHQL}`,
+});
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: new HttpLink({
-      // this needs to be an absolute url, as relative urls cannot be used in SSR
-      uri: `${process.env.NEXT_PUBLIC_GRAPHQL}`,
-      fetchOptions: {
-        // you can pass additional options that should be passed to `fetch` here,
-        // e.g. Next.js-related `fetch` options regarding caching and revalidation
-        // see https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
-      },
-    }),
+    link: from([authLink, httpLink]),
   });
 });
