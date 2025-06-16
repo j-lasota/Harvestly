@@ -123,7 +123,9 @@ class OwnProductControllerSecurityTest {
                         .with(jwtWithAuthorities(anotherUser.getId(), List.of()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.errors[0].message",
+                        containsString("FORBIDDEN")));
     }
 
     @Test

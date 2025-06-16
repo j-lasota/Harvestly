@@ -105,7 +105,7 @@ public class OpinionController {
      * @return Boolean indicating whether the deletion was successful.
      */
     @MutationMapping
-    @PreAuthorize("@opinionSecurity.isAuthor(authentication, #id)")
+    @PreAuthorize("isAuthenticated() and @opinionSecurity.isAuthor(authentication, #id)")
     public Boolean deleteOpinion(@Argument Long id) {
         return opinionService.deleteOpinionById(id);
     }
@@ -120,7 +120,7 @@ public class OpinionController {
      * @return The updated Opinion object.
      */
     @MutationMapping
-    @PreAuthorize("@opinionSecurity.isAuthor(authentication, #id)")
+    @PreAuthorize("isAuthenticated() and @opinionSecurity.isAuthor(authentication, #id)")
     public Opinion updateOpinion(@Argument Long id, @Argument String description, @Argument Integer stars, @Argument Boolean reported) {
         return opinionService.updateOpinion(id, description, stars, reported);
     }

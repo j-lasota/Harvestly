@@ -48,7 +48,7 @@ public class OwnProductController {
      */
 
     @MutationMapping
-    @PreAuthorize("isAuthenticated() and (@storeSecurity.isOwner(authentication, #storeId) or hasAuthority('SCOPE_manage:all'))")
+    @PreAuthorize("@storeSecurity.isOwner(authentication, #storeId) or hasAuthority('SCOPE_manage:all')")
     public OwnProduct createOwnProduct(@Argument Long storeId, @Argument Long productId, @Argument BigDecimal price,
                                        @Argument int quantity, @Argument(name = "imageUrl") String imageUrl) { // Jawnie nazwij argument, żeby uniknąć pomyłek
 
@@ -102,7 +102,7 @@ public class OwnProductController {
      * @return the updated OwnProduct object
      * @throws ResponseStatusException if the own product is not found
      */
-    @PreAuthorize("isAuthenticated() and (@ownProductSecurity.isOwner(#id, authentication) or hasAuthority('SCOPE_manage:all'))")
+    @PreAuthorize("@ownProductSecurity.isOwner(#id, authentication) or hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public OwnProduct updateOwnProduct(@Argument Long id, @Argument Long storeId, @Argument Long productId,
                                        @Argument BigDecimal price, @Argument Integer quantity, @Argument String imageUrl) {
@@ -121,7 +121,7 @@ public class OwnProductController {
      * @param id the ID of the own product
      * @return true if the product was successfully deleted, false otherwise
      */
-    @PreAuthorize("isAuthenticated() and (@ownProductSecurity.isOwner(#id, authentication) or hasAuthority('SCOPE_manage:all'))")
+    @PreAuthorize("@ownProductSecurity.isOwner(#id, authentication) or hasAuthority('SCOPE_manage:all')")
     @MutationMapping
     public Boolean deleteOwnProduct(@Argument Long id) {
         return ownProductService.deleteOwnProductById(id);
