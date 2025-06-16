@@ -1,12 +1,11 @@
+import { setContext } from "@apollo/client/link/context";
 import { HttpLink, from } from "@apollo/client";
 import {
   registerApolloClient,
   ApolloClient,
   InMemoryCache,
 } from "@apollo/client-integration-nextjs";
-import { setContext } from "@apollo/client/link/context";
 import { auth } from "@/auth";
-
 
 const authLink = setContext(async (_, { headers }) => {
   const session = await auth();

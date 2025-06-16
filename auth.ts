@@ -1,9 +1,5 @@
-// auth.ts
 import Auth0 from "next-auth/providers/auth0";
 import NextAuth from "next-auth";
-
-// Nie importujemy już typów Session, JWT, DefaultSession z 'next-auth'
-// ani nie używamy `declare module`, ponieważ są one w `next-auth.d.ts`
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -14,10 +10,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       authorization: {
         params: {
           audience: process.env.AUTH_AUTH0_AUDIENCE,
-          // Opcjonalnie: Jeśli Twoje API wymaga konkretnych scopes do wydania tokena z permissions,
-          // dodaj je tutaj. Np. scope: 'openid profile email read:admin write:admin'.
-          // Sprawdź dokumentację Auth0 i swoje API.
-          // scope: 'openid profile email' // przykład, jeśli potrzebujesz
         },
       },
     }),
@@ -31,21 +23,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     jwt: async ({ token, account, profile }) => {
       if (account) {
         token.accessToken = account.access_token;
-
-        // WAŻNE: Dekodowanie accessToken w celu wyciągnięcia permissions
-        // Zakładamy, że permissions są w accessToken (Auth0 domyślnie je tam umieszcza, jeśli skonfigurowano)
         if (account.access_token) {
           try {
             const decodedAccessToken = JSON.parse(
-              Buffer.from(account.access_token.split(".")[1], "base64").toString()
+              Buffer.from(
+                account.access_token.split(".")[1],
+                "base64"
+              ).toString()
             );
-            // WAŻNE: Sprawdź, jak pole z uprawnieniami jest nazwane w Twoim Auth0 tokenie.
-            // Często to 'permissions', ale może być to niestandardowe roszczenie np. 'https://twoja.domena.com/permissions'
             if (decodedAccessToken.permissions) {
               token.permissions = decodedAccessToken.permissions;
             }
           } catch (error) {
-            console.error("Błąd dekodowania accessToken lub brak permissions w tokenie:", error);
+            console.error(
+              "Błąd dekodowania accessToken lub brak permissions w tokenie:",
+              error
+            );
           }
         }
       }
@@ -57,8 +50,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     session: async ({ session, token }) => {
-      // TypeScript będzie teraz wiedział, że `session.accessToken` i `session.user.id`
-      // oraz `session.user.permissions` mogą istnieć dzięki `next-auth.d.ts`
       if (token.accessToken) {
         session.accessToken = token.accessToken;
       }
