@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { getClient } from "@/graphql/apollo-client";
@@ -34,6 +35,12 @@ const removeOwnProductMutation = graphql(`
   }
 `);
 
+const removeStoreMutation = graphql(`
+  mutation removeStore($id: ID!) {
+    deleteStore(id: $id)
+  }
+`);
+
 export const removeOwnProduct = async (productId: string, storeId: string) => {
   try {
     const session = await auth();
@@ -47,7 +54,24 @@ export const removeOwnProduct = async (productId: string, storeId: string) => {
     revalidatePath(`/store/${storeId}`);
     return data;
   } catch (error) {
-    console.error("Error in removeFavoriteStore:", error);
+    console.error("Error in removeOwnProduct:", error);
+    return;
+  }
+};
+
+export const removeStore = async (storeId: string) => {
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
+
+    await getClient().mutate({
+      mutation: removeStoreMutation,
+      variables: { id: storeId },
+    });
+
+    redirect(`/my-stores`);
+  } catch (error) {
+    console.error("Error in removeStore:", error);
     return;
   }
 };

@@ -78,6 +78,7 @@ export default function AddStoreClientPage() {
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder={t("page.addStore.placeholder.name")}
+                required
               />
             </label>
 
@@ -95,6 +96,7 @@ export default function AddStoreClientPage() {
                 defaultValue={coords?.lat.toString()}
                 readOnly={true}
                 className="hidden"
+                required
               />
 
               <input
@@ -103,6 +105,7 @@ export default function AddStoreClientPage() {
                 defaultValue={coords?.lng.toString()}
                 readOnly={true}
                 className="hidden"
+                required
               />
             </div>
 
@@ -119,6 +122,7 @@ export default function AddStoreClientPage() {
                 placeholder={t("page.addStore.placeholder.address")}
                 defaultValue={address?.details || ""}
                 readOnly={true}
+                required
               />
             </label>
 
@@ -135,6 +139,7 @@ export default function AddStoreClientPage() {
                 placeholder={t("page.addStore.placeholder.city")}
                 defaultValue={address?.city || ""}
                 readOnly={true}
+                required
               />
             </label>
 
