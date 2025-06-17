@@ -52,8 +52,6 @@ export default function AddProductList({
   const [image, setImage] = useState<string>("");
   const t = useTranslations("page.addProduct");
 
-  console.log(ownProducts);
-
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-xl font-semibold">{t("products")}</h2>
@@ -86,17 +84,14 @@ export default function AddProductList({
           </li>
         ))}
       </ul>
-      <form
-        action={action}
-        className="flex flex-col gap-4 rounded-md border p-4"
-      >
+      <form action={action} className="flex flex-col gap-4 p-4">
         <input type="hidden" name="storeId" value={storeId} readOnly />
         <input type="hidden" name="imageUrl" value={image ?? ""} readOnly />
 
         <label className="flex flex-col gap-1">
           Produkt:
           <Select name="productId" required>
-            <SelectTrigger className="rounded border px-2 py-1">
+            <SelectTrigger className="w-full rounded border px-2 py-1">
               <SelectValue placeholder="Wybierz produkt" />
             </SelectTrigger>
             <SelectContent>
@@ -109,7 +104,7 @@ export default function AddProductList({
           </Select>
         </label>
         <label className="flex flex-col gap-1">
-          {t("basePrice")}:
+          {t("basePrice")}
           <Input name="price" type="number" min="0" required />
           {state?.errors?.price && (
             <span className="text-xs text-red-500">
@@ -119,12 +114,12 @@ export default function AddProductList({
         </label>
 
         <label className="flex flex-col gap-1">
-          {t("discount")} (%):
+          {t("discount")} (%)
           <Input name="discount" type="number" min="0" max="100" />
         </label>
 
         <label className="flex flex-col gap-1">
-          {t("quantity")}:
+          {t("quantity")}
           <Input name="quantity" type="number" min="1" required />
           {state?.errors?.quantity && (
             <span className="text-xs text-red-500">
@@ -137,13 +132,12 @@ export default function AddProductList({
           <ImageUploader placeholder={placeholder} onUploaded={setImage} />
         </div>
         <div className="mt-2 w-full">
-          {!state?.success && (
-            <SubmitButton
-              label={t("addProduct")}
-              pendingLabel={t("adding")}
-              className="w-full"
-            />
-          )}
+          <SubmitButton
+            label={t("addProduct")}
+            pendingLabel={t("adding")}
+            className="w-full"
+          />
+
           {state?.message && (
             <p role="alert" className="text-primary w-full text-center">
               {state.message}

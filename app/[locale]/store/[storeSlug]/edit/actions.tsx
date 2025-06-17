@@ -29,6 +29,14 @@ const addOwnProductMutation = graphql(`
   }
 `);
 
+const editOwnProductMutation = graphql(`
+  mutation editOwnProduct($id: ID!, $discount: Int!) {
+    updateOwnProduct(id: $id, discount: $discount) {
+      id
+    }
+  }
+`);
+
 const removeOwnProductMutation = graphql(`
   mutation removeOwnProduct($id: ID!) {
     deleteOwnProduct(id: $id)
@@ -123,7 +131,7 @@ export async function addOwnProductAction(
       };
     }
 
-    const { storeId, productId, price, quantity, imageUrl } =
+    const { storeId, productId, price, quantity, imageUrl, discount } =
       validatedFields.data;
 
     const { data } = await getClient().mutate({
@@ -138,11 +146,23 @@ export async function addOwnProductAction(
     });
 
     if (data) {
-      revalidatePath(`/store/${storeId}`);
-      return {
-        success: true,
-        message: "Produkt został dodany.",
-      };
+      if (!data.createOwnProduct) return;
+
+      const { data: update } = await getClient().mutate({
+        mutation: editOwnProductMutation,
+        variables: {
+          id: data.createOwnProduct.id,
+          discount,
+        },
+      });
+
+      if (update) {
+        revalidatePath(`/store/${storeId}`);
+        return {
+          success: true,
+          message: "Produkt został dodany.",
+        };
+      }
     } else {
       return {
         message: "Wystąpił błąd podczas dodawania produktu.",

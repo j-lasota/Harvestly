@@ -194,7 +194,7 @@ export default function EditStoreClientPage({
         {t("page.editStore.title")}
       </h1>
 
-      <section className="mb-8 w-full max-w-6xl rounded-lg bg-white p-8 shadow-lg">
+      <section className="border-shadow bg-background-elevated ring-ring mb-8 w-full max-w-6xl rounded-2xl border-r-3 border-b-4 p-8 shadow-md ring">
         <h2 className="mb-6 text-3xl font-bold text-gray-800">
           {t("page.editStore.sections.storeDetails")}
         </h2>
@@ -278,7 +278,7 @@ export default function EditStoreClientPage({
         </form>
       </section>
 
-      <section className="mb-8 w-full max-w-6xl rounded-lg bg-white p-8 shadow-lg">
+      <section className="border-shadow bg-background-elevated ring-ring mb-8 w-full max-w-6xl rounded-2xl border-r-3 border-b-4 p-8 shadow-md ring">
         <h2 className="mb-6 text-3xl font-bold text-gray-800">
           {t("page.editStore.sections.businessHours")}
         </h2>
@@ -338,7 +338,7 @@ export default function EditStoreClientPage({
         </form>
       </section>
 
-      <section className="mb-8 w-full max-w-6xl rounded-lg bg-white p-8 shadow-lg">
+      <section className="border-shadow bg-background-elevated ring-ring mb-8 w-full max-w-6xl rounded-2xl border-r-3 border-b-4 p-8 shadow-md ring">
         <AddProductList
           storeId={store.id}
           ownProducts={store.ownProducts || []}
@@ -346,7 +346,7 @@ export default function EditStoreClientPage({
         />
       </section>
 
-      <section className="w-full max-w-6xl rounded-lg bg-white p-8 shadow-lg">
+      <section className="border-shadow bg-background-elevated ring-ring w-full max-w-6xl rounded-2xl border-r-3 border-b-4 p-8 shadow-md ring">
         <div className="flex flex-col items-center gap-4">
           <h2 className="text-2xl font-bold text-gray-800">
             {t("page.editStore.sections.dangerZone")}

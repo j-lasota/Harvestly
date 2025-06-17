@@ -78,6 +78,7 @@ export default function AddStoreClientPage() {
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder={t("page.addStore.placeholder.name")}
+                maxLength={100}
                 required
               />
             </label>
