@@ -156,6 +156,21 @@
       "unreportOpinionUnexpectedErrorConsole": "Error while dismissing the opinion's report:",
       "unreportOpinionUnexpectedErrorAlert": "An unexpected error occurred while dismissing the opinion's report.",
       "unknownError": "Unknown error."
+    },
+    "profile": {
+      "title": "Profile",
+      "input": {
+        "lastName": "Last name:",
+        "email": "E-mail address",
+        "facebookNickname": "Username Facebook/Messenger:",
+        "phoneNumber": "Telephone number:",
+        "publicTradePermitNumber": "Permit number:",
+        "nip": "NIP number:"
+      },
+      "action": {
+        "submit": "Update",
+        "pending": "I update ..."
+      }
     }
   },
   "days": {

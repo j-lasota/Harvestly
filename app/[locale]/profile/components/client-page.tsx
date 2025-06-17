@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-// import { useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import accountPlaceholder from "@/public/account_placeholder.jpg";
@@ -22,9 +22,8 @@ interface User {
   publicTradePermitNumber: string | null;
 }
 
-// TODO: Add translation for this page
 export default function ProfileClientPage({ data }: { data: User }) {
-  // const t = useTranslations("");
+  const t = useTranslations("page");
   const [state, action] = useActionState(editUserAction, undefined);
   const [image, setImage] = useState<string>(data.img || "");
 
@@ -38,7 +37,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
         action={action}
       >
         <div className="lg:col-span-3">
-          <h1 className="text-4xl font-semibold">Profil</h1>
+          <h1 className="text-4xl font-semibold">{t("profile.title")}</h1>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -63,13 +62,12 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="firstName"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Imię
+              {t("profile.input.firstName")}
               <Input
                 id="firstName"
                 name="firstName"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
                 defaultValue={data.firstName || ""}
               />
             </label>
@@ -78,13 +76,12 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="lastName"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Nazwisko
+              {t("profile.input.lastName")}
               <Input
                 id="lastName"
                 name="lastName"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
                 defaultValue={data.lastName || ""}
               />
             </label>
@@ -93,13 +90,12 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="email"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Adres e-mail
+              {t("profile.input.email")}
               <Input
                 id="email"
                 name="email"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm opacity-50"
-                placeholder="..."
                 defaultValue={data.email || ""}
                 readOnly
               />
@@ -109,13 +105,12 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="facebookNickname"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Nazwa użytkownika Facebooka/Messenger
+              {t("profile.input.facebookNickname")}
               <Input
                 id="facebookNickname"
                 name="facebookNickname"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
                 defaultValue={data.facebookNickname || ""}
               />
             </label>
@@ -124,13 +119,13 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="phoneNumber"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Numer telefonu
+              {t("profile.input.phoneNumber")}
               <Input
                 id="phoneNumber"
                 name="phoneNumber"
                 type="phone"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
+                placeholder="000000000"
                 defaultValue={data.phoneNumber || ""}
               />
             </label>
@@ -139,13 +134,13 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="nip"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              NIP
+              {t("profile.input.nip")}
               <Input
                 id="nip"
                 name="nip"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
+                placeholder="000000000"
                 defaultValue={data.nip || ""}
               />
             </label>
@@ -154,13 +149,12 @@ export default function ProfileClientPage({ data }: { data: User }) {
               htmlFor="publicTradePermitNumber"
               className="flex flex-col gap-1 text-sm font-medium"
             >
-              Numer pozwolenia
+              {t("profile.input.publicTradePermitNumber")}
               <Input
                 id="publicTradePermitNumber"
                 name="publicTradePermitNumber"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                placeholder="..."
                 defaultValue={data.publicTradePermitNumber || ""}
               />
             </label>
@@ -168,8 +162,8 @@ export default function ProfileClientPage({ data }: { data: User }) {
             <div className="mt-2 w-full">
               {!state?.success && (
                 <SubmitButton
-                  label="Zaaktualizuj"
-                  pendingLabel="Aktualizuję..."
+                  label={t("profile.action.submit")}
+                  pendingLabel={t("profile.action.pending")}
                   className="w-full"
                 />
               )}

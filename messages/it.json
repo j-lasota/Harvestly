@@ -156,6 +156,21 @@
       "unreportOpinionUnexpectedErrorConsole": "Errore durante l'annullamento della segnalazione dell'opinione:",
       "unreportOpinionUnexpectedErrorAlert": "Si è verificato un errore imprevisto durante l'annullamento della segnalazione dell'opinione.",
       "unknownError": "Errore sconosciuto."
+    },
+    "profile": {
+      "title": "Profilo",
+      "input": {
+        "lastName": "Cognome:",
+        "email": "Indirizzo e-mail",
+        "facebookNickname": "Nome utente Facebook/Messenger:",
+        "phoneNumber": "Numero di telefono:",
+        "publicTradePermitNumber": "Numero di permesso:",
+        "nip": "Numero Nip:"
+      },
+      "action": {
+        "submit": "Aggiornamento",
+        "pending": "Aggiorno ..."
+      }
     }
   },
   "days": {

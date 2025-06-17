@@ -10,6 +10,7 @@ import storePlaceholder from "@/public/store_placeholder.jpg";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { addStoreAction, getAddress } from "../actions";
 import ImageUploader from "@/components/image-uploader";
+import AddProductList from "@/components/add-product";
 import { Input } from "@/components/ui/input";
 
 const DAYS = [
@@ -22,7 +23,11 @@ const DAYS = [
   "SUNDAY",
 ];
 
-export default function AddStoreClientPage() {
+export default function AddStoreClientPage({
+  products,
+}: {
+  products: { id: string; name: string; category: "FRUIT" | "VEGETABLE" }[];
+}) {
   const t = useTranslations("");
   const [state, action] = useActionState(addStoreAction, undefined);
   const [image, setImage] = useState<string>("");
@@ -191,39 +196,48 @@ export default function AddStoreClientPage() {
           </div>
         </form>
       ) : (
-        <form
-          className="grid w-full max-w-6xl items-center justify-center gap-4 lg:grid-cols-3"
-          action={action}
-        >
-          <div>
-            <p className="mb-1 text-sm font-medium">
-              {t("page.addStore.input.businessHours")}
-            </p>
+        <>
+          <form
+            className="grid w-full max-w-6xl items-center justify-center gap-4 lg:grid-cols-3"
+            action={action}
+          >
+            <input type="hidden" name="storeId" value={state?.storeId} />
+            <div>
+              <p className="mb-1 text-sm font-medium">
+                {t("page.addStore.input.businessHours")}
+              </p>
 
-            {DAYS.map((day) => (
-              <div
-                className="flex items-center justify-between gap-2"
-                key={day}
-              >
-                <p className="flex items-center gap-2 font-normal">
-                  {t(`days.${day}`)}:
-                </p>
-                <div className="flex items-center gap-2">
-                  <Input
-                    name={`open_${day}`}
-                    type="time"
-                    className="w-full rounded border px-2 py-1 text-sm"
-                  />
-                  <Input
-                    name={`close_${day}`}
-                    type="time"
-                    className="w-full rounded border px-2 py-1 text-sm"
-                  />
+              {DAYS.map((day) => (
+                <div
+                  className="flex items-center justify-between gap-2"
+                  key={day}
+                >
+                  <p className="flex items-center gap-2 font-normal">
+                    {t(`days.${day}`)}:
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      name={`open_${day}`}
+                      type="time"
+                      className="w-full rounded border px-2 py-1 text-sm"
+                    />
+                    <Input
+                      name={`close_${day}`}
+                      type="time"
+                      className="w-full rounded border px-2 py-1 text-sm"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </form>
+              ))}
+            </div>
+          </form>
+
+          <AddProductList
+            storeId={state?.storeId ?? ""}
+            ownProducts={[]}
+            products={products}
+          />
+        </>
       )}
     </ContainerWrapper>
   );

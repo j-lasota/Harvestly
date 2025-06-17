@@ -33,7 +33,6 @@ const editUserMutation = graphql(`
   }
 `);
 
-// TODO: Improve schema
 // ========== Edit User action ==========
 const FormSchema = z.object({
   img: z.string().nullable(),

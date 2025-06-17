@@ -156,6 +156,21 @@
       "unreportOpinionUnexpectedErrorConsole": "Fehler beim Verwerfen der Meldung der Meinung:",
       "unreportOpinionUnexpectedErrorAlert": "Beim Verwerfen der Meldung der Meinung ist ein unerwarteter Fehler aufgetreten.",
       "unknownError": "Unbekannter Fehler."
+    },
+    "profile": {
+      "title": "Profil",
+      "input": {
+        "lastName": "Nachname:",
+        "email": "E-Mail-Adresse",
+        "facebookNickname": "Benutzername Facebook/Messenger:",
+        "phoneNumber": "Telefonnummer:",
+        "publicTradePermitNumber": "Zulassungsnummer:",
+        "nip": "Nip Nummer:"
+      },
+      "action": {
+        "submit": "Aktualisieren",
+        "pending": "Ich aktualisiere ..."
+      }
     }
   },
   "days": {

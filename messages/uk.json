@@ -156,6 +156,21 @@
       "unreportOpinionUnexpectedErrorConsole": "Помилка, відхиляючи скаргу на відгук:",
       "unreportOpinionUnexpectedErrorAlert": "Під час відхилення скарги на відгук сталася несподівана помилка.",
       "unknownError": "Невідома помилка."
+    },
+    "profile": {
+      "title": "Профіл",
+      "input": {
+        "lastName": "Прізвище:",
+        "email": "Адреса електронної пошти",
+        "facebookNickname": "Ім'я користувача Facebook/Messenger:",
+        "phoneNumber": "Номер телефону:",
+        "publicTradePermitNumber": "Номер дозволу:",
+        "nip": "Номер NIP:"
+      },
+      "action": {
+        "submit": "Оновлення",
+        "pending": "Я оновлюю ..."
+      }
     }
   },
   "days": {

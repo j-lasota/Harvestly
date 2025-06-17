@@ -39,6 +39,7 @@ const allProductsQueryMap = graphql(`
 const allCategoriesQuery = graphql(`
   query Category {
     products {
+      id
       name
       category
     }
@@ -189,18 +190,18 @@ const userByIdQuery = graphql(`
 
 const allReportedShopsQuery = graphql(`
   query storesReported {
-     storesReported {
-        id
-        name
-        description
-        latitude
-        longitude
-        city
-        address
-        imageUrl
-        verified
-        slug
-        reported
+    storesReported {
+      id
+      name
+      description
+      latitude
+      longitude
+      city
+      address
+      imageUrl
+      verified
+      slug
+      reported
     }
   }
 `);
@@ -222,7 +223,8 @@ const allReportedOpinionsQuery = graphql(`
         slug
       }
     }
-  }`);
+  }
+`);
 
 export {
   allProductsQuery,

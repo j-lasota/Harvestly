@@ -156,6 +156,22 @@
       "unreportOpinionUnexpectedErrorConsole": "Błąd podczas odrzucania zgłoszenia opinii:",
       "unreportOpinionUnexpectedErrorAlert": "Wystąpił nieoczekiwany błąd podczas odrzucania zgłoszenia opinii.",
       "unknownError": "Nieznany błąd."
+    },
+    "profile": {
+      "title": "Profil",
+      "input": {
+        "firstName": "Imię:",
+        "lastName": "Nazwisko:",
+        "email": "Adres e-mail",
+        "facebookNickname": "Nazwa użytkownika Facebooka/Messenger:",
+        "phoneNumber": "Numer telefonu:",
+        "publicTradePermitNumber": "Numer pozwolenia:",
+        "nip": "Numer NIP:"
+      },
+      "action": {
+        "submit": "Zaaktualizuj",
+        "pending": "Aktualizuję..."
+      }
     }
   },
   "days": {

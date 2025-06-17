@@ -156,6 +156,21 @@
       "unreportOpinionUnexpectedErrorConsole": "Erreur lors de l'annulation du signalement de l'avis:",
       "unreportOpinionUnexpectedErrorAlert": "Une erreur inattendue s'est produite lors de l'annulation du signalement de l'avis.",
       "unknownError": "Erreur inconnue."
+    },
+    "profile": {
+      "title": "Profil",
+      "input": {
+        "lastName": "Nom de famille:",
+        "email": "Adresse email",
+        "facebookNickname": "Nom d'utilisateur Facebook / Messenger:",
+        "phoneNumber": "Numéro de téléphone:",
+        "publicTradePermitNumber": "Numéro de permis:",
+        "nip": "Numéro de pincement:"
+      },
+      "action": {
+        "submit": "Mise à jour",
+        "pending": "Je met à jour ..."
+      }
     }
   },
   "days": {

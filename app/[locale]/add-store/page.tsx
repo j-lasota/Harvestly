@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 
 import AddStoreClientPage from "./components/client-page";
 import { hasUserStoresQuery } from "@/graphql/query";
+import { allCategoriesQuery } from "@/graphql/query";
 import { getClient } from "@/graphql/apollo-client";
 
 const TIER = [1, 3];
@@ -18,13 +19,29 @@ export default async function AddStorePage() {
     variables: { userId },
   });
 
-  if (
-    data.userById &&
-    data.userById.stores &&
-    data.userById.tier &&
-    data.userById.stores.length > TIER[data.userById.tier]
-  )
-    redirect("/my-stores");
+  const { data: productsData } = await getClient().query({
+    query: allCategoriesQuery,
+  });
 
-  return <AddStoreClientPage />;
+  const user = data?.userById;
+
+  const hasMaxStores =
+    user?.tier !== null &&
+    user?.stores &&
+    user?.stores.length >= TIER[user.tier];
+
+  if (hasMaxStores) {
+    redirect("/my-stores");
+  }
+
+  return (
+    <AddStoreClientPage
+      products={(productsData.products ?? []).filter(
+        (
+          p
+        ): p is { id: string; name: string; category: "FRUIT" | "VEGETABLE" } =>
+          !!p
+      )}
+    />
+  );
 }

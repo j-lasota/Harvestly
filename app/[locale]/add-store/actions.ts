@@ -7,6 +7,105 @@ import { getClient } from "@/graphql/apollo-client";
 import { graphql } from "@/graphql";
 import { auth } from "@/auth";
 
+// ========== Add OwnProduct mutation ==========
+const addOwnProductMutation = graphql(`
+  mutation addOwnProduct(
+    $storeId: ID!
+    $productId: ID!
+    $price: BigDecimal!
+    $quantity: Int!
+    $imageUrl: String
+  ) {
+    createOwnProduct(
+      storeId: $storeId
+      productId: $productId
+      price: $price
+      quantity: $quantity
+      imageUrl: $imageUrl
+    ) {
+      id
+    }
+  }
+`);
+
+const AddProductFormSchema = z.object({
+  storeId: z.string(),
+  productId: z.string(),
+  price: z.preprocess((v) => Number(v), z.number().min(0)),
+  quantity: z.preprocess((v) => Number(v), z.number().min(1)),
+  imageUrl: z.string().optional(),
+});
+
+type AddProductFormState =
+  | {
+      errors?: {
+        storeId?: string[];
+        productId?: string[];
+        price?: string[];
+        discount?: string[];
+        quantity?: string[];
+        imageUrl?: string[];
+      };
+      success?: boolean;
+      message?: string;
+    }
+  | undefined;
+
+export async function addOwnProductAction(
+  state: AddProductFormState,
+  formData: FormData
+) {
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
+
+    const validatedFields = AddProductFormSchema.safeParse({
+      storeId: formData.get("storeId"),
+      productId: formData.get("productId"),
+      basePrice: formData.get("basePrice"),
+      quantity: formData.get("quantity"),
+      imageUrl: formData.get("imageUrl") || undefined,
+    });
+
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
+
+    const { storeId, productId, price, quantity, imageUrl } =
+      validatedFields.data;
+
+    const { data } = await getClient().mutate({
+      mutation: addOwnProductMutation,
+      variables: {
+        storeId,
+        productId,
+        price,
+        quantity,
+        imageUrl,
+      },
+    });
+
+    if (data) {
+      revalidatePath(`/store/${storeId}`);
+      return {
+        success: true,
+        message: "Produkt został dodany.",
+      };
+    } else {
+      return {
+        message: "Wystąpił błąd podczas dodawania produktu.",
+      };
+    }
+  } catch (error) {
+    console.error("Error in addOwnProductAction:", error);
+    return {
+      message: "Wystąpił błąd podczas dodawania produktu.",
+    };
+  }
+}
+
 export async function getCoordsFromCity(
   city: string
 ): Promise<{ lat: number; lng: number } | null> {
@@ -118,6 +217,7 @@ type FormState =
       };
       success?: boolean;
       message?: string;
+      storeId?: string;
     }
   | undefined;
 
@@ -165,6 +265,7 @@ export async function addStoreAction(state: FormState, formData: FormData) {
       return {
         success: true,
         message: "Sklep został dodany.",
+        storeId: data.createStore ? data.createStore.id : undefined,
       };
     } else {
       return {
