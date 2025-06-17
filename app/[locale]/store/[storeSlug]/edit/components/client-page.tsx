@@ -21,25 +21,56 @@ const DAYS = [
   "SUNDAY",
 ];
 
+interface Store {
+  id: string;
+  name: string;
+  city: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  imageUrl: string | null;
+  description: string | null;
+  businessHours:
+    | {
+        dayOfWeek:
+          | "MONDAY"
+          | "TUESDAY"
+          | "WEDNESDAY"
+          | "THURSDAY"
+          | "FRIDAY"
+          | "SATURDAY"
+          | "SUNDAY";
+        openingTime: string;
+        closingTime: string;
+      }[]
+    | null;
+  ownProducts:
+    | {
+        id: string;
+        product: {
+          name: string;
+        };
+        price: number;
+        quantity: number;
+        imageUrl: string | null;
+      }[]
+    | null;
+}
+
 export default function EditStoreClientPage({
+  store,
   products,
 }: {
+  store: Store;
   products: { id: string; name: string; category: "FRUIT" | "VEGETABLE" }[];
 }) {
   const t = useTranslations("");
-  const [state, action] = useActionState(addStoreAction, undefined);
-  const [image, setImage] = useState<string>("");
-  const [address, setAddress] = useState<{
-    city: string;
-    details: string;
-  } | null>(null);
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
-    null
+  const [state, action] = useActionState(editStoreAction, undefined);
+  const [stateHours, actionHours] = useActionState(
+    createBusinessHoursForStore,
+    undefined
   );
-
-  useEffect(() => {
-    if (coords) handleCoordsChange(coords);
-  }, [coords]);
+  const [image, setImage] = useState<string>(store.imageUrl || "");
 
   return (
     <ContainerWrapper comp="main" className="flex items-center justify-center">
@@ -74,7 +105,7 @@ export default function EditStoreClientPage({
                 name="address"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                defaultValue={address?.details || ""}
+                defaultValue={store.address || ""}
                 readOnly={true}
               />
             </label>
@@ -89,7 +120,7 @@ export default function EditStoreClientPage({
                 name="city"
                 type="text"
                 className="w-full rounded border px-2 py-1 text-sm"
-                defaultValue={address?.city || ""}
+                defaultValue={store.city || ""}
                 readOnly={true}
               />
             </label>
@@ -105,6 +136,7 @@ export default function EditStoreClientPage({
                 rows={4}
                 className="border-shadow file:text-foreground placeholder:text-foreground/25 focus-visible:ring-shadow flex w-full resize-none rounded-md border bg-transparent px-3 py-1 text-base shadow-sm transition-colors outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                 placeholder={t("page.addStore.placeholder.description")}
+                defaultValue={store.description || ""}
               />
             </label>
 
@@ -158,11 +190,7 @@ export default function EditStoreClientPage({
         </div>
       </form>
 
-      <AddProductList
-        storeId={state?.storeId ?? ""}
-        ownProducts={[]}
-        products={products}
-      />
+      <AddProductList storeId={store.id} ownProducts={[]} products={products} />
     </ContainerWrapper>
   );
 }

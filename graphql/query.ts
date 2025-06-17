@@ -129,6 +129,35 @@ const storeBySlugQuery = graphql(`
   }
 `);
 
+const storeBySlugEditQuery = graphql(`
+  query storeBySlugEdit($slug: String!) {
+    storeBySlug(slug: $slug) {
+      id
+      name
+      city
+      address
+      latitude
+      longitude
+      imageUrl
+      description
+      businessHours {
+        dayOfWeek
+        openingTime
+        closingTime
+      }
+      ownProducts {
+        id
+        product {
+          name
+        }
+        price
+        quantity
+        imageUrl
+      }
+    }
+  }
+`);
+
 const userFavoriteStoresQuery = graphql(`
   query userFavoriteStores($id: ID!) {
     userById(id: $id) {
@@ -237,5 +266,6 @@ export {
   userByIdQuery,
   allProductsQueryMap,
   allReportedShopsQuery,
+  storeBySlugEditQuery,
   allReportedOpinionsQuery,
 };

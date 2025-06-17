@@ -110,9 +110,7 @@ export default async function StorePage({
                 <div className="mt-4 flex flex-col gap-2">
                   {data.storeBySlug.user.email && (
                     <div className="flex justify-between">
-                      <p className="font-medium">
-                        {t("contact.email")}:
-                      </p>
+                      <p className="font-medium">{t("contact.email")}:</p>
                       <a href={`mailto:${data.storeBySlug.user.email}`}>
                         {data.storeBySlug.user.email}
                       </a>
@@ -121,9 +119,7 @@ export default async function StorePage({
 
                   {data.storeBySlug.user.phoneNumber && (
                     <div className="flex justify-between">
-                      <p className="font-medium">
-                        {t("contact.phone")}:
-                      </p>
+                      <p className="font-medium">{t("contact.phone")}:</p>
                       <a href={`tel:${data.storeBySlug.user.phoneNumber}`}>
                         {data.storeBySlug.user.phoneNumber}
                       </a>
@@ -192,9 +188,7 @@ export default async function StorePage({
           {data.storeBySlug.businessHours &&
             data.storeBySlug.businessHours.length > 0 && (
               <div className="flex w-full max-w-max flex-col gap-1">
-                <h2 className="font-semibold">
-                  {t("businessHours.title")}:
-                </h2>
+                <h2 className="font-semibold">{t("businessHours.title")}:</h2>
                 {data.storeBySlug.businessHours.map(
                   (d: BusinessHoursProps) =>
                     d && (
@@ -217,7 +211,9 @@ export default async function StorePage({
 
           {isOwner && (
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-3">{t("stats.title")}</h2>
+              <h2 className="mb-3 text-2xl font-semibold">
+                {t("stats.title")}
+              </h2>
               {overallRatio !== null ? (
                 <p>
                   <strong>{t("stats.overallRatio")}:</strong>{" "}
@@ -232,7 +228,7 @@ export default async function StorePage({
                   {last7DaysRatio.toFixed(2)}
                 </p>
               ) : (
-                <p>{t("stats.no7DayStats")}</p> 
+                <p>{t("stats.no7DayStats")}</p>
               )}
               {averageRating !== null ? (
                 <p>
@@ -240,7 +236,7 @@ export default async function StorePage({
                   {averageRating.toFixed(2)}
                 </p>
               ) : (
-                <p>{t("stats.noAverageRating")}</p> 
+                <p>{t("stats.noAverageRating")}</p>
               )}
             </div>
           )}
@@ -252,9 +248,7 @@ export default async function StorePage({
       )}
 
       <section className="flex max-w-3xl flex-col gap-4">
-        <h3 className="mt-4 text-2xl font-semibold">
-          {t("reviews.title")}
-        </h3>
+        <h3 className="mt-4 text-2xl font-semibold">{t("reviews.title")}</h3>
         {session?.user && <AddOpinion storeId={data.storeBySlug.id} />}
         {data.storeBySlug.opinions && data.storeBySlug.opinions.length > 0 ? (
           data.storeBySlug.opinions.map((opinion: OpinionCardProps) => (
