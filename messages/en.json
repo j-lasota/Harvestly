@@ -207,7 +207,8 @@
       "basePrice": "Base price",
       "productPhoto": "Product photo",
       "addProduct": "Add product",
-      "adding": "Addition..."
+      "adding": "Addition...",
+      "delete": "Remove"
     }
   },
   "days": {
