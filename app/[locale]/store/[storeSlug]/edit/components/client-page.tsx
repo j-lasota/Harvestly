@@ -52,6 +52,7 @@ interface Store {
         };
         price: number;
         quantity: number;
+        discount: number | null;
         imageUrl: string | null;
       }[]
     | null;

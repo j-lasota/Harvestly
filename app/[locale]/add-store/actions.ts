@@ -54,13 +54,12 @@ const addStoreMutation = graphql(`
   }
 `);
 
-
-
 // ========== Add OwnProduct mutation action ==========
 const AddProductFormSchema = z.object({
   storeId: z.string(),
   productId: z.string(),
   price: z.preprocess((v) => Number(v), z.number().min(0)),
+  discount: z.preprocess((v) => Number(v), z.number().min(0).max(100)),
   quantity: z.preprocess((v) => Number(v), z.number().min(1)),
   imageUrl: z.string().optional(),
 });
@@ -91,9 +90,10 @@ export async function addOwnProductAction(
     const validatedFields = AddProductFormSchema.safeParse({
       storeId: formData.get("storeId"),
       productId: formData.get("productId"),
-      price: formData.get("price"),
-      quantity: formData.get("quantity"),
-      imageUrl: formData.get("imageUrl") || undefined,
+      price: formData.get("price") || 0,
+      discount: formData.get("discount") || 0,
+      quantity: formData.get("quantity") || 1,
+      imageUrl: formData.get("imageUrl") || null,
     });
 
     if (!validatedFields.success) {
@@ -225,7 +225,10 @@ type StoreFormState =
     }
   | undefined;
 
-export async function addStoreAction(state: StoreFormState, formData: FormData) {
+export async function addStoreAction(
+  state: StoreFormState,
+  formData: FormData
+) {
   try {
     const session = await auth();
     if (!session?.user || !session.user.id) return;
@@ -283,4 +286,3 @@ export async function addStoreAction(state: StoreFormState, formData: FormData) 
     };
   }
 }
-

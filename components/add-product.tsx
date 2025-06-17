@@ -15,12 +15,17 @@ import {
 
 import { addOwnProductAction } from "@/app/[locale]/add-store/actions";
 
-type Product = {
-  productId: string;
-  basePrice: string;
-  discount: string;
-  quantity: string;
-  imageUrl: string;
+import placeholder from "@/public/food_placeholder.jpg";
+
+type OwnProduct = {
+  id: string;
+  product: {
+    name: string;
+  };
+  price: number;
+  quantity: number;
+  discount: number | null;
+  imageUrl: string | null;
 };
 
 type ProductOption = {
@@ -31,7 +36,7 @@ type ProductOption = {
 
 type AddProductListProps = {
   storeId: string;
-  ownProducts: Product[];
+  ownProducts: OwnProduct[];
   products: ProductOption[];
 };
 
@@ -42,40 +47,8 @@ export default function AddProductList({
   ownProducts,
   products,
 }: AddProductListProps) {
-  const [newProduct, setNewProduct] = useState<Product>({
-    productId: "",
-    basePrice: "",
-    discount: "",
-    quantity: "",
-    imageUrl: "",
-  });
-
+  const [image, setImage] = useState<string>("");
   const [state, action] = useActionState(addOwnProductAction, undefined);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageUpload = (url: string) => {
-    setNewProduct((prev) => ({ ...prev, imageUrl: url }));
-  };
-
-  // Reset form on success
-  if (
-    state?.success &&
-    (newProduct.productId || newProduct.basePrice || newProduct.quantity)
-  ) {
-    setNewProduct({
-      productId: "",
-      basePrice: "",
-      discount: "",
-      quantity: "",
-      imageUrl: "",
-    });
-  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -83,12 +56,9 @@ export default function AddProductList({
       <ul className="space-y-2">
         {ownProducts.map((prod, idx) => (
           <li key={idx} className="flex items-center gap-4 border-b pb-2">
-            <span>
-              {products.find((p) => p.id === prod.productId)?.name ||
-                prod.productId}
-            </span>
-            <span>Cena: {prod.basePrice}</span>
-            <span>Rabat: {prod.discount}</span>
+            <span>{prod.product.name}</span>
+            <span>Cena: {prod.price}</span>
+            <span>Rabat: {prod.discount}%</span>
             <span>Ilość: {prod.quantity}</span>
             {prod.imageUrl && (
               <Image
@@ -106,18 +76,12 @@ export default function AddProductList({
         action={action}
         className="flex flex-col gap-4 rounded-md border p-4"
       >
-        <input type="hidden" name="storeId" value={storeId} />
-        <input type="hidden" name="imageUrl" value={newProduct.imageUrl} />
+        <input type="hidden" name="storeId" value={storeId} readOnly />
+        <input type="hidden" name="imageUrl" value={image ?? ""} readOnly />
+
         <label className="flex flex-col gap-1">
           Produkt:
-          <Select
-            value={newProduct.productId}
-            onValueChange={(value) =>
-              setNewProduct((prev) => ({ ...prev, productId: value }))
-            }
-            name="productId"
-            required
-          >
+          <Select name="productId" required>
             <SelectTrigger className="rounded border px-2 py-1">
               <SelectValue placeholder="Wybierz produkt" />
             </SelectTrigger>
@@ -132,42 +96,22 @@ export default function AddProductList({
         </label>
         <label className="flex flex-col gap-1">
           Cena bazowa:
-          <Input
-            name="basePrice"
-            type="number"
-            min="0"
-            value={newProduct.basePrice}
-            onChange={handleChange}
-            required
-          />
+          <Input name="price" type="number" min="0" required />
           {state?.errors?.price && (
             <span className="text-xs text-red-500">
               {state.errors.price.join(", ")}
             </span>
           )}
         </label>
-        {/* Rabat nie jest obsługiwany przez backend, pole zostaje tylko lokalnie */}
+
         <label className="flex flex-col gap-1">
           Rabat (%):
-          <Input
-            name="discount"
-            type="number"
-            min="0"
-            max="100"
-            value={newProduct.discount}
-            onChange={handleChange}
-          />
+          <Input name="discount" type="number" min="0" max="100" />
         </label>
+
         <label className="flex flex-col gap-1">
           Ilość:
-          <Input
-            name="quantity"
-            type="number"
-            min="1"
-            value={newProduct.quantity}
-            onChange={handleChange}
-            required
-          />
+          <Input name="quantity" type="number" min="1" required />
           {state?.errors?.quantity && (
             <span className="text-xs text-red-500">
               {state.errors.quantity.join(", ")}
@@ -176,10 +120,7 @@ export default function AddProductList({
         </label>
         <div>
           <span>Zdjęcie produktu:</span>
-          <ImageUploader
-            placeholder="/food_placeholder.jpg"
-            onUploaded={handleImageUpload}
-          />
+          <ImageUploader placeholder={placeholder} onUploaded={setImage} />
         </div>
         <div className="mt-2 w-full">
           {!state?.success && (
