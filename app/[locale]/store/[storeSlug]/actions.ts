@@ -66,6 +66,23 @@ const addOpinionMutation = graphql(`
   }
 `);
 
+const createMultipleBusinessHoursMutation = graphql(`
+  mutation CreateMultipleBusinessHours(
+    $storeId: ID!
+    $businessHoursList: [BusinessHoursInput!]!
+  ) {
+    createMultipleBusinessHours(
+      storeId: $storeId
+      businessHoursList: $businessHoursList
+    ) {
+      id
+      dayOfWeek
+      openingTime
+      closingTime
+    }
+  }
+`);
+
 // ========== Add favorite store action ==========
 export const addFavoriteStore = async (storeId: string) => {
   try {
@@ -220,3 +237,26 @@ export async function addOpinionAction(state: FormState, formData: FormData) {
     };
   }
 }
+
+interface BusinessHoursInput {
+  dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+  openingTime: string;
+  closingTime: string;
+}
+
+export const createBusinessHoursForStore = async (
+  storeId: string,
+  businessHoursList: BusinessHoursInput[]
+) => {
+  try {
+    const { data } = await getClient().mutate({
+      mutation: createMultipleBusinessHoursMutation,
+      variables: { storeId, businessHoursList },
+    });
+
+    return data;
+  } catch (error) {
+    console.error("Error in createBusinessHoursForStore:", error);
+    return;
+  }
+};

@@ -7,7 +7,7 @@ import { getClient } from "@/graphql/apollo-client";
 import { graphql } from "@/graphql";
 import { auth } from "@/auth";
 
-// ========== Add OwnProduct mutation ==========
+// ========== GraphQL mutations queries ==========
 const addOwnProductMutation = graphql(`
   mutation addOwnProduct(
     $storeId: ID!
@@ -28,6 +28,35 @@ const addOwnProductMutation = graphql(`
   }
 `);
 
+const addStoreMutation = graphql(`
+  mutation addStore(
+    $userId: ID!
+    $imageUrl: String
+    $name: String!
+    $address: String!
+    $city: String!
+    $latitude: Float!
+    $longitude: Float!
+    $description: String
+  ) {
+    createStore(
+      userId: $userId
+      imageUrl: $imageUrl
+      name: $name
+      address: $address
+      city: $city
+      latitude: $latitude
+      longitude: $longitude
+      description: $description
+    ) {
+      id
+    }
+  }
+`);
+
+
+
+// ========== Add OwnProduct mutation action ==========
 const AddProductFormSchema = z.object({
   storeId: z.string(),
   productId: z.string(),
@@ -62,7 +91,7 @@ export async function addOwnProductAction(
     const validatedFields = AddProductFormSchema.safeParse({
       storeId: formData.get("storeId"),
       productId: formData.get("productId"),
-      basePrice: formData.get("basePrice"),
+      price: formData.get("price"),
       quantity: formData.get("quantity"),
       imageUrl: formData.get("imageUrl") || undefined,
     });
@@ -106,6 +135,7 @@ export async function addOwnProductAction(
   }
 }
 
+// ========== Geocoding and Reverse Geocoding actions ==========
 export async function getCoordsFromCity(
   city: string
 ): Promise<{ lat: number; lng: number } | null> {
@@ -163,34 +193,8 @@ export async function getAddress(
   }
 }
 
-const addStoreMutation = graphql(`
-  mutation addStore(
-    $userId: ID!
-    $imageUrl: String
-    $name: String!
-    $address: String!
-    $city: String!
-    $latitude: Float!
-    $longitude: Float!
-    $description: String
-  ) {
-    createStore(
-      userId: $userId
-      imageUrl: $imageUrl
-      name: $name
-      address: $address
-      city: $city
-      latitude: $latitude
-      longitude: $longitude
-      description: $description
-    ) {
-      id
-    }
-  }
-`);
-
 // ========== Add Store action ==========
-const FormSchema = z.object({
+const StoreFormSchema = z.object({
   imageUrl: z.string().nullable(),
   name: z.string().min(2).max(100).trim(),
   address: z.string().min(2).max(50).trim(),
@@ -204,7 +208,7 @@ const FormSchema = z.object({
   longitude: z.number().min(-180).max(180),
 });
 
-type FormState =
+type StoreFormState =
   | {
       errors?: {
         imageUrl?: string[];
@@ -221,12 +225,12 @@ type FormState =
     }
   | undefined;
 
-export async function addStoreAction(state: FormState, formData: FormData) {
+export async function addStoreAction(state: StoreFormState, formData: FormData) {
   try {
     const session = await auth();
     if (!session?.user || !session.user.id) return;
 
-    const validatedFields = FormSchema.safeParse({
+    const validatedFields = StoreFormSchema.safeParse({
       imageUrl: formData.get("image_url") || null,
       name: formData.get("name"),
       address: formData.get("address"),
@@ -279,3 +283,4 @@ export async function addStoreAction(state: FormState, formData: FormData) {
     };
   }
 }
+
