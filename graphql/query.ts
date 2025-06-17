@@ -70,6 +70,7 @@ const storeBySlugQuery = graphql(`
     storeBySlug(slug: $slug) {
       id
       name
+      slug
       city
       address
       latitude
