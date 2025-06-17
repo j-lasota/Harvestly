@@ -122,50 +122,57 @@ type FormState =
   | undefined;
 
 export async function addStoreAction(state: FormState, formData: FormData) {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const validatedFields = FormSchema.safeParse({
-    imageUrl: formData.get("image_url") || null,
-    name: formData.get("name"),
-    address: formData.get("address"),
-    city: formData.get("city"),
-    description: formData.get("description") || null,
-    latitude: Number(formData.get("latitude")),
-    longitude: Number(formData.get("longitude")),
-  });
+    const validatedFields = FormSchema.safeParse({
+      imageUrl: formData.get("image_url") || null,
+      name: formData.get("name"),
+      address: formData.get("address"),
+      city: formData.get("city"),
+      description: formData.get("description") || null,
+      latitude: Number(formData.get("latitude")),
+      longitude: Number(formData.get("longitude")),
+    });
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
 
-  const { imageUrl, name, address, city, description, latitude, longitude } =
-    validatedFields.data;
+    const { imageUrl, name, address, city, description, latitude, longitude } =
+      validatedFields.data;
 
-  const { data } = await getClient().mutate({
-    mutation: addStoreMutation,
-    variables: {
-      userId: session.user.id,
-      imageUrl,
-      name,
-      address,
-      city,
-      latitude,
-      longitude,
-      description,
-    },
-  });
+    const { data } = await getClient().mutate({
+      mutation: addStoreMutation,
+      variables: {
+        userId: session.user.id,
+        imageUrl,
+        name,
+        address,
+        city,
+        latitude,
+        longitude,
+        description,
+      },
+    });
 
-  if (data) {
-    revalidatePath("/store/");
+    if (data) {
+      revalidatePath("/store/");
 
-    return {
-      success: true,
-      message: "Sklep został dodany.",
-    };
-  } else {
+      return {
+        success: true,
+        message: "Sklep został dodany.",
+      };
+    } else {
+      return {
+        message: "Wystąpił błąd podczas dodawania sklepu.",
+      };
+    }
+  } catch (error) {
+    console.error("Error in addStoreAction:", error);
     return {
       message: "Wystąpił błąd podczas dodawania sklepu.",
     };

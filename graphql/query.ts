@@ -161,6 +161,7 @@ const allShopsLocationsQuery = graphql(`
       address
       imageUrl
       slug
+      verified
       businessHours {
         dayOfWeek
         openingTime
@@ -179,6 +180,8 @@ const userByIdQuery = graphql(`
       lastName
       phoneNumber
       facebookNickname
+      nip
+      publicTradePermitNumber
       img
     }
   }

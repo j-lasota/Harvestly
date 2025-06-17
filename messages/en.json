@@ -26,8 +26,8 @@
         }
       },
       "contact": {
-        "action": "Contact",
-        "hero": "Contact the store",
+        "action": "Contact the store",
+        "hero": "Contact",
         "email": "E-mail address",
         "phone": "Phone number",
         "messengerAction": "Contact via Messenger"
@@ -92,7 +92,10 @@
         "address": "Address",
         "openingHours": "Opening hours",
         "noHours": "No opening hours info.",
-        "photo": "Photo"
+        "photo": "Photo",
+        "distance": "Distance",
+        "action": "See more",
+        "businessHours": "Opening hours"
       },
       "popup": {
         "searchedAddress": "Searched address",

@@ -15,6 +15,8 @@ const editUserMutation = graphql(`
     $lastName: String!
     $facebookNickname: String
     $phoneNumber: String
+    $nip: String
+    $publicTradePermitNumber: String
   ) {
     updateUser(
       id: $id
@@ -23,6 +25,8 @@ const editUserMutation = graphql(`
       lastName: $lastName
       facebookNickname: $facebookNickname
       phoneNumber: $phoneNumber
+      nip: $nip
+      publicTradePermitNumber: $publicTradePermitNumber
     ) {
       id
     }
@@ -37,6 +41,8 @@ const FormSchema = z.object({
   lastName: z.string().min(2).max(100).trim(),
   facebookNickname: z.string().min(2).max(50).trim().nullable(),
   phoneNumber: z.string().min(9).max(10).trim().nullable(),
+  nip: z.string().min(9).max(10).trim().nullable(),
+  publicTradePermitNumber: z.string().min(9).max(10).trim().nullable(),
 });
 
 type FormState =
@@ -54,46 +60,64 @@ type FormState =
   | undefined;
 
 export async function editUserAction(state: FormState, formData: FormData) {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const validatedFields = FormSchema.safeParse({
-    img: formData.get("img") || null,
-    firstName: formData.get("firstName"),
-    lastName: formData.get("lastName"),
-    facebookNickname: formData.get("facebookNickname") || null,
-    phoneNumber: formData.get("phoneNumber") || null,
-  });
+    const validatedFields = FormSchema.safeParse({
+      img: formData.get("img") || null,
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      facebookNickname: formData.get("facebookNickname") || null,
+      phoneNumber: formData.get("phoneNumber") || null,
+      nip: formData.get("nip") || null,
+      publicTradePermitNumber: formData.get("publicTradePermitNumber") || null,
+    });
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
 
-  const { img, firstName, lastName, facebookNickname, phoneNumber } =
-    validatedFields.data;
-
-  const { data } = await getClient().mutate({
-    mutation: editUserMutation,
-    variables: {
-      id: session.user.id,
+    const {
       img,
       firstName,
       lastName,
       facebookNickname,
       phoneNumber,
-    },
-  });
+      nip,
+      publicTradePermitNumber,
+    } = validatedFields.data;
 
-  if (data) {
-    revalidatePath("/profile");
+    const { data } = await getClient().mutate({
+      mutation: editUserMutation,
+      variables: {
+        id: session.user.id,
+        img,
+        firstName,
+        lastName,
+        facebookNickname,
+        phoneNumber,
+        nip,
+        publicTradePermitNumber,
+      },
+    });
 
-    return {
-      success: true,
-      message: "Profil został zaktualizowany.",
-    };
-  } else {
+    if (data) {
+      revalidatePath("/profile");
+
+      return {
+        success: true,
+        message: "Profil został zaktualizowany.",
+      };
+    } else {
+      return {
+        message: "Wystąpił błąd podczas aktualizacji profilu.",
+      };
+    }
+  } catch (error) {
+    console.error("Error in editUserAction:", error);
     return {
       message: "Wystąpił błąd podczas aktualizacji profilu.",
     };

@@ -14,7 +14,7 @@ import {
 import SearchBox from "./searchbox";
 
 const storeIcon = new Icon({
-  iconUrl: "/marker.png",
+  iconUrl: "/marker-select.png",
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],

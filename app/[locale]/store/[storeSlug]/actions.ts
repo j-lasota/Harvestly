@@ -68,66 +68,91 @@ const addOpinionMutation = graphql(`
 
 // ========== Add favorite store action ==========
 export const addFavoriteStore = async (storeId: string) => {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const { data } = await getClient().mutate({
-    mutation: addFavoriteStoreMutation,
-    variables: { userId: session.user.id, storeId },
-  });
+    const { data } = await getClient().mutate({
+      mutation: addFavoriteStoreMutation,
+      variables: { userId: session.user.id, storeId },
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error in addFavoriteStore:", error);
+    return;
+  }
 };
 
 export const removeFavoriteStore = async (storeId: string) => {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const { data } = await getClient().mutate({
-    mutation: removeFavoriteStoreMutation,
-    variables: { userId: session.user.id, storeId },
-  });
+    const { data } = await getClient().mutate({
+      mutation: removeFavoriteStoreMutation,
+      variables: { userId: session.user.id, storeId },
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error in removeFavoriteStore:", error);
+    return;
+  }
 };
 
 // ========== Add verification action ==========
 export const addVerification = async (storeId: string) => {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const { data } = await getClient().mutate({
-    mutation: addVerificationMutation,
-    variables: { userId: session.user.id, storeId },
-  });
+    const { data } = await getClient().mutate({
+      mutation: addVerificationMutation,
+      variables: { userId: session.user.id, storeId },
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error in addVerification:", error);
+    return;
+  }
 };
 
 // ========== Report store action ==========
 export const reportStore = async (storeId: string) => {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const { data } = await getClient().mutate({
-    mutation: reportStoreMutation,
-    variables: { userId: session.user.id, storeId },
-  });
+    const { data } = await getClient().mutate({
+      mutation: reportStoreMutation,
+      variables: { userId: session.user.id, storeId },
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error in reportStore:", error);
+    return;
+  }
 };
 
 // ========== Report opinion action ==========
 export const reportOpinion = async (opinionId: string) => {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const { data } = await getClient().mutate({
-    mutation: reportOpinionMutation,
-    variables: { userId: session.user.id, opinionId },
-  });
+    const { data } = await getClient().mutate({
+      mutation: reportOpinionMutation,
+      variables: { userId: session.user.id, opinionId },
+    });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error in reportOpinion:", error);
+    return;
+  }
 };
 
 // ========== Add opinion action ==========
@@ -153,36 +178,43 @@ type FormState =
   | undefined;
 
 export async function addOpinionAction(state: FormState, formData: FormData) {
-  const session = await auth();
-  if (!session?.user || !session.user.id) return;
+  try {
+    const session = await auth();
+    if (!session?.user || !session.user.id) return;
 
-  const validatedFields = FormSchema.safeParse({
-    description: formData.get("description"),
-    storeId: formData.get("storeId"),
-    stars: Number(formData.get("stars")) || 0,
-  });
+    const validatedFields = FormSchema.safeParse({
+      description: formData.get("description"),
+      storeId: formData.get("storeId"),
+      stars: Number(formData.get("stars")) || 0,
+    });
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
 
-  const { description, storeId, stars } = validatedFields.data;
+    const { description, storeId, stars } = validatedFields.data;
 
-  const { data } = await getClient().mutate({
-    mutation: addOpinionMutation,
-    variables: { userId: session.user.id, storeId, description, stars },
-  });
+    const { data } = await getClient().mutate({
+      mutation: addOpinionMutation,
+      variables: { userId: session.user.id, storeId, description, stars },
+    });
 
-  if (data) {
-    revalidatePath("/store/");
+    if (data) {
+      revalidatePath("/store/");
 
-    return {
-      success: true,
-      message: "Opinia została dodana.",
-    };
-  } else {
+      return {
+        success: true,
+        message: "Opinia została dodana.",
+      };
+    } else {
+      return {
+        message: "Wystąpił błąd podczas dodawania opinii.",
+      };
+    }
+  } catch (error) {
+    console.error("Error in addOpinionAction:", error);
     return {
       message: "Wystąpił błąd podczas dodawania opinii.",
     };

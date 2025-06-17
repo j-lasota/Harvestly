@@ -1,54 +1,52 @@
 "use client";
 
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import L, { LatLngTuple } from "leaflet";
 import { useMap } from "react-leaflet";
 import "leaflet-routing-machine";
-import L from "leaflet";
 
 interface RoutingProps {
-  from: [number, number];
-  to: [number, number];
+  from: LatLngTuple;
+  to: LatLngTuple;
 }
 
 const Routing = ({ from, to }: RoutingProps) => {
   const map = useMap();
-  // Ustawiamy typ na any, bo TS nie ma definicji L.Routing.Control
-  const routingControlRef = useRef<any>(null);
+  const routingControlRef = useRef<L.Routing.Control | null>(null);
+  const [routing, setRouting] = useState<L.Routing.Control | null>(null);
 
   useEffect(() => {
-    if (!map || typeof window === "undefined") return;
+    if (!map || !from || !to) return;
+    const waypoints = [L.latLng(...from), L.latLng(...to)];
 
-    if (!from || !to) return;
-
-    if (routingControlRef.current) {
-      map.removeControl(routingControlRef.current);
-      routingControlRef.current = null;
-    }
-
-    const control = (L.Routing as any).control({
-      waypoints: [L.latLng(...from), L.latLng(...to)],
+    routingControlRef.current = new L.Routing.Control({
+      waypoints: waypoints,
       routeWhileDragging: false,
       addWaypoints: false,
-      draggableWaypoints: false,
-      createMarker: () => null,
       show: false,
-      router: new (L.Routing as any).OSRMv1({
+      router: new L.Routing.OSRMv1({
         serviceUrl: "https://router.project-osrm.org/route/v1",
+      }),
+      plan: L.Routing.plan(waypoints, {
+        draggableWaypoints: false,
+        createMarker: () => false,
       }),
     });
 
-    control.addTo(map);
-    routingControlRef.current = control;
+    setRouting(routingControlRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
 
-    // Usuwanie po odmontowaniu
-    return () => {
-      if (routingControlRef.current) {
-        map.removeControl(routingControlRef.current);
-        routingControlRef.current = null;
-      }
-    };
-  }, [map, from, to]);
+  useEffect(() => {
+    if (routing) {
+      const waypoints = [L.latLng(...from), L.latLng(...to)];
+
+      routing.addTo(map);
+      routing.setWaypoints(waypoints);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routing, from, to]);
 
   return null;
 };

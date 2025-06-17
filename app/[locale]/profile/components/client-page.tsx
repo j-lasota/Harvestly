@@ -18,13 +18,15 @@ interface User {
   phoneNumber: string | null;
   facebookNickname: string | null;
   img: string | null;
+  nip: string | null;
+  publicTradePermitNumber: string | null;
 }
 
 // TODO: Add translation for this page
 export default function ProfileClientPage({ data }: { data: User }) {
   // const t = useTranslations("");
   const [state, action] = useActionState(editUserAction, undefined);
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string>(data.img || "");
 
   return (
     <ContainerWrapper
@@ -41,6 +43,7 @@ export default function ProfileClientPage({ data }: { data: User }) {
 
         <div className="flex flex-col gap-4">
           <ImageUploader
+            currImage={image}
             placeholder={accountPlaceholder}
             onUploaded={setImage}
           />
@@ -129,6 +132,36 @@ export default function ProfileClientPage({ data }: { data: User }) {
                 className="w-full rounded border px-2 py-1 text-sm"
                 placeholder="..."
                 defaultValue={data.phoneNumber || ""}
+              />
+            </label>
+
+            <label
+              htmlFor="nip"
+              className="flex flex-col gap-1 text-sm font-medium"
+            >
+              NIP
+              <Input
+                id="nip"
+                name="nip"
+                type="text"
+                className="w-full rounded border px-2 py-1 text-sm"
+                placeholder="..."
+                defaultValue={data.nip || ""}
+              />
+            </label>
+
+            <label
+              htmlFor="publicTradePermitNumber"
+              className="flex flex-col gap-1 text-sm font-medium"
+            >
+              Numer pozwolenia
+              <Input
+                id="publicTradePermitNumber"
+                name="publicTradePermitNumber"
+                type="text"
+                className="w-full rounded border px-2 py-1 text-sm"
+                placeholder="..."
+                defaultValue={data.publicTradePermitNumber || ""}
               />
             </label>
 

@@ -26,8 +26,8 @@
         }
       },
       "contact": {
-        "action": "Kontakt",
-        "hero": "Kontakt zum Geschäft",
+        "action": "Kontakt zum Geschäft",
+        "hero": "Kontakt",
         "email": "E-Mail-Adresse",
         "phone": "Telefonnummer",
         "messengerAction": "Per Messenger kontaktieren"
@@ -92,7 +92,10 @@
         "address": "Adresse",
         "openingHours": "Öffnungszeiten",
         "noHours": "Keine Öffnungszeiten verfügbar.",
-        "photo": "Foto"
+        "photo": "Foto",
+        "distance": "Distancia",
+        "action": "Ver más",
+        "businessHours": "Horario de apertura"
       },
       "popup": {
         "searchedAddress": "Gesuchte Adresse",

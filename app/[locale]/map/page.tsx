@@ -19,6 +19,7 @@ export interface Store {
   imageUrl?: string;
   businessHours?: BusinessHoursProps[];
   products?: string[];
+  verified?: boolean;
   slug?: string;
 }
 

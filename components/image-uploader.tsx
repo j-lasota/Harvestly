@@ -5,12 +5,17 @@ import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 
 type Props = {
+  currImage?: string;
   placeholder: StaticImageData | string;
   onUploaded: (url: string) => void;
 };
 
-const ImageUploader: React.FC<Props> = ({ placeholder, onUploaded }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+const ImageUploader: React.FC<Props> = ({
+  currImage,
+  placeholder,
+  onUploaded,
+}) => {
+  const [preview, setPreview] = useState<string | null>(currImage || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
   const token = session?.accessToken;

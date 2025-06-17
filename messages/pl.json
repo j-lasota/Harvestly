@@ -26,8 +26,8 @@
         }
       },
       "contact": {
-        "action": "Kontakt",
-        "hero": "Skontaktuj się ze sklepem",
+        "action": "Skontaktuj się ze sklepem",
+        "hero": "Kontakt",
         "email": "Adres e-mail",
         "phone": "Numer telefonu",
         "messengerAction": "Skontaktuj za pomocą Messenger"
@@ -93,7 +93,10 @@
         "address": "Adres",
         "openingHours": "Godziny otwarcia",
         "noHours": "Brak informacji o godzinach otwarcia.",
-        "photo": "Zdjęcie"
+        "photo": "Zdjęcie",
+        "distance": "Odległość",
+        "action": "Zobacz więcej",
+        "businessHours": "Godziny otwarcia"
       },
       "popup": {
         "searchedAddress": "Szukany adres",
@@ -189,7 +192,8 @@
     "categories": {
       "FRUIT": "Owoce",
       "VEGETABLE": "Warzywa"
-    }
+    },
+    "fewProductsNotice": "Wyszukiwane są tylko {count} produktów. Rozważ rozszerzenie kryteriów wyszukiwania."
   },
   "productCard": {
     "soldBy": "Sprzedawane przez",

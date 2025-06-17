@@ -55,6 +55,15 @@ const AddOpinion = ({ storeId }: { storeId: string }) => {
           readOnly
         />
       </label>
+      {state?.errors?.stars && (
+        <div
+          id="description-error"
+          role="alert"
+          className="text-sm text-red-600"
+        >
+          {state.errors.stars[0]}
+        </div>
+      )}
 
       <label className="flex flex-col gap-2" htmlFor="message">
         <span className="text-sm">{t("messageLabel")}</span>

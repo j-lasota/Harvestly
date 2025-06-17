@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { LatLngTuple } from "leaflet";
 import { Loader } from "lucide-react";
 import dynamic from "next/dynamic";
 
@@ -20,19 +21,25 @@ const InteractiveMap = dynamic(() => import("./map"), {
   ssr: false,
 });
 
+const initial = {
+  zoom: 10,
+  center: undefined,
+};
+
 export default function MapClientPage({ stores }: { stores: Store[] }) {
   const t = useTranslations("page.map");
-  const [mapCenter, setMapCenter] = useState<[number, number] | undefined>(
-    undefined
+  const [mapCenter, setMapCenter] = useState<LatLngTuple | undefined>(
+    initial.center
   );
-  const [mapZoom, setMapZoom] = useState(6);
+  const [mapZoom, setMapZoom] = useState<number>(initial.zoom);
+
   const [cityInput, setCityInput] = useState("");
   const [productInput, setProductInput] = useState("");
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [filteredStores, setFilteredStores] = useState<Store[]>(stores ?? []);
-  const [searchedLocation, setSearchedLocation] = useState<
-    [number, number] | null
-  >(null);
+  const [searchedLocation, setSearchedLocation] = useState<LatLngTuple | null>(
+    null
+  );
 
   const allProducts = useMemo(
     () => Array.from(new Set(stores.flatMap((s) => s.products ?? []))).sort(),
@@ -41,14 +48,13 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
 
   useEffect(() => {
     let filtered = stores;
-
-    if (cityInput.trim()) {
+    if (cityInput) {
       filtered = filtered.filter((store) =>
         store.city.toLowerCase().includes(cityInput.trim().toLowerCase())
       );
     }
 
-    if (productInput.trim()) {
+    if (productInput) {
       filtered = filtered.filter((store) =>
         store.products?.some((p) =>
           p.toLowerCase().includes(productInput.trim().toLowerCase())
@@ -63,10 +69,10 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
       const avgLng =
         filtered.reduce((sum, s) => sum + s.longitude, 0) / filtered.length;
       setMapCenter([avgLat, avgLng]);
-      setMapZoom(13);
+      setMapZoom(initial.zoom);
     } else {
-      setMapCenter(undefined);
-      setMapZoom(7);
+      setMapCenter(initial.center);
+      setMapZoom(initial.zoom);
     }
 
     if (selectedStore && !filtered.some((s) => s.id === selectedStore.id)) {
@@ -76,12 +82,13 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
   }, [cityInput, productInput, stores]);
 
   useEffect(() => {
-    if (productInput.trim()) {
+    if (productInput) {
       const matchingStore = filteredStores.find((store) =>
         store.products?.some((p) =>
           p.toLowerCase().includes(productInput.trim().toLowerCase())
         )
       );
+
       if (matchingStore) {
         setSelectedStore(matchingStore);
         setMapCenter([matchingStore.latitude, matchingStore.longitude]);
@@ -92,12 +99,14 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
 
   const handleShopChange = (selectedId: string) => {
     const store = stores.find((s) => s.id === selectedId) || null;
-    setSelectedStore(store);
+
     if (store) {
+      setSelectedStore(store);
       setMapCenter([store.latitude, store.longitude]);
       setMapZoom(13);
     }
   };
+
   const handleProductChange = (value: string) => {
     if (value === "__none") {
       setProductInput("");
@@ -133,7 +142,7 @@ export default function MapClientPage({ stores }: { stores: Store[] }) {
 
   return (
     <main className="h-[calc(100vh-4rem-3px)] w-full md:h-[calc(100vh-5rem-3px)]">
-      <div className="bg-background-elevated border-shadow ring-ring absolute top-0 left-0 z-50 flex flex-wrap gap-4 rounded-br-lg border-r-3 border-b-4 p-4 ring">
+      <div className="bg-background-elevated border-shadow ring-ring absolute top-0 left-0 z-10 flex flex-wrap gap-4 rounded-br-lg border-r-3 border-b-4 p-4 ring">
         {/* Wybór stoiska */}
         <label
           htmlFor="storeSelect"

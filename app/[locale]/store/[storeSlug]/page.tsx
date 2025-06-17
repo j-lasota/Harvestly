@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { BadgeCheck, Send } from "lucide-react";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 import { storeBySlugQuery, userFavoriteStoresQuery } from "@/graphql/query";
 import { OpinionCard, OpinionCardProps } from "./components/opinion-card";
@@ -13,6 +14,7 @@ import AddToFavButton from "./components/add-to-fav-button";
 import { getClient } from "@/graphql/apollo-client";
 import AddOpinion from "./components/add-opinion";
 import { Button } from "@/components/ui/button";
+import { getShortTime } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +23,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { auth } from "@/auth";
-import Image from "next/image";
 
 import messenger from "@/public/messenger.png";
 
@@ -205,7 +206,8 @@ export default async function StorePage({
                           {t(`businessHours.days.${d.dayOfWeek}`)}
                         </p>
                         <p className="text-foreground/80">
-                          {d.openingTime} - {d.closingTime}
+                          {getShortTime(d.openingTime)} -{" "}
+                          {getShortTime(d.closingTime)}
                         </p>
                       </div>
                     )

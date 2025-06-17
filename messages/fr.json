@@ -26,8 +26,8 @@
         }
       },
       "contact": {
-        "action": "Contacter",
-        "hero": "Contacter le magasin",
+        "action": "Contacter le magasin",
+        "hero": "Contacter",
         "email": "Adresse e-mail",
         "phone": "Numéro de téléphone",
         "messengerAction": "Contacter via Messenger"
@@ -92,7 +92,10 @@
         "address": "Adresse",
         "openingHours": "Horaires d'ouverture",
         "noHours": "Pas d’information sur les horaires.",
-        "photo": "Photo"
+        "photo": "Photo",
+        "distance": "Distance",
+        "action": "Voir plus",
+        "businessHours": "Heures d'ouverture"
       },
       "popup": {
         "searchedAddress": "Adresse recherchée",
