@@ -171,6 +171,9 @@
         "submit": "Mise à jour",
         "pending": "Je met à jour ..."
       }
+    },
+    "editStore": {
+      "title": "Magasin de modification"
     }
   },
   "days": {

@@ -172,6 +172,9 @@
         "submit": "Zaaktualizuj",
         "pending": "Aktualizuję..."
       }
+    },
+    "editStore": {
+      "title": "Edytuj sklep"
     }
   },
   "days": {

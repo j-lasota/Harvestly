@@ -1,5 +1,6 @@
-import { ContainerWrapper } from "@/components/layout/container-wrapper";
-
+import EditStoreClientPage from "./components/client-page";
+import { allCategoriesQuery } from "@/graphql/query";
+import { getClient } from "@/graphql/apollo-client";
 import { auth } from "@/auth";
 
 export default async function EditStorePage({
@@ -12,16 +13,22 @@ export default async function EditStorePage({
   const session = await auth();
   const userId = session?.user?.id;
 
+  const { data: productsData } = await getClient().query({
+    query: allCategoriesQuery,
+  });
+
   const { storeSlug } = await params;
 
   console.log(storeSlug, userId);
 
   return (
-    <ContainerWrapper
-      comp="main"
-      className="mt-10 mb-16 flex min-h-screen flex-col gap-8 md:mt-10"
-    >
-      <div>Edit</div>
-    </ContainerWrapper>
+    <EditStoreClientPage
+      products={(productsData.products ?? []).filter(
+        (
+          p
+        ): p is { id: string; name: string; category: "FRUIT" | "VEGETABLE" } =>
+          !!p
+      )}
+    />
   );
 }

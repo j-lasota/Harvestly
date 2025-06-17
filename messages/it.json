@@ -171,6 +171,9 @@
         "submit": "Aggiornamento",
         "pending": "Aggiorno ..."
       }
+    },
+    "editStore": {
+      "title": "Modifica Store"
     }
   },
   "days": {

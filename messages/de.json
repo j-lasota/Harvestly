@@ -171,6 +171,9 @@
         "submit": "Aktualisieren",
         "pending": "Ich aktualisiere ..."
       }
+    },
+    "editStore": {
+      "title": "Store bearbeiten"
     }
   },
   "days": {

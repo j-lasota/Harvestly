@@ -171,6 +171,9 @@
         "submit": "Actualizar",
         "pending": "Actualizo ..."
       }
+    },
+    "editStore": {
+      "title": "Editar tienda"
     }
   },
   "days": {
