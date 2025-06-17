@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { addOwnProductAction } from "@/app/[locale]/add-store/actions";
+import { addOwnProductAction, removeOwnProduct } from "../actions";
 
 import placeholder from "@/public/food_placeholder.jpg";
 
@@ -41,6 +41,7 @@ type AddProductListProps = {
 };
 
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function AddProductList({
   storeId,
@@ -69,6 +70,9 @@ export default function AddProductList({
                 className="h-12 w-12 rounded object-cover"
               />
             )}
+            <Button onClick={() => removeOwnProduct(prod.id, storeId)}>
+              Usuń
+            </Button>
           </li>
         ))}
       </ul>

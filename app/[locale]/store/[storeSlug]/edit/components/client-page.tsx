@@ -7,7 +7,7 @@ import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import storePlaceholder from "@/public/store_placeholder.jpg";
 import { SubmitButton } from "@/components/ui/submit-button";
 import ImageUploader from "@/components/image-uploader";
-import AddProductList from "@/components/add-product";
+import AddProductList from "@/app/[locale]/store/[storeSlug]/edit/components/add-product";
 import { Input } from "@/components/ui/input";
 import { editStoreAction } from "../actions";
 

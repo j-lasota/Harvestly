@@ -8,26 +8,6 @@ import { graphql } from "@/graphql";
 import { auth } from "@/auth";
 
 // ========== GraphQL mutations queries ==========
-const addOwnProductMutation = graphql(`
-  mutation addOwnProduct(
-    $storeId: ID!
-    $productId: ID!
-    $price: BigDecimal!
-    $quantity: Int!
-    $imageUrl: String
-  ) {
-    createOwnProduct(
-      storeId: $storeId
-      productId: $productId
-      price: $price
-      quantity: $quantity
-      imageUrl: $imageUrl
-    ) {
-      id
-    }
-  }
-`);
-
 const addStoreMutation = graphql(`
   mutation addStore(
     $userId: ID!
@@ -53,87 +33,6 @@ const addStoreMutation = graphql(`
     }
   }
 `);
-
-// ========== Add OwnProduct mutation action ==========
-const AddProductFormSchema = z.object({
-  storeId: z.string(),
-  productId: z.string(),
-  price: z.preprocess((v) => Number(v), z.number().min(0)),
-  discount: z.preprocess((v) => Number(v), z.number().min(0).max(100)),
-  quantity: z.preprocess((v) => Number(v), z.number().min(1)),
-  imageUrl: z.string().optional(),
-});
-
-type AddProductFormState =
-  | {
-      errors?: {
-        storeId?: string[];
-        productId?: string[];
-        price?: string[];
-        discount?: string[];
-        quantity?: string[];
-        imageUrl?: string[];
-      };
-      success?: boolean;
-      message?: string;
-    }
-  | undefined;
-
-export async function addOwnProductAction(
-  state: AddProductFormState,
-  formData: FormData
-) {
-  try {
-    const session = await auth();
-    if (!session?.user || !session.user.id) return;
-
-    const validatedFields = AddProductFormSchema.safeParse({
-      storeId: formData.get("storeId"),
-      productId: formData.get("productId"),
-      price: formData.get("price") || 0,
-      discount: formData.get("discount") || 0,
-      quantity: formData.get("quantity") || 1,
-      imageUrl: formData.get("imageUrl") || null,
-    });
-
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-      };
-    }
-
-    const { storeId, productId, price, quantity, imageUrl } =
-      validatedFields.data;
-
-    const { data } = await getClient().mutate({
-      mutation: addOwnProductMutation,
-      variables: {
-        storeId,
-        productId,
-        price,
-        quantity,
-        imageUrl,
-      },
-    });
-
-    if (data) {
-      revalidatePath(`/store/${storeId}`);
-      return {
-        success: true,
-        message: "Produkt został dodany.",
-      };
-    } else {
-      return {
-        message: "Wystąpił błąd podczas dodawania produktu.",
-      };
-    }
-  } catch (error) {
-    console.error("Error in addOwnProductAction:", error);
-    return {
-      message: "Wystąpił błąd podczas dodawania produktu.",
-    };
-  }
-}
 
 // ========== Geocoding and Reverse Geocoding actions ==========
 export async function getCoordsFromCity(
