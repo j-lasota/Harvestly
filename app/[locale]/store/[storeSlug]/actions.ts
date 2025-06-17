@@ -66,7 +66,7 @@ const addOpinionMutation = graphql(`
   }
 `);
 
-const createMultipleBusinessHoursMutation = graphql(`
+ const createMultipleBusinessHoursMutation = graphql(`
   mutation CreateMultipleBusinessHours(
     $storeId: ID!
     $businessHoursList: [BusinessHoursInput!]!

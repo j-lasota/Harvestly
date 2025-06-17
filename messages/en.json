@@ -71,8 +71,10 @@
         "description": "Enter a description..."
       },
       "action": {
-        "submit": "Add Store",
-        "pending": "Adding store..."
+        "submit": "Edit store",
+        "pending": "Adding store...",
+        "saveHours": "Save the hours",
+        "saving": "Saving ..."
       }
     },
     "map": {
@@ -173,7 +175,38 @@
       }
     },
     "editStore": {
-      "title": "Edit store"
+      "title": "Edit store",
+      "action": {
+        "saveHours": "Save the hours",
+        "savingHours": "Saving ...",
+        "updateStoreDetails": "Update",
+        "updatingStoreDetails": "I update ...",
+        "removeStore": "Remove the store"
+      },
+      "sections": {
+        "businessHours": "Opening hours",
+        "storeDetails": "Edit stand",
+        "dangerZone": "Hazardous zone"
+      },
+      "feedback": {
+        "hoursSaved": "Hours were successfully saved!",
+        "hoursSaveError": "Error in saving hours",
+        "storeRemoved": "The store has been removed"
+      },
+      "dangerZone": {
+        "removeStoreWarning": "This action is irreversible. \nAll store data will be permanently deleted.",
+        "removeStoreTitle": "Remove this store"
+      }
+    },
+    "addProduct": {
+      "products": "Products",
+      "price": "Price:",
+      "discount": "Discount:",
+      "quantity": "Quantity:",
+      "basePrice": "Base price",
+      "productPhoto": "Product photo",
+      "addProduct": "Add product",
+      "adding": "Addition..."
     }
   },
   "days": {

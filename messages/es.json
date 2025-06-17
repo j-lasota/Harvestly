@@ -71,8 +71,10 @@
         "description": "Beschreibung eingeben..."
       },
       "action": {
-        "submit": "Geschäft hinzufügen",
-        "pending": "Geschäft wird hinzugefügt..."
+        "submit": "Editar tienda",
+        "pending": "Geschäft wird hinzugefügt...",
+        "saveHours": "Guardar las horas",
+        "saving": "Salvando ..."
       }
     },
     "map": {
@@ -173,7 +175,38 @@
       }
     },
     "editStore": {
-      "title": "Editar tienda"
+      "title": "Editar tienda",
+      "action": {
+        "saveHours": "Guardar las horas",
+        "savingHours": "Salvando ...",
+        "updateStoreDetails": "Actualizar",
+        "updatingStoreDetails": "Actualizo ...",
+        "removeStore": "Retire la tienda"
+      },
+      "sections": {
+        "businessHours": "Horario de apertura",
+        "storeDetails": "Puesto de edición",
+        "dangerZone": "Zona peligrosa"
+      },
+      "feedback": {
+        "hoursSaved": "¡Las horas se guardaron con éxito!",
+        "hoursSaveError": "Error en las horas de ahorro",
+        "storeRemoved": "La tienda ha sido eliminada"
+      },
+      "dangerZone": {
+        "removeStoreWarning": "Esta acción es irreversible. Todos los datos de la tienda se eliminarán permanentemente.",
+        "removeStoreTitle": "Retire esta tienda"
+      }
+    },
+    "addProduct": {
+      "products": "Productos",
+      "price": "Precio:",
+      "discount": "Descuento:",
+      "quantity": "Cantidad:",
+      "basePrice": "Precio base",
+      "productPhoto": "Foto de productos",
+      "addProduct": "Agregar producto",
+      "adding": "Suma..."
     }
   },
   "days": {

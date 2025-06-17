@@ -71,8 +71,10 @@
         "description": "Beschreibung eingeben..."
       },
       "action": {
-        "submit": "Geschäft hinzufügen",
-        "pending": "Geschäft wird hinzugefügt..."
+        "submit": "Store bearbeiten",
+        "pending": "Geschäft wird hinzugefügt...",
+        "saveHours": "Sparen Sie die Stunden",
+        "saving": "Sparen ..."
       }
     },
     "map": {
@@ -173,7 +175,38 @@
       }
     },
     "editStore": {
-      "title": "Store bearbeiten"
+      "title": "Store bearbeiten",
+      "action": {
+        "saveHours": "Sparen Sie die Stunden",
+        "savingHours": "Sparen ...",
+        "updateStoreDetails": "Aktualisieren",
+        "updatingStoreDetails": "Ich aktualisiere ...",
+        "removeStore": "Den Laden entfernen"
+      },
+      "sections": {
+        "businessHours": "Öffnungszeiten",
+        "storeDetails": "Ständer bearbeiten",
+        "dangerZone": "Gefahrzone"
+      },
+      "feedback": {
+        "hoursSaved": "Stunden wurden erfolgreich gerettet!",
+        "hoursSaveError": "Fehler in der Sparenstunden",
+        "storeRemoved": "Das Geschäft wurde entfernt"
+      },
+      "dangerZone": {
+        "removeStoreWarning": "Diese Aktion ist irreversibel. Alle Speicherdaten werden dauerhaft gelöscht.",
+        "removeStoreTitle": "Entfernen Sie diesen Laden"
+      }
+    },
+    "addProduct": {
+      "products": "Produkte",
+      "price": "Preis:",
+      "discount": "Rabatt:",
+      "quantity": "Menge:",
+      "basePrice": "Grundpreis",
+      "productPhoto": "Produktfoto",
+      "addProduct": "Produkt hinzufügen",
+      "adding": "Zusatz..."
     }
   },
   "days": {

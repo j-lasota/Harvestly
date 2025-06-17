@@ -42,6 +42,7 @@ type AddProductListProps = {
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function AddProductList({
   storeId,
@@ -50,17 +51,17 @@ export default function AddProductList({
 }: AddProductListProps) {
   const [image, setImage] = useState<string>("");
   const [state, action] = useActionState(addOwnProductAction, undefined);
-
+  const t = useTranslations("page.addProduct");
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-semibold">Produkty</h2>
+      <h2 className="text-xl font-semibold">{t('products')}</h2>
       <ul className="space-y-2">
         {ownProducts.map((prod, idx) => (
           <li key={idx} className="flex items-center gap-4 border-b pb-2">
             <span>{prod.product.name}</span>
-            <span>Cena: {prod.price}</span>
-            <span>Rabat: {prod.discount}%</span>
-            <span>Ilość: {prod.quantity}</span>
+            <span>{t('price')}{prod.price}</span>
+            <span>{t('discount')} {prod.discount}%</span>
+            <span>{t('quantity')} {prod.quantity}</span>
             {prod.imageUrl && (
               <Image
                 src={prod.imageUrl}
@@ -71,7 +72,7 @@ export default function AddProductList({
               />
             )}
             <Button onClick={() => removeOwnProduct(prod.id, storeId)}>
-              Usuń
+              {t('delete')}
             </Button>
           </li>
         ))}
@@ -99,7 +100,7 @@ export default function AddProductList({
           </Select>
         </label>
         <label className="flex flex-col gap-1">
-          Cena bazowa:
+          {t('basePrice')}:
           <Input name="price" type="number" min="0" required />
           {state?.errors?.price && (
             <span className="text-xs text-red-500">
@@ -109,12 +110,12 @@ export default function AddProductList({
         </label>
 
         <label className="flex flex-col gap-1">
-          Rabat (%):
+          {t('discount')} (%):
           <Input name="discount" type="number" min="0" max="100" />
         </label>
 
         <label className="flex flex-col gap-1">
-          Ilość:
+          {t('quantity')}:
           <Input name="quantity" type="number" min="1" required />
           {state?.errors?.quantity && (
             <span className="text-xs text-red-500">
@@ -123,17 +124,17 @@ export default function AddProductList({
           )}
         </label>
         <div>
-          <span>Zdjęcie produktu:</span>
+          <span>{t('productPhoto')}:</span>
           <ImageUploader placeholder={placeholder} onUploaded={setImage} />
         </div>
         <div className="mt-2 w-full">
-          {!state?.success && (
+            {!state?.success && (
             <SubmitButton
-              label="Dodaj produkt"
-              pendingLabel="Dodawanie..."
+              label={t('addProduct')}
+              pendingLabel={t('adding')}
               className="w-full"
             />
-          )}
+            )}
           {state?.message && (
             <p role="alert" className="text-primary w-full text-center">
               {state.message}

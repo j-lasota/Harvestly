@@ -71,8 +71,10 @@
         "description": "Введіть опис..."
       },
       "action": {
-        "submit": "Додати магазин",
-        "pending": "Додавання магазину..."
+        "submit": "Редагувати магазин",
+        "pending": "Додавання магазину...",
+        "saveHours": "Збережіть години",
+        "saving": "Збереження ..."
       }
     },
     "map": {
@@ -173,7 +175,38 @@
       }
     },
     "editStore": {
-      "title": "Редагувати магазин"
+      "title": "Редагувати магазин",
+      "action": {
+        "saveHours": "Збережіть години",
+        "savingHours": "Збереження ...",
+        "updateStoreDetails": "Оновлення",
+        "updatingStoreDetails": "Я оновлюю ...",
+        "removeStore": "Видаліть магазин"
+      },
+      "sections": {
+        "businessHours": "Години роботи",
+        "storeDetails": "Редагувати стенд",
+        "dangerZone": "Небезпечна зона"
+      },
+      "feedback": {
+        "hoursSaved": "Години були успішно заощаджені!",
+        "hoursSaveError": "Помилка в економії годин",
+        "storeRemoved": "Магазин був видалений"
+      },
+      "dangerZone": {
+        "removeStoreWarning": "Ця дія незворотна. Усі дані зберігання будуть постійно видалені.",
+        "removeStoreTitle": "Видаліть цей магазин"
+      }
+    },
+    "addProduct": {
+      "products": "Продукція",
+      "price": "Ціна:",
+      "discount": "Знижка:",
+      "quantity": "Кількість:",
+      "basePrice": "Базова ціна",
+      "productPhoto": "Фото продукту",
+      "addProduct": "Додати продукт",
+      "adding": "Додавання ..."
     }
   },
   "days": {

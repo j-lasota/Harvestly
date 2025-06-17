@@ -71,8 +71,10 @@
         "description": "Wprowadź opis..."
       },
       "action": {
-        "submit": "Dodaj sklep",
-        "pending": "Dodawanie sklepu..."
+        "submit": "Edytuj sklep",
+        "pending": "Dodawanie sklepu...",
+        "saveHours": "Zapisz godziny",
+        "saving": "Zapisywanie..."
       }
     },
     "map": {
@@ -174,7 +176,51 @@
       }
     },
     "editStore": {
-      "title": "Edytuj sklep"
+      "title": "Edytuj sklep",
+      "action": {
+        "saveHours": "Zapisz godziny",
+        "savingHours": "Zapisywanie...",
+        "updateStoreDetails": "Zaktualizuj",
+        "updatingStoreDetails": "Aktualizuję...",
+        "removeStore": "Usuń sklep",
+        "removingStore": "Usuwanie..."
+      },
+      "sections": {
+        "businessHours": "Godziny otwarcia",
+        "storeDetails": "Edytuj stoisko",
+        "products": "Zarządzaj produktami",
+        "dangerZone": "Strefa zagrożenia"
+      },
+      "feedback": {
+        "hoursSaved": "Pomyślnie zapisano godziny!",
+        "hoursSaveError": "Błąd w zapisywaniu godzin",
+        "productAdded": "Produkt został dodany",
+        "productAddError": "Błąd podczas dodawania produktu",
+        "productRemoved": "Produkt został usunięty",
+        "productRemoveError": "Błąd podczas usuwania produktu",
+        "storeRemoved": "Sklep został usunięty",
+        "storeRemoveError": "Błąd podczas usuwania sklepu"
+      },
+      "dangerZone": {
+        "removeStoreTitle": "Usuń ten sklep",
+        "removeStoreWarning": "Ta akcja jest nieodwracalna. Wszystkie dane sklepu zostaną trwale usunięte."
+      }
+    },
+    "addProduct": {
+      "products": "Produkty",
+      "price": "Cena: ",
+      "discount": "Rabat: ",
+      "quantity": "Ilość: ",
+      "delete": "Usuń",
+      "basePrice": "Cena bazowa",
+      "productPhoto": "Zdjęcie produktu",
+      "addProduct": "Dodaj produkt",
+      "adding": "Dodawanie...",
+      "selectProduct": "Wybierz produkt",
+      "errors": {
+        "price": "Nieprawidłowa cena",
+        "quantity": "Nieprawidłowa ilość"
+      }
     }
   },
   "days": {
@@ -189,7 +235,8 @@
   "nav": {
     "home": "Strona główna",
     "products": "Produkty",
-    "map": "Mapa"
+    "map": "Mapa",
+    "myStores": "Moje sklepy"
   },
   "avatarMenu": {
     "myAccount": "Moje Konto",
@@ -244,5 +291,41 @@
   "reportButton": {
     "report": "Zgłoś",
     "reported": "Zgłoszony"
+  },
+  "product": {
+    "categories": {
+      "FRUIT": "Owoce",
+      "VEGETABLE": "Warzywa"
+    },
+    "actions": {
+      "add": "Dodaj",
+      "edit": "Edytuj",
+      "remove": "Usuń",
+      "save": "Zapisz",
+      "cancel": "Anuluj"
+    },
+    "fields": {
+      "name": "Nazwa produktu",
+      "category": "Kategoria",
+      "price": "Cena",
+      "quantity": "Ilość",
+      "discount": "Rabat (%)",
+      "image": "Zdjęcie"
+    },
+    "validation": {
+      "required": "To pole jest wymagane",
+      "positiveNumber": "Wartość musi być dodatnia",
+      "discountRange": "Rabat musi być między 0 a 100",
+      "integer": "Wartość musi być liczbą całkowitą"
+    }
+  },
+  "common": {
+    "confirm": "Potwierdź",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "warning": "Ostrzeżenie",
+    "success": "Sukces",
+    "error": "Błąd"
   }
 }

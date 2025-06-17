@@ -71,8 +71,10 @@
         "description": "Entrez une description..."
       },
       "action": {
-        "submit": "Ajouter le magasin",
-        "pending": "Ajout du magasin en cours..."
+        "submit": "Magasin de modification",
+        "pending": "Ajout du magasin en cours...",
+        "saveHours": "Sauver les heures",
+        "saving": "Sauver ..."
       }
     },
     "map": {
@@ -173,7 +175,38 @@
       }
     },
     "editStore": {
-      "title": "Magasin de modification"
+      "title": "Magasin de modification",
+      "action": {
+        "saveHours": "Sauver les heures",
+        "savingHours": "Sauver ...",
+        "updateStoreDetails": "Mise à jour",
+        "updatingStoreDetails": "Je met à jour ...",
+        "removeStore": "Retirer le magasin"
+      },
+      "sections": {
+        "businessHours": "Heures d'ouverture",
+        "storeDetails": "Modifier le stand",
+        "dangerZone": "Zone dangereuse"
+      },
+      "feedback": {
+        "hoursSaved": "Les heures ont été sauvées avec succès!",
+        "hoursSaveError": "Erreur de sauvegarde des heures",
+        "storeRemoved": "Le magasin a été supprimé"
+      },
+      "dangerZone": {
+        "removeStoreWarning": "Cette action est irréversible. Toutes les données de magasin seront supprimées en permanence.",
+        "removeStoreTitle": "Supprimer ce magasin"
+      }
+    },
+    "addProduct": {
+      "products": "Produits",
+      "price": "Prix:",
+      "discount": "Rabais:",
+      "quantity": "Quantité:",
+      "basePrice": "Prix ​​de base",
+      "productPhoto": "Photo de produit",
+      "addProduct": "Ajouter le produit",
+      "adding": "Ajout..."
     }
   },
   "days": {
