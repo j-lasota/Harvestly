@@ -159,7 +159,7 @@ export default async function StorePage({
               )}
             </h1>
             {isOwner && (
-              <Link href={`/store/${storeSlug}/slug`} className="ml-2">
+              <Link href={`/store/${storeSlug}/edit`}>
                 <Button
                   variant="ghost"
                   size="icon"
