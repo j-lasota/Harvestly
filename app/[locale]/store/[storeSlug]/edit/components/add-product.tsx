@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
-import ImageUploader from "@/components/image-uploader";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import Image from "next/image";
+
+import { addOwnProductAction, removeOwnProduct } from "../actions";
 import { SubmitButton } from "@/components/ui/submit-button";
+import ImageUploader from "@/components/image-uploader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectTrigger,
@@ -12,8 +17,6 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-
-import { addOwnProductAction, removeOwnProduct } from "../actions";
 
 import placeholder from "@/public/food_placeholder.jpg";
 
@@ -40,28 +43,34 @@ type AddProductListProps = {
   products: ProductOption[];
 };
 
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
-
 export default function AddProductList({
   storeId,
   ownProducts,
   products,
 }: AddProductListProps) {
-  const [image, setImage] = useState<string>("");
   const [state, action] = useActionState(addOwnProductAction, undefined);
+  const [image, setImage] = useState<string>("");
   const t = useTranslations("page.addProduct");
+
+  console.log(ownProducts);
+
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-semibold">{t('products')}</h2>
+      <h2 className="text-xl font-semibold">{t("products")}</h2>
       <ul className="space-y-2">
         {ownProducts.map((prod, idx) => (
           <li key={idx} className="flex items-center gap-4 border-b pb-2">
             <span>{prod.product.name}</span>
-            <span>{t('price')}{prod.price}</span>
-            <span>{t('discount')} {prod.discount}%</span>
-            <span>{t('quantity')} {prod.quantity}</span>
+            <span>
+              {t("price")}
+              {prod.price}
+            </span>
+            <span>
+              {t("discount")} {prod.discount}%
+            </span>
+            <span>
+              {t("quantity")} {prod.quantity}
+            </span>
             {prod.imageUrl && (
               <Image
                 src={prod.imageUrl}
@@ -72,7 +81,7 @@ export default function AddProductList({
               />
             )}
             <Button onClick={() => removeOwnProduct(prod.id, storeId)}>
-              {t('delete')}
+              {t("delete")}
             </Button>
           </li>
         ))}
@@ -100,7 +109,7 @@ export default function AddProductList({
           </Select>
         </label>
         <label className="flex flex-col gap-1">
-          {t('basePrice')}:
+          {t("basePrice")}:
           <Input name="price" type="number" min="0" required />
           {state?.errors?.price && (
             <span className="text-xs text-red-500">
@@ -110,12 +119,12 @@ export default function AddProductList({
         </label>
 
         <label className="flex flex-col gap-1">
-          {t('discount')} (%):
+          {t("discount")} (%):
           <Input name="discount" type="number" min="0" max="100" />
         </label>
 
         <label className="flex flex-col gap-1">
-          {t('quantity')}:
+          {t("quantity")}:
           <Input name="quantity" type="number" min="1" required />
           {state?.errors?.quantity && (
             <span className="text-xs text-red-500">
@@ -124,17 +133,17 @@ export default function AddProductList({
           )}
         </label>
         <div>
-          <span>{t('productPhoto')}:</span>
+          <span>{t("productPhoto")}:</span>
           <ImageUploader placeholder={placeholder} onUploaded={setImage} />
         </div>
         <div className="mt-2 w-full">
-            {!state?.success && (
+          {!state?.success && (
             <SubmitButton
-              label={t('addProduct')}
-              pendingLabel={t('adding')}
+              label={t("addProduct")}
+              pendingLabel={t("adding")}
               className="w-full"
             />
-            )}
+          )}
           {state?.message && (
             <p role="alert" className="text-primary w-full text-center">
               {state.message}

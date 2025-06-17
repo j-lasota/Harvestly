@@ -82,7 +82,7 @@ const AddProductFormSchema = z.object({
   price: z.preprocess((v) => Number(v), z.number().min(0)),
   discount: z.preprocess((v) => Number(v), z.number().min(0).max(100)),
   quantity: z.preprocess((v) => Number(v), z.number().min(1)),
-  imageUrl: z.string().optional(),
+  imageUrl: z.string().nullable(),
 });
 
 type AddProductFormState =

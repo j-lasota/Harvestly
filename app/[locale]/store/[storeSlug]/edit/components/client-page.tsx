@@ -2,15 +2,17 @@
 
 import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
+
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
-import storePlaceholder from "@/public/store_placeholder.jpg";
 import { SubmitButton } from "@/components/ui/submit-button";
-import ImageUploader from "@/components/image-uploader";
-import AddProductList from "./add-product";
-import { Input } from "@/components/ui/input";
-import { editStoreAction, removeStore } from "../actions";
 import { createBusinessHoursForStore } from "../../actions";
+import { editStoreAction, removeStore } from "../actions";
+import ImageUploader from "@/components/image-uploader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import AddProductList from "./add-product";
+
+import storePlaceholder from "@/public/store_placeholder.jpg";
 
 const DAYS = [
   "MONDAY",
@@ -23,7 +25,14 @@ const DAYS = [
 ];
 
 interface BusinessHoursInput {
-  dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+  dayOfWeek:
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY";
   openingTime: string;
   closingTime: string;
 }
@@ -36,8 +45,10 @@ interface AvailableProduct {
 
 interface StoreOwnProduct {
   id: string;
-  productId: string;
-  name: string;
+  product: {
+    id: string;
+    name: string;
+  };
   price: number;
   quantity: number;
   discount: number | null;
@@ -53,23 +64,21 @@ interface Store {
   longitude: number;
   imageUrl: string | null;
   description: string | null;
-  businessHours: {
-    dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
-    openingTime: string;
-    closingTime: string;
-  }[] | null;
-  ownProducts: {
-    id: string;
-    product: {
-      id: string;
-      discount: number | null;
-      name: string;
-    };
-    price: number;
-    quantity: number;
-    discount: number | null;
-    imageUrl: string | null;
-  }[] | null;
+  businessHours:
+    | {
+        dayOfWeek:
+          | "MONDAY"
+          | "TUESDAY"
+          | "WEDNESDAY"
+          | "THURSDAY"
+          | "FRIDAY"
+          | "SATURDAY"
+          | "SUNDAY";
+        openingTime: string;
+        closingTime: string;
+      }[]
+    | null;
+  ownProducts: StoreOwnProduct[] | null;
 }
 
 export default function EditStoreClientPage({
@@ -80,11 +89,18 @@ export default function EditStoreClientPage({
   products: AvailableProduct[];
 }) {
   const t = useTranslations("");
-  const [storeDetailsState, editStoreDetailsAction] = useActionState(editStoreAction, undefined);
-  const [removeState, setRemoveState] = useState<{success?: boolean; message?: string}>({});
+  const [storeDetailsState, editStoreDetailsAction] = useActionState(
+    editStoreAction,
+    undefined
+  );
+  const [removeState, setRemoveState] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
   const [image, setImage] = useState<string>(store.imageUrl || "");
 
   const businessHoursActionWrapper = async (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     previousState: any,
     formData: FormData
   ) => {
@@ -95,12 +111,21 @@ export default function EditStoreClientPage({
       closingTime: formData.get(`close_${day}`) as string,
     })).filter((hours) => hours.openingTime && hours.closingTime);
 
-    const result = await createBusinessHoursForStore(storeId, businessHoursList);
+    const result = await createBusinessHoursForStore(
+      storeId,
+      businessHoursList
+    );
 
     if (result) {
-      return { success: true, message: t("page.editStore.feedback.hoursSaved") };
+      return {
+        success: true,
+        message: t("page.editStore.feedback.hoursSaved"),
+      };
     } else {
-      return { success: false, message: t("page.editStore.feedback.hoursSaveError") };
+      return {
+        success: false,
+        message: t("page.editStore.feedback.hoursSaveError"),
+      };
     }
   };
 
@@ -112,7 +137,10 @@ export default function EditStoreClientPage({
   const [currentBusinessHours, setCurrentBusinessHours] = useState<
     Record<string, { openingTime: string; closingTime: string }>
   >(() => {
-    const initialHours: Record<string, { openingTime: string; closingTime: string }> = {};
+    const initialHours: Record<
+      string,
+      { openingTime: string; closingTime: string }
+    > = {};
     DAYS.forEach((day) => {
       initialHours[day] = { openingTime: "", closingTime: "" };
     });
@@ -149,7 +177,7 @@ export default function EditStoreClientPage({
       });
       // Optionally redirect after successful removal
       // window.location.href = '/my-stores';
-    } catch (error) {
+    } catch {
       setRemoveState({
         success: false,
         message: t("page.editStore.feedback.storeRemoveError"),
@@ -157,20 +185,11 @@ export default function EditStoreClientPage({
     }
   };
 
-  const mappedOwnProducts: StoreOwnProduct[] = (store.ownProducts || []).map(
-    (item) => ({
-      id: item.id,
-      productId: item.product.id,
-      name: item.product.name,
-      price: item.price,
-      quantity: item.quantity,
-      imageUrl: item.imageUrl,
-      discount: item.discount,
-    })
-  );
-
   return (
-    <ContainerWrapper comp="main" className="flex flex-col items-center justify-center py-10">
+    <ContainerWrapper
+      comp="main"
+      className="flex flex-col items-center justify-center py-10"
+    >
       <h1 className="mb-10 text-center text-5xl font-extrabold text-gray-900">
         {t("page.editStore.title")}
       </h1>
@@ -179,16 +198,26 @@ export default function EditStoreClientPage({
         <h2 className="mb-6 text-3xl font-bold text-gray-800">
           {t("page.editStore.sections.storeDetails")}
         </h2>
-        <form action={editStoreDetailsAction} className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <form
+          action={editStoreDetailsAction}
+          className="grid grid-cols-1 gap-8 lg:grid-cols-2"
+        >
           <div className="flex flex-col items-center justify-center rounded-md bg-gray-50 p-4">
-            <ImageUploader placeholder={storePlaceholder} onUploaded={setImage} />
+            <ImageUploader
+              currImage={image}
+              placeholder={storePlaceholder}
+              onUploaded={setImage}
+            />
           </div>
 
           <div className="flex flex-col gap-4">
             <input name="storeId" type="hidden" value={store.id} readOnly />
             <input name="image_url" type="hidden" value={image} readOnly />
 
-            <label htmlFor="address" className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="address"
+              className="flex flex-col gap-1 text-sm font-medium text-gray-700"
+            >
               {t("page.addStore.input.address")}
               <Input
                 id="address"
@@ -200,7 +229,10 @@ export default function EditStoreClientPage({
               />
             </label>
 
-            <label htmlFor="city" className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="city"
+              className="flex flex-col gap-1 text-sm font-medium text-gray-700"
+            >
               {t("page.addStore.input.city")}
               <Input
                 id="city"
@@ -212,7 +244,10 @@ export default function EditStoreClientPage({
               />
             </label>
 
-            <label htmlFor="description" className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="description"
+              className="flex flex-col gap-1 text-sm font-medium text-gray-700"
+            >
               {t("page.addStore.input.description")}
               <textarea
                 id="description"
@@ -231,7 +266,10 @@ export default function EditStoreClientPage({
                 className="w-full rounded-md bg-[var(--primary)] px-4 py-2 font-semibold text-white shadow transition-colors hover:bg-[color-mix(in_oklab,var(--primary),black_15%)]"
               />
               {storeDetailsState?.message && (
-                <p role="alert" className={`mt-2 w-full text-center ${storeDetailsState.success ? "text-green-600" : "text-red-600"}`}>
+                <p
+                  role="alert"
+                  className={`mt-2 w-full text-center ${storeDetailsState.success ? "text-green-600" : "text-red-600"}`}
+                >
                   {storeDetailsState.message}
                 </p>
               )}
@@ -244,11 +282,17 @@ export default function EditStoreClientPage({
         <h2 className="mb-6 text-3xl font-bold text-gray-800">
           {t("page.editStore.sections.businessHours")}
         </h2>
-        <form action={businessHoursAction} className="grid grid-cols-1 gap-6 md:grid-cols-1">
+        <form
+          action={businessHoursAction}
+          className="grid grid-cols-1 gap-6 md:grid-cols-1"
+        >
           <input type="hidden" name="storeId" value={store.id} readOnly />
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             {DAYS.map((day) => (
-              <div className="flex flex-col items-start justify-between gap-2 rounded-md border border-gray-200 bg-gray-50 p-2 sm:flex-row sm:items-center" key={day}>
+              <div
+                className="flex flex-col items-start justify-between gap-2 rounded-md border border-gray-200 bg-gray-50 p-2 sm:flex-row sm:items-center"
+                key={day}
+              >
                 <p className="min-w-[100px] font-medium text-gray-700">
                   {t(`days.${day}`)}:
                 </p>
@@ -258,7 +302,9 @@ export default function EditStoreClientPage({
                     type="time"
                     className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     value={currentBusinessHours[day].openingTime}
-                    onChange={(e) => handleHourChange(day, "openingTime", e.target.value)}
+                    onChange={(e) =>
+                      handleHourChange(day, "openingTime", e.target.value)
+                    }
                   />
                   <span className="text-gray-500">-</span>
                   <Input
@@ -266,7 +312,9 @@ export default function EditStoreClientPage({
                     type="time"
                     className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     value={currentBusinessHours[day].closingTime}
-                    onChange={(e) => handleHourChange(day, "closingTime", e.target.value)}
+                    onChange={(e) =>
+                      handleHourChange(day, "closingTime", e.target.value)
+                    }
                   />
                 </div>
               </div>
@@ -279,7 +327,10 @@ export default function EditStoreClientPage({
               className="w-full rounded-md bg-[var(--primary)] px-4 py-2 font-semibold text-white shadow transition-colors hover:bg-[color-mix(in_oklab,var(--primary),black_15%)]"
             />
             {businessHoursState?.message && (
-              <p role="alert" className={`mt-2 w-full text-center ${businessHoursState.success ? "text-green-600" : "text-red-600"}`}>
+              <p
+                role="alert"
+                className={`mt-2 w-full text-center ${businessHoursState.success ? "text-green-600" : "text-red-600"}`}
+              >
                 {businessHoursState.message}
               </p>
             )}
@@ -290,7 +341,7 @@ export default function EditStoreClientPage({
       <section className="mb-8 w-full max-w-6xl rounded-lg bg-white p-8 shadow-lg">
         <AddProductList
           storeId={store.id}
-          ownProducts={mappedOwnProducts}
+          ownProducts={store.ownProducts || []}
           products={products}
         />
       </section>
@@ -315,11 +366,9 @@ export default function EditStoreClientPage({
                 onClick={handleRemoveStore}
                 disabled={removeState?.success}
               >
-                {removeState?.success ? (
-                  t("page.editStore.feedback.storeRemoved")
-                ) : (
-                  t("page.editStore.action.removeStore")
-                )}
+                {removeState?.success
+                  ? t("page.editStore.feedback.storeRemoved")
+                  : t("page.editStore.action.removeStore")}
               </Button>
             </div>
             {removeState?.message && !removeState?.success && (

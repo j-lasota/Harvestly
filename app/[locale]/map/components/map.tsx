@@ -147,6 +147,12 @@ const InteractiveMap = ({
     }
   }, [currentShop, isMobile]);
 
+  useEffect(() => {
+    if (selectedStore) {
+      setCurrentShop(selectedStore);
+    }
+  }, [selectedStore]);
+
   return (
     <>
       <MapContainer
