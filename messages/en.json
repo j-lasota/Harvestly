@@ -187,7 +187,7 @@
       "sections": {
         "businessHours": "Opening hours",
         "storeDetails": "Edit stand",
-        "dangerZone": "Hazardous zone"
+        "dangerZone": "Warning"
       },
       "feedback": {
         "hoursSaved": "Hours were successfully saved!",
