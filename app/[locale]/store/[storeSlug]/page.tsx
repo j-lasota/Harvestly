@@ -1,8 +1,8 @@
+import { BadgeCheck, Send, Pencil } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { BadgeCheck, Send, Pencil } from "lucide-react"; // Import Pencil icon
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link"; // Import Link for navigation
+import Link from "next/link";
 
 import { storeBySlugQuery, userFavoriteStoresQuery } from "@/graphql/query";
 import { OpinionCard, OpinionCardProps } from "./components/opinion-card";
@@ -58,7 +58,7 @@ export default async function StorePage({
 
   let UserData = null;
   if (session?.user) {
-    const { data: userDataResponse } = await getClient().query({ // Renamed data to userDataResponse to avoid conflict
+    const { data: userDataResponse } = await getClient().query({
       query: userFavoriteStoresQuery,
       variables: { id: userId! },
     });
@@ -147,20 +147,29 @@ export default async function StorePage({
         </div>
 
         <div className="flex flex-col gap-2">
-          {/* Modified the h1 to include the edit icon, keeping it within the flex container */}
-          <h1 className="mt-2 flex items-center gap-2 text-2xl font-medium sm:text-3xl lg:text-4xl">
-            {data.storeBySlug.name}
-            {data.storeBySlug.verified && (
-              <BadgeCheck size={32} strokeWidth={2} className="text-primary" />
-            )}
+          <div className="flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-2xl font-medium sm:text-3xl lg:text-4xl">
+              {data.storeBySlug.name}
+              {data.storeBySlug.verified && (
+                <BadgeCheck
+                  size={32}
+                  strokeWidth={2}
+                  className="text-primary"
+                />
+              )}
+            </h1>
             {isOwner && (
-              <Link href={`/edit/${data.storeBySlug.slug}`} className="ml-2"> {/* Added ml-2 for a small left margin */}
-                <Button variant="ghost" size="icon" className="text-gray-600 hover:text-gray-900">
+              <Link href={`/store/${storeSlug}/slug`} className="ml-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-600 hover:text-gray-900"
+                >
                   <Pencil size={20} />
                 </Button>
               </Link>
             )}
-          </h1>
+          </div>
 
           {session?.user && data.storeBySlug && (
             <div className="flex gap-2">
@@ -197,9 +206,7 @@ export default async function StorePage({
           {data.storeBySlug.businessHours &&
             data.storeBySlug.businessHours.length > 0 && (
               <div className="flex w-full max-w-max flex-col gap-1">
-                <h2 className="font-semibold">
-                  {t("businessHours.title")}:
-                </h2>
+                <h2 className="font-semibold">{t("businessHours.title")}:</h2>
                 {data.storeBySlug.businessHours.map(
                   (d: BusinessHoursProps) =>
                     d && (
