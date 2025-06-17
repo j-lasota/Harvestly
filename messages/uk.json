@@ -167,7 +167,8 @@
         "facebookNickname": "Ім'я користувача Facebook/Messenger:",
         "phoneNumber": "Номер телефону:",
         "publicTradePermitNumber": "Номер дозволу:",
-        "nip": "Номер NIP:"
+        "nip": "Номер NIP:",
+        "firstName": "Ім'я:"
       },
       "action": {
         "submit": "Оновлення",

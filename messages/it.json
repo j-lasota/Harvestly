@@ -167,7 +167,8 @@
         "facebookNickname": "Nome utente Facebook/Messenger:",
         "phoneNumber": "Numero di telefono:",
         "publicTradePermitNumber": "Numero di permesso:",
-        "nip": "Numero Nip:"
+        "nip": "Numero Nip:",
+        "firstName": "Nome:"
       },
       "action": {
         "submit": "Aggiornamento",
