@@ -1,15 +1,15 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { ContainerWrapper } from "@/components/layout/container-wrapper";
 import storePlaceholder from "@/public/store_placeholder.jpg";
 import { SubmitButton } from "@/components/ui/submit-button";
-// import { addStoreAction, getAddress } from "../actions";
 import ImageUploader from "@/components/image-uploader";
 import AddProductList from "@/components/add-product";
 import { Input } from "@/components/ui/input";
+import { editStoreAction } from "../actions";
 
 const DAYS = [
   "MONDAY",
@@ -66,10 +66,10 @@ export default function EditStoreClientPage({
 }) {
   const t = useTranslations("");
   const [state, action] = useActionState(editStoreAction, undefined);
-  const [stateHours, actionHours] = useActionState(
-    createBusinessHoursForStore,
-    undefined
-  );
+  // const [stateHours, actionHours] = useActionState(
+  //   createBusinessHoursForStore,
+  //   undefined
+  // );
   const [image, setImage] = useState<string>(store.imageUrl || "");
 
   return (
@@ -87,6 +87,7 @@ export default function EditStoreClientPage({
 
         <div className="scrollbar-hidden h-[calc(100vh-8rem)] overflow-y-scroll lg:col-span-2">
           <div className="mr-4 ml-auto flex max-w-lg flex-col gap-4">
+            <input name="storeId" type="hidden" value={store.id} readOnly />
             <input
               name="image_url"
               type="hidden"
@@ -162,7 +163,7 @@ export default function EditStoreClientPage({
         className="grid w-full max-w-6xl items-center justify-center gap-4 lg:grid-cols-3"
         action={action}
       >
-        <input type="hidden" name="storeId" value={state?.storeId} />
+        <input type="hidden" name="storeId" value={store.id} />
         <div>
           <p className="mb-1 text-sm font-medium">
             {t("page.addStore.input.businessHours")}
@@ -190,7 +191,11 @@ export default function EditStoreClientPage({
         </div>
       </form>
 
-      <AddProductList storeId={store.id} ownProducts={[]} products={products} />
+      <AddProductList
+        storeId={store.id}
+        ownProducts={store.ownProducts ?? []}
+        products={products}
+      />
     </ContainerWrapper>
   );
 }

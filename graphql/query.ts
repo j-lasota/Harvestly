@@ -148,8 +148,10 @@ const storeBySlugEditQuery = graphql(`
       ownProducts {
         id
         product {
+          id
           name
         }
+        discount
         price
         quantity
         imageUrl
